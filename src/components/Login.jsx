@@ -34,21 +34,23 @@ const Login = () => {
     }
   };
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center gap-16 bg-red-100">
+    <div className="h-screen w-screen flex flex-col items-center justify-center gap-4 bg-red-100">
       <h2 className="text-center uppercase">
         Content de vous revoir sur Groupomania!
       </h2>
       <form
-        className="flex flex-col items-center justify-evenly"
+        className="h-1/2 flex flex-col items-center justify-center gap-4"
         onSubmit={handleUserSubmit}
       >
         <div className="flex flex-col items-start">
           <label htmlFor="input">Email</label>
           <input onChange={handleEmail} style={{ width: "200px" }}></input>
+        </div>
+        <div className="flex flex-col items-start">
           <label htmlFor="input">Mot de passe</label>
           <input onChange={handlePass} style={{ width: "200px" }}></input>
         </div>
-        <button className="bg-red-400 px-4 transform translate-y-8">
+        <button className="bg-red-400 px-4 transform translate-y-2">
           submit
         </button>
       </form>
