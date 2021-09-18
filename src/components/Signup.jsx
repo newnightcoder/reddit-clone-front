@@ -1,7 +1,8 @@
 import { CheckIcon, XIcon } from "@heroicons/react/solid";
 import React, { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { API } from "./index";
+import Steps from "./Steps";
 
 const Signup = () => {
   const [newUserEmail, setNewUserEmail] = useState("");
@@ -11,9 +12,11 @@ const Signup = () => {
   const [isLowercase, setIsLowercase] = useState(false);
   const [isNumber, setIsNumber] = useState(false);
   const [isLong, setIsLong] = useState(false);
+  const [isValid, setIsValid] = useState(false);
+  const [isCreated, setIsCreated] = useState(false);
   const [error, setError] = useState("");
 
-  const history = useHistory();
+  // const history = useHistory();
 
   /* eslint no-control-regex: 0 */
   const emailRegex =
@@ -37,6 +40,12 @@ const Signup = () => {
   //     return <div>Veuillez entrer une adresse email valide</div>;
   //   }
   // };
+
+  const validate = () => {
+    if (isLowercase && isUppercase && isNumber && isLong) {
+      setIsValid(true);
+    } else setIsValid(false);
+  };
 
   const handleNewPass = (e) => {
     setNewUserPass(e.currentTarget.value);
@@ -88,30 +97,54 @@ const Signup = () => {
         setError(data.errorMsg);
         return;
       }
-      history.push({ pathname: "/feed" });
+      setIsCreated(true);
+      // history.push({ pathname: "/feed" });
     } catch (error) {
       console.log(error);
     }
   };
 
+  const toNextStep = () => {
+    if (isCreated) {
+      return { transform: "translateX(-100%)", overflow: "visible" };
+    } else return { transform: "translateX(0%)", overflow: "hidden" };
+  };
+
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center gap-4 bg-red-100">
+    <div
+      className="h-screen w-screen flex flex-col items-center justify-center gap-4 bg-red-100 relative transition-transform duration-500"
+      style={toNextStep()}
+    >
       <h2 className="text-center uppercase">
         Rejoignez la communauté Groupomomania!
       </h2>
       <>{error !== "" && error}</>
       <form
+        method="post"
         className="h-1/2 flex flex-col items-center justify-center gap-4"
         onSubmit={handleNewUserSubmit}
       >
         <div className="flex flex-col items-start">
-          <label htmlFor="input">Entrez votre email</label>
-          <input onChange={handleNewEmail} style={{ width: "200px" }}></input>
+          <label htmlFor="email">Entrez votre email</label>
+          <input
+            type="email"
+            id="email"
+            onChange={handleNewEmail}
+            style={{ width: "200px" }}
+          ></input>
           {/* {emailWarning()} */}
         </div>
         <div className="flex flex-col items-start">
-          <label htmlFor="input">Créez un mot de passe</label>
-          <input onChange={handleNewPass} style={{ width: "200px" }}></input>
+          <label htmlFor="password">Créez un mot de passe</label>
+          <input
+            type="password"
+            name="password"
+            onChange={(e) => {
+              handleNewPass(e);
+              validate();
+            }}
+            style={{ width: "200px" }}
+          ></input>
           <div>
             <div className="flex items-center gap-1">
               <span>{displayCheck(isUppercase)}</span>
@@ -133,11 +166,7 @@ const Signup = () => {
         </div>
         <button
           className="bg-red-400 px-4 transform translate-y-2 disabled:opacity-50"
-          disabled={
-            !isEmail || !isNumber || !isUppercase || !isLowercase || !isLong
-              ? true
-              : false
-          }
+          disabled={!isValid ? true : false}
         >
           submit
         </button>
@@ -151,6 +180,7 @@ const Signup = () => {
           Se connecter
         </Link>
       </div>
+      <Steps />
     </div>
   );
 };

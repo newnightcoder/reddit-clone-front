@@ -52,16 +52,27 @@ const Login = () => {
       </h2>
       <>{error !== "" && error}</>
       <form
+        method="post"
         className="h-1/2 flex flex-col items-center justify-center gap-4"
         onSubmit={handleUserSubmit}
       >
         <div className="flex flex-col items-start">
-          <label htmlFor="input">Email</label>
-          <input onChange={handleEmail} style={{ width: "200px" }}></input>
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            onChange={handleEmail}
+            style={{ width: "200px" }}
+          ></input>
         </div>
         <div className="flex flex-col items-start">
-          <label htmlFor="input">Mot de passe</label>
-          <input onChange={handlePass} style={{ width: "200px" }}></input>
+          <label htmlFor="password">Mot de passe</label>
+          <input
+            type="password"
+            id="password"
+            onChange={handlePass}
+            style={{ width: "200px" }}
+          ></input>
         </div>
         <button
           className="bg-red-400 px-4 transform translate-y-2 disabled:opacity-50"
