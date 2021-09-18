@@ -1,12 +1,20 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { API } from ".";
 
-const Steps = () => {
+const Steps = ({ userId }) => {
   const [userName, setUserName] = useState("");
+  const [isLong, setIsLong] = useState(false);
   const [error, setError] = useState("");
+
+  const history = useHistory();
 
   const handleInput = (e) => {
     setUserName(e.currentTarget.value);
+    const name = e.currentTarget.value.split("");
+    if (name.length >= 2) {
+      setIsLong(true);
+    } else setIsLong(false);
   };
 
   const handleSubmit = async (e) => {
@@ -17,17 +25,23 @@ const Steps = () => {
         "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify({ userName }),
+      body: JSON.stringify({ userName, userId }),
     };
     try {
-      const response = await fetch(API, request);
+      const response = await fetch(`${API}/signup/username`, request);
       const data = response.json();
       if (response.status !== 200) {
         setError(data.errorMsg);
         return;
       }
-      alert(`pseudo ${userName} enregisré dans la DB!`);
-    } catch (error) {}
+      // alert(`pseudo ${userName} enregisré dans la DB!`);
+      history.push({
+        pathname: "/feed",
+        state: { new: true },
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -42,7 +56,7 @@ const Steps = () => {
         <input type="text" id="username" onChange={handleInput} />
         <button
           className="bg-red-500 text-white px-4 transform translate-y-2 disabled:opacity-50"
-          disabled
+          disabled={!isLong ? true : false}
         >
           valider
         </button>

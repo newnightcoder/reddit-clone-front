@@ -50,7 +50,9 @@ const Login = () => {
       <h2 className="text-center uppercase">
         Content de vous revoir sur Groupomania!
       </h2>
-      <>{error !== "" && error}</>
+      <span className="w-1/2 h-max p-2 text-left border border-red-400 whitespace-normal">
+        {error !== "" && error}
+      </span>
       <form
         method="post"
         className="h-1/2 flex flex-col items-center justify-center gap-4"

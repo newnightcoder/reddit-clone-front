@@ -14,7 +14,7 @@ const Signup = () => {
   const [isLong, setIsLong] = useState(false);
   const [isCreated, setIsCreated] = useState(false);
   const [error, setError] = useState("");
-
+  const [userId, setUserId] = useState(null);
   // const history = useHistory();
 
   /* eslint no-control-regex: 0 */
@@ -84,6 +84,8 @@ const Signup = () => {
         setError(data.errorMsg);
         return;
       }
+      console.log("user ID:", data.userId);
+      setUserId(data.userId);
       setIsCreated(true);
     } catch (error) {
       console.log(error);
@@ -96,13 +98,20 @@ const Signup = () => {
 
   return (
     <div
-      className="h-screen w-screen flex flex-col items-center justify-center gap-4 bg-red-100  transition-transform duration-500 relative"
+      className="h-screen w-screen flex flex-col items-center justify-center gap-4 bg-red-100  transition-transform duration-500 delay-700 relative"
       style={toNextStep}
     >
       <h2 className="text-center uppercase">
         Rejoignez la communauté Groupomomania!
       </h2>
-      <>{error !== "" && error}</>
+      <span
+        style={
+          error === "" ? { visibility: "hidden" } : { visibility: "visible" }
+        }
+        className="w-1/2 h-max whitespace-normal p-2 text-left border border-red-400"
+      >
+        {error !== "" && error}
+      </span>
       <form
         method="post"
         className="h-1/2 flex flex-col items-center justify-center gap-4"
@@ -165,7 +174,7 @@ const Signup = () => {
           Se connecter
         </Link>
       </div>
-      <Steps />
+      <Steps userId={userId} />
     </div>
   );
 };
