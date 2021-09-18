@@ -31,7 +31,7 @@ const Steps = () => {
   };
 
   return (
-    <div className="h-screen w-screen bg-red-300 z-10 absolute top-0 left-0 transform translate-x-full flex flex-col items-center justify-center">
+    <div className="h-screen w-screen bg-red-300 z-10 transform translate-x-full flex flex-col items-center justify-center absolute top-0 left-0 oveflow-hidden">
       <p>choisissez votre pseudo</p>
       <form
         className="flex flex-col items-center justify-center"

@@ -12,7 +12,6 @@ const Signup = () => {
   const [isLowercase, setIsLowercase] = useState(false);
   const [isNumber, setIsNumber] = useState(false);
   const [isLong, setIsLong] = useState(false);
-  const [isValid, setIsValid] = useState(false);
   const [isCreated, setIsCreated] = useState(false);
   const [error, setError] = useState("");
 
@@ -30,21 +29,9 @@ const Signup = () => {
 
   const handleNewEmail = (e) => {
     setNewUserEmail(e.currentTarget.value);
-    if (emailRegex.test(newUserEmail)) {
+    if (emailRegex.test(e.currentTarget.value)) {
       setIsEmail(true);
     } else setIsEmail(false);
-  };
-
-  // const emailWarning = () => {
-  //   if (!isEmail) {
-  //     return <div>Veuillez entrer une adresse email valide</div>;
-  //   }
-  // };
-
-  const validate = () => {
-    if (isLowercase && isUppercase && isNumber && isLong) {
-      setIsValid(true);
-    } else setIsValid(false);
   };
 
   const handleNewPass = (e) => {
@@ -98,22 +85,19 @@ const Signup = () => {
         return;
       }
       setIsCreated(true);
-      // history.push({ pathname: "/feed" });
     } catch (error) {
       console.log(error);
     }
   };
 
-  const toNextStep = () => {
-    if (isCreated) {
-      return { transform: "translateX(-100%)", overflow: "visible" };
-    } else return { transform: "translateX(0%)", overflow: "hidden" };
-  };
+  const toNextStep = isCreated
+    ? { transform: "translateX(-100%)", overflow: "visible" }
+    : { transform: "translateX(0)", overflow: "hidden" };
 
   return (
     <div
-      className="h-screen w-screen flex flex-col items-center justify-center gap-4 bg-red-100 relative transition-transform duration-500"
-      style={toNextStep()}
+      className="h-screen w-screen flex flex-col items-center justify-center gap-4 bg-red-100  transition-transform duration-500 relative"
+      style={toNextStep}
     >
       <h2 className="text-center uppercase">
         Rejoignez la communauté Groupomomania!
@@ -139,10 +123,7 @@ const Signup = () => {
           <input
             type="password"
             name="password"
-            onChange={(e) => {
-              handleNewPass(e);
-              validate();
-            }}
+            onChange={handleNewPass}
             style={{ width: "200px" }}
           ></input>
           <div>
@@ -165,8 +146,12 @@ const Signup = () => {
           </div>
         </div>
         <button
-          className="bg-red-400 px-4 transform translate-y-2 disabled:opacity-50"
-          disabled={!isValid ? true : false}
+          className="w-48 bg-red-400 px-4 transform translate-y-2 disabled:opacity-50"
+          disabled={
+            !isEmail || !isUppercase || !isLowercase || !isNumber || !isLong
+              ? true
+              : false
+          }
         >
           submit
         </button>
