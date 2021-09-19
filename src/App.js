@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Homepage, Login, Signup } from "./components";
-import Feed from "./components/Feed";
+import { Feed, Homepage, Login, Signup } from "./components";
 
 const App = () => {
   return (

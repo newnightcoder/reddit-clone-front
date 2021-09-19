@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { API } from ".";
+import { API } from "./index";
+import StepImage from "./StepImage";
 
-const Steps = ({ userId }) => {
+const StepUsername = ({ userId }) => {
   const [userName, setUserName] = useState("");
   const [isLong, setIsLong] = useState(false);
   const [error, setError] = useState("");
-
-  const history = useHistory();
+  const [isCreated, setIsCreated] = useState(false);
 
   const handleInput = (e) => {
     setUserName(e.currentTarget.value);
@@ -35,18 +34,23 @@ const Steps = ({ userId }) => {
         return;
       }
       // alert(`pseudo ${userName} enregisré dans la DB!`);
-      history.push({
-        pathname: "/feed",
-        state: { new: true },
-      });
+      setIsCreated(true);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const toNextStep = isCreated
+    ? { transform: "translateX(0%)" }
+    : { transform: "translateX(100%)" };
+
   return (
-    <div className="h-screen w-screen bg-red-300 z-10 transform translate-x-full flex flex-col items-center justify-center absolute top-0 left-0 oveflow-hidden">
+    <div
+      style={toNextStep}
+      className="h-screen w-screen bg-red-300 flex flex-col items-center justify-center transition-transform translation-duration-500 absolute top-0 left-0"
+    >
       <p>choisissez votre pseudo</p>
+      {error !== "" && error}
       <form
         className="flex flex-col items-center justify-center"
         method="post"
@@ -61,9 +65,9 @@ const Steps = ({ userId }) => {
           valider
         </button>
       </form>
-      {error !== "" && error}
+      <StepImage userId={userId} />
     </div>
   );
 };
 
-export default Steps;
+export default StepUsername;
