@@ -50,7 +50,12 @@ const Login = () => {
       <h2 className="text-center uppercase">
         Content de vous revoir sur Groupomania!
       </h2>
-      <span className="w-1/2 h-max p-2 text-left border border-red-400 whitespace-normal">
+      <span
+        style={
+          error === "" ? { visibility: "hidden" } : { visibility: "visible" }
+        }
+        className="w-1/2 h-max p-2 text-left border border-red-400 whitespace-normal"
+      >
         {error !== "" && error}
       </span>
       <form
