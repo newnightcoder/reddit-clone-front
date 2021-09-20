@@ -36,16 +36,15 @@ const StepImage = ({ userId }) => {
       }
       console.log(data.msg);
       setPicUrl(data.picUrl);
-      // setPicUrl(data.picUrl);
-      // alert("profil complet!");
-      // setTimeout(() => {
-      //   history.push({
-      //     pathname: "/feed",
-      //     state: {
-      //       new: true,
-      //     },
-      //   });
-      // }, 1200);
+      setTimeout(() => {
+        alert("Super! profil complet!");
+        history.push({
+          pathname: "/feed",
+          state: {
+            new: true,
+          },
+        });
+      }, 1200);
     } catch (error) {
       console.log(error);
     }
