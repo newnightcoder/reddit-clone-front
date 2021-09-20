@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { API } from "./index";
+import { API_AUTH } from "./API/index";
 import StepImage from "./StepImage";
 
 const StepUsername = ({ userId }) => {
@@ -28,7 +28,7 @@ const StepUsername = ({ userId }) => {
       body: JSON.stringify({ userName, userId }),
     };
     try {
-      const response = await fetch(`${API}/signup/username`, request);
+      const response = await fetch(`${API_AUTH}/username`, request);
       const data = await response.json();
       console.log("error number", data.errorNumber);
       if (data.errorNumber === 1062) {

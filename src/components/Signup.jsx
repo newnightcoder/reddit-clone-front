@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { API } from "./index";
+import { API_AUTH } from "./API";
 import SignupForm from "./SignupForm";
 
 const Signup = () => {
@@ -69,7 +69,7 @@ const Signup = () => {
       }),
     };
     try {
-      const response = await fetch(`${API}/signup`, request);
+      const response = await fetch(`${API_AUTH}/signup`, request);
       const data = await response.json();
       console.log("data", response);
       if (data.errorNumber === 1062) {

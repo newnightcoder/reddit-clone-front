@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { API } from "./index";
+import { API_AUTH } from "./API";
 
 const Login = () => {
   const [userEmail, setUserEmail] = useState("");
@@ -32,7 +32,7 @@ const Login = () => {
       }),
     };
     try {
-      const response = await fetch(`${API}/login`, request);
+      const response = await fetch(`${API_AUTH}/login`, request);
       const data = await response.json();
       if (response.status !== 200) {
         setError(data.errorMsg);
