@@ -47,20 +47,26 @@ const Login = () => {
 
   return (
     <div className="h-screen w-screen flex flex-col items-center justify-center gap-4 bg-red-100">
-      <h2 className="text-center uppercase">
-        Content de vous revoir sur Groupomania!
+      <h2 className="text-center uppercase flex flex-col md:flex-row md:gap-1">
+        <span>Content de vous revoir </span>
+        <span>sur Groupomania!</span>
       </h2>
-      <span
-        style={
-          error === "" ? { visibility: "hidden" } : { visibility: "visible" }
-        }
-        className="w-1/2 h-max p-2 text-left border border-red-400 whitespace-normal"
+      <div
+        className="w-full flex items-center justify-center border"
+        style={{ height: "15vh" }}
       >
-        {error !== "" && error}
-      </span>
+        <span
+          className="w-max h-max whitespace-pre py-2 px-3 text-center border border-red-400 rounded"
+          style={
+            error === "" ? { visibility: "hidden" } : { visibility: "visible" }
+          }
+        >
+          {error !== "" && error}
+        </span>
+      </div>
       <form
         method="post"
-        className="h-1/2 flex flex-col items-center justify-center gap-4"
+        className="h-max flex flex-col items-center justify-center gap-4"
         onSubmit={handleUserSubmit}
       >
         <div className="flex flex-col items-start">
@@ -82,13 +88,13 @@ const Login = () => {
           ></input>
         </div>
         <button
-          className="bg-red-400 px-4 transform translate-y-2 disabled:opacity-50"
+          className="w-48 bg-red-400 px-4 transform translate-y-2 disabled:opacity-50"
           disabled={!isEmail || userPass.length < 8 ? true : false}
         >
-          submit
+          valider
         </button>
       </form>
-      <div className="border-t border-red-500 transform translate-y-2 py-2 flex gap-2">
+      <div className="w-4/5 text-center border-t border-red-500 transform translate-y-12 md:translate-y-16 py-2 flex flex-col items-center justify-center gap-1 md:flex-row md:gap-2">
         Première fois sur Groupomania?{" "}
         <Link
           to="/signup"

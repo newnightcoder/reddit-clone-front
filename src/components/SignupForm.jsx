@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { StepUsername } from ".";
 
 const SignupForm = ({
-  error,
+  errorServer,
+  errorDuplicate,
   handleNewEmail,
   handleNewPass,
   handleNewUserSubmit,
@@ -26,6 +27,18 @@ const SignupForm = ({
     ? { transform: "translateX(-100%)" }
     : { transform: "translateX(0%)" };
 
+  const errorStyleServer = {
+    visibility: "visible",
+    whiteSpace: "pre",
+    textAlign: "center",
+  };
+
+  const errorStyleDuplicate = {
+    visibility: "visible",
+    whiteSpace: "normal",
+    textAlign: "left",
+  };
+
   return (
     <div
       className="h-screen w-screen flex flex-col items-center justify-center gap-4 bg-red-100 transition-transform duration-500 delay-700 relative"
@@ -34,17 +47,26 @@ const SignupForm = ({
       <h2 className="text-center uppercase">
         Rejoignez la communauté Groupomomania!
       </h2>
-      <span
-        style={
-          error === "" ? { visibility: "hidden" } : { visibility: "visible" }
-        }
-        className="w-1/2 h-max whitespace-normal p-2 text-left border border-red-400"
+      <div
+        className="w-full flex items-center justify-center border"
+        style={{ height: "15vh" }}
       >
-        {error !== "" && error}
-      </span>
+        <span
+          className="block w-max h-max py-2 px-3 border border-red-400 rounded"
+          style={
+            errorServer !== ""
+              ? { errorStyleServer }
+              : errorDuplicate !== ""
+              ? { errorStyleDuplicate }
+              : { visibility: "hidden" }
+          }
+        >
+          {errorServer || errorDuplicate}
+        </span>
+      </div>
       <form
         method="post"
-        className="h-1/2 flex flex-col items-center justify-center gap-4"
+        className="h-max flex flex-col items-center justify-center gap-4"
         onSubmit={handleNewUserSubmit}
       >
         <div className="flex flex-col items-start">
@@ -55,7 +77,6 @@ const SignupForm = ({
             onChange={handleNewEmail}
             style={{ width: "200px" }}
           ></input>
-          {/* {emailWarning()} */}
         </div>
         <div className="flex flex-col items-start">
           <label htmlFor="password">Créez un mot de passe</label>
@@ -92,10 +113,10 @@ const SignupForm = ({
               : false
           }
         >
-          submit
+          valider
         </button>
       </form>
-      <div className="border-t border-red-500 transform translate-y-2 py-2 flex gap-2">
+      <div className="w-4/5 border-t border-red-500 transform translate-y-12 md:translate-y-16 py-2 flex flex-col items-center justify-center gap-1 md:flex-row md:gap-2">
         J'ai déjà un compte!{" "}
         <Link
           to="/login"

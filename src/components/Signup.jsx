@@ -11,7 +11,8 @@ const Signup = () => {
   const [isNumber, setIsNumber] = useState(false);
   const [isLong, setIsLong] = useState(false);
   const [isCreated, setIsCreated] = useState(false);
-  const [error, setError] = useState("");
+  const [errorServer, setErrorServer] = useState("");
+  const [errorDuplicate, setErrorDuplicate] = useState("");
   const [userId, setUserId] = useState(null);
 
   /* eslint no-control-regex: 0 */
@@ -71,8 +72,12 @@ const Signup = () => {
       const response = await fetch(`${API}/signup`, request);
       const data = await response.json();
       console.log("data", response);
-      if (response.status !== 201) {
-        setError(data.errorMsg);
+      if (data.errorNumber === 1062) {
+        setErrorDuplicate(data.errorMsg);
+        return;
+      }
+      if (!data.errorNumber && response.status !== 201) {
+        setErrorServer(data.errorMsg);
         return;
       }
       console.log("user ID:", data.userId);
@@ -95,7 +100,8 @@ const Signup = () => {
         handleNewPass={handleNewPass}
         handleNewUserSubmit={handleNewUserSubmit}
         isCreated={isCreated}
-        error={error}
+        errorDuplicate={errorDuplicate}
+        errorServer={errorServer}
         userId={userId}
       />
     </div>
