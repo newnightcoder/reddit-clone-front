@@ -1,6 +1,7 @@
 import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
 import { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
+import logo from "../assets/logo2.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { API_AUTH } from "./API";
 
@@ -20,6 +21,7 @@ const StepImage = ({ userId }) => {
     console.log("FILE!!!", file.current.files[0]);
     const formData = new FormData();
     formData.append("userBlob", blob);
+    formData.append("userId", userId);
     const request = {
       headers: {
         // "Content-Type": "multipart/form-data",
@@ -36,7 +38,6 @@ const StepImage = ({ userId }) => {
         setError(data.errorMsg);
         return;
       }
-      console.log(data.msg);
       setPicUrl(data.picUrl);
     } catch (error) {
       console.log(error);
@@ -45,15 +46,18 @@ const StepImage = ({ userId }) => {
 
   return (
     <div
-      style={{ transform: "translateX(100%)" }}
-      className="h-screen w-screen bg-red-400  flex flex-col items-center justify-evenly absolute top-0 left-0"
+      style={{
+        transform: "translateX(100%)",
+        background: `url(${logo}) repeat center/200%`,
+      }}
+      className="h-screen w-screen bg-red-400 flex flex-col items-center justify-evenly absolute top-0 left-0"
     >
       <h2 className="text-center">
         DERNIÈRE ÉTAPE AVANT DE <br />
         REJOINDRE LA COMMUNAUTÉ!
       </h2>
       <span
-        className="w-max h-max whitespace-pre py-2 px-3 text-center border border-black rounded"
+        className="w-max h-max whitespace-pre py-2 px-3 text-center border border-red-700 rounded"
         style={
           errorServer === ""
             ? { visibility: "hidden" }
@@ -78,7 +82,7 @@ const StepImage = ({ userId }) => {
             parcourir{" "}
           </label>
           <div
-            className="h-40 w-40 rounded-full border border-red-600"
+            className="h-40 w-40 rounded-full border border-gray-600"
             style={{
               background: `url(${
                 picUrl ? picUrl : picPlaceholder
@@ -131,6 +135,7 @@ const StepImage = ({ userId }) => {
                     pathname: "/feed",
                     state: {
                       new: true,
+                      picUrl,
                     },
                   });
                 }, 1000);

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import logo from "../assets/logo2.svg";
 import { API_AUTH } from "./API/index";
 import StepImage from "./StepImage";
 
@@ -46,18 +47,24 @@ const StepUsername = ({ userId }) => {
   };
 
   const toNextStep = isCreated
-    ? { transform: "translateX(0%)" }
-    : { transform: "translateX(100%)" };
+    ? {
+        transform: "translateX(0%)",
+        background: `url(${logo}) no-repeat center/250%`,
+      }
+    : {
+        transform: "translateX(100%)",
+        background: `url(${logo}) no-repeat center/250%`,
+      };
 
   const error = errorServer !== "" || errorDuplicate !== "";
 
   return (
     <div
-      style={toNextStep}
       className="h-screen w-screen bg-red-300 flex flex-col items-center justify-center gap-2 transition-transform duration-500 absolute top-0 left-0"
+      style={toNextStep}
     >
       <span
-        className="block w-max h-max py-2 px-3 border border-red-400 rounded"
+        className="block w-max h-max py-2 px-3 border border-red-700 rounded"
         style={
           error
             ? { visibility: "visible", whiteSpace: "pre", textAlign: "center" }
@@ -75,7 +82,7 @@ const StepUsername = ({ userId }) => {
         >
           <label htmlFor="username"></label>
           <input
-            className="w-48 rounded p-1"
+            className="w-48 rounded p-1 border border-red-300"
             type="text"
             id="username"
             onChange={handleInput}

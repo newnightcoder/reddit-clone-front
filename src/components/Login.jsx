@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import logo from "../assets/logo2.svg";
 import { API_AUTH } from "./API";
 
 const Login = () => {
@@ -46,17 +47,20 @@ const Login = () => {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-col items-center justify-center gap-4 bg-red-100">
+    <div
+      className="h-screen w-screen flex flex-col items-center justify-center gap-4 bg-deep-orange-300"
+      style={{ background: `url(${logo}) no-repeat center/250%` }}
+    >
       <h2 className="text-center uppercase flex flex-col md:flex-row md:gap-1">
         <span>Content de vous revoir </span>
         <span>sur Groupomania!</span>
       </h2>
       <div
-        className="w-full flex items-center justify-center border"
+        className="w-full flex items-center justify-center"
         style={{ height: "15vh" }}
       >
         <span
-          className="w-max h-max whitespace-pre py-2 px-3 text-center border border-red-400 rounded"
+          className="w-max h-max whitespace-pre py-2 px-3 text-center border border-red-700 rounded"
           style={
             error === "" ? { visibility: "hidden" } : { visibility: "visible" }
           }
@@ -72,7 +76,7 @@ const Login = () => {
         <div className="flex flex-col items-start">
           <label htmlFor="email">Email</label>
           <input
-            className="w-64 rounded p-1"
+            className="w-64 rounded p-1 border border-red-300"
             type="email"
             id="email"
             onChange={handleEmail}
@@ -81,24 +85,24 @@ const Login = () => {
         <div className="flex flex-col items-start">
           <label htmlFor="password">Mot de passe</label>
           <input
-            className="w-64 rounded p-1"
+            className="w-64 rounded p-1 border border-red-300"
             type="password"
             id="password"
             onChange={handlePass}
           ></input>
         </div>
         <button
-          className="w-48 bg-red-400 p-2 rounded transform translate-y-2 disabled:opacity-50"
+          className="w-48 bg-red-500 text-white p-2 rounded transform translate-y-2 disabled:opacity-50"
           disabled={!isEmail || userPass.length < 8 ? true : false}
         >
           valider
         </button>
       </form>
-      <div className="w-4/5 text-center border-t border-red-500 transform translate-y-12 md:translate-y-16 py-2 flex flex-col items-center justify-center gap-1 md:flex-row md:gap-2">
+      <div className="w-4/5 md:w-96 text-center border-t border-black transform translate-y-12 md:translate-y-16 py-2 flex flex-col items-center justify-center gap-1 md:flex-row md:gap-2">
         Première fois sur Groupomania?{" "}
         <Link
           to="/signup"
-          className="font-bold underline uppercase text-red-400"
+          className="font-bold underline uppercase text-red-600"
         >
           S'inscrire
         </Link>
