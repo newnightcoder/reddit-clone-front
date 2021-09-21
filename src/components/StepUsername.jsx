@@ -54,9 +54,8 @@ const StepUsername = ({ userId }) => {
   return (
     <div
       style={toNextStep}
-      className="h-screen w-screen bg-red-300 flex flex-col items-center justify-center transition-transform duration-500 absolute top-0 left-0"
+      className="h-screen w-screen bg-red-300 flex flex-col items-center justify-center gap-2 transition-transform duration-500 absolute top-0 left-0"
     >
-      <p>choisissez votre pseudo</p>
       <span
         className="block w-max h-max py-2 px-3 border border-red-400 rounded"
         style={
@@ -67,20 +66,28 @@ const StepUsername = ({ userId }) => {
       >
         {errorServer || errorDuplicate}
       </span>
-      <form
-        className="flex flex-col items-center justify-center"
-        method="post"
-        onSubmit={handleSubmit}
-      >
-        <label htmlFor="username"></label>
-        <input type="text" id="username" onChange={handleInput} />
-        <button
-          className="bg-red-500 text-white px-4 transform translate-y-2 disabled:opacity-50"
-          disabled={!isLong ? true : false}
+      <div>
+        <p>choisissez votre pseudo:</p>
+        <form
+          className="flex flex-col items-center justify-center"
+          method="post"
+          onSubmit={handleSubmit}
         >
-          valider
-        </button>
-      </form>
+          <label htmlFor="username"></label>
+          <input
+            className="w-48"
+            type="text"
+            id="username"
+            onChange={handleInput}
+          />
+          <button
+            className="w-48 bg-red-400 px-4 transform translate-y-2 disabled:opacity-50"
+            disabled={!isLong ? true : false}
+          >
+            valider
+          </button>
+        </form>
+      </div>
       <StepImage userId={userId} />
     </div>
   );

@@ -1,5 +1,7 @@
+import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
 import { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
+import picPlaceholder from "../assets/pic_placeholder.svg";
 import { API_AUTH } from "./API";
 
 const StepImage = ({ userId }) => {
@@ -36,15 +38,6 @@ const StepImage = ({ userId }) => {
       }
       console.log(data.msg);
       setPicUrl(data.picUrl);
-      setTimeout(() => {
-        alert("Super! profil complet!");
-        history.push({
-          pathname: "/feed",
-          state: {
-            new: true,
-          },
-        });
-      }, 1200);
     } catch (error) {
       console.log(error);
     }
@@ -60,7 +53,7 @@ const StepImage = ({ userId }) => {
         REJOINDRE LA COMMUNAUTÉ!
       </h2>
       <span
-        className="w-max h-max whitespace-pre py-2 px-3 text-center border border-red-400 rounded"
+        className="w-max h-max whitespace-pre py-2 px-3 text-center border border-black rounded"
         style={
           errorServer === ""
             ? { visibility: "hidden" }
@@ -69,7 +62,7 @@ const StepImage = ({ userId }) => {
       >
         {errorServer !== "" && errorServer}
       </span>
-      <div className="h-1/3 w-screen">
+      <div className="h-max w-screen">
         <form
           className="flex flex-col items-center justify-center gap-2"
           action=""
@@ -78,19 +71,24 @@ const StepImage = ({ userId }) => {
           onSubmit={handleImgSubmit}
         >
           <span> Choisissez votre image de profil</span>
+          <label
+            className="w-48 text-center bg-red-500 text-white p-2 rounded"
+            htmlFor="file"
+          >
+            parcourir{" "}
+          </label>
           <div
-            className="h-40 w-40 rounded-full border border-black"
+            className="h-40 w-40 rounded-full border border-red-600"
             style={{
-              background: `url(${picUrl}) no-repeat center/cover`,
+              background: `url(${
+                picUrl ? picUrl : picPlaceholder
+              }) no-repeat center/cover`,
               objectFit: "cover",
             }}
           >
             {/* <UserCircleIcon className="h-40 w-40 text-gray-500" /> */}
           </div>
           <div className="flex items-center gap-4">
-            <label className="bg-red-500 text-white px-4" htmlFor="file">
-              parcourir{" "}
-            </label>
             <input
               className="bg-red-500 text-white p-2 rounded hidden"
               type="file"
@@ -103,15 +101,48 @@ const StepImage = ({ userId }) => {
               }}
             />
             <div>
-              {blobName !== null ? blobName : "vous n'avez rien choisi"}
+              {blobName !== null ? (
+                blobName
+              ) : (
+                <span className="italic text-xs">
+                  Aucune photo choisie pour le moment.
+                </span>
+              )}
             </div>
           </div>
-          <button
-            className="bg-red-500 text-white p-2 rounded transform translate-y-2 transition transition-opacity duration-1000"
-            style={blobName == null ? { opacity: 0 } : { opacity: 1 }}
-          >
-            valider
-          </button>{" "}
+          <div className="w-full flex items-center justify-center gap-4">
+            <button
+              className="bg-red-500 text-white p-2 border border-red-500 rounded transform translate-y-2 transition transition-opacity duration-1000"
+              style={blobName == null ? { opacity: 0 } : { opacity: 1 }}
+            >
+              voir l'aperçu
+            </button>
+            <button
+              className="w-max flex items-center gap-1 bg-red-500 text-black font-bold border border-black p-2 rounded transform translate-y-2 transition transition-opacity duration-1000"
+              style={
+                picUrl == null
+                  ? { opacity: 0, display: "none" }
+                  : { opacity: 1, display: "flex" }
+              }
+              onClick={() => {
+                setTimeout(() => {
+                  alert("Super! profil complet!");
+                  history.push({
+                    pathname: "/feed",
+                    state: {
+                      new: true,
+                    },
+                  });
+                }, 1000);
+              }}
+            >
+              c'est bon!{" "}
+              <ChevronDoubleRightIcon
+                className="h-4 w-4 text-black font-bold"
+                style={{ transform: "translateY(1px)" }}
+              />
+            </button>
+          </div>
         </form>
       </div>
 
@@ -124,7 +155,13 @@ const StepImage = ({ userId }) => {
           });
         }}
       >
-        plus tard, pas maintenant!
+        <span className="flex items-center gap-1">
+          plus tard, pas maintenant!{" "}
+          <ChevronDoubleRightIcon
+            className="h-4 w-4 text-black"
+            style={{ transform: "translateY(1px)" }}
+          />
+        </span>
       </button>
     </div>
   );
