@@ -19,8 +19,13 @@ const SignupForm = ({
 }) => {
   const displayCheck = (bool) => {
     if (bool) {
-      return <CheckIcon className="h-3 w-3 text-black" />;
-    } else return <XIcon className="h-3 w-3 text-black" />;
+      return (
+        <CheckIcon className="h-3 w-3 text-green-700-accent transform translate-y-0.5" />
+      );
+    } else
+      return (
+        <XIcon className="h-3 w-3 text-gray-400 transform translate-y-0.5" />
+      );
   };
 
   const toNextStep = isCreated
@@ -66,47 +71,79 @@ const SignupForm = ({
       </div>
       <form
         method="post"
-        className="h-max flex flex-col items-center justify-center gap-4"
+        className="h-max w-64 flex flex-col items-center justify-center gap-4"
         onSubmit={handleNewUserSubmit}
       >
-        <div className="flex flex-col items-start">
-          <label htmlFor="email">Entrez votre email</label>
-          <input
-            type="email"
-            id="email"
-            onChange={handleNewEmail}
-            style={{ width: "200px" }}
-          ></input>
-        </div>
-        <div className="flex flex-col items-start">
-          <label htmlFor="password">Créez un mot de passe</label>
-          <input
-            type="password"
-            name="password"
-            onChange={handleNewPass}
-            style={{ width: "200px" }}
-          ></input>
-          <div>
-            <div className="flex items-center gap-1">
-              <span>{displayCheck(isUppercase)}</span>
-              <span className="text-xs">contient au moins une majuscule</span>
+        <div className="flex flex-col items-start gap-4">
+          <div className="flex flex-col items-start">
+            <label htmlFor="email">Entrez votre email</label>
+            <input
+              className="w-64 rounded p-1"
+              type="email"
+              id="email"
+              onChange={handleNewEmail}
+            ></input>
+          </div>
+          <div className="flex flex-col items-start gap-2">
+            <div>
+              <label htmlFor="password">Créez un mot de passe</label>
+              <input
+                className="w-64 rounded p-1"
+                type="password"
+                name="password"
+                onChange={handleNewPass}
+              ></input>
             </div>
-            <div className="flex items-center gap-1">
-              <span>{displayCheck(isLowercase)}</span>
-              <span className="text-xs">contient au moins une minuscule</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <span> {displayCheck(isNumber)}</span>
-              <span className="text-xs">contient au moins un chiffre</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <span> {displayCheck(isLong)}</span>
-              <span className="text-xs">contient au moins 8 caractères</span>
+            <div className="w-64 border flex flex-col items-center gap-1">
+              <div
+                className="w-52 border rounded flex items-start gap-1"
+                style={
+                  isUppercase
+                    ? { borderColor: "#00c853", color: "#00c853" }
+                    : { borderColor: "#9e9e9e", color: "#9e9e9e" }
+                }
+              >
+                <span>{displayCheck(isUppercase)}</span>
+                <span className="text-xs">contient au moins une majuscule</span>
+              </div>
+              <div
+                className="w-52 border border-gray-400 rounded flex items-start gap-1 text-gray-400"
+                style={
+                  isLowercase
+                    ? { borderColor: "#00c853", color: "#00c853" }
+                    : { borderColor: "#9e9e9e", color: "#9e9e9e" }
+                }
+              >
+                <span>{displayCheck(isLowercase)}</span>
+                <span className="text-xs">contient au moins une minuscule</span>
+              </div>
+              <div
+                className="w-52 border border-gray-400 rounded flex items-start gap-1 text-gray-400"
+                style={
+                  isNumber
+                    ? { borderColor: "#00c853", color: "#00c853" }
+                    : { borderColor: "#9e9e9e", color: "#9e9e9e" }
+                }
+              >
+                <span> {displayCheck(isNumber)}</span>
+                <span className="text-xs">contient au moins un chiffre</span>
+              </div>
+              <div
+                className="w-52 border border-gray-400 rounded flex items-start gap-1 text-gray-400"
+                style={
+                  isLong
+                    ? { borderColor: "#00c853", color: "#00c853" }
+                    : { borderColor: "#9e9e9e", color: "#9e9e9e" }
+                }
+              >
+                <span> {displayCheck(isLong)}</span>
+                <span className="text-xs">contient au moins 8 caractères</span>
+              </div>
             </div>
           </div>
         </div>
         <button
-          className="w-48 bg-red-400 px-4 transform translate-y-2 disabled:opacity-50"
+          className="w-48 bg-red-400 p-2 rounded transform translate-y-2 disabled:opacity-50"
           disabled={
             !isEmail || !isUppercase || !isLowercase || !isNumber || !isLong
               ? true

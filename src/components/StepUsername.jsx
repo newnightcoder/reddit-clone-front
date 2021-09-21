@@ -69,19 +69,19 @@ const StepUsername = ({ userId }) => {
       <div>
         <p>choisissez votre pseudo:</p>
         <form
-          className="flex flex-col items-center justify-center"
+          className="flex flex-col items-center justify-center gap-1"
           method="post"
           onSubmit={handleSubmit}
         >
           <label htmlFor="username"></label>
           <input
-            className="w-48"
+            className="w-48 rounded p-1"
             type="text"
             id="username"
             onChange={handleInput}
           />
           <button
-            className="w-48 bg-red-400 px-4 transform translate-y-2 disabled:opacity-50"
+            className="w-48 bg-red-400 p-2 rounded transform translate-y-2 disabled:opacity-50"
             disabled={!isLong ? true : false}
           >
             valider

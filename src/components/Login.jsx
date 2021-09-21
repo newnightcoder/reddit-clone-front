@@ -72,23 +72,23 @@ const Login = () => {
         <div className="flex flex-col items-start">
           <label htmlFor="email">Email</label>
           <input
+            className="w-64 rounded p-1"
             type="email"
             id="email"
             onChange={handleEmail}
-            style={{ width: "200px" }}
           ></input>
         </div>
         <div className="flex flex-col items-start">
           <label htmlFor="password">Mot de passe</label>
           <input
+            className="w-64 rounded p-1"
             type="password"
             id="password"
             onChange={handlePass}
-            style={{ width: "200px" }}
           ></input>
         </div>
         <button
-          className="w-48 bg-red-400 px-4 transform translate-y-2 disabled:opacity-50"
+          className="w-48 bg-red-400 p-2 rounded transform translate-y-2 disabled:opacity-50"
           disabled={!isEmail || userPass.length < 8 ? true : false}
         >
           valider
