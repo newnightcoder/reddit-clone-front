@@ -1,5 +1,12 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Feed, Homepage, Login, Signup } from "./components";
+import {
+  CreatePost,
+  Feed,
+  Homepage,
+  Login,
+  NavBar,
+  Signup,
+} from "./components";
 
 const App = () => {
   return (
@@ -14,7 +21,12 @@ const App = () => {
         <Route path="/signup">
           <Signup />
         </Route>
+        <Route path="/create">
+          <NavBar />
+          <CreatePost />
+        </Route>
         <Route path="/feed">
+          <NavBar />
           <Feed />
         </Route>
       </Switch>

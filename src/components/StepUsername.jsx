@@ -82,13 +82,14 @@ const StepUsername = ({ userId }) => {
         >
           <label htmlFor="username"></label>
           <input
-            className="w-48 rounded p-1 border border-red-300"
+            className="w-48 rounded p-1 border border-red-300 outline-none"
             type="text"
             id="username"
             onChange={handleInput}
           />
           <button
-            className="w-48 bg-red-400 p-2 rounded transform translate-y-2 disabled:opacity-50"
+            className="w-48 p-2 rounded transform translate-y-2 disabled:opacity-50 shadow-xl"
+            style={{ backgroundColor: "#ef5350" }}
             disabled={!isLong ? true : false}
           >
             valider

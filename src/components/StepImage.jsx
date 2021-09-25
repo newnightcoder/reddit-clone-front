@@ -46,11 +46,11 @@ const StepImage = ({ userId }) => {
 
   return (
     <div
+      className="h-screen w-screen bg-red-400 flex flex-col items-center justify-evenly absolute top-0 left-0"
       style={{
         transform: "translateX(100%)",
         background: `url(${logo}) repeat center/200%`,
       }}
-      className="h-screen w-screen bg-red-400 flex flex-col items-center justify-evenly absolute top-0 left-0"
     >
       <h2 className="text-center">
         DERNIÈRE ÉTAPE AVANT DE <br />
@@ -66,7 +66,15 @@ const StepImage = ({ userId }) => {
       >
         {errorServer !== "" && errorServer}
       </span>
-      <div className="h-max w-screen">
+      <div className="h-max w-screen flex flex-col items-center gap-2">
+        <div
+          className="h-48 w-48 rounded-full border border-gray-600"
+          style={{
+            background: `url(${
+              picUrl !== null ? picUrl : picPlaceholder
+            }) no-repeat center/cover`,
+          }}
+        ></div>
         <form
           className="flex flex-col items-center justify-center gap-2"
           action=""
@@ -76,25 +84,17 @@ const StepImage = ({ userId }) => {
         >
           <span> Choisissez votre image de profil</span>
           <label
-            className="w-48 text-center bg-red-500 text-white p-2 rounded"
+            className="w-48 text-center text-white p-2 rounded shadow-xl"
+            style={{ backgroundColor: "#ef5350" }}
             htmlFor="file"
           >
             parcourir{" "}
           </label>
-          <div
-            className="h-40 w-40 rounded-full border border-gray-600"
-            style={{
-              background: `url(${
-                picUrl ? picUrl : picPlaceholder
-              }) no-repeat center/cover`,
-              objectFit: "cover",
-            }}
-          >
-            {/* <UserCircleIcon className="h-40 w-40 text-gray-500" /> */}
-          </div>
+
           <div className="flex items-center gap-4">
             <input
-              className="bg-red-500 text-white p-2 rounded hidden"
+              className="text-white p-2 rounded hidden"
+              style={{ backgroundColor: "#ef5350" }}
               type="file"
               accept="image/x-png,image/jpeg,image/jpg, image/gif"
               id="file"
@@ -116,17 +116,21 @@ const StepImage = ({ userId }) => {
           </div>
           <div className="w-full flex items-center justify-center gap-4">
             <button
-              className="bg-red-500 text-white p-2 border border-red-500 rounded transform translate-y-2 transition transition-opacity duration-1000"
-              style={blobName == null ? { opacity: 0 } : { opacity: 1 }}
+              className="text-white p-2 border border-red-500 rounded transform translate-y-2 transition transition-opacity duration-1000 shadow-xl"
+              style={
+                blobName == null
+                  ? { opacity: 0 }
+                  : { opacity: 1, backgroundColor: "#ef5350" }
+              }
             >
               voir l'aperçu
             </button>
             <button
-              className="w-max flex items-center gap-1 bg-red-500 text-black font-bold border border-black p-2 rounded transform translate-y-2 transition transition-opacity duration-1000"
+              className="w-max flex items-center gap-1 text-black font-bold border border-black p-2 rounded transform translate-y-2 transition transition-opacity duration-1000 shadow-xl"
               style={
                 picUrl == null
                   ? { opacity: 0, display: "none" }
-                  : { opacity: 1, display: "flex" }
+                  : { opacity: 1, display: "flex", backgroundColor: "#ef5350" }
               }
               onClick={() => {
                 setTimeout(() => {

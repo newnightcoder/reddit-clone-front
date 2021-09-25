@@ -1,6 +1,9 @@
+export { default as CreatePost } from "./CreatePost";
 export { default as Feed } from "./Feed";
 export { default as Homepage } from "./Homepage";
 export { default as Login } from "./Login";
+export { default as NavBar } from "./NavBar";
+export { default as Post } from "./Post";
 export { default as Signup } from "./Signup";
 export { default as SignupForm } from "./SignupForm";
 export { default as StepImage } from "./StepImage";

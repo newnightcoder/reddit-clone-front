@@ -53,7 +53,7 @@ const SignupForm = ({
 
   return (
     <div
-      className="h-screen w-screen bg-red-100 flex flex-col items-center justify-center gap-1 transition-transform duration-500 delay-700 relative"
+      className="h-screen w-screen bg-red-100 flex flex-col items-center justify-center gap-1 transition-transform duration-500 delay-300 relative"
       style={toNextStep}
     >
       <h2 className="text-center uppercase">
@@ -85,7 +85,7 @@ const SignupForm = ({
           <div className="flex flex-col items-start">
             <label htmlFor="email">Entrez votre email</label>
             <input
-              className="w-64 rounded p-1 border border-red-300"
+              className="w-64 rounded p-1 border border-red-300 outline-none"
               type="email"
               id="email"
               onChange={handleNewEmail}
@@ -95,7 +95,7 @@ const SignupForm = ({
             <div>
               <label htmlFor="password">Créez un mot de passe</label>
               <input
-                className="w-64 rounded p-1 border border-red-300"
+                className="w-64 rounded p-1 border border-red-300 outline-none"
                 type="password"
                 name="password"
                 onChange={handleNewPass}
@@ -107,7 +107,7 @@ const SignupForm = ({
                 style={
                   isUppercase
                     ? {
-                        border: "1px solid #a5d6a7",
+                        border: "1px solid #1b5e20",
                         backgroundColor: "#a5d6a7",
                         color: "#1b5e20",
                         fontWeight: "bold",
@@ -127,7 +127,7 @@ const SignupForm = ({
                 style={
                   isLowercase
                     ? {
-                        border: "1px solid #a5d6a7",
+                        border: "1px solid #1b5e20",
                         backgroundColor: "#a5d6a7",
                         color: "#1b5e20",
                         fontWeight: "bold",
@@ -147,7 +147,7 @@ const SignupForm = ({
                 style={
                   isNumber
                     ? {
-                        border: "1px solid #a5d6a7",
+                        border: "1px solid #1b5e20",
                         backgroundColor: "#a5d6a7",
                         color: "#1b5e20",
                         fontWeight: "bold",
@@ -167,7 +167,7 @@ const SignupForm = ({
                 style={
                   isLong
                     ? {
-                        border: "1px solid #a5d6a7",
+                        border: "1px solid #1b5e20",
                         backgroundColor: "#a5d6a7",
                         color: "#1b5e20",
                         fontWeight: "bold",
@@ -186,7 +186,8 @@ const SignupForm = ({
           </div>
         </div>
         <button
-          className="w-48 bg-red-500 text-white p-2 rounded transform translate-y-2 disabled:opacity-50"
+          className="w-48 text-white p-2 rounded transform translate-y-2 disabled:opacity-50 shadow-xl"
+          style={{ backgroundColor: "#ef5350" }}
           disabled={
             !isEmail || !isUppercase || !isLowercase || !isNumber || !isLong
               ? true

@@ -76,7 +76,7 @@ const Login = () => {
         <div className="flex flex-col items-start">
           <label htmlFor="email">Email</label>
           <input
-            className="w-64 rounded p-1 border border-red-300"
+            className="w-64 rounded p-1 border border-red-300 outline-none"
             type="email"
             id="email"
             onChange={handleEmail}
@@ -85,14 +85,15 @@ const Login = () => {
         <div className="flex flex-col items-start">
           <label htmlFor="password">Mot de passe</label>
           <input
-            className="w-64 rounded p-1 border border-red-300"
+            className="w-64 rounded p-1 border border-red-300 outline-none"
             type="password"
             id="password"
             onChange={handlePass}
           ></input>
         </div>
         <button
-          className="w-48 bg-red-500 text-white p-2 rounded transform translate-y-2 disabled:opacity-50"
+          className="w-48 text-white p-2 rounded transform translate-y-2 disabled:opacity-50 shadow-xl"
+          style={{ backgroundColor: "#ef5350" }}
           disabled={!isEmail || userPass.length < 8 ? true : false}
         >
           valider

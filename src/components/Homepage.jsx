@@ -13,7 +13,8 @@ const Homepage = () => {
         <h1 className="uppercase font-bold">Déjà membre?</h1>
         <Link
           to="/login"
-          className="bg-red-500 uppercase  w-60 py-2 text-center text-white rounded shadow-xl"
+          className="w-60 py-2 text-center text-white uppercase rounded shadow-xl"
+          style={{ backgroundColor: "#ef5350" }}
         >
           Se connecter
         </Link>
@@ -22,7 +23,8 @@ const Homepage = () => {
         <h1 className="uppercase font-bold">Nouveau sur Groupomania?</h1>
         <Link
           to="/signup"
-          className="bg-red-500 uppercase  w-60 py-2 text-center text-white rounded shadow-xl"
+          className="w-60 py-2 text-center text-white uppercase rounded shadow-xl"
+          style={{ backgroundColor: "#ef5350" }}
         >
           S'inscrire
         </Link>
