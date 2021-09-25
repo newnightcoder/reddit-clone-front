@@ -9,6 +9,7 @@ const Feed = () => {
   const history = useHistory();
   const isNewUser = location?.state?.new && true;
   const picUrl = location?.state?.picUrl;
+  const userId = location?.state?.userId;
 
   return (
     <div
@@ -39,7 +40,7 @@ const Feed = () => {
               setTimeout(() => {
                 history.push({
                   pathname: "/create",
-                  state: picUrl,
+                  state: { picUrl, userId },
                 });
               }, 250)
             }

@@ -24,7 +24,9 @@ const NavBar = () => {
             <SearchIcon className="h-5 w-5 text-white" />
           </button>
         </form>
-        <MenuIcon className="h-8 w-8 text-black ml-2 md:ml-0" />
+        <button tabIndex="0" className="outline-none">
+          <MenuIcon className="h-8 w-8 text-black ml-2 md:ml-0" />
+        </button>
       </div>
       {/* <div
         className="w-12 h-12 rounded-full border border-gray-700 absolute top-20 right-4"
