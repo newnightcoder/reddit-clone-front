@@ -17,9 +17,14 @@ const CreatePost = () => {
   );
 
   const [title, setTitle] = useState("");
-  // const [text, setText] = useState("");
   const location = useLocation();
   const userId = location?.state.userId;
+  const year = new Date().getFullYear();
+  const month = new Date().getMonth();
+  const day = new Date().getDate();
+  const minute = new Date().getMinutes();
+  const second = new Date().getSeconds();
+  const date = `${year},${month},${day},${minute},${second}`;
 
   const handleTitleInput = (e) => {
     setTitle(e.currentTarget.value);
@@ -29,16 +34,13 @@ const CreatePost = () => {
 
   const handlePostSubmit = async (e) => {
     e.preventDefault();
-    console.log("title:", typeof title);
-    console.log("text:", typeof text);
-    console.log("userid:", typeof userId);
 
     const request = {
       headers: {
         "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify({ title, text, userId }),
+      body: JSON.stringify({ title, text, userId, date }),
     };
 
     try {
