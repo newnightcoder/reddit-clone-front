@@ -1,12 +1,21 @@
 import { MenuIcon, SearchIcon } from "@heroicons/react/solid";
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import logo4 from "../assets/logo4.svg";
-// import picPlaceholder from "../assets/pic_placeholder.svg";
+import { Menu, Overlay } from "./index";
 
 const NavBar = () => {
   const location = useLocation();
   const picUrl = location?.state?.picUrl;
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    return setIsOpen((isOpen) => !isOpen);
+  };
+
+  const closeMenu = () => {
+    return setIsOpen(false);
+  };
 
   return (
     <div className="h-16 w-screen relative z-50">
@@ -24,18 +33,16 @@ const NavBar = () => {
             <SearchIcon className="h-5 w-5 text-white" />
           </button>
         </form>
-        <button tabIndex="0" className="outline-none">
+        <button
+          tabIndex="0"
+          className="outline-none"
+          onClick={() => toggleMenu()}
+        >
           <MenuIcon className="h-8 w-8 text-black ml-2 md:ml-0" />
         </button>
       </div>
-      {/* <div
-        className="w-12 h-12 rounded-full border border-gray-700 absolute top-20 right-4"
-        style={
-          picUrl
-            ? { background: `url(${picUrl}) no-repeat center/cover` }
-            : { background: `url(${picPlaceholder}) no-repeat center/cover` }
-        }
-      ></div> */}
+      <Overlay isOpen={isOpen} close={closeMenu} />
+      <Menu isOpen={isOpen} />
     </div>
   );
 };

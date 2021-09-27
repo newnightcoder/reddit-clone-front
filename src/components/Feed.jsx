@@ -5,11 +5,12 @@ import logo from "../assets/logo.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { API_POST } from "./API";
 import { Post } from "./index";
+import PostSkeleton from "./PostSkeleton";
 
 const Feed = () => {
   const location = useLocation();
   const history = useHistory();
-  const isNewUser = location?.state?.new && true;
+  const isNewUser = history?.state?.new && true;
   const picUrl = location?.state?.picUrl;
   const userId = location?.state?.userId;
 
@@ -20,7 +21,7 @@ const Feed = () => {
   };
 
   useEffect(() => {
-    (async () => {
+    const fetchPosts = async () => {
       const response = await fetch(API_POST, request);
       const data = await response.json();
       const unshiftPosts = [];
@@ -28,8 +29,10 @@ const Feed = () => {
         unshiftPosts.unshift(post);
       });
       setPosts(unshiftPosts);
-    })();
+    };
+    fetchPosts();
   }, []);
+  // setIsLoading(false);
 
   return (
     <div
@@ -41,9 +44,9 @@ const Feed = () => {
           <div className="text-center whitespace-pre">
             {isNewUser && "bienvenue sur groupomania!\non va grave s'éclater!"}
           </div>
-          <div className="h-16 w-full flex items-center justify-evenly bg-white border border-gray-300 rounded">
+          <div className="h-16 w-full flex items-center justify-evenly bg-gray-400 border border-gray-300 rounded">
             <div
-              className="w-10 h-10 rounded-full border border-gray-300"
+              className="w-10 h-10 rounded-full border border-gray-600"
               style={
                 picUrl
                   ? { background: `url(${picUrl}) no-repeat center/cover` }
@@ -53,14 +56,17 @@ const Feed = () => {
               }
             ></div>
             <input
-              className="h-10 w-2/3 px-2 rounded outline-none bg-gray-200 hover:bg-white border border-gray-300 hover:border-red-400 transition-all duration-200"
+              className="h-10 w-2/3 px-2 rounded outline-none bg-gray-200 hover:bg-white border border-gray-600 hover:border-red-500 transition-all duration-200"
               type="text"
               placeholder="Exprimez-vous..."
               onClick={() =>
                 setTimeout(() => {
                   history.push({
                     pathname: "/create",
-                    state: { picUrl, userId },
+                    state: {
+                      picUrl,
+                      userId,
+                    },
                   });
                 }, 250)
               }
@@ -70,9 +76,18 @@ const Feed = () => {
         </div>
 
         <div className="h-full w-full flex flex-col items-center justify-center gap-4 py-4">
-          {posts.map((post) => (
-            <Post key={post.postId} post={post} />
-          ))}
+          {posts.length !== 0 ? (
+            posts.map((post) => <Post key={post.postId} post={post} />)
+          ) : (
+            <>
+              <PostSkeleton />
+              <PostSkeleton />
+              <PostSkeleton />
+              <PostSkeleton />
+              <PostSkeleton />
+              <PostSkeleton />
+            </>
+          )}
         </div>
       </div>
     </div>

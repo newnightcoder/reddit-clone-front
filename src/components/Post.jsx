@@ -37,7 +37,7 @@ const Post = ({ post }) => {
           </div>
         </div>
       </div>
-      <div className="text w-full text-left px-4 py-2 text-sm">{post.text}</div>
+      <div className="text w-full text-left px-3 py-2 text-sm">{post.text}</div>
       <div className="bottom w-full flex items-center justify-end px-2 py-2 border-t">
         <div className="icons-container w-max flex items-center justify-end gap-4 text-xs">
           <div className="w-max flex items-center justify-center gap-1">

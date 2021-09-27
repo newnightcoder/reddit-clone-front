@@ -1,0 +1,23 @@
+import React from "react";
+
+const Overlay = ({ isOpen, close }) => {
+  return (
+    <div
+      className="h-screen w-screen absolute top-0 left-0 bg-black opacity-50 transition transition-opacity duration-300"
+      style={
+        isOpen
+          ? {
+              opacity: 0.75,
+              zIndex: 20,
+            }
+          : {
+              opacity: 0,
+              zIndex: -1,
+            }
+      }
+      onClick={close}
+    ></div>
+  );
+};
+
+export default Overlay;

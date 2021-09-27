@@ -7,7 +7,7 @@ import { API_AUTH } from "./API";
 
 const StepImage = ({ userId }) => {
   const [errorServer, setErrorServer] = useState("");
-  const [isImg, setIsImg] = useState(false);
+  // const [isImg, setIsImg] = useState(false);
   // const [fileName, setFileName] = useState(null);
   const [blob, setBlob] = useState(null);
   const [blobName, setBlobName] = useState(null);
@@ -140,6 +140,7 @@ const StepImage = ({ userId }) => {
                     state: {
                       new: true,
                       picUrl,
+                      userId,
                     },
                   });
                 }, 1000);
