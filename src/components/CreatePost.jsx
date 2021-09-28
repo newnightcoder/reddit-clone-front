@@ -26,9 +26,10 @@ const CreatePost = () => {
   const year = new Date().getFullYear();
   const month = new Date().getMonth();
   const day = new Date().getDate();
+  const hour = new Date().getHours();
   const minute = new Date().getMinutes();
   const second = new Date().getSeconds();
-  const date = `${year},${month},${day},${minute},${second}`;
+  const date = `${year}-${month}-${day}-${hour}-${minute}-${second}`;
 
   console.log("id user depuis feed", userId);
 
@@ -80,14 +81,14 @@ const CreatePost = () => {
         onSubmit={handlePostSubmit}
       >
         <input
-          className="h-14 w-full px-2 rounded outline-none bg-gray-100 hover:bg-white active:bg-white focus:bg-white border border-gray-500 hover:border-red-400 transition-all duration-200"
+          className="h-10 w-full px-2 rounded outline-none bg-gray-100 hover:bg-white active:bg-white focus:bg-white border border-gray-500 hover:border-red-400 transition-all duration-200"
           type="text"
           name="createPost"
           id="createPost"
           placeholder="Titre de votre post"
           onChange={handleTitleInput}
         />
-        <div className="h-full w-full flex flex-col items-center justify-start pt-4">
+        <div className="h-96 w-full flex flex-col items-center justify-start pt-4">
           <div className="h-12 w-full flex items-center justify-between rounded-t bg-gray-200 border border-gray-400">
             <div className="w-2/3 h-full flex items-center justify-start">
               <button className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center">

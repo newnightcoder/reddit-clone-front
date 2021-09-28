@@ -1,3 +1,6 @@
+// import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
+import { formatDistanceToNowStrict } from "date-fns";
+import fr from "date-fns/locale/fr";
 import React from "react";
 import {
   ChatRight,
@@ -6,9 +9,28 @@ import {
 } from "react-bootstrap-icons";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 
-const picUrl = "";
-
 const Post = ({ post }) => {
+  const formatTimestamp = (date) => {
+    const convertedDate = {
+      year: date.split("-")[0],
+      month: date.split("-")[1],
+      day: date.split("-")[2],
+      minute: date.split("-")[3],
+      seconds: date.split("-")[4],
+    };
+
+    return formatDistanceToNowStrict(
+      new Date(
+        convertedDate.year,
+        convertedDate.month,
+        convertedDate.day,
+        convertedDate.minute,
+        convertedDate.seconds
+      ),
+      { addSuffix: true, locale: fr }
+    );
+  };
+
   return (
     <div className="post-container h-max w-11/12 flex-col items-center justify-center bg-white border border-gray-300 rounded-md px-2 pt-2">
       <div className="top w-full flex items-center justify-center pb-1 border-b">
@@ -16,8 +38,8 @@ const Post = ({ post }) => {
           <div
             className="avatar-container w-11 h-11 rounded-full border border-gray-300"
             style={
-              picUrl !== ""
-                ? { background: `url(${picUrl}) no-repeat center/cover` }
+              post.picUrl
+                ? { background: `url(${post.picUrl}) no-repeat center/cover` }
                 : {
                     background: `url(${picPlaceholder}) no-repeat center/cover`,
                   }
@@ -31,7 +53,7 @@ const Post = ({ post }) => {
                 <span className="text-xs">@</span>
                 {post.username}
               </div>
-              <div className="text-xs italic">{post.date}</div>
+              <div className="text-xs italic">{formatTimestamp(post.date)}</div>
             </div>
             <div className="title font-bold">{post.title}</div>
           </div>

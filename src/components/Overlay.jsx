@@ -3,7 +3,7 @@ import React from "react";
 const Overlay = ({ isOpen, close }) => {
   return (
     <div
-      className="h-screen w-screen absolute top-0 left-0 bg-black opacity-50 transition transition-opacity duration-300"
+      className="h-screen w-screen absolute top-0 left-0 bg-black opacity-50 transition transition-opacity duration-300 hidden"
       style={
         isOpen
           ? {
@@ -12,7 +12,7 @@ const Overlay = ({ isOpen, close }) => {
             }
           : {
               opacity: 0,
-              zIndex: -1,
+              zIndex: -10,
             }
       }
       onClick={close}

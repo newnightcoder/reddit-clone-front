@@ -1,4 +1,4 @@
-import { PaperAirplaneIcon } from "@heroicons/react/solid";
+import { PaperAirplaneIcon, RefreshIcon } from "@heroicons/react/solid";
 import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import logo from "../assets/logo.svg";
@@ -20,30 +20,49 @@ const Feed = () => {
     method: "get",
   };
 
+  const fetchPosts = async () => {
+    const response = await fetch(API_POST, request);
+    const data = await response.json();
+    setPosts(data.posts);
+    // setIsLoading(false);
+  };
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch(API_POST, request);
-      const data = await response.json();
-      const unshiftPosts = [];
-      data.posts.forEach((post) => {
-        unshiftPosts.unshift(post);
-      });
-      setPosts(unshiftPosts);
-    };
     fetchPosts();
   }, []);
-  // setIsLoading(false);
 
   return (
     <div
-      className="h-full w-screen flex flex-col items-center justify-start bg-red-300 relative"
+      className="feed-container min-h-screen w-screen flex flex-col items-center justify-start bg-red-300 relative"
       style={{ background: `url(${logo}) no-repeat fixed center/250%` }}
     >
-      <div className="w-screen flex flex-col items-center justify-center">
-        <div className="w-screen fixed bottom-0 flex flex-col items-center justify-center mt-1">
-          <div className="text-center whitespace-pre">
-            {isNewUser && "bienvenue sur groupomania!\non va grave s'éclater!"}
-          </div>
+      <div className="bienvenueMsg-newcomer text-center whitespace-pre">
+        {isNewUser &&
+          "Bienvenue sur Groupomania!\nVotre endroit pour échanger entre collègues."}
+      </div>
+      <div className="posts-section-container w-screen flex flex-col items-center justify-center pt-4 pb-20 relative">
+        <button
+          className="refreshBtn outline-none flex gap-1 items-center justify-center absolute right-5 top-0 mt-2"
+          onClick={() => fetchPosts()}
+        >
+          <RefreshIcon className="h-4 w-4" />{" "}
+          <span className="text-xs">rafraîchir</span>
+        </button>
+        <div className="posts-wrapper h-full w-full flex flex-col items-center justify-center gap-4 py-4">
+          {posts.length !== 0 ? (
+            posts.map((post) => <Post key={post.postId} post={post} />)
+          ) : (
+            <>
+              <PostSkeleton />
+              <PostSkeleton />
+              <PostSkeleton />
+              <PostSkeleton />
+              <PostSkeleton />
+              <PostSkeleton />
+            </>
+          )}
+        </div>
+        <div className="createpost-link-bottom w-screen fixed bottom-0 flex flex-col items-center justify-center mt-1">
           <div className="h-16 w-full flex items-center justify-evenly bg-gray-400 border border-gray-300 rounded">
             <div
               className="w-10 h-10 rounded-full border border-gray-600"
@@ -73,21 +92,6 @@ const Feed = () => {
             />
             <PaperAirplaneIcon className="h-6 w-6 text-black transform rotate-45" />
           </div>
-        </div>
-
-        <div className="h-full w-full flex flex-col items-center justify-center gap-4 py-4">
-          {posts.length !== 0 ? (
-            posts.map((post) => <Post key={post.postId} post={post} />)
-          ) : (
-            <>
-              <PostSkeleton />
-              <PostSkeleton />
-              <PostSkeleton />
-              <PostSkeleton />
-              <PostSkeleton />
-              <PostSkeleton />
-            </>
-          )}
         </div>
       </div>
     </div>
