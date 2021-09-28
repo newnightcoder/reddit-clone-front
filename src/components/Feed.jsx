@@ -8,13 +8,26 @@ import { Post } from "./index";
 import PostSkeleton from "./PostSkeleton";
 
 const Feed = () => {
+  const [posts, setPosts] = useState([]);
   const location = useLocation();
   const history = useHistory();
-  const isNewUser = history?.state?.new && true;
-  const picUrl = location?.state?.picUrl;
-  const userId = location?.state?.userId;
+  const isNewUser = location?.state?.new && true;
+  const userPic = location?.state?.userPic || history?.state?.state.userPic;
+  const userId = location?.state?.userId || history?.state?.state.userId;
+  const userName = location?.state?.userName || history?.state?.state.userName;
+  const userDate = location?.state?.userDate || history?.state?.state.userDate;
 
-  const [posts, setPosts] = useState([]);
+  console.log(
+    "location state id:",
+    location?.state?.userId,
+    "location state pic:",
+    location?.state?.userPic
+  );
+  console.log(
+    "history state:",
+    history?.state?.state?.userId,
+    history?.state?.state?.userId
+  );
 
   const request = {
     method: "get",
@@ -29,27 +42,39 @@ const Feed = () => {
 
   useEffect(() => {
     fetchPosts();
+    // setuserPic(history?.state?.state.userPic);
   }, []);
 
   return (
     <div
-      className="feed-container min-h-screen w-screen flex flex-col items-center justify-start bg-red-300 relative"
+      className="feed-container min-h-screen w-screen flex flex-col items-center justify-start bg-red-300 relative pt-2"
       style={{ background: `url(${logo}) no-repeat fixed center/250%` }}
     >
       <div className="bienvenueMsg-newcomer text-center whitespace-pre">
-        {isNewUser &&
-          "Bienvenue sur Groupomania!\nVotre endroit pour échanger entre collègues."}
+        {isNewUser ? (
+          <>
+            Bienvenue <span className="capitalize">{userName}!</span>
+            <br />
+            Échangez entre collègues.
+          </>
+        ) : (
+          <>
+            Content de vous revoir&nbsp;
+            <span className="capitalize">{userName}!</span>
+          </>
+        )}
       </div>
       <div className="posts-section-container w-screen flex flex-col items-center justify-center pt-4 pb-20 relative">
         <button
-          className="refreshBtn outline-none flex gap-1 items-center justify-center absolute right-5 top-0 mt-2"
+          className="refreshBtn outline-none gap-1 items-center justify-center absolute right-5 top-0 mt-2"
           onClick={() => fetchPosts()}
+          style={{ display: posts.length !== 0 ? "flex" : "none" }}
         >
           <RefreshIcon className="h-4 w-4" />{" "}
           <span className="text-xs">rafraîchir</span>
         </button>
         <div className="posts-wrapper h-full w-full flex flex-col items-center justify-center gap-4 py-4">
-          {posts.length !== 0 ? (
+          {posts !== null ? (
             posts.map((post) => <Post key={post.postId} post={post} />)
           ) : (
             <>
@@ -67,8 +92,8 @@ const Feed = () => {
             <div
               className="w-10 h-10 rounded-full border border-gray-600"
               style={
-                picUrl
-                  ? { background: `url(${picUrl}) no-repeat center/cover` }
+                userPic
+                  ? { background: `url(${userPic}) no-repeat center/cover` }
                   : {
                       background: `url(${picPlaceholder}) no-repeat center/cover`,
                     }
@@ -83,8 +108,10 @@ const Feed = () => {
                   history.push({
                     pathname: "/create",
                     state: {
-                      picUrl,
+                      userPic,
                       userId,
+                      userName,
+                      userDate,
                     },
                   });
                 }, 250)

@@ -9,10 +9,12 @@ const Overlay = ({ isOpen, close }) => {
           ? {
               opacity: 0.75,
               zIndex: 20,
+              display: "block",
             }
           : {
               opacity: 0,
               zIndex: -10,
+              display: "none",
             }
       }
       onClick={close}

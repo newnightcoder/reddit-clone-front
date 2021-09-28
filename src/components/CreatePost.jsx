@@ -15,21 +15,28 @@ import logo from "../assets/logo.svg";
 import { API_POST } from "./API";
 
 const CreatePost = () => {
+  const [title, setTitle] = useState("");
   const [editorState, setEditorState] = useState(() =>
     EditorState.createEmpty()
   );
-
-  const [title, setTitle] = useState("");
   const location = useLocation();
   const history = useHistory();
-  const userId = location?.state?.userId || history?.state?.userId;
-  const year = new Date().getFullYear();
-  const month = new Date().getMonth();
-  const day = new Date().getDate();
-  const hour = new Date().getHours();
-  const minute = new Date().getMinutes();
-  const second = new Date().getSeconds();
-  const date = `${year}-${month}-${day}-${hour}-${minute}-${second}`;
+
+  const userId = location?.state?.userId || history?.state?.state.userId;
+  const userPic = location?.state?.userPic || history?.state?.state.userPic;
+  const userName = location?.state?.userName || history?.state?.state.userName;
+  const userDate = location?.state?.userDate || history?.state?.state.userDate;
+
+  const time = {
+    year: new Date().getFullYear(),
+    month: new Date().getMonth(),
+    day: new Date().getDate(),
+    hour: new Date().getHours(),
+    minute: new Date().getMinutes(),
+    second: new Date().getSeconds(),
+  };
+
+  const date = `${time.year}-${time.month}-${time.day}-${time.hour}-${time.minute}-${time.second}`;
 
   console.log("id user depuis feed", userId);
 
@@ -60,7 +67,7 @@ const CreatePost = () => {
       console.log(data.message);
       history.push({
         pathname: "/feed",
-        state: { userId },
+        state: { userId, userPic, userName, userDate },
       });
     } catch (error) {
       console.log(error);
@@ -131,7 +138,10 @@ const CreatePost = () => {
       </form>
       <div className="flex flex-col items-center justify-center border">
         <Link
-          to="/feed"
+          to={{
+            pathname: "/feed",
+            state: { userId, userPic, userName, userDate },
+          }}
           className="h-12 w-12 flex items-center justify-center text-white p-2 rounded-full shadow-xl"
           style={{ backgroundColor: "#ef5350" }}
           disabled={false}

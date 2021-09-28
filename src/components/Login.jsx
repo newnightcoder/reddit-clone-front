@@ -40,8 +40,16 @@ const Login = () => {
         return;
       }
       console.log(data.message);
-      console.log(data.userId);
-      history.push({ pathname: "/feed", state: { userId: data.userId } });
+      console.log(data.user.id);
+      history.push({
+        pathname: "/feed",
+        state: {
+          userId: data.user.id,
+          userName: data.user.username,
+          userPic: data.user.picUrl,
+          userDate: data.user.creationDate,
+        },
+      });
     } catch (error) {
       console.log(error.message);
     }

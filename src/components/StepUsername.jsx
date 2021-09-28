@@ -18,6 +18,16 @@ const StepUsername = ({ userId }) => {
     } else setIsLong(false);
   };
 
+  const time = {
+    year: new Date().getFullYear(),
+    month: new Date().getMonth(),
+    day: new Date().getDate(),
+    hour: new Date().getHours(),
+    minute: new Date().getMinutes(),
+    second: new Date().getSeconds(),
+  };
+  const date = `${time.year}-${time.month}-${time.day}-${time.hour}-${time.minute}-${time.second}`;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -26,7 +36,7 @@ const StepUsername = ({ userId }) => {
         "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify({ userName, userId }),
+      body: JSON.stringify({ userName, userId, date }),
     };
     try {
       const response = await fetch(`${API_AUTH}/username`, request);
@@ -64,12 +74,8 @@ const StepUsername = ({ userId }) => {
       style={toNextStep}
     >
       <span
-        className="block w-max h-max py-2 px-3 border border-red-700 rounded"
-        style={
-          error
-            ? { visibility: "visible", whiteSpace: "pre", textAlign: "center" }
-            : { visibility: "hidden" }
-        }
+        className="whitespace-wrap w-screen h-max py-2 px-3 border border-red-700 rounded"
+        style={error ? { visibility: "visible" } : { visibility: "hidden" }}
       >
         {errorServer || errorDuplicate}
       </span>
@@ -96,7 +102,7 @@ const StepUsername = ({ userId }) => {
           </button>
         </form>
       </div>
-      <StepImage userId={userId} />
+      <StepImage userId={userId} userName={userName} userDate={date} />
     </div>
   );
 };

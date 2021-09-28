@@ -5,13 +5,13 @@ import logo from "../assets/logo2.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { API_AUTH } from "./API";
 
-const StepImage = ({ userId }) => {
+const StepImage = ({ userId, userName, userDate }) => {
   const [errorServer, setErrorServer] = useState("");
   // const [isImg, setIsImg] = useState(false);
   // const [fileName, setFileName] = useState(null);
   const [blob, setBlob] = useState(null);
   const [blobName, setBlobName] = useState(null);
-  const [picUrl, setPicUrl] = useState(null);
+  const [userPic, setUserPic] = useState(null);
   const [error, setError] = useState("");
   const history = useHistory();
   const file = useRef(null);
@@ -38,7 +38,7 @@ const StepImage = ({ userId }) => {
         setError(data.errorMsg);
         return;
       }
-      setPicUrl(data.picUrl);
+      setUserPic(data.picUrl);
     } catch (error) {
       console.log(error);
     }
@@ -71,7 +71,7 @@ const StepImage = ({ userId }) => {
           className="h-48 w-48 rounded-full border border-gray-600"
           style={{
             background: `url(${
-              picUrl !== null ? picUrl : picPlaceholder
+              userPic !== null ? userPic : picPlaceholder
             }) no-repeat center/cover`,
           }}
         ></div>
@@ -128,7 +128,7 @@ const StepImage = ({ userId }) => {
             <button
               className="w-max flex items-center gap-1 text-black font-bold border border-black p-2 rounded transform translate-y-2 transition transition-opacity duration-1000 shadow-xl"
               style={
-                picUrl == null
+                userPic == null
                   ? { opacity: 0, display: "none" }
                   : { opacity: 1, display: "flex", backgroundColor: "#ef5350" }
               }
@@ -139,8 +139,10 @@ const StepImage = ({ userId }) => {
                     pathname: "/feed",
                     state: {
                       new: true,
-                      picUrl,
+                      userPic,
+                      userName,
                       userId,
+                      userDate,
                     },
                   });
                 }, 1000);
@@ -161,7 +163,7 @@ const StepImage = ({ userId }) => {
         onClick={() => {
           history.push({
             pathname: "/feed",
-            state: { new: true },
+            state: { new: true, userName, userId, userDate },
           });
         }}
       >
