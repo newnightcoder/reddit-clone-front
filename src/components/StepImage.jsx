@@ -134,7 +134,6 @@ const StepImage = ({ userId, userName, userDate }) => {
               }
               onClick={() => {
                 setTimeout(() => {
-                  alert("Super! profil complet!");
                   history.push({
                     pathname: "/feed",
                     state: {
@@ -145,7 +144,7 @@ const StepImage = ({ userId, userName, userDate }) => {
                       userDate,
                     },
                   });
-                }, 1000);
+                }, 300);
               }}
             >
               c'est bon!{" "}

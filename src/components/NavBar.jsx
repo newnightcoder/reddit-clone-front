@@ -8,9 +8,9 @@ const NavBar = () => {
   const location = useLocation();
   const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
-  const userPic = location?.state?.userPic || history?.state?.state.userPic;
-  const userName = location?.state?.userName || history?.state?.state.userName;
-  const userDate = location?.state?.userDate || history?.state?.state.userDate;
+
+  const { userName, userPic, userId, userDate } =
+    location.state || history.state.state;
 
   console.log("state navbar", userPic, userName);
 
@@ -53,6 +53,7 @@ const NavBar = () => {
         userName={userName}
         userPic={userPic}
         userDate={userDate}
+        userId={userId}
       />
     </div>
   );

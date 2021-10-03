@@ -12,22 +12,12 @@ const Feed = () => {
   const location = useLocation();
   const history = useHistory();
   const isNewUser = location?.state?.new && true;
-  const userPic = location?.state?.userPic || history?.state?.state.userPic;
-  const userId = location?.state?.userId || history?.state?.state.userId;
-  const userName = location?.state?.userName || history?.state?.state.userName;
-  const userDate = location?.state?.userDate || history?.state?.state.userDate;
 
-  console.log(
-    "location state id:",
-    location?.state?.userId,
-    "location state pic:",
-    location?.state?.userPic
-  );
-  console.log(
-    "history state:",
-    history?.state?.state?.userId,
-    history?.state?.state?.userId
-  );
+  const { userName, userPic, userId, userDate } =
+    location.state || history.state.state;
+
+  console.log("location state id:", userId, "location state pic:", userPic);
+  console.log("history state:", userId, userId);
 
   const request = {
     method: "get",
@@ -42,7 +32,7 @@ const Feed = () => {
 
   useEffect(() => {
     fetchPosts();
-    // setuserPic(history?.state?.state.userPic);
+    // setuserPic(userPic);
   }, []);
 
   return (

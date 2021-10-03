@@ -22,10 +22,8 @@ const CreatePost = () => {
   const location = useLocation();
   const history = useHistory();
 
-  const userId = location?.state?.userId || history?.state?.state.userId;
-  const userPic = location?.state?.userPic || history?.state?.state.userPic;
-  const userName = location?.state?.userName || history?.state?.state.userName;
-  const userDate = location?.state?.userDate || history?.state?.state.userDate;
+  const { userName, userPic, userId, userDate } =
+    location.state || history.state.state;
 
   const time = {
     year: new Date().getFullYear(),
