@@ -2,17 +2,17 @@ import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
 import { formatDistanceToNowStrict } from "date-fns";
 import fr from "date-fns/locale/fr";
 import React, { useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 import logo2 from "../assets/logo2.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { API_AUTH } from "./API/index";
 
-const Menu = ({ isOpen, userId, userName, userPic, userDate }) => {
+const Menu = ({ isOpen }) => {
   const [blob, setBlob] = useState(null);
   const [blobName, setBlobName] = useState(null);
   const [newPic, setNewPic] = useState("");
   const file = useRef(null);
-  const history = useHistory;
+  const user = useSelector((state) => state.user);
 
   const formatTimestamp = (date) => {
     const convertedDate = {
@@ -40,7 +40,7 @@ const Menu = ({ isOpen, userId, userName, userPic, userDate }) => {
     console.log("FILE!!!", file.current.files[0]);
     const formData = new FormData();
     formData.append("userBlob", blob);
-    formData.append("userId", userId);
+    formData.append("userId", user.id);
     const request = {
       headers: {
         // "Content-Type": "multipart/form-data",
@@ -72,8 +72,8 @@ const Menu = ({ isOpen, userId, userName, userPic, userDate }) => {
           <div
             className="w-40 h-40 rounded-full border border-gray-400"
             style={
-              newPic === "" && userPic
-                ? { background: `url(${userPic}) no-repeat center/cover` }
+              newPic === "" && user.picUrl
+                ? { background: `url(${user.picUrl}) no-repeat center/cover` }
                 : newPic !== ""
                 ? { background: `url(${newPic}) no-repeat center/cover` }
                 : {
@@ -83,13 +83,13 @@ const Menu = ({ isOpen, userId, userName, userPic, userDate }) => {
           ></div>
         </div>
         <div className="username-member h-max w-full flex flex-col items-center justify-start">
-          <span className="text-xl font-bold capitalize">{userName}</span>
+          <span className="text-xl font-bold capitalize">{user.username}</span>
           <span className="block italic flex items-center justify-center gap-1">
             <span
               className="block w-6 h-6 rounded-full outline-none transform translate-y-px"
               style={{ background: `url(${logo2}) no-repeat center/cover` }}
             ></span>
-            membre depuis {formatTimestamp(userDate)}
+            membre depuis {formatTimestamp(user.creationDate)}
           </span>
         </div>
       </div>
@@ -106,7 +106,7 @@ const Menu = ({ isOpen, userId, userName, userPic, userDate }) => {
             style={{ backgroundColor: "#ef5350" }}
             htmlFor="file"
           >
-            {newPic === "" || userPic === null
+            {newPic === "" || user.picUrl === null
               ? "choisir une photo de profil"
               : "changer la photo de profil"}
           </label>
@@ -148,12 +148,12 @@ const Menu = ({ isOpen, userId, userName, userPic, userDate }) => {
             <button
               className="w-max flex items-center gap-1 text-black font-bold border border-black p-2 rounded transform translate-y-2 transition transition-opacity duration-1000 shadow-xl"
               style={
-                userPic == null
+                user.picUrl == null
                   ? { opacity: 0, display: "none" }
                   : { opacity: 1, display: "flex", backgroundColor: "#ef5350" }
               }
               onClick={() => {
-                console.log(userPic);
+                console.log(user.picUrl);
               }}
             >
               valider

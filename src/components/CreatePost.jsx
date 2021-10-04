@@ -10,20 +10,16 @@ import {
   XLg,
   Youtube,
 } from "react-bootstrap-icons";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import { API_POST } from "./API";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty()
-  );
-  const location = useLocation();
+  const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
+  const userId = useSelector((state) => state.user.id);
   const history = useHistory();
-
-  const { userName, userPic, userId, userDate } =
-    location.state || history.state.state;
 
   const time = {
     year: new Date().getFullYear(),
@@ -33,10 +29,7 @@ const CreatePost = () => {
     minute: new Date().getMinutes(),
     second: new Date().getSeconds(),
   };
-
   const date = `${time.year}-${time.month}-${time.day}-${time.hour}-${time.minute}-${time.second}`;
-
-  console.log("id user depuis feed", userId);
 
   const handleTitleInput = (e) => {
     setTitle(e.currentTarget.value);
@@ -65,7 +58,7 @@ const CreatePost = () => {
       console.log(data.message);
       history.push({
         pathname: "/feed",
-        state: { userId, userPic, userName, userDate },
+        // state: { userId, userPic, userName, userDate },
       });
     } catch (error) {
       console.log(error);
@@ -136,10 +129,7 @@ const CreatePost = () => {
       </form>
       <div className="flex flex-col items-center justify-center border">
         <Link
-          to={{
-            pathname: "/feed",
-            state: { userId, userPic, userName, userDate },
-          }}
+          to={"/feed"}
           className="h-12 w-12 flex items-center justify-center text-white p-2 rounded-full shadow-xl"
           style={{ backgroundColor: "#ef5350" }}
           disabled={false}

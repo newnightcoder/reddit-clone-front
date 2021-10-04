@@ -20,13 +20,8 @@ const SignupForm = ({
 }) => {
   const displayCheck = (bool) => {
     if (bool) {
-      return (
-        <CheckIcon className="h-3 w-3 text-green-900 transform translate-y-0.5" />
-      );
-    } else
-      return (
-        <XIcon className="h-3 w-3 text-gray-800 transform translate-y-0.5" />
-      );
+      return <CheckIcon className="h-3 w-3 text-green-900 transform translate-y-0.5" />;
+    } else return <XIcon className="h-3 w-3 text-gray-800 transform translate-y-0.5" />;
   };
 
   const toNextStep = isCreated
@@ -56,14 +51,9 @@ const SignupForm = ({
       className="h-screen w-screen bg-red-100 flex flex-col items-center justify-center gap-1 transition-transform duration-500 delay-300 relative"
       style={toNextStep}
     >
-      <h2 className="text-center uppercase">
-        Rejoignez la communauté Groupomomania!
-      </h2>
-      <div
-        className="w-full flex items-center justify-center"
-        style={{ height: "15vh" }}
-      >
-        <span
+      <h2 className="text-center uppercase">Rejoignez la communauté Groupomomania!</h2>
+      <div className="w-full flex items-center justify-center" style={{ height: "15vh" }}>
+        {/* <span
           className="block w-max h-max py-2 px-3 border border-red-700 rounded"
           style={
             errorServer !== ""
@@ -74,7 +64,7 @@ const SignupForm = ({
           }
         >
           {errorServer || errorDuplicate}
-        </span>
+        </span> */}
       </div>
       <form
         method="post"
@@ -199,10 +189,7 @@ const SignupForm = ({
       </form>
       <div className="w-4/5 md:w-96 border-t border-black transform translate-y-12 md:translate-y-16 py-2 flex items-center justify-center gap-2">
         J'ai déjà un compte!{" "}
-        <Link
-          to="/login"
-          className="font-bold underline uppercase text-red-600"
-        >
+        <Link to="/login" className="font-bold underline uppercase text-red-600">
           Se connecter
         </Link>
       </div>

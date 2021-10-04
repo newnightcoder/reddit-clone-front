@@ -1,6 +1,8 @@
 import { PaperAirplaneIcon, RefreshIcon } from "@heroicons/react/solid";
 import React, { useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
+import { useHistory } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { API_POST } from "./API";
@@ -9,15 +11,10 @@ import PostSkeleton from "./PostSkeleton";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
-  const location = useLocation();
+  const user = useSelector((state) => state.user);
   const history = useHistory();
-  const isNewUser = location?.state?.new && true;
-
-  const { userName, userPic, userId, userDate } =
-    location.state || history.state.state;
-
-  console.log("location state id:", userId, "location state pic:", userPic);
-  console.log("history state:", userId, userId);
+  const location = useLocation();
+  const [isNewUser, setIsNewUser] = useState(false);
 
   const request = {
     method: "get",
@@ -29,6 +26,10 @@ const Feed = () => {
     setPosts(data.posts);
     // setIsLoading(false);
   };
+
+  useEffect(() => {
+    setIsNewUser(location?.state || history?.state?.state);
+  }, []);
 
   useEffect(() => {
     fetchPosts();
@@ -43,14 +44,14 @@ const Feed = () => {
       <div className="bienvenueMsg-newcomer text-center whitespace-pre">
         {isNewUser ? (
           <>
-            Bienvenue <span className="capitalize">{userName}!</span>
+            Bienvenue <span className="capitalize">{user.username}!</span>
             <br />
             Échangez entre collègues.
           </>
         ) : (
           <>
             Content de vous revoir&nbsp;
-            <span className="capitalize">{userName}!</span>
+            <span className="capitalize">{user.username}!</span>
           </>
         )}
       </div>
@@ -60,8 +61,7 @@ const Feed = () => {
           onClick={() => fetchPosts()}
           style={{ display: posts.length !== 0 ? "flex" : "none" }}
         >
-          <RefreshIcon className="h-4 w-4" />{" "}
-          <span className="text-xs">rafraîchir</span>
+          <RefreshIcon className="h-4 w-4" /> <span className="text-xs">rafraîchir</span>
         </button>
         <div className="posts-wrapper h-full w-full flex flex-col items-center justify-center gap-4 py-4">
           {posts !== null ? (
@@ -82,8 +82,8 @@ const Feed = () => {
             <div
               className="w-10 h-10 rounded-full border border-gray-600"
               style={
-                userPic
-                  ? { background: `url(${userPic}) no-repeat center/cover` }
+                user.picUrl
+                  ? { background: `url(${user.picUrl}) no-repeat center/cover` }
                   : {
                       background: `url(${picPlaceholder}) no-repeat center/cover`,
                     }
@@ -95,15 +95,7 @@ const Feed = () => {
               placeholder="Exprimez-vous..."
               onClick={() =>
                 setTimeout(() => {
-                  history.push({
-                    pathname: "/create",
-                    state: {
-                      userPic,
-                      userId,
-                      userName,
-                      userDate,
-                    },
-                  });
+                  history.push("/create");
                 }, 250)
               }
             />

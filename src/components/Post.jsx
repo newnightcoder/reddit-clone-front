@@ -1,15 +1,12 @@
-// import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
-import { formatDistanceToNowStrict } from "date-fns";
+import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 import fr from "date-fns/locale/fr";
 import React from "react";
-import {
-  ChatRight,
-  HandThumbsUp,
-  ThreeDotsVertical,
-} from "react-bootstrap-icons";
+import { ChatRight, HandThumbsUp, ThreeDotsVertical } from "react-bootstrap-icons";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 
 const Post = ({ post }) => {
+  const { title, text, username, picUrl, date } = post;
+
   const formatTimestamp = (date) => {
     const convertedDate = {
       year: date.split("-")[0],
@@ -38,8 +35,8 @@ const Post = ({ post }) => {
           <div
             className="avatar-container w-11 h-11 rounded-full border border-gray-300"
             style={
-              post.picUrl
-                ? { background: `url(${post.picUrl}) no-repeat center/cover` }
+              picUrl
+                ? { background: `url(${picUrl}) no-repeat center/cover` }
                 : {
                     background: `url(${picPlaceholder}) no-repeat center/cover`,
                   }
@@ -51,15 +48,15 @@ const Post = ({ post }) => {
             <div className="username-date w-full flex items-center justify-between gap-2">
               <div className="capitalize">
                 <span className="text-xs">@</span>
-                {post.username}
+                {username}
               </div>
-              <div className="text-xs italic">{formatTimestamp(post.date)}</div>
+              <div className="text-xs italic">{formatTimestamp(date)}</div>
             </div>
-            <div className="title font-bold">{post.title}</div>
+            <div className="title font-bold">{title}</div>
           </div>
         </div>
       </div>
-      <div className="text w-full text-left px-3 py-2 text-sm">{post.text}</div>
+      <div className="text w-full text-left px-3 py-2 text-sm">{text}</div>
       <div className="bottom w-full flex items-center justify-end px-2 py-2 border-t">
         <div className="icons-container w-max flex items-center justify-end gap-4 text-xs">
           <div className="w-max flex items-center justify-center gap-1">

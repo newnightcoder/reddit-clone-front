@@ -3,11 +3,11 @@ import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import logo from "../assets/logo2.svg";
 import { logUser } from "../store/actions/user.action";
-import { API_AUTH } from "./API/index";
+// import { API_AUTH } from "./API/index";
 
 const Login = () => {
-  const [userEmail, setUserEmail] = useState("");
-  const [userPass, setUserPass] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const history = useHistory();
 
@@ -15,41 +15,26 @@ const Login = () => {
   /* eslint no-control-regex: 0 */
   const emailRegex =
     /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
-  const isEmail = emailRegex.test(userEmail);
+  const isEmail = emailRegex.test(email);
 
   const handleEmail = (e) => {
-    setUserEmail(e.currentTarget.value);
+    setEmail(e.currentTarget.value);
   };
   const handlePass = (e) => {
-    setUserPass(e.currentTarget.value);
+    setPassword(e.currentTarget.value);
   };
 
   const handleUserSubmit = async (e) => {
     e.preventDefault();
-    const request = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({
-        userEmail,
-        userPass,
-      }),
-    };
-
-    try {
-      const response = await fetch(`${API_AUTH}/login`, request);
-      const data = await response.json();
-      if (response.status !== 200) {
-        console.log("error", data.message);
-        return;
-      }
-      console.log(data.message);
-      console.log(data.user);
-      dispatch(logUser(data.user));
-    } catch (error) {
-      console.log(error.message);
-    }
+    dispatch(logUser(email, password));
+    setTimeout(() => {
+      history.push({
+        pathname: "/feed",
+        state: {
+          isNewUser: false,
+        },
+      });
+    }, 300);
   };
 
   return (
@@ -61,15 +46,10 @@ const Login = () => {
         <span>Content de vous revoir </span>
         <span>sur Groupomania!</span>
       </h2>
-      <div
-        className="w-full flex items-center justify-center"
-        style={{ height: "15vh" }}
-      >
+      <div className="w-full flex items-center justify-center" style={{ height: "15vh" }}>
         <span
           className="w-max h-max whitespace-pre py-2 px-3 text-center border border-red-700 rounded"
-          style={
-            error === "" ? { visibility: "hidden" } : { visibility: "visible" }
-          }
+          style={error === "" ? { visibility: "hidden" } : { visibility: "visible" }}
         >
           {error !== "" && error}
         </span>
@@ -100,17 +80,14 @@ const Login = () => {
         <button
           className="w-48 text-white p-2 rounded transform translate-y-2 disabled:opacity-50 shadow-xl"
           style={{ backgroundColor: "#ef5350" }}
-          disabled={!isEmail || userPass.length < 8 ? true : false}
+          disabled={!isEmail || password.length < 8 ? true : false}
         >
           valider
         </button>
       </form>
       <div className="w-4/5 md:w-96 text-center border-t border-black transform translate-y-12 md:translate-y-16 py-2 flex flex-col items-center justify-center gap-1 md:flex-row md:gap-2">
         Première fois sur Groupomania?{" "}
-        <Link
-          to="/signup"
-          className="font-bold underline uppercase text-red-600"
-        >
+        <Link to="/signup" className="font-bold underline uppercase text-red-600">
           S'inscrire
         </Link>
       </div>

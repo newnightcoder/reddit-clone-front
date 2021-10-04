@@ -1,47 +1,27 @@
 import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
 import { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import logo from "../assets/logo2.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { API_AUTH } from "./API";
+import { saveUserPic } from "../store/actions/user.action";
 
-const StepImage = ({ userId, userName, userDate }) => {
+const StepImage = () => {
   const [errorServer, setErrorServer] = useState("");
   // const [isImg, setIsImg] = useState(false);
   // const [fileName, setFileName] = useState(null);
   const [blob, setBlob] = useState(null);
   const [blobName, setBlobName] = useState(null);
-  const [userPic, setUserPic] = useState(null);
   const [error, setError] = useState("");
-  const history = useHistory();
   const file = useRef(null);
+  const { id, picUrl } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleImgSubmit = async (e) => {
     e.preventDefault();
     console.log("FILE!!!", file.current.files[0]);
-    const formData = new FormData();
-    formData.append("userBlob", blob);
-    formData.append("userId", userId);
-    const request = {
-      headers: {
-        // "Content-Type": "multipart/form-data",
-        "Access-Control-Allow-Origin": "*",
-      },
-      method: "POST",
-      body: formData,
-    };
-
-    try {
-      const response = await fetch(`${API_AUTH}/userpic`, request);
-      const data = await response.json();
-      if (response.status !== 200) {
-        setError(data.errorMsg);
-        return;
-      }
-      setUserPic(data.picUrl);
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(saveUserPic(blob, id));
   };
 
   return (
@@ -58,11 +38,7 @@ const StepImage = ({ userId, userName, userDate }) => {
       </h2>
       <span
         className="w-max h-max whitespace-pre py-2 px-3 text-center border border-red-700 rounded"
-        style={
-          errorServer === ""
-            ? { visibility: "hidden" }
-            : { visibility: "visible" }
-        }
+        style={errorServer === "" ? { visibility: "hidden" } : { visibility: "visible" }}
       >
         {errorServer !== "" && errorServer}
       </span>
@@ -71,7 +47,7 @@ const StepImage = ({ userId, userName, userDate }) => {
           className="h-48 w-48 rounded-full border border-gray-600"
           style={{
             background: `url(${
-              userPic !== null ? userPic : picPlaceholder
+              picUrl !== "" ? picUrl : picPlaceholder
             }) no-repeat center/cover`,
           }}
         ></div>
@@ -128,22 +104,13 @@ const StepImage = ({ userId, userName, userDate }) => {
             <button
               className="w-max flex items-center gap-1 text-black font-bold border border-black p-2 rounded transform translate-y-2 transition transition-opacity duration-1000 shadow-xl"
               style={
-                userPic == null
+                picUrl === ""
                   ? { opacity: 0, display: "none" }
                   : { opacity: 1, display: "flex", backgroundColor: "#ef5350" }
               }
               onClick={() => {
                 setTimeout(() => {
-                  history.push({
-                    pathname: "/feed",
-                    state: {
-                      new: true,
-                      userPic,
-                      userName,
-                      userId,
-                      userDate,
-                    },
-                  });
+                  history.push("/feed");
                 }, 300);
               }}
             >
@@ -162,7 +129,7 @@ const StepImage = ({ userId, userName, userDate }) => {
         onClick={() => {
           history.push({
             pathname: "/feed",
-            state: { new: true, userName, userId, userDate },
+            state: { isNewUser: true },
           });
         }}
       >

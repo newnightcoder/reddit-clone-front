@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { API_AUTH } from "./API";
+import { useDispatch } from "react-redux";
+import { createUser } from "../store/actions/user.action";
 import SignupForm from "./SignupForm";
 
 const Signup = () => {
@@ -11,9 +12,10 @@ const Signup = () => {
   const [isNumber, setIsNumber] = useState(false);
   const [isLong, setIsLong] = useState(false);
   const [isCreated, setIsCreated] = useState(false);
-  const [errorServer, setErrorServer] = useState("");
-  const [errorDuplicate, setErrorDuplicate] = useState("");
-  const [userId, setUserId] = useState(null);
+  const dispatch = useDispatch();
+  // const [errorServer, setErrorServer] = useState("");
+  // const [errorDuplicate, setErrorDuplicate] = useState("");
+  // const [userId, setUserId] = useState(null);
 
   /* eslint no-control-regex: 0 */
   const emailRegex =
@@ -58,34 +60,10 @@ const Signup = () => {
 
   const handleNewUserSubmit = async (e) => {
     e.preventDefault();
-    const request = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({
-        newUserEmail,
-        newUserPass,
-      }),
-    };
-    try {
-      const response = await fetch(`${API_AUTH}/signup`, request);
-      const data = await response.json();
-      console.log("data", response);
-      if (data.errorNumber === 1062) {
-        setErrorDuplicate(data.errorMsg);
-        return;
-      }
-      if (!data.errorNumber && response.status !== 201) {
-        setErrorServer(data.errorMsg);
-        return;
-      }
-      console.log("user ID:", data.userId);
-      setUserId(data.userId);
+    dispatch(createUser(newUserEmail, newUserPass));
+    setTimeout(() => {
       setIsCreated(true);
-    } catch (error) {
-      console.log(error);
-    }
+    }, 250);
   };
 
   return (
@@ -100,9 +78,9 @@ const Signup = () => {
         handleNewPass={handleNewPass}
         handleNewUserSubmit={handleNewUserSubmit}
         isCreated={isCreated}
-        errorDuplicate={errorDuplicate}
-        errorServer={errorServer}
-        userId={userId}
+        // errorDuplicate={errorDuplicate}
+        // errorServer={errorServer}
+        // userId={userId}
       />
     </div>
   );

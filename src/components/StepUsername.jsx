@@ -1,14 +1,17 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import logo from "../assets/logo2.svg";
-import { API_AUTH } from "./API/index";
+import { saveUserName } from "../store/actions/user.action";
 import StepImage from "./StepImage";
 
-const StepUsername = ({ userId }) => {
+const StepUsername = () => {
   const [userName, setUserName] = useState("");
   const [isLong, setIsLong] = useState(false);
   const [errorServer, setErrorServer] = useState("");
   const [errorDuplicate, setErrorDuplicate] = useState("");
   const [isCreated, setIsCreated] = useState(false);
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.user.id);
 
   const handleInput = (e) => {
     setUserName(e.currentTarget.value);
@@ -30,30 +33,8 @@ const StepUsername = ({ userId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const request = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({ userName, userId, date }),
-    };
-    try {
-      const response = await fetch(`${API_AUTH}/username`, request);
-      const data = await response.json();
-      console.log("error number", data.errorNumber);
-      if (data.errorNumber === 1062) {
-        setErrorDuplicate(data.errorMsg);
-        return;
-      }
-      if (!data.errorNumber && response.status !== 200) {
-        setErrorServer(data.errorMsg);
-        return;
-      }
-      setIsCreated(true);
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(saveUserName(userName, userId, date));
+    setIsCreated(true);
   };
 
   const toNextStep = isCreated
@@ -102,7 +83,7 @@ const StepUsername = ({ userId }) => {
           </button>
         </form>
       </div>
-      <StepImage userId={userId} userName={userName} userDate={date} />
+      <StepImage />
     </div>
   );
 };

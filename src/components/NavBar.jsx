@@ -1,18 +1,11 @@
 import { MenuIcon, SearchIcon } from "@heroicons/react/solid";
 import React, { useState } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo4 from "../assets/logo4.svg";
 import { Menu, Overlay } from "./index";
 
 const NavBar = () => {
-  const location = useLocation();
-  const history = useHistory();
   const [isOpen, setIsOpen] = useState(false);
-
-  const { userName, userPic, userId, userDate } =
-    location.state || history.state.state;
-
-  console.log("state navbar", userPic, userName);
 
   const toggleMenu = () => {
     return setIsOpen((isOpen) => !isOpen);
@@ -48,13 +41,7 @@ const NavBar = () => {
         </button>
       </div>
       <Overlay isOpen={isOpen} close={closeMenu} />
-      <Menu
-        isOpen={isOpen}
-        userName={userName}
-        userPic={userPic}
-        userDate={userDate}
-        userId={userId}
-      />
+      <Menu isOpen={isOpen} />
     </div>
   );
 };
