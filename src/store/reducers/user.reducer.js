@@ -7,10 +7,21 @@ const initialState = {
   username: "",
   picUrl: "",
   creationDate: "",
+  error: "",
 };
 
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionType.CLEAR_ERROR:
+      return {
+        ...state,
+        error: "",
+      };
+    case actionType.SET_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+      };
     case actionType.LOG_USER: {
       console.log("payload reducer", action.payload);
       const { id, email, password, username, picUrl, creationDate } = action.payload;

@@ -127,7 +127,7 @@ const CreatePost = () => {
           </button>{" "}
         </div>
       </form>
-      <div className="flex flex-col items-center justify-center border">
+      <div className="flex flex-col items-center justify-center rounded-full">
         <Link
           to={"/feed"}
           className="h-12 w-12 flex items-center justify-center text-white p-2 rounded-full shadow-xl"

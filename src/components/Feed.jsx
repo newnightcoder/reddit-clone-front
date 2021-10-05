@@ -11,10 +11,10 @@ import PostSkeleton from "./PostSkeleton";
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
+  const [isNewUser, setIsNewUser] = useState(false);
   const user = useSelector((state) => state.user);
   const history = useHistory();
   const location = useLocation();
-  const [isNewUser, setIsNewUser] = useState(false);
 
   const request = {
     method: "get",
@@ -38,7 +38,7 @@ const Feed = () => {
 
   return (
     <div
-      className="feed-container min-h-screen w-screen flex flex-col items-center justify-start bg-red-300 relative pt-2"
+      className="feed-container min-h-screen w-screen flex flex-col items-center justify-start bg-red-300 relative pt-3"
       style={{ background: `url(${logo}) no-repeat fixed center/250%` }}
     >
       <div className="bienvenueMsg-newcomer text-center whitespace-pre">
@@ -57,13 +57,13 @@ const Feed = () => {
       </div>
       <div className="posts-section-container w-screen flex flex-col items-center justify-center pt-4 pb-20 relative">
         <button
-          className="refreshBtn outline-none gap-1 items-center justify-center absolute right-5 top-0 mt-2"
+          className="refreshBtn outline-none gap-1 items-center justify-center absolute right-5 top-0 mt-3"
           onClick={() => fetchPosts()}
           style={{ display: posts.length !== 0 ? "flex" : "none" }}
         >
           <RefreshIcon className="h-4 w-4" /> <span className="text-xs">rafraîchir</span>
         </button>
-        <div className="posts-wrapper h-full w-full flex flex-col items-center justify-center gap-4 py-4">
+        <div className="posts-wrapper h-full w-full flex flex-col items-center justify-center gap-4 py-6">
           {posts !== null ? (
             posts.map((post) => <Post key={post.postId} post={post} />)
           ) : (

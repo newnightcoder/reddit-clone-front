@@ -1,11 +1,21 @@
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 import fr from "date-fns/locale/fr";
-import React from "react";
-import { ChatRight, HandThumbsUp, ThreeDotsVertical } from "react-bootstrap-icons";
+import React, { useState } from "react";
+import {
+  ChatRight,
+  HandThumbsUp,
+  HandThumbsUpFill,
+  ThreeDotsVertical,
+} from "react-bootstrap-icons";
+import { useSelector } from "react-redux";
 import picPlaceholder from "../assets/pic_placeholder.svg";
+import { API_POST } from "./API";
 
 const Post = ({ post }) => {
   const { title, text, username, picUrl, date } = post;
+  const [like, setLike] = useState(false);
+  const postId = post.postId;
+  const userId = useSelector((state) => state.user.id);
 
   const formatTimestamp = (date) => {
     const convertedDate = {
@@ -26,6 +36,21 @@ const Post = ({ post }) => {
       ),
       { addSuffix: true, locale: fr }
     );
+  };
+
+  const postLike = async (postId, userId) => {
+    const request = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({ postId, userId }),
+    };
+    const response = await fetch(`${API_POST}/like`, request);
+    const data = await response.json();
+    console.log(data);
+    if (response.status !== 200) return;
+    setLike(true);
   };
 
   return (
@@ -64,7 +89,9 @@ const Post = ({ post }) => {
             <span>Commenter</span>
           </div>
           <div className="w-max flex items-center justify-center gap-1">
-            <HandThumbsUp />
+            <button className="outline-none" onClick={() => postLike(postId, userId)}>
+              {!like ? <HandThumbsUp /> : <HandThumbsUpFill />}
+            </button>
             <span>Liker</span>
           </div>
           <div className="w-max flex items-center justify-center gap-1">

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import logo from "../assets/logo2.svg";
 import { logUser } from "../store/actions/user.action";
@@ -8,8 +8,18 @@ import { logUser } from "../store/actions/user.action";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [newError, setNewError] = useState("");
   const history = useHistory();
+  const store = useStore();
+
+  let error = useSelector((state) => state.user.error);
+  console.log("error depuis login, avec useEffect", error);
+
+  useEffect(() => {
+    error = store.getState().user.error;
+    setNewError(error);
+    // console.log("error dans useEffect", error);
+  }, [error]);
 
   const dispatch = useDispatch();
   /* eslint no-control-regex: 0 */
@@ -24,17 +34,18 @@ const Login = () => {
     setPassword(e.currentTarget.value);
   };
 
-  const handleUserSubmit = async (e) => {
+  const toFeed = () => {
+    setTimeout(() => {
+      history.push({ pathname: "/feed", state: { isNewUser: false } });
+    }, 2000);
+  };
+
+  const handleUserSubmit = (e) => {
     e.preventDefault();
     dispatch(logUser(email, password));
-    setTimeout(() => {
-      history.push({
-        pathname: "/feed",
-        state: {
-          isNewUser: false,
-        },
-      });
-    }, 300);
+    if (newError || newError.length !== 0) return;
+    console.log("newError in handleSubmit", newError);
+    toFeed();
   };
 
   return (
@@ -49,9 +60,13 @@ const Login = () => {
       <div className="w-full flex items-center justify-center" style={{ height: "15vh" }}>
         <span
           className="w-max h-max whitespace-pre py-2 px-3 text-center border border-red-700 rounded"
-          style={error === "" ? { visibility: "hidden" } : { visibility: "visible" }}
+          style={
+            !newError || newError?.length === 0
+              ? { visibility: "hidden" }
+              : { visibility: "visible" }
+          }
         >
-          {error !== "" && error}
+          {newError?.length !== 0 && newError}
         </span>
       </div>
       <form

@@ -2,17 +2,18 @@ import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
 import { formatDistanceToNowStrict } from "date-fns";
 import fr from "date-fns/locale/fr";
 import React, { useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import logo2 from "../assets/logo2.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { API_AUTH } from "./API/index";
+import { saveUserPic } from "../store/actions/user.action";
 
 const Menu = ({ isOpen }) => {
   const [blob, setBlob] = useState(null);
   const [blobName, setBlobName] = useState(null);
   const [newPic, setNewPic] = useState("");
   const file = useRef(null);
-  const user = useSelector((state) => state.user);
+  const { id, picUrl, username, creationDate } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const formatTimestamp = (date) => {
     const convertedDate = {
@@ -37,29 +38,7 @@ const Menu = ({ isOpen }) => {
 
   const handleImgSubmit = async (e) => {
     e.preventDefault();
-    console.log("FILE!!!", file.current.files[0]);
-    const formData = new FormData();
-    formData.append("userBlob", blob);
-    formData.append("userId", user.id);
-    const request = {
-      headers: {
-        // "Content-Type": "multipart/form-data",
-        "Access-Control-Allow-Origin": "*",
-      },
-      method: "POST",
-      body: formData,
-    };
-
-    try {
-      const response = await fetch(`${API_AUTH}/userpic`, request);
-      const data = await response.json();
-      if (response.status !== 200) {
-        return;
-      }
-      setNewPic(data.picUrl);
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(saveUserPic(blob, id));
   };
 
   return (
@@ -72,10 +51,8 @@ const Menu = ({ isOpen }) => {
           <div
             className="w-40 h-40 rounded-full border border-gray-400"
             style={
-              newPic === "" && user.picUrl
-                ? { background: `url(${user.picUrl}) no-repeat center/cover` }
-                : newPic !== ""
-                ? { background: `url(${newPic}) no-repeat center/cover` }
+              picUrl
+                ? { background: `url(${picUrl}) no-repeat center/cover` }
                 : {
                     background: `url(${picPlaceholder}) no-repeat center/cover`,
                   }
@@ -83,13 +60,13 @@ const Menu = ({ isOpen }) => {
           ></div>
         </div>
         <div className="username-member h-max w-full flex flex-col items-center justify-start">
-          <span className="text-xl font-bold capitalize">{user.username}</span>
+          <span className="text-xl font-bold capitalize">{username}</span>
           <span className="block italic flex items-center justify-center gap-1">
             <span
               className="block w-6 h-6 rounded-full outline-none transform translate-y-px"
               style={{ background: `url(${logo2}) no-repeat center/cover` }}
             ></span>
-            membre depuis {formatTimestamp(user.creationDate)}
+            membre depuis {formatTimestamp(creationDate)}
           </span>
         </div>
       </div>
@@ -106,9 +83,7 @@ const Menu = ({ isOpen }) => {
             style={{ backgroundColor: "#ef5350" }}
             htmlFor="file"
           >
-            {newPic === "" || user.picUrl === null
-              ? "choisir une photo de profil"
-              : "changer la photo de profil"}
+            {picUrl === "" ? "choisir une photo de profil" : "changer la photo de profil"}
           </label>
 
           <div className="flex items-center ">
@@ -128,9 +103,7 @@ const Menu = ({ isOpen }) => {
               {blobName !== null ? (
                 blobName
               ) : (
-                <span className="italic text-xs">
-                  Aucune photo pour le moment.
-                </span>
+                <span className="italic text-xs">Aucune photo pour le moment.</span>
               )}
             </div>
           </div>
@@ -139,8 +112,8 @@ const Menu = ({ isOpen }) => {
               className="text-white text-sm p-2 border border-red-500 rounded transform translate-y-2 transition transition-opacity duration-1000 shadow-xl"
               style={
                 blobName == null
-                  ? { opacity: 0 }
-                  : { opacity: 1, backgroundColor: "#ef5350" }
+                  ? { visibility: "hidden", opacity: 0 }
+                  : { visibility: "visible", opacity: 1, backgroundColor: "#ef5350" }
               }
             >
               voir l'aperçu
@@ -148,12 +121,12 @@ const Menu = ({ isOpen }) => {
             <button
               className="w-max flex items-center gap-1 text-black font-bold border border-black p-2 rounded transform translate-y-2 transition transition-opacity duration-1000 shadow-xl"
               style={
-                user.picUrl == null
+                blobName === null
                   ? { opacity: 0, display: "none" }
                   : { opacity: 1, display: "flex", backgroundColor: "#ef5350" }
               }
               onClick={() => {
-                console.log(user.picUrl);
+                console.log(picUrl);
               }}
             >
               valider

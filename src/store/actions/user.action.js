@@ -1,6 +1,19 @@
 import { API_AUTH } from "../../components/API/index";
 import { actionType } from "../constants.js";
 
+// export const clearError = (error) => (dispatch) => {
+//   dispatch({
+//     type: actionType.CLEAR_ERROR,
+//     payload: (error = ""),
+//   });
+// };
+// export const setError = (error) => (dispatch) => {
+//   dispatch({
+//     type: actionType.SET_ERROR,
+//     payload: error,
+//   });
+// };
+
 export const logUser = (email, password) => async (dispatch) => {
   const request = {
     headers: {
@@ -9,19 +22,27 @@ export const logUser = (email, password) => async (dispatch) => {
     method: "POST",
     body: JSON.stringify({ email, password }),
   };
+
+  dispatch({
+    type: actionType.CLEAR_ERROR,
+  });
+
   try {
     const response = await fetch(`${API_AUTH}/login`, request);
-    const { message, user } = await response.json();
+    const { error, user } = await response.json();
     if (response.status !== 200) {
-      console.log("error", message);
+      dispatch({
+        type: actionType.SET_ERROR,
+        payload: error,
+      });
       return;
     }
     dispatch({
       type: actionType.LOG_USER,
       payload: user,
     });
-  } catch (error) {
-    console.log(error.message);
+  } catch (err) {
+    console.log(err.message);
   }
 };
 
