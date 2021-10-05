@@ -1,7 +1,6 @@
 import { PaperAirplaneIcon, RefreshIcon } from "@heroicons/react/solid";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router";
 import { useHistory } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
@@ -10,16 +9,16 @@ import { Post } from "./index";
 import PostSkeleton from "./PostSkeleton";
 
 const Feed = () => {
-  const [isNewUser, setIsNewUser] = useState(false);
+  const [newUser, setNewUser] = useState(false);
+  const isNewUser = useSelector((state) => state.user.isNewUser);
   const user = useSelector((state) => state.user);
   const posts = useSelector((state) => state.posts);
   const history = useHistory();
-  const location = useLocation();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setIsNewUser(location?.state || history?.state?.state);
-  }, []);
+    setNewUser(isNewUser);
+  }, [isNewUser]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -33,18 +32,18 @@ const Feed = () => {
       style={{ background: `url(${logo}) no-repeat fixed center/250%` }}
     >
       <div className="bienvenueMsg-newcomer text-center whitespace-pre mb-2">
-        {isNewUser ? (
+        {newUser ? (
           <>
             Bienvenue <span className="capitalize">{user.username}!</span>
             <br />
             Échangez entre collègues.
           </>
-        ) : (
+        ) : !newUser ? (
           <>
             Content de vous revoir&nbsp;
             <span className="capitalize">{user.username}!</span>
           </>
-        )}
+        ) : null}
       </div>
       <div className="posts-section-container w-full flex flex-col items-center justify-center pt-3 pb-20 relative">
         <button

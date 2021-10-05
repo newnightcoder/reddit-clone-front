@@ -10,7 +10,6 @@ import { saveUserPic } from "../store/actions/user.action";
 const Menu = ({ isOpen }) => {
   const [blob, setBlob] = useState(null);
   const [blobName, setBlobName] = useState(null);
-  const [newPic, setNewPic] = useState("");
   const file = useRef(null);
   const { id, picUrl, username, creationDate } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -61,7 +60,7 @@ const Menu = ({ isOpen }) => {
         </div>
         <div className="username-member h-max w-full flex flex-col items-center justify-start">
           <span className="text-xl font-bold capitalize">{username}</span>
-          <span className="block italic flex items-center justify-center gap-1">
+          <span className="block italic text-sm flex items-center justify-center gap-1">
             <span
               className="block w-6 h-6 rounded-full outline-none transform translate-y-px"
               style={{ background: `url(${logo2}) no-repeat center/cover` }}

@@ -29,7 +29,8 @@ export const logUser = (email, password) => async (dispatch) => {
 
   try {
     const response = await fetch(`${API_AUTH}/login`, request);
-    const { error, user } = await response.json();
+    const data = await response.json();
+    const { error, user, isNewUser } = data;
     if (response.status !== 200) {
       dispatch({
         type: actionType.SET_ERROR,
@@ -39,7 +40,7 @@ export const logUser = (email, password) => async (dispatch) => {
     }
     dispatch({
       type: actionType.LOG_USER,
-      payload: user,
+      payload: { user, isNewUser },
     });
   } catch (err) {
     console.log(err.message);
@@ -77,8 +78,8 @@ export const createUser = (email, password) => async (dispatch) => {
       type: actionType.CREATE_USER,
       payload: userId,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -93,25 +94,25 @@ export const saveUserName = (userName, id, date) => async (dispatch) => {
   try {
     const response = await fetch(`${API_AUTH}/username`, request);
     const data = await response.json();
-    const { errorNumber, errorMsg, successMsg, username, creationDate, email } = data;
+    const { errorNumber, error, username, creationDate, email, isNewUser } = data;
     console.log("error number", errorNumber);
     if (errorNumber === 1062) {
-      console.log(errorMsg);
-      // setErrorDuplicate(data.errorMsg);
+      console.log(error);
+      // setErrorDuplicate(data.error);
       return;
     }
     if (!errorNumber && response.status !== 200) {
-      console.log(errorMsg);
-      // setErrorServer(errorMsg);
+      console.log(error);
+      // setErrorServer(error);
       return;
     }
 
     dispatch({
       type: actionType.SAVE_USERNAME,
-      payload: { username, creationDate, email },
+      payload: { username, creationDate, email, isNewUser },
     });
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -131,18 +132,18 @@ export const saveUserPic = (blob, userId) => async (dispatch) => {
   try {
     const response = await fetch(`${API_AUTH}/userpic`, request);
     const data = await response.json();
-    const { errorMsg, successMsg, picUrl } = data;
+    const { error, picUrl } = data;
     if (response.status !== 200) {
       // setError(data.errorMsg);
-      console.log(errorMsg);
+      console.log(error);
       return;
     }
     dispatch({
       type: actionType.SAVE_USERPIC,
       payload: picUrl,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
   }
 };
 

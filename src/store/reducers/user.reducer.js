@@ -8,6 +8,7 @@ const initialState = {
   picUrl: "",
   creationDate: "",
   error: "",
+  isNewUser: null,
   currentComment: {
     postId: null,
   },
@@ -27,7 +28,9 @@ export const userReducer = (state = initialState, action) => {
       };
     case actionType.LOG_USER: {
       console.log("payload reducer", action.payload);
-      const { id, email, password, username, picUrl, creationDate } = action.payload;
+      const { id, email, password, username, picUrl, creationDate } = action.payload.user;
+      const { isNewUser } = action.payload;
+
       return {
         ...state,
         id,
@@ -36,6 +39,7 @@ export const userReducer = (state = initialState, action) => {
         username,
         picUrl,
         creationDate,
+        isNewUser,
       };
     }
     case actionType.CREATE_USER:
@@ -44,12 +48,13 @@ export const userReducer = (state = initialState, action) => {
         id: action.payload,
       };
     case actionType.SAVE_USERNAME: {
-      const { username, email, creationDate } = action.payload;
+      const { username, email, creationDate, isNewUser } = action.payload;
       return {
         ...state,
         username,
         email,
         creationDate,
+        isNewUser,
       };
     }
     case actionType.SAVE_USERPIC:

@@ -72,6 +72,7 @@ const Post = ({ post }) => {
         console.log(data);
         if (response.status !== 200) return;
         setLike(false);
+        break;
       }
       default:
         return false;
