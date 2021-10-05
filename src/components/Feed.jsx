@@ -12,18 +12,19 @@ import PostSkeleton from "./PostSkeleton";
 const Feed = () => {
   const [isNewUser, setIsNewUser] = useState(false);
   const user = useSelector((state) => state.user);
+  const posts = useSelector((state) => state.posts);
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
-  const posts = useSelector((state) => state.posts);
-  // dispatch(getPosts());
 
   useEffect(() => {
     setIsNewUser(location?.state || history?.state?.state);
   }, []);
 
   useEffect(() => {
-    dispatch(getPosts());
+    setTimeout(() => {
+      dispatch(getPosts());
+    }, 2000);
   }, [dispatch]);
 
   return (
@@ -31,7 +32,7 @@ const Feed = () => {
       className="feed-container min-h-screen w-screen flex flex-col items-center justify-start bg-red-300 relative pt-3"
       style={{ background: `url(${logo}) no-repeat fixed center/250%` }}
     >
-      <div className="bienvenueMsg-newcomer text-center whitespace-pre">
+      <div className="bienvenueMsg-newcomer text-center whitespace-pre mb-2">
         {isNewUser ? (
           <>
             Bienvenue <span className="capitalize">{user.username}!</span>
@@ -45,30 +46,23 @@ const Feed = () => {
           </>
         )}
       </div>
-      <div className="posts-section-container w-screen flex flex-col items-center justify-center pt-4 pb-20 relative">
+      <div className="posts-section-container w-full flex flex-col items-center justify-center pt-3 pb-20 relative">
         <button
-          className="refreshBtn outline-none gap-1 items-center justify-center absolute right-5 top-0 mt-3"
+          className="refreshBtn outline-none bg-black text-white rounded-md gap-1 transition-opacity duration-1000 delay-200 flex items-center justify-center absolute right-5 top-0 px-2 py-1"
           onClick={() => dispatch(getPosts())}
-          style={{ display: posts.length !== 0 ? "flex" : "none" }}
+          style={{ opacity: posts.length !== 0 ? 1 : 0 }}
         >
           <RefreshIcon className="h-4 w-4" /> <span className="text-xs">rafraîchir</span>
         </button>
         <div className="posts-wrapper h-full w-full flex flex-col items-center justify-center gap-4 py-6">
-          {posts !== null ? (
-            posts.map((post) => <Post key={post.postId} post={post} />)
+          {posts.length === 0 ? (
+            <PostSkeleton />
           ) : (
-            <>
-              <PostSkeleton />
-              <PostSkeleton />
-              <PostSkeleton />
-              <PostSkeleton />
-              <PostSkeleton />
-              <PostSkeleton />
-            </>
+            posts.map((post) => <Post key={post.postId} post={post} />)
           )}
         </div>
-        <div className="createpost-link-bottom w-screen fixed bottom-0 flex flex-col items-center justify-center mt-1">
-          <div className="h-16 w-full flex items-center justify-evenly bg-gray-400 border border-gray-300 rounded">
+        <div className="createpost-link-bottom w-full fixed bottom-0 left-0 flex flex-col items-center justify-center mt-1">
+          <div className="h-16 w-full flex items-center justify-evenly bg-gray-400 border border-gray-300">
             <div
               className="w-10 h-10 rounded-full border border-gray-600"
               style={

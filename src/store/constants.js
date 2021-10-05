@@ -10,4 +10,5 @@ export const actionType = {
   CLEAR_ERROR: "CLEAR_ERROR",
   // POSTS
   GET_POSTS: "GET_POSTS",
+  CREATE_COMMENT: "CREATE_COMMENT",
 };

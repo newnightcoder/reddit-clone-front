@@ -13,12 +13,9 @@ const Login = () => {
   const store = useStore();
 
   let error = useSelector((state) => state.user.error);
-  console.log("error depuis login, avec useEffect", error);
 
   useEffect(() => {
-    // store.getState().user.error;
     setNewError(store.getState().user.error);
-    // console.log("error dans useEffect", error);
   }, [store]);
 
   const dispatch = useDispatch();
@@ -37,7 +34,7 @@ const Login = () => {
   const toFeed = () => {
     setTimeout(() => {
       history.push({ pathname: "/feed", state: { isNewUser: false } });
-    }, 2000);
+    }, 200);
   };
 
   const handleUserSubmit = (e) => {

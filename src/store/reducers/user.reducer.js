@@ -8,6 +8,9 @@ const initialState = {
   picUrl: "",
   creationDate: "",
   error: "",
+  currentComment: {
+    postId: null,
+  },
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -55,6 +58,13 @@ export const userReducer = (state = initialState, action) => {
         picUrl: action.payload,
       };
     // case actionType.DELETE_USER:
+    case actionType.CREATE_COMMENT:
+      return {
+        ...state,
+        currentComment: {
+          postId: action.payload,
+        },
+      };
     default:
       return state;
   }

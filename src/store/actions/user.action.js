@@ -145,3 +145,10 @@ export const saveUserPic = (blob, userId) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const createComment = (id) => (dispatch) => {
+  dispatch({
+    type: actionType.CREATE_COMMENT,
+    payload: id,
+  });
+};

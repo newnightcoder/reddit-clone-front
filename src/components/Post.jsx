@@ -7,9 +7,10 @@ import {
   HandThumbsUpFill,
   ThreeDotsVertical,
 } from "react-bootstrap-icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import picPlaceholder from "../assets/pic_placeholder.svg";
+import { createComment } from "../store/actions/user.action";
 import { API_POST } from "./API";
 
 const Post = ({ post }) => {
@@ -18,6 +19,8 @@ const Post = ({ post }) => {
   const postId = post.postId;
   const userId = useSelector((state) => state.user.id);
   const history = useHistory();
+  const dispatch = useDispatch();
+
   const formatTimestamp = (date) => {
     const convertedDate = {
       year: date.split("-")[0],
@@ -40,6 +43,7 @@ const Post = ({ post }) => {
   };
 
   const toCommentPage = () => {
+    dispatch(createComment(postId));
     setTimeout(() => {
       history.push(`/comment/${post.title}`);
     }, 100);
@@ -106,14 +110,14 @@ const Post = ({ post }) => {
       <div className="bottom w-full flex items-center justify-end px-2 py-2 border-t">
         <div className="icons-container w-max flex items-center justify-end gap-4 text-xs">
           <div className="w-max flex items-center justify-center gap-1">
-            <button className="outline-none" onClick={() => toCommentPage()}>
-              <ChatRight />
+            <button className="outline-none" onClick={() => toCommentPage(post, userId)}>
+              <ChatRight size={14} />
             </button>
             <span>Commenter</span>
           </div>
           <div className="w-max flex items-center justify-center gap-1">
             <button className="outline-none" onClick={() => postLike(postId, userId)}>
-              {!like ? <HandThumbsUp /> : <HandThumbsUpFill />}
+              {!like ? <HandThumbsUp size={14} /> : <HandThumbsUpFill size={14} />}
             </button>
             <span>Liker</span>
           </div>

@@ -43,11 +43,11 @@ const Menu = ({ isOpen }) => {
 
   return (
     <div
-      className="menu-container h-screen w-9/12 py-3 bg-gray-100 flex flex-col items-center justify-center absolute top-0 left-0 z-50 transform -translate-x-full transition transition-transform duration-300"
+      className="menu-container h-screen w-9/12 py-5 bg-gray-100 flex flex-col items-center justify-start gap-2 absolute top-0 left-0 z-50 transform -translate-x-full transition transition-transform duration-300"
       style={{ transform: isOpen && "translateX(0)" }}
     >
-      <div className="top-section h-2/6 w-10/12 flex flex-col items-center justify-center gap-2 border-b border-gray-300">
-        <div className="avatar-container h-2/3 w-full flex items-center justify-center">
+      <div className="top-section h-max w-10/12 pb-2 flex flex-col items-center justify-center gap-2 border-b border-gray-300">
+        <div className="avatar-container h-max w-full flex items-center justify-center">
           <div
             className="w-40 h-40 rounded-full border border-gray-400"
             style={
@@ -70,9 +70,9 @@ const Menu = ({ isOpen }) => {
           </span>
         </div>
       </div>
-      <div className="main-section h-4/6 w-full flex items-start justify-center">
+      <div className="main-section h-full w-full flex items-start justify-center pt-1">
         <form
-          className="h-1/3 w-full flex flex-col items-center justify-center gap-2  border-4 border-red-500"
+          className="h-1/3 w-full flex flex-col items-center justify-center gap-2"
           action=""
           method="POST"
           encType="multipart/form-data"
@@ -83,7 +83,7 @@ const Menu = ({ isOpen }) => {
             style={{ backgroundColor: "#ef5350" }}
             htmlFor="file"
           >
-            {picUrl === "" ? "choisir une photo de profil" : "changer la photo de profil"}
+            {!picUrl ? "Choisir une photo de profil" : "Changer la photo de profil"}
           </label>
 
           <div className="flex items-center ">
@@ -102,9 +102,9 @@ const Menu = ({ isOpen }) => {
             <div>
               {blobName !== null ? (
                 blobName
-              ) : (
+              ) : !picUrl ? (
                 <span className="italic text-xs">Aucune photo pour le moment.</span>
-              )}
+              ) : null}
             </div>
           </div>
           <div className="w-full flex items-center justify-center gap-4">

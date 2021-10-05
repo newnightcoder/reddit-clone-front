@@ -113,7 +113,7 @@ const CreatePost = () => {
             <Editor
               editorState={editorState}
               onChange={setEditorState}
-              placeholder="Votre texte"
+              placeholder="Votre texte..."
             />
           </div>
           <button
