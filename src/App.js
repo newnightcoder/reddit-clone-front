@@ -1,12 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import {
-  CreatePost,
-  Feed,
-  Homepage,
-  Login,
-  NavBar,
-  Signup,
-} from "./components";
+import { Comment, CreatePost, Feed, Homepage, Login, NavBar, Signup } from "./components";
 
 const App = () => {
   return (
@@ -24,6 +17,10 @@ const App = () => {
         <Route path="/create">
           <NavBar />
           <CreatePost />
+        </Route>
+        <Route path="/comment">
+          <NavBar />
+          <Comment />
         </Route>
         <Route path="/feed">
           <NavBar />

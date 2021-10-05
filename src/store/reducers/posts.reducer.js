@@ -5,7 +5,7 @@ const initialState = [];
 export const postsReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionType.GET_POSTS:
-      break;
+      return (state = action.payload);
 
     default:
       return state;

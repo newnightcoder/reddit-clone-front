@@ -8,6 +8,7 @@ import {
   ThreeDotsVertical,
 } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { API_POST } from "./API";
 
@@ -16,7 +17,7 @@ const Post = ({ post }) => {
   const [like, setLike] = useState(false);
   const postId = post.postId;
   const userId = useSelector((state) => state.user.id);
-
+  const history = useHistory();
   const formatTimestamp = (date) => {
     const convertedDate = {
       year: date.split("-")[0],
@@ -38,6 +39,12 @@ const Post = ({ post }) => {
     );
   };
 
+  const toCommentPage = () => {
+    setTimeout(() => {
+      history.push(`/comment/${post.title}`);
+    }, 100);
+  };
+
   const postLike = async (postId, userId) => {
     const request = {
       headers: {
@@ -46,11 +53,25 @@ const Post = ({ post }) => {
       method: "POST",
       body: JSON.stringify({ postId, userId }),
     };
-    const response = await fetch(`${API_POST}/like`, request);
-    const data = await response.json();
-    console.log(data);
-    if (response.status !== 200) return;
-    setLike(true);
+    switch (like) {
+      case false: {
+        const response = await fetch(`${API_POST}/like`, request);
+        const data = await response.json();
+        console.log(data);
+        if (response.status !== 200) return;
+        setLike(true);
+        break;
+      }
+      case true: {
+        const response = await fetch(`${API_POST}/dislike`, request);
+        const data = await response.json();
+        console.log(data);
+        if (response.status !== 200) return;
+        setLike(false);
+      }
+      default:
+        return false;
+    }
   };
 
   return (
@@ -85,7 +106,9 @@ const Post = ({ post }) => {
       <div className="bottom w-full flex items-center justify-end px-2 py-2 border-t">
         <div className="icons-container w-max flex items-center justify-end gap-4 text-xs">
           <div className="w-max flex items-center justify-center gap-1">
-            <ChatRight />
+            <button className="outline-none" onClick={() => toCommentPage()}>
+              <ChatRight />
+            </button>
             <span>Commenter</span>
           </div>
           <div className="w-max flex items-center justify-center gap-1">

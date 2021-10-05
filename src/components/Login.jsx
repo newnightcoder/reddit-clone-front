@@ -16,10 +16,10 @@ const Login = () => {
   console.log("error depuis login, avec useEffect", error);
 
   useEffect(() => {
-    error = store.getState().user.error;
-    setNewError(error);
+    // store.getState().user.error;
+    setNewError(store.getState().user.error);
     // console.log("error dans useEffect", error);
-  }, [error]);
+  }, [store]);
 
   const dispatch = useDispatch();
   /* eslint no-control-regex: 0 */

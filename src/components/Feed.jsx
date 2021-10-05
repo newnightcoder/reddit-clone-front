@@ -1,40 +1,30 @@
 import { PaperAirplaneIcon, RefreshIcon } from "@heroicons/react/solid";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { useHistory } from "react-router-dom";
 import logo from "../assets/logo.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { API_POST } from "./API";
+import { getPosts } from "../store/actions/posts.action";
 import { Post } from "./index";
 import PostSkeleton from "./PostSkeleton";
 
 const Feed = () => {
-  const [posts, setPosts] = useState([]);
   const [isNewUser, setIsNewUser] = useState(false);
   const user = useSelector((state) => state.user);
   const history = useHistory();
   const location = useLocation();
-
-  const request = {
-    method: "get",
-  };
-
-  const fetchPosts = async () => {
-    const response = await fetch(API_POST, request);
-    const data = await response.json();
-    setPosts(data.posts);
-    // setIsLoading(false);
-  };
+  const dispatch = useDispatch();
+  const posts = useSelector((state) => state.posts);
+  // dispatch(getPosts());
 
   useEffect(() => {
     setIsNewUser(location?.state || history?.state?.state);
   }, []);
 
   useEffect(() => {
-    fetchPosts();
-    // setuserPic(userPic);
-  }, []);
+    dispatch(getPosts());
+  }, [dispatch]);
 
   return (
     <div
@@ -58,7 +48,7 @@ const Feed = () => {
       <div className="posts-section-container w-screen flex flex-col items-center justify-center pt-4 pb-20 relative">
         <button
           className="refreshBtn outline-none gap-1 items-center justify-center absolute right-5 top-0 mt-3"
-          onClick={() => fetchPosts()}
+          onClick={() => dispatch(getPosts())}
           style={{ display: posts.length !== 0 ? "flex" : "none" }}
         >
           <RefreshIcon className="h-4 w-4" /> <span className="text-xs">rafraîchir</span>
