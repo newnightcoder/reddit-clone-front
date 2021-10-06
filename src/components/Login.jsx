@@ -1,24 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector, useStore } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import logo from "../assets/logo2.svg";
-import { logUser } from "../store/actions/user.action";
+import { logUserAction } from "../store/actions/user.action";
 // import { API_AUTH } from "./API/index";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [newError, setNewError] = useState("");
   const history = useHistory();
-  const store = useStore();
-
-  let error = useSelector((state) => state.user.error);
-
-  useEffect(() => {
-    setNewError(store.getState().user.error);
-  }, [store]);
-
   const dispatch = useDispatch();
+
+  const error = useSelector((state) => state.user.error);
+  const loginSuccess = useSelector((state) => state.user.loginSuccess);
+
   /* eslint no-control-regex: 0 */
   const emailRegex =
     /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
@@ -31,19 +26,19 @@ const Login = () => {
     setPassword(e.currentTarget.value);
   };
 
-  const toFeed = () => {
-    setTimeout(() => {
-      history.push({ pathname: "/feed", state: { isNewUser: false } });
-    }, 200);
-  };
-
   const handleUserSubmit = (e) => {
     e.preventDefault();
-    dispatch(logUser(email, password));
-    if (newError || newError.length !== 0) return;
-    console.log("newError in handleSubmit", newError);
-    toFeed();
+    dispatch(logUserAction(email, password));
+    if (!loginSuccess) return;
+    history.push({ pathname: "/feed", state: { isNewUser: false } });
   };
+
+  const toFeed = (() => {
+    if (!loginSuccess) return;
+    setTimeout(() => {
+      history.push({ pathname: "/feed", state: { isNewUser: false } });
+    }, 500);
+  })();
 
   return (
     <div
@@ -54,16 +49,16 @@ const Login = () => {
         <span>Content de vous revoir </span>
         <span>sur Groupomania!</span>
       </h2>
-      <div className="w-full flex items-center justify-center" style={{ height: "15vh" }}>
+      <div className="error h-1/6 w-full flex items-center justify-center">
         <span
-          className="w-max h-max whitespace-pre py-2 px-3 text-center border border-red-700 rounded"
+          className="w-max h-max whitespace-wrap py-2 px-3 text-center text-white bg-black rounded"
           style={
-            !newError || newError?.length === 0
+            !error || error.length === 0
               ? { visibility: "hidden" }
               : { visibility: "visible" }
           }
         >
-          {newError?.length !== 0 && newError}
+          {error.length !== 0 && error}
         </span>
       </div>
       <form

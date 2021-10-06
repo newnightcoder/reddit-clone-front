@@ -8,6 +8,7 @@ const initialState = {
   picUrl: "",
   creationDate: "",
   error: "",
+  loginSuccess: false,
   isNewUser: null,
   currentComment: {
     postId: null,
@@ -40,6 +41,12 @@ export const userReducer = (state = initialState, action) => {
         picUrl,
         creationDate,
         isNewUser,
+      };
+    }
+    case actionType.LOGIN_SUCCESS: {
+      return {
+        ...state,
+        loginSuccess: action.payload,
       };
     }
     case actionType.CREATE_USER:

@@ -14,7 +14,14 @@ import { actionType } from "../constants.js";
 //   });
 // };
 
-export const logUser = (email, password) => async (dispatch) => {
+/////////////////////////////////////
+//
+/////////////////////////////////////
+
+export const logUserAction = (email, password) => async (dispatch) => {
+  dispatch({
+    type: actionType.CLEAR_ERROR,
+  });
   const request = {
     headers: {
       "Content-Type": "application/json",
@@ -22,11 +29,6 @@ export const logUser = (email, password) => async (dispatch) => {
     method: "POST",
     body: JSON.stringify({ email, password }),
   };
-
-  dispatch({
-    type: actionType.CLEAR_ERROR,
-  });
-
   try {
     const response = await fetch(`${API_AUTH}/login`, request);
     const data = await response.json();
@@ -36,11 +38,19 @@ export const logUser = (email, password) => async (dispatch) => {
         type: actionType.SET_ERROR,
         payload: error,
       });
+      dispatch({
+        type: actionType.LOGIN_SUCCESS,
+        payload: false,
+      });
       return;
     }
     dispatch({
       type: actionType.LOG_USER,
       payload: { user, isNewUser },
+    });
+    dispatch({
+      type: actionType.LOGIN_SUCCESS,
+      payload: true,
     });
   } catch (err) {
     console.log(err.message);
