@@ -14,5 +14,7 @@ export const getPosts = () => async (dispatch) => {
       type: actionType.GET_POSTS,
       payload: posts,
     });
-  } catch (error) {}
+  } catch (error) {
+    throw error;
+  }
 };

@@ -31,9 +31,9 @@ const StepUsername = () => {
   };
   const date = `${time.year}-${time.month}-${time.day}-${time.hour}-${time.minute}-${time.second}`;
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(saveUserName(userName, userId, date));
+    dispatch(saveUserName(userId, userName, date));
     setIsCreated(true);
   };
 

@@ -1,5 +1,6 @@
 import { CheckIcon, XIcon } from "@heroicons/react/solid";
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { StepUsername } from ".";
 import logo from "../assets/logo2.svg";
@@ -18,21 +19,24 @@ const SignupForm = ({
   isNumber,
   userId,
 }) => {
+  const error = useSelector((state) => state.user.error);
+
   const displayCheck = (bool) => {
     if (bool) {
       return <CheckIcon className="h-3 w-3 text-green-900 transform translate-y-0.5" />;
     } else return <XIcon className="h-3 w-3 text-gray-800 transform translate-y-0.5" />;
   };
 
-  const toNextStep = isCreated
-    ? {
-        transform: "translateX(-100%)",
-        background: `url(${logo}) no-repeat center/250%`,
-      }
-    : {
-        transform: "translateX(0%)",
-        background: `url(${logo}) no-repeat center/250%`,
-      };
+  const toNextStep =
+    isCreated && error.length === 0
+      ? {
+          transform: "translateX(-100%)",
+          background: `url(${logo}) no-repeat center/250%`,
+        }
+      : {
+          transform: "translateX(0%)",
+          background: `url(${logo}) no-repeat center/250%`,
+        };
 
   const errorStyleServer = {
     visibility: "visible",
@@ -52,19 +56,13 @@ const SignupForm = ({
       style={toNextStep}
     >
       <h2 className="text-center uppercase">Rejoignez la communauté Groupomomania!</h2>
-      <div className="w-full flex items-center justify-center" style={{ height: "15vh" }}>
-        {/* <span
+      <div className="error h-1/6 w-full flex items-center justify-center">
+        <span
           className="block w-max h-max py-2 px-3 border border-red-700 rounded"
-          style={
-            errorServer !== ""
-              ? { errorStyleServer }
-              : errorDuplicate !== ""
-              ? { errorStyleDuplicate }
-              : { visibility: "hidden" }
-          }
+          style={{ visibility: error.length !== 0 ? "visible" : "hidden" }}
         >
-          {errorServer || errorDuplicate}
-        </span> */}
+          {error}
+        </span>
       </div>
       <form
         method="post"

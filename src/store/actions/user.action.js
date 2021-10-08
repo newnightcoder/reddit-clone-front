@@ -58,6 +58,9 @@ export const logUserAction = (email, password) => async (dispatch) => {
 };
 
 export const createUser = (email, password) => async (dispatch) => {
+  dispatch({
+    type: actionType.CLEAR_ERROR,
+  });
   const request = {
     headers: {
       "Content-Type": "application/json",
@@ -71,19 +74,15 @@ export const createUser = (email, password) => async (dispatch) => {
   try {
     const response = await fetch(`${API_AUTH}/signup`, request);
     const data = await response.json();
-    const { errorNumber, errorMsg, userId } = data;
+    const { error, userId } = data;
     console.log("data", response);
-    if (errorNumber === 1062) {
-      // setErrorDuplicate(data.errorMsg);
-      console.log(data.errorMsg);
+    if (error) {
+      dispatch({
+        type: actionType.SET_ERROR,
+        payload: error,
+      });
       return;
     }
-    if (!errorNumber && response.status !== 201) {
-      // setErrorServer(data.errorMsg);
-      console.log(errorMsg);
-      return;
-    }
-    console.log("user ID:", userId);
     dispatch({
       type: actionType.CREATE_USER,
       payload: userId,
@@ -93,27 +92,24 @@ export const createUser = (email, password) => async (dispatch) => {
   }
 };
 
-export const saveUserName = (userName, id, date) => async (dispatch) => {
+export const saveUserName = (id, username, creationDate) => async (dispatch) => {
   const request = {
     headers: {
       "Content-Type": "application/json",
     },
     method: "POST",
-    body: JSON.stringify({ userName, id, date }),
+    body: JSON.stringify({ id, username, creationDate }),
   };
   try {
     const response = await fetch(`${API_AUTH}/username`, request);
     const data = await response.json();
-    const { errorNumber, error, username, creationDate, email, isNewUser } = data;
-    console.log("error number", errorNumber);
-    if (errorNumber === 1062) {
-      console.log(error);
-      // setErrorDuplicate(data.error);
-      return;
-    }
-    if (!errorNumber && response.status !== 200) {
-      console.log(error);
-      // setErrorServer(error);
+    const { error, username, creationDate, email } = data.result;
+    const { isNewUser } = data;
+    if (error) {
+      dispatch({
+        type: actionType.SET_ERROR,
+        payload: error,
+      });
       return;
     }
 
