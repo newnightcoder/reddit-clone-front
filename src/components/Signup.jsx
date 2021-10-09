@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createUser } from "../store/actions/user.action";
 import SignupForm from "./SignupForm";
 
@@ -13,9 +13,7 @@ const Signup = () => {
   const [isLong, setIsLong] = useState(false);
   const [isCreated, setIsCreated] = useState(false);
   const dispatch = useDispatch();
-  // const [errorServer, setErrorServer] = useState("");
-  // const [errorDuplicate, setErrorDuplicate] = useState("");
-  // const [userId, setUserId] = useState(null);
+  const userCreated = useSelector((state) => state.user.userCreated);
 
   /* eslint no-control-regex: 0 */
   const emailRegex =
@@ -61,9 +59,10 @@ const Signup = () => {
   const handleNewUserSubmit = async (e) => {
     e.preventDefault();
     dispatch(createUser(newUserEmail, newUserPass));
-    setTimeout(() => {
-      setIsCreated(true);
-    }, 250);
+    // if (!userCreated) return;
+    // setTimeout(() => {
+    //   setIsCreated(true);
+    // }, 250);
   };
 
   return (
@@ -78,9 +77,6 @@ const Signup = () => {
         handleNewPass={handleNewPass}
         handleNewUserSubmit={handleNewUserSubmit}
         isCreated={isCreated}
-        // errorDuplicate={errorDuplicate}
-        // errorServer={errorServer}
-        // userId={userId}
       />
     </div>
   );

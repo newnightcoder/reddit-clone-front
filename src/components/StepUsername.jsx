@@ -7,11 +7,11 @@ import StepImage from "./StepImage";
 const StepUsername = () => {
   const [userName, setUserName] = useState("");
   const [isLong, setIsLong] = useState(false);
-  const [errorServer, setErrorServer] = useState("");
-  const [errorDuplicate, setErrorDuplicate] = useState("");
   const [isCreated, setIsCreated] = useState(false);
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
+  const error = useSelector((state) => state.user.error);
+  const usernameAdded = useSelector((state) => state.user.usernameAdded);
 
   const handleInput = (e) => {
     setUserName(e.currentTarget.value);
@@ -34,10 +34,11 @@ const StepUsername = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(saveUserName(userId, userName, date));
+    if (!usernameAdded) return;
     setIsCreated(true);
   };
 
-  const toNextStep = isCreated
+  const toNextStep = usernameAdded
     ? {
         transform: "translateX(0%)",
         background: `url(${logo}) no-repeat center/250%`,
@@ -47,18 +48,16 @@ const StepUsername = () => {
         background: `url(${logo}) no-repeat center/250%`,
       };
 
-  const error = errorServer !== "" || errorDuplicate !== "";
-
   return (
     <div
       className="h-screen w-screen bg-red-300 flex flex-col items-center justify-center gap-2 transition-transform duration-500 absolute top-0 left-0"
       style={toNextStep}
     >
       <span
-        className="whitespace-wrap w-screen h-max py-2 px-3 border border-red-700 rounded"
-        style={error ? { visibility: "visible" } : { visibility: "hidden" }}
+        className="whitespace-wrap w-10/12 h-max py-2 px-3 bg-black text-white border border-red-700 rounded"
+        style={error.length !== 0 ? { visibility: "visible" } : { visibility: "hidden" }}
       >
-        {errorServer || errorDuplicate}
+        {error}
       </span>
       <div>
         <p>choisissez votre pseudo:</p>

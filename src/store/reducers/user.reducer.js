@@ -9,7 +9,9 @@ const initialState = {
   creationDate: "",
   error: "",
   loginSuccess: false,
-  isNewUser: null,
+  userCreated: false,
+  usernameAdded: false,
+  isNewUser: false,
   currentComment: {
     postId: null,
   },
@@ -22,7 +24,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         error: "",
       };
-    case actionType.SET_ERROR:
+    case actionType.SET_ERROR_USER:
       return {
         ...state,
         error: action.payload,
@@ -46,7 +48,13 @@ export const userReducer = (state = initialState, action) => {
     case actionType.LOGIN_SUCCESS: {
       return {
         ...state,
-        loginSuccess: action.payload,
+        loginSuccess: true,
+      };
+    }
+    case actionType.LOGIN_FAIL: {
+      return {
+        ...state,
+        loginSuccess: false,
       };
     }
     case actionType.CREATE_USER:
@@ -54,7 +62,20 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         id: action.payload,
       };
-    case actionType.SAVE_USERNAME: {
+    case actionType.USER_CREATED: {
+      return {
+        ...state,
+        userCreated: true,
+      };
+    }
+    case actionType.USER_FAIL: {
+      return {
+        ...state,
+        userCreated: false,
+      };
+    }
+
+    case actionType.ADD_USERNAME: {
       const { username, email, creationDate, isNewUser } = action.payload;
       return {
         ...state,
@@ -62,6 +83,18 @@ export const userReducer = (state = initialState, action) => {
         email,
         creationDate,
         isNewUser,
+      };
+    }
+    case actionType.USERNAME_ADDED: {
+      return {
+        ...state,
+        usernameAdded: true,
+      };
+    }
+    case actionType.USERNAME_FAIL: {
+      return {
+        ...state,
+        usernameAdded: false,
       };
     }
     case actionType.SAVE_USERPIC:

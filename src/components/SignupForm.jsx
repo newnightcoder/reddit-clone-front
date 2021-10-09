@@ -6,12 +6,10 @@ import { StepUsername } from ".";
 import logo from "../assets/logo2.svg";
 
 const SignupForm = ({
-  errorServer,
-  errorDuplicate,
   handleNewEmail,
   handleNewPass,
   handleNewUserSubmit,
-  isCreated,
+  // isCreated,
   isEmail,
   isLong,
   isLowercase,
@@ -20,6 +18,7 @@ const SignupForm = ({
   userId,
 }) => {
   const error = useSelector((state) => state.user.error);
+  const isCreated = useSelector((state) => state.user.userCreated);
 
   const displayCheck = (bool) => {
     if (bool) {
@@ -27,28 +26,15 @@ const SignupForm = ({
     } else return <XIcon className="h-3 w-3 text-gray-800 transform translate-y-0.5" />;
   };
 
-  const toNextStep =
-    isCreated && error.length === 0
-      ? {
-          transform: "translateX(-100%)",
-          background: `url(${logo}) no-repeat center/250%`,
-        }
-      : {
-          transform: "translateX(0%)",
-          background: `url(${logo}) no-repeat center/250%`,
-        };
-
-  const errorStyleServer = {
-    visibility: "visible",
-    whiteSpace: "pre",
-    textAlign: "center",
-  };
-
-  const errorStyleDuplicate = {
-    visibility: "visible",
-    whiteSpace: "normal",
-    textAlign: "left",
-  };
+  const toNextStep = isCreated
+    ? {
+        transform: "translateX(-100%)",
+        background: `url(${logo}) no-repeat center/250%`,
+      }
+    : {
+        transform: "translateX(0%)",
+        background: `url(${logo}) no-repeat center/250%`,
+      };
 
   return (
     <div
@@ -56,9 +42,9 @@ const SignupForm = ({
       style={toNextStep}
     >
       <h2 className="text-center uppercase">Rejoignez la communauté Groupomomania!</h2>
-      <div className="error h-1/6 w-full flex items-center justify-center">
+      <div className="error h-1/6 w-full flex items-center justify-center ">
         <span
-          className="block w-max h-max py-2 px-3 border border-red-700 rounded"
+          className="block w-max h-max py-2 px-3 border-2 border-red-500 bg-black text-white rounded"
           style={{ visibility: error.length !== 0 ? "visible" : "hidden" }}
         >
           {error}

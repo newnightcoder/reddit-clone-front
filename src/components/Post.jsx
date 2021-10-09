@@ -11,7 +11,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { createComment } from "../store/actions/user.action";
-import { API_POST } from "./API";
 
 const Post = ({ post }) => {
   const { title, text, username, picUrl, date } = post;
@@ -47,36 +46,6 @@ const Post = ({ post }) => {
     setTimeout(() => {
       history.push(`/comment/${post.title}`);
     }, 100);
-  };
-
-  const postLike = async (postId, userId) => {
-    const request = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({ postId, userId }),
-    };
-    switch (like) {
-      case false: {
-        const response = await fetch(`${API_POST}/like`, request);
-        const data = await response.json();
-        console.log(data);
-        if (response.status !== 200) return;
-        setLike(true);
-        break;
-      }
-      case true: {
-        const response = await fetch(`${API_POST}/dislike`, request);
-        const data = await response.json();
-        console.log(data);
-        if (response.status !== 200) return;
-        setLike(false);
-        break;
-      }
-      default:
-        return false;
-    }
   };
 
   return (
@@ -117,7 +86,10 @@ const Post = ({ post }) => {
             <span>Commenter</span>
           </div>
           <div className="w-max flex items-center justify-center gap-1">
-            <button className="outline-none" onClick={() => postLike(postId, userId)}>
+            <button
+              className="outline-none"
+              // onClick={() => postLike(postId, userId)}
+            >
               {!like ? <HandThumbsUp size={14} /> : <HandThumbsUpFill size={14} />}
             </button>
             <span>Liker</span>

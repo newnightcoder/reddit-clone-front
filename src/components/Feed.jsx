@@ -12,7 +12,7 @@ const Feed = () => {
   const [newUser, setNewUser] = useState(false);
   const isNewUser = useSelector((state) => state.user.isNewUser);
   const user = useSelector((state) => state.user);
-  const posts = useSelector((state) => state.posts);
+  const posts = useSelector((state) => state.posts.posts);
   const history = useHistory();
   const dispatch = useDispatch();
 

@@ -1,7 +1,7 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
 import { convertToRaw, Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   TypeBold,
@@ -10,16 +10,23 @@ import {
   XLg,
   Youtube,
 } from "react-bootstrap-icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import logo from "../assets/logo.svg";
-import { API_POST } from "./API";
+import { createPost } from "../store/actions/posts.action";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
+  const [emptyTitle, setEmptyTitle] = useState(false);
+  const [serverErrorMsg, setServerErrorMsg] = useState("");
+  const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
+  const serverError = useSelector((state) => state.posts.error);
   const userId = useSelector((state) => state.user.id);
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  useEffect(() => {}, [serverError]);
 
   const time = {
     year: new Date().getFullYear(),
@@ -33,36 +40,26 @@ const CreatePost = () => {
 
   const handleTitleInput = (e) => {
     setTitle(e.currentTarget.value);
+    setEmptyTitle(false);
   };
 
   const text = convertToRaw(editorState.getCurrentContent()).blocks[0].text;
 
-  const handlePostSubmit = async (e) => {
+  const handlePostSubmit = (e) => {
     e.preventDefault();
-
-    const request = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({ title, text, userId, date }),
-    };
-
-    try {
-      const response = await fetch(API_POST, request);
-      const data = await response.json();
-      if (response.status !== 201) {
-        console.log("problem while posting...");
-        return;
-      }
-      console.log(data.message);
-      history.push({
-        pathname: "/feed",
-        // state: { userId, userPic, userName, userDate },
-      });
-    } catch (error) {
-      console.log(error);
+    if (title.length === 0) {
+      setEmptyTitle(true);
+      return;
     }
+    if (serverError.length !== 0) {
+      setServerErrorMsg(serverError);
+      return;
+    }
+    setServerErrorMsg("");
+    dispatch(createPost(userId, title, text, date));
+    history.push({
+      pathname: "/feed",
+    });
   };
 
   return (
@@ -73,6 +70,13 @@ const CreatePost = () => {
         background: `url(${logo}) no-repeat fixed center/250%`,
       }}
     >
+      <div
+        className="h-12 w-10/12 whitespace-pre bg-black text-white text-sm text-center py-1 rounded"
+        style={{ visibility: emptyTitle ? "visible" : "hidden" }}
+      >
+        {emptyTitle && emptyTitleError}
+        {serverError.length !== 0 && serverErrorMsg}
+      </div>
       <form
         className="w-10/12 h-3/4 flex flex-col items-center justify-center"
         method="post"
