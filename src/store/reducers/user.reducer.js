@@ -15,6 +15,7 @@ const initialState = {
   currentComment: {
     postId: null,
   },
+  liked: null,
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -102,7 +103,11 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         picUrl: action.payload,
       };
-    // case actionType.DELETE_USER:
+    case actionType.LIKE_POST:
+      return {
+        ...state,
+        liked: action.payload,
+      };
     case actionType.CREATE_COMMENT:
       return {
         ...state,

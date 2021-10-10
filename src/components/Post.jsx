@@ -13,9 +13,8 @@ import picPlaceholder from "../assets/pic_placeholder.svg";
 import { createComment, likePost } from "../store/actions/user.action";
 
 const Post = ({ post }) => {
-  const { title, text, username, picUrl, date } = post;
+  const { postId, title, text, username, picUrl, date, likesCount } = post;
   const [like, setLike] = useState(false);
-  const postId = post.postId;
   const userId = useSelector((state) => state.user.id);
   const likes = useSelector((state) => state.posts.likes);
   const history = useHistory();
@@ -115,7 +114,7 @@ const Post = ({ post }) => {
             >
               {!like ? <HandThumbsUp size={14} /> : <HandThumbsUpFill size={14} />}
             </button>
-            <span>Liker</span>
+            <span>{likesCount}</span>
           </div>
           <div className="w-max flex items-center justify-center gap-1">
             <ThreeDotsVertical />

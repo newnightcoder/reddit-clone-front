@@ -16,7 +16,7 @@ import { Post } from ".";
 import logo from "../assets/logo.svg";
 
 const Comment = () => {
-  const posts = useSelector((state) => state.posts);
+  const posts = useSelector((state) => state.posts.posts);
   const postId = useSelector((state) => state.user.currentComment.postId);
   const post = posts.find((post) => post.postId === postId);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
