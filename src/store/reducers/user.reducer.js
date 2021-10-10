@@ -19,7 +19,7 @@ const initialState = {
 
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionType.CLEAR_ERROR:
+    case actionType.CLEAR_ERROR_USER:
       return {
         ...state,
         error: "",

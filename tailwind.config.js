@@ -3,6 +3,9 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      animation: {
+        pulse: "pulse 1.25s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+      },
       colors: {
         "deep-orange-50": "#fbe9e7",
         "deep-orange-100": "#ffccbc",

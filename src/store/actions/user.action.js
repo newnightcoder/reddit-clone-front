@@ -136,37 +136,29 @@ export const saveUserPic = (blob, id) => async (dispatch) => {
 };
 
 export const likePost = (userId, postId, like) => async (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_USER });
+
   const request = {
     headers: {
       "Content-Type": "application/json",
     },
     method: "POST",
-    body: JSON.stringify({ postId, userId }),
+    body: JSON.stringify({ userId, postId, like }),
   };
-  switch (like) {
-    case false: {
-      const response = await fetch(`${API_POST}/like`, request);
-      const data = await response.json();
-      console.log(data);
-      if (response.status !== 200) return;
-      dispatch({ type: LIKE_POST, payload: true });
-      break;
+  try {
+    const response = await fetch(`${API_POST}/like`, request);
+    const data = await response.json();
+    console.log(data);
+    const { liked } = data;
+    if (response.status !== 200) {
+      console.log("la response n'est pas 200 baby, sorry!");
+      return;
     }
-    case true: {
-      const response = await fetch(`${API_POST}/dislike`, request);
-      const data = await response.json();
-      console.log(data);
-      if (response.status !== 200) return;
-      dispatch({ type: LIKE_POST, payload: false });
-      break;
-    }
-    default:
-      return false;
+    dispatch({ type: LIKE_POST, payload: liked });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_USER, payload: error.message });
   }
 };
-// export const dislikePost = (userId, postId) => (dispatch) => {
-//   dispatch({ type: DISLIKE_POST, payload: -1 });
-// };
 
 export const createComment = (id) => (dispatch) => {
   dispatch({

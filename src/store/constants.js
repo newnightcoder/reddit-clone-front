@@ -19,6 +19,8 @@ export const actionType = {
   // ERRORS
   SET_ERROR_USER: "SET_ERROR_USER",
   CLEAR_ERROR_USER: "CLEAR_ERROR_USER",
+  // WITH POST
+  LIKE_POST: "LIKE_POST",
 
   ////////////////
   //  POSTS

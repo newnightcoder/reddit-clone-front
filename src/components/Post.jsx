@@ -1,6 +1,6 @@
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 import fr from "date-fns/locale/fr";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ChatRight,
   HandThumbsUp,
@@ -10,15 +10,35 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { createComment } from "../store/actions/user.action";
+import { createComment, likePost } from "../store/actions/user.action";
 
 const Post = ({ post }) => {
   const { title, text, username, picUrl, date } = post;
   const [like, setLike] = useState(false);
   const postId = post.postId;
   const userId = useSelector((state) => state.user.id);
+  const likes = useSelector((state) => state.posts.likes);
   const history = useHistory();
   const dispatch = useDispatch();
+  const sameUser = [];
+
+  useEffect(() => {
+    likes.map((like) => {
+      if (like.fk_userId_like === userId) {
+        sameUser.push(like.fk_postId_like);
+      } else return;
+    });
+    console.log("in useffect", sameUser);
+    sameUser.forEach((id) => {
+      if (id === postId) {
+        setLike(true);
+      }
+    });
+  }, [likes]);
+
+  const handleLike = () => {
+    setLike((like) => !like);
+  };
 
   const formatTimestamp = (date) => {
     const convertedDate = {
@@ -88,7 +108,10 @@ const Post = ({ post }) => {
           <div className="w-max flex items-center justify-center gap-1">
             <button
               className="outline-none"
-              // onClick={() => postLike(postId, userId)}
+              onClick={() => {
+                handleLike();
+                dispatch(likePost(userId, postId, like));
+              }}
             >
               {!like ? <HandThumbsUp size={14} /> : <HandThumbsUpFill size={14} />}
             </button>

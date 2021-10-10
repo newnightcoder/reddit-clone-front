@@ -10,8 +10,8 @@ export const getPosts = () => async (dispatch) => {
   try {
     const response = await fetch(API_POST, request);
     const data = await response.json();
-    const { posts } = data;
-    dispatch({ type: GET_POSTS, payload: posts });
+    const { posts, likes } = data;
+    dispatch({ type: GET_POSTS, payload: { posts, likes } });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
   }

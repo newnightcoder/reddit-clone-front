@@ -18,7 +18,7 @@ const Feed = () => {
 
   useEffect(() => {
     setNewUser(isNewUser);
-  }, [isNewUser]);
+  }, []);
 
   useEffect(() => {
     setTimeout(() => {
