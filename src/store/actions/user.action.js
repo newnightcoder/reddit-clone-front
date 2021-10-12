@@ -17,6 +17,8 @@ const {
   USERNAME_ADDED,
   USER_CREATED,
   LIKE_POST,
+  TO_COMMENT,
+  CREATE_COMMENT,
 } = actionType;
 
 export const logUserAction = (email, password) => async (dispatch) => {
@@ -149,20 +151,45 @@ export const likePost = (userId, postId, like) => async (dispatch) => {
     const response = await fetch(`${API_POST}/like`, request);
     const data = await response.json();
     console.log(data);
-    const { liked } = data;
-    if (response.status !== 200) {
-      console.log("la response n'est pas 200 baby, sorry!");
-      return;
-    }
-    dispatch({ type: LIKE_POST, payload: liked });
+    const { liked, count } = data;
+    dispatch({
+      type: LIKE_POST,
+      payload: { liked, count },
+    });
   } catch (error) {
     dispatch({ type: SET_ERROR_USER, payload: error.message });
   }
 };
 
-export const createComment = (id) => (dispatch) => {
+export const toComment = (postId) => (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_USER });
   dispatch({
-    type: actionType.CREATE_COMMENT,
-    payload: id,
+    type: TO_COMMENT,
+    payload: postId,
   });
+};
+
+export const createComment = (userId, postId, text, date) => async (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_USER });
+  const request = {
+    headers: {
+      "Content-Type": "application/json",
+      // "Access-Control-Allow-Origin": "*",
+    },
+    method: "post",
+    body: JSON.stringify({ userId, postId, text, date }),
+  };
+  try {
+    const response = await fetch(`${API_POST}/comment`, request);
+    const data = await response.json();
+    console.log(data);
+    const { error, comment } = data;
+    if (response.status !== 201) {
+      dispatch({ type: SET_ERROR_USER, payload: error.message });
+      return;
+    }
+    dispatch({ type: CREATE_COMMENT, payload: comment });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_USER, payload: error.message });
+  }
 };

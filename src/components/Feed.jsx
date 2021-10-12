@@ -18,7 +18,7 @@ const Feed = () => {
 
   useEffect(() => {
     setNewUser(isNewUser);
-  }, []);
+  }, [isNewUser]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -45,9 +45,9 @@ const Feed = () => {
           </>
         ) : null}
       </div>
-      <div className="posts-section-container w-full flex flex-col items-center justify-center pt-3 pb-20 relative">
+      <div className="posts-section-container w-full md:w-1/2 lg:w-1/3 flex flex-col items-center justify-center pt-3 pb-20 relative">
         <button
-          className="refreshBtn outline-none bg-black text-white rounded-md gap-1 transition-opacity duration-1000 delay-200 flex items-center justify-center absolute right-5 top-0 px-2 py-1"
+          className="refreshBtn outline-none bg-black text-white rounded-md gap-1 transition-opacity duration-1000 delay-200 flex items-center justify-center absolute right-7 top-0 px-2 py-1"
           onClick={() => dispatch(getPosts())}
           style={{ opacity: posts.length !== 0 ? 1 : 0 }}
         >
@@ -60,8 +60,8 @@ const Feed = () => {
             posts.map((post) => <Post key={post.postId} post={post} />)
           )}
         </div>
-        <div className="createpost-link-bottom w-full fixed bottom-0 left-0 flex flex-col items-center justify-center mt-1">
-          <div className="h-16 w-full flex items-center justify-evenly bg-gray-400 border border-gray-300">
+        <div className="createpost-link-bottom w-full fixed bottom-0 left-0 flex flex-col items-center justify-center mt-1 bg-gray-400 border border-gray-300 ">
+          <div className="h-16 w-full lg:w-2/3 flex items-center justify-evenly md:justify-center md:gap-3 ">
             <div
               className="w-10 h-10 rounded-full border border-gray-600"
               style={

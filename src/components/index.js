@@ -1,4 +1,5 @@
 export { default as Comment } from "./Comment";
+export { default as CommentPage } from "./CommentPage";
 export { default as CreatePost } from "./CreatePost";
 export { default as Feed } from "./Feed";
 export { default as Homepage } from "./Homepage";

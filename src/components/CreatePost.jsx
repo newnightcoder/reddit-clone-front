@@ -64,21 +64,21 @@ const CreatePost = () => {
 
   return (
     <div
-      className="w-screen flex flex-col items-center justify-evenly"
+      className="w-screen flex flex-col items-center justify-center gap-2 pt-2"
       style={{
         height: "calc(100vh - 4rem)",
         background: `url(${logo}) no-repeat fixed center/250%`,
       }}
     >
       <div
-        className="h-12 w-10/12 whitespace-pre bg-black text-white text-sm text-center py-1 rounded"
+        className="error h-12 w-10/12 md:w-1/2 lg:w-1/3 whitespace-pre bg-black text-white text-sm text-center py-1 rounded"
         style={{ visibility: emptyTitle ? "visible" : "hidden" }}
       >
         {emptyTitle && emptyTitleError}
         {serverError.length !== 0 && serverErrorMsg}
       </div>
       <form
-        className="w-10/12 h-3/4 flex flex-col items-center justify-center"
+        className="h-3/4 w-10/12 md:w-1/2 lg:w-1/3 flex flex-col items-center justify-center"
         method="post"
         onSubmit={handlePostSubmit}
       >
@@ -131,7 +131,7 @@ const CreatePost = () => {
           </button>{" "}
         </div>
       </form>
-      <div className="flex flex-col items-center justify-center rounded-full">
+      <div className="h-1/4 flex flex-col items-center justify-center rounded-full">
         <Link
           to={"/feed"}
           className="h-12 w-12 flex items-center justify-center text-white p-2 rounded-full shadow-xl"

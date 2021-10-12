@@ -10,33 +10,43 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { createComment, likePost } from "../store/actions/user.action";
+import { likePost, toComment } from "../store/actions/user.action";
 
 const Post = ({ post }) => {
-  const { postId, title, text, username, picUrl, date, likesCount } = post;
-  const [like, setLike] = useState(false);
+  const { title, postId, text, date, username, picUrl, likesCount } = post;
+  const currentLikesCount = useSelector((state) => state.user.currentLikesCount);
   const userId = useSelector((state) => state.user.id);
-  const likes = useSelector((state) => state.posts.likes);
   const history = useHistory();
   const dispatch = useDispatch();
   const sameUser = [];
+  const likes = useSelector((state) => state.posts.likes);
+  const [like, setLike] = useState(false);
+  const [likesNumber, setLikesNumber] = useState(likesCount);
+  const [currentLike, setCurrentLike] = useState(currentLikesCount);
+
+  useEffect(() => {
+    setLikesNumber(likesCount);
+  }, [likesCount]);
 
   useEffect(() => {
     likes.map((like) => {
       if (like.fk_userId_like === userId) {
-        sameUser.push(like.fk_postId_like);
-      } else return;
+        return sameUser.push(like.fk_postId_like);
+      }
+      return sameUser;
     });
+
     console.log("in useffect", sameUser);
     sameUser.forEach((id) => {
       if (id === postId) {
         setLike(true);
       }
     });
-  }, [likes]);
+  }, [postId, likes, userId]);
 
   const handleLike = () => {
     setLike((like) => !like);
+    setCurrentLike(currentLikesCount);
   };
 
   const formatTimestamp = (date) => {
@@ -47,7 +57,6 @@ const Post = ({ post }) => {
       minute: date.split("-")[3],
       seconds: date.split("-")[4],
     };
-
     return formatDistanceToNowStrict(
       new Date(
         convertedDate.year,
@@ -61,14 +70,14 @@ const Post = ({ post }) => {
   };
 
   const toCommentPage = () => {
-    dispatch(createComment(postId));
+    dispatch(toComment(postId));
     setTimeout(() => {
-      history.push(`/comment/${post.title}`);
+      history.push(`/comments/${post.title}`);
     }, 100);
   };
 
   return (
-    <div className="post-container h-max w-11/12 flex-col items-center justify-center bg-white border border-gray-300 rounded-md px-2 pt-2">
+    <div className="post-container h-max w-11/12 flex-col items-center justify-center bg-white border border-gray-300 transition transition-border-color duration-300 hover:border-gray-500 rounded-md px-2 pt-2">
       <div className="top w-full flex items-center justify-center pb-1 border-b">
         <div className="left-column h-full w-2/12 flex justify-center">
           <div
@@ -98,12 +107,13 @@ const Post = ({ post }) => {
       <div className="text w-full text-left px-3 py-2 text-sm">{text}</div>
       <div className="bottom w-full flex items-center justify-end px-2 py-2 border-t">
         <div className="icons-container w-max flex items-center justify-end gap-4 text-xs">
-          <div className="w-max flex items-center justify-center gap-1">
-            <button className="outline-none" onClick={() => toCommentPage(post, userId)}>
-              <ChatRight size={14} />
-            </button>
-            <span>Commenter</span>
-          </div>
+          <button
+            className="outline-none w-max flex items-center justify-center gap-1"
+            onClick={toCommentPage}
+          >
+            <ChatRight size={14} />
+            <span>{}</span> <span>Commentaires</span>
+          </button>
           <div className="w-max flex items-center justify-center gap-1">
             <button
               className="outline-none"
@@ -114,7 +124,7 @@ const Post = ({ post }) => {
             >
               {!like ? <HandThumbsUp size={14} /> : <HandThumbsUpFill size={14} />}
             </button>
-            <span>{likesCount}</span>
+            <span>{likesNumber}</span>
           </div>
           <div className="w-max flex items-center justify-center gap-1">
             <ThreeDotsVertical />

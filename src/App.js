@@ -1,5 +1,13 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { Comment, CreatePost, Feed, Homepage, Login, NavBar, Signup } from "./components";
+import {
+  CommentPage,
+  CreatePost,
+  Feed,
+  Homepage,
+  Login,
+  NavBar,
+  Signup,
+} from "./components";
 
 const App = () => {
   return (
@@ -18,9 +26,9 @@ const App = () => {
           <NavBar />
           <CreatePost />
         </Route>
-        <Route path="/comment">
+        <Route path="/comments">
           <NavBar />
-          <Comment />
+          <CommentPage />
         </Route>
         <Route path="/feed">
           <NavBar />

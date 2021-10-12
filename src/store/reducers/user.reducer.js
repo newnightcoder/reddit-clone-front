@@ -16,6 +16,7 @@ const initialState = {
     postId: null,
   },
   liked: null,
+  currentLikesCount: null,
 };
 
 export const userReducer = (state = initialState, action) => {
@@ -104,16 +105,22 @@ export const userReducer = (state = initialState, action) => {
         picUrl: action.payload,
       };
     case actionType.LIKE_POST:
+      const { liked, count } = action.payload;
       return {
         ...state,
-        liked: action.payload,
+        liked,
+        currentLikesCount: count,
       };
-    case actionType.CREATE_COMMENT:
+    case actionType.TO_COMMENT:
       return {
         ...state,
         currentComment: {
           postId: action.payload,
         },
+      };
+    case actionType.CREATE_COMMENT:
+      return {
+        ...state,
       };
     default:
       return state;

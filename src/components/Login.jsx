@@ -29,10 +29,7 @@ const Login = () => {
   const handleUserSubmit = (e) => {
     e.preventDefault();
     dispatch(logUserAction(email, password));
-    if (!loginSuccess) return;
-    history.push({ pathname: "/feed", state: { isNewUser: false } });
   };
-
   const toFeed = (() => {
     if (!loginSuccess) return;
     setTimeout(() => {

@@ -1,7 +1,8 @@
 import { API_POST } from "../../components/API";
 import { actionType } from "../constants";
 
-const { GET_POSTS, CREATE_POST, SET_ERROR_POST, CLEAR_ERROR_POST } = actionType;
+const { GET_POSTS, CREATE_POST, GET_COMMENTS, SET_ERROR_POST, CLEAR_ERROR_POST } =
+  actionType;
 
 export const getPosts = () => async (dispatch) => {
   const request = {
@@ -35,6 +36,25 @@ export const createPost = (userId, title, text, date) => async (dispatch) => {
       return;
     }
     dispatch({ type: CREATE_POST, payload: postId });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_POST, payload: error.message });
+  }
+};
+
+export const getComments = () => async (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_POST });
+
+  const request = {
+    method: "get",
+  };
+  try {
+    const response = await fetch(`${API_POST}/comment`, request);
+    console.log("request get comments");
+    const data = await response.json();
+    const { comments } = data;
+    console.log(comments);
+
+    dispatch({ type: GET_COMMENTS, payload: { comments } });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
   }
