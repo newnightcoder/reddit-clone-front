@@ -49,11 +49,9 @@ export const getComments = () => async (dispatch) => {
   };
   try {
     const response = await fetch(`${API_POST}/comment`, request);
-    console.log("request get comments");
     const data = await response.json();
     const { comments } = data;
     console.log(comments);
-
     dispatch({ type: GET_COMMENTS, payload: { comments } });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });

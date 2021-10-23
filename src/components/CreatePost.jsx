@@ -71,7 +71,7 @@ const CreatePost = () => {
       }}
     >
       <div
-        className="error h-12 w-10/12 md:w-1/2 lg:w-1/3 whitespace-pre bg-black text-white text-sm text-center py-1 rounded"
+        className="error h-12 w-10/12 md:w-1/2 xl:w-1/3 whitespace-pre bg-black text-white text-sm text-center py-1 rounded"
         style={{ visibility: emptyTitle ? "visible" : "hidden" }}
       >
         {emptyTitle && emptyTitleError}
@@ -83,45 +83,47 @@ const CreatePost = () => {
         onSubmit={handlePostSubmit}
       >
         <input
-          className="h-10 w-full px-2 rounded outline-none bg-gray-100 hover:bg-white active:bg-white focus:bg-white border border-gray-500 hover:border-red-400 transition-all duration-200"
+          className="h-10 w-full px-2 rounded outline-none bg-gray-100 hover:bg-white active:bg-white focus:bg-white border border-gray-400 hover:border-gray-500 transition-all duration-200"
           type="text"
           name="createPost"
           id="createPost"
           placeholder="Titre de votre post"
           onChange={handleTitleInput}
         />
-        <div className="h-96 w-full flex flex-col items-center justify-start pt-4">
-          <div className="h-12 w-full flex items-center justify-between rounded-t bg-gray-200 border border-gray-400">
-            <div className="w-2/3 h-full flex items-center justify-start">
-              <button className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center">
-                <TypeBold />
-              </button>
-              <button className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center">
-                <TypeItalic />
-              </button>
-              <button className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center">
-                <TypeUnderline />
-              </button>
-              <button className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center">
-                <Image />
-              </button>
-              <button className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center">
-                <Youtube />
-              </button>
+        <div className="form-container h-full w-full flex flex-col items-center justify-start pt-4">
+          <div className="h-max w-full border border-gray-400 hover:border-gray-500 transition-border-color duration-300 rounded">
+            <div className="h-12 w-full flex items-center justify-between rounded-t bg-gray-200 border-b border-gray-300">
+              <div className="w-2/3 h-full flex items-center justify-start">
+                <button className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center">
+                  <TypeBold />
+                </button>
+                <button className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center">
+                  <TypeItalic />
+                </button>
+                <button className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center">
+                  <TypeUnderline />
+                </button>
+                <button className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center">
+                  <Image />
+                </button>
+                <button className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center">
+                  <Youtube />
+                </button>
+              </div>
+              <div className="w-1/3 h-full whitespace-wrap text-xs text-gray-500 underline flex items-center justify-end text-right pr-4">
+                Enregistrer le brouillon
+              </div>
             </div>
-            <div className="w-1/3 h-full whitespace-wrap text-xs text-gray-500 underline flex items-center justify-end text-right pr-4">
-              Enregistrer le brouillon
+            <div className="container max-w-full h-56 bg-gray-100 hover:bg-white active:bg-white focus:bg-white rounded-bl rounded-br overflow-y-auto p-2">
+              <Editor
+                editorState={editorState}
+                onChange={setEditorState}
+                placeholder="Exprimez-vous..."
+              />
             </div>
-          </div>
-          <div className="container max-w-full h-96 bg-gray-100 hover:bg-white active:bg-white focus:bg-white border-l border-r border-b border-gray-500 hover:border-red-400 rounded-b overflow-y-auto p-2 mb-6">
-            <Editor
-              editorState={editorState}
-              onChange={setEditorState}
-              placeholder="Votre texte..."
-            />
           </div>
           <button
-            className="w-48 flex items-center justify-center gap-1 text-white p-2 rounded disabled:opacity-50 shadow-xl"
+            className="w-48 flex items-center justify-center gap-1 text-white p-2 rounded disabled:opacity-50 mt-4 shadow-xl"
             style={{ backgroundColor: "#ef5350" }}
             disabled={false}
             type="submit"

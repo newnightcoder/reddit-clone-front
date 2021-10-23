@@ -182,13 +182,13 @@ export const createComment = (userId, postId, text, date) => async (dispatch) =>
   try {
     const response = await fetch(`${API_POST}/comment`, request);
     const data = await response.json();
-    console.log(data);
-    const { error, comment } = data;
+    const { error, comment, count } = data;
     if (response.status !== 201) {
       dispatch({ type: SET_ERROR_USER, payload: error.message });
       return;
     }
-    dispatch({ type: CREATE_COMMENT, payload: comment });
+    console.log("last comment posted:", comment);
+    dispatch({ type: CREATE_COMMENT, payload: { comment, count } });
   } catch (error) {
     dispatch({ type: SET_ERROR_USER, payload: error.message });
   }

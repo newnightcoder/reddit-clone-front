@@ -45,7 +45,7 @@ const Feed = () => {
           </>
         ) : null}
       </div>
-      <div className="posts-section-container w-full md:w-1/2 lg:w-1/3 flex flex-col items-center justify-center pt-3 pb-20 relative">
+      <div className="posts-section-container w-full md:w-1/2 xl:w-1/3 flex flex-col items-center justify-center pt-3 pb-20 relative">
         <button
           className="refreshBtn outline-none bg-black text-white rounded-md gap-1 transition-opacity duration-1000 delay-200 flex items-center justify-center absolute right-7 top-0 px-2 py-1"
           onClick={() => dispatch(getPosts())}

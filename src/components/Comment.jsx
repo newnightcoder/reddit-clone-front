@@ -5,15 +5,17 @@ import {
   ChatRight,
   HandThumbsUp,
   HandThumbsUpFill,
-  ThreeDotsVertical,
+  ThreeDotsVertical
 } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 const Comment = ({ comment }) => {
+  
   const { picUrl, username, text, date } = comment;
   const likes = useSelector((state) => state.posts.likes);
   const [like, setLike] = useState(false);
   const [likesNumber, setLikesNumber] = useState("");
+
   const formatTimestamp = (date) => {
     const convertedDate = {
       year: date.split("-")[0],
@@ -35,7 +37,7 @@ const Comment = ({ comment }) => {
   };
 
   return (
-    <div className="comment-container h-max w-11/12 flex-col items-center justify-center bg-white border border-gray-300 transition transition-border-color duration-300 hover:border-red-300 rounded-md px-2 pt-2">
+    <div className="comment-container h-max w-full flex-col items-center justify-center bg-white border-b border-gray-100 transition px-2 pt-2">
       <div className="top w-full flex items-center justify-center pb-1 border-b">
         <div className="left-column h-full w-2/12 flex justify-center">
           <div

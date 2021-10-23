@@ -13,7 +13,7 @@ import picPlaceholder from "../assets/pic_placeholder.svg";
 import { likePost, toComment } from "../store/actions/user.action";
 
 const Post = ({ post }) => {
-  const { title, postId, text, date, username, picUrl, likesCount } = post;
+  const { title, postId, text, date, username, picUrl, likesCount, commentCount } = post;
   const currentLikesCount = useSelector((state) => state.user.currentLikesCount);
   const userId = useSelector((state) => state.user.id);
   const history = useHistory();
@@ -22,7 +22,7 @@ const Post = ({ post }) => {
   const likes = useSelector((state) => state.posts.likes);
   const [like, setLike] = useState(false);
   const [likesNumber, setLikesNumber] = useState(likesCount);
-  const [currentLike, setCurrentLike] = useState(currentLikesCount);
+  // const [currentLike, setCurrentLike] = useState(likesCount);
 
   useEffect(() => {
     setLikesNumber(likesCount);
@@ -44,9 +44,20 @@ const Post = ({ post }) => {
     });
   }, [postId, likes, userId]);
 
-  const handleLike = () => {
+  const handleLike = (id) => {
     setLike((like) => !like);
-    setCurrentLike(currentLikesCount);
+
+    switch (like) {
+      case false:
+        setLikesNumber(likesNumber + 1);
+        break;
+      case true:
+        setLikesNumber(likesNumber - 1);
+        break;
+
+      default:
+        break;
+    }
   };
 
   const formatTimestamp = (date) => {
@@ -112,13 +123,13 @@ const Post = ({ post }) => {
             onClick={toCommentPage}
           >
             <ChatRight size={14} />
-            <span>{}</span> <span>Commentaires</span>
+            <span>{commentCount}</span> <span>Commentaires</span>
           </button>
           <div className="w-max flex items-center justify-center gap-1">
             <button
               className="outline-none"
               onClick={() => {
-                handleLike();
+                handleLike(postId);
                 dispatch(likePost(userId, postId, like));
               }}
             >
