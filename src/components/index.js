@@ -9,6 +9,7 @@ export { default as NavBar } from "./NavBar";
 export { default as Overlay } from "./Overlay";
 export { default as Post } from "./Post";
 export { default as PostSkeleton } from "./PostSkeleton";
+export { default as Reply } from "./Reply";
 export { default as Signup } from "./Signup";
 export { default as SignupForm } from "./SignupForm";
 export { default as StepImage } from "./StepImage";

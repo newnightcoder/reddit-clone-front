@@ -1,73 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   ChatRight,
   HandThumbsUp,
   HandThumbsUpFill,
   ThreeDotsVertical,
 } from "react-bootstrap-icons";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { likePost, toComment } from "../store/actions/user.action";
 import { formatTimestamp } from "./formatTime";
 
-const Post = ({ post }) => {
-  const { title, postId, text, date, username, picUrl, likesCount, commentCount } = post;
-  const currentLikesCount = useSelector((state) => state.user.currentLikesCount);
-  const userId = useSelector((state) => state.user.id);
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const sameUser = [];
-  const likes = useSelector((state) => state.posts.likes);
+const Reply = ({ reply: { text, date, username, picUrl } }) => {
   const [like, setLike] = useState(false);
-  const [likesNumber, setLikesNumber] = useState(likesCount);
-  // const [currentLike, setCurrentLike] = useState(likesCount);
 
-  useEffect(() => {
-    setLikesNumber(likesCount);
-  }, [likesCount]);
+  const [likesNumber, setLikesNumber] = useState(null);
+  const [replyOpen, setReplyOpen] = useState(false);
 
-  useEffect(() => {
-    likes.map((like) => {
-      if (like.fk_userId_like === userId) {
-        return sameUser.push(like.fk_postId_like);
-      }
-      return sameUser;
-    });
-
-    console.log("in useffect", sameUser);
-    sameUser.forEach((id) => {
-      if (id === postId) {
-        setLike(true);
-      }
-    });
-  }, [postId, likes, userId]);
-
-  const handleLike = (id) => {
-    setLike((like) => !like);
-
-    switch (like) {
-      case false:
-        setLikesNumber(likesNumber + 1);
-        break;
-      case true:
-        setLikesNumber(likesNumber - 1);
-        break;
-
-      default:
-        break;
-    }
+  const toggleReply = () => {
+    return setReplyOpen((replyOpen) => !replyOpen);
   };
-
-  const toCommentPage = () => {
-    dispatch(toComment(postId));
-    setTimeout(() => {
-      history.push(`/comments/${post.title}`);
-    }, 100);
-  };
-
   return (
-    <div className="post-container h-max w-11/12 flex-col items-center justify-center bg-white border border-gray-300 transition transition-border-color duration-300 hover:border-gray-500 rounded-md px-2 pt-2">
+    <div
+      className="reply-container h-max w-11/12 flex-col items-center justify-center bg-white border-b border-gray-100 transition-all duration-300 px-2 pt-2 "
+      style={{ marginBottom: replyOpen && "5px" }}
+    >
       <div className="top w-full flex items-center justify-center pb-1 border-b">
         <div className="left-column h-full w-2/12 flex justify-center">
           <div
@@ -90,7 +44,6 @@ const Post = ({ post }) => {
               </div>
               <div className="text-xs italic">{formatTimestamp(date)}</div>
             </div>
-            <div className="title font-bold">{title}</div>
           </div>
         </div>
       </div>
@@ -99,17 +52,17 @@ const Post = ({ post }) => {
         <div className="icons-container w-max flex items-center justify-end gap-4 text-xs">
           <button
             className="outline-none w-max flex items-center justify-center gap-1"
-            onClick={toCommentPage}
+            onClick={toggleReply}
           >
             <ChatRight size={14} />
-            <span>{commentCount}</span> <span>Commentaires</span>
+            <span>{}</span> <span>Répondre</span>
           </button>
           <div className="w-max flex items-center justify-center gap-1">
             <button
               className="outline-none"
               onClick={() => {
-                handleLike(postId);
-                dispatch(likePost(userId, postId, like));
+                // handleLike();
+                // dispatch(likePost(userId, postId, like));
               }}
             >
               {!like ? <HandThumbsUp size={14} /> : <HandThumbsUpFill size={14} />}
@@ -125,4 +78,4 @@ const Post = ({ post }) => {
   );
 };
 
-export default Post;
+export default Reply;

@@ -15,7 +15,7 @@ const initialState = {
   currentComment: {
     postId: null,
   },
-  lastComment: null,
+  // lastComment: null,
   liked: null,
   currentLikesCount: null,
   currentCommentsCount: null,
@@ -126,7 +126,6 @@ export const userReducer = (state = initialState, action) => {
       const { comment, count } = action.payload;
       return {
         ...state,
-        lastComment: comment,
         currentCommentsCount: count,
       };
     default:

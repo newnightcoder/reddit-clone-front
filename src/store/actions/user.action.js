@@ -19,6 +19,7 @@ const {
   LIKE_POST,
   TO_COMMENT,
   CREATE_COMMENT,
+  CREATE_REPLY,
 } = actionType;
 
 export const logUserAction = (email, password) => async (dispatch) => {
@@ -174,7 +175,6 @@ export const createComment = (userId, postId, text, date) => async (dispatch) =>
   const request = {
     headers: {
       "Content-Type": "application/json",
-      // "Access-Control-Allow-Origin": "*",
     },
     method: "post",
     body: JSON.stringify({ userId, postId, text, date }),
@@ -182,13 +182,36 @@ export const createComment = (userId, postId, text, date) => async (dispatch) =>
   try {
     const response = await fetch(`${API_POST}/comment`, request);
     const data = await response.json();
-    const { error, comment, count } = data;
+    const { error, count } = data;
     if (response.status !== 201) {
       dispatch({ type: SET_ERROR_USER, payload: error.message });
       return;
     }
-    console.log("last comment posted:", comment);
-    dispatch({ type: CREATE_COMMENT, payload: { comment, count } });
+    dispatch({ type: CREATE_COMMENT, payload: count });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_USER, payload: error.message });
+  }
+};
+
+export const createReply = (userId, commentId, text, date) => async (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_USER });
+  const request = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "post",
+    body: JSON.stringify({ userId, commentId, text, date }),
+  };
+  try {
+    const response = await fetch(`${API_POST}/reply`, request);
+    const data = await response.json();
+    const { error, reply, count } = data;
+    if (response.status !== 201) {
+      dispatch({ type: SET_ERROR_USER, payload: error.message });
+      return;
+    }
+    console.log("last comment posted:", reply);
+    dispatch({ type: CREATE_REPLY, payload: { reply, count } });
   } catch (error) {
     dispatch({ type: SET_ERROR_USER, payload: error.message });
   }

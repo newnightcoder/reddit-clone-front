@@ -1,8 +1,14 @@
 import { API_POST } from "../../components/API";
 import { actionType } from "../constants";
 
-const { GET_POSTS, CREATE_POST, GET_COMMENTS, SET_ERROR_POST, CLEAR_ERROR_POST } =
-  actionType;
+const {
+  GET_POSTS,
+  CREATE_POST,
+  GET_COMMENTS,
+  GET_REPLIES,
+  SET_ERROR_POST,
+  CLEAR_ERROR_POST,
+} = actionType;
 
 export const getPosts = () => async (dispatch) => {
   const request = {
@@ -53,6 +59,21 @@ export const getComments = () => async (dispatch) => {
     const { comments } = data;
     console.log(comments);
     dispatch({ type: GET_COMMENTS, payload: { comments } });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_POST, payload: error.message });
+  }
+};
+
+export const getReplies = () => async (dispatch) => {
+  const request = {
+    method: "get",
+  };
+  try {
+    const response = await fetch(`${API_POST}/reply`, request);
+    const data = await response.json();
+    const { replies } = data;
+    console.log(replies);
+    dispatch({ type: GET_REPLIES, payload: { replies } });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
   }
