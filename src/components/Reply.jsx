@@ -19,7 +19,7 @@ const Reply = ({ reply: { text, date, username, picUrl } }) => {
   };
   return (
     <div
-      className="reply-container h-max w-11/12 flex-col items-center justify-center bg-white border-b border-gray-100 transition-all duration-300 px-2 pt-2 "
+      className="reply-container h-max w-11/12 flex-col items-center justify-center bg-white border border-gray-200 rounded-md transition-all duration-300 px-2 pt-2 "
       style={{ marginBottom: replyOpen && "5px" }}
     >
       <div className="top w-full flex items-center justify-center pb-1 border-b">

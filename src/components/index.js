@@ -1,11 +1,13 @@
 export { default as Comment } from "./Comment";
 export { default as CommentPage } from "./CommentPage";
 export { default as CreatePost } from "./CreatePost";
+export { default as DeleteModal } from "./DeleteModal";
 export { default as Feed } from "./Feed";
 export { default as Homepage } from "./Homepage";
 export { default as Login } from "./Login";
 export { default as Menu } from "./Menu";
 export { default as NavBar } from "./NavBar";
+export { default as Options } from "./Options";
 export { default as Overlay } from "./Overlay";
 export { default as Post } from "./Post";
 export { default as PostSkeleton } from "./PostSkeleton";

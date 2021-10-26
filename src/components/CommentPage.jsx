@@ -145,21 +145,21 @@ const CommentPage = () => {
             </div>
           </div>
         </form>
-        <div className="comments-container w-full pt-2 flex flex-col items-center justify-center mt-3">
+        <div className="comments-container w-full flex items-center justify-center ">
           {commentsToDisplay.length !== 0 ? (
-            <>
+            <div className="w-11/12 flex flex-col items-center justify-center mt-3 border border-red-300 rounded">
               <span
-                className="w-11/12 uppercase italic rounded-tl rounded-tr text-white px-2 py-1"
+                className="w-full uppercase italic rounded-tl rounded-tr text-white px-2 py-1"
                 style={{ backgroundColor: "#ef5350" }}
               >
                 commentaires
               </span>
-              <div className="w-11/12 bg-gray-100 flex flex-col items-center justify-center gap-2 rounded-bl rounded-br border border-red-300 pb-2">
+              <div className="w-full bg-gray-100 flex flex-col items-end justify-center gap-2 rounded-bl rounded-br  border-red-300 py-2">
                 {commentsToDisplay.map((comment) => {
                   return <Comment key={comment.commentId} comment={comment} />;
                 })}
               </div>
-            </>
+            </div>
           ) : (
             <>
               <span

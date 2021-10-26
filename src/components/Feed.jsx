@@ -14,6 +14,7 @@ const Feed = () => {
   const user = useSelector((state) => state.user);
   const posts = useSelector((state) => state.posts.posts);
   const history = useHistory();
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -53,7 +54,7 @@ const Feed = () => {
         >
           <RefreshIcon className="h-4 w-4" /> <span className="text-xs">rafraîchir</span>
         </button>
-        <div className="posts-wrapper h-full w-full flex flex-col items-center justify-center gap-4 py-6">
+        <div className="posts-wrapper h-full w-full relative flex flex-col items-center justify-center gap-4 py-6">
           {posts.length === 0 ? (
             <PostSkeleton />
           ) : (

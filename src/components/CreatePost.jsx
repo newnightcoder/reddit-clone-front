@@ -1,7 +1,7 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
 import { convertToRaw, Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Image,
   TypeBold,
@@ -26,7 +26,7 @@ const CreatePost = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  useEffect(() => {}, [serverError]);
+  // useEffect(() => {}, [serverError]);
 
   const time = {
     year: new Date().getFullYear(),

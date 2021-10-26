@@ -4,6 +4,7 @@ import { actionType } from "../constants";
 const {
   GET_POSTS,
   CREATE_POST,
+  DELETE_POST,
   GET_COMMENTS,
   GET_REPLIES,
   SET_ERROR_POST,
@@ -11,6 +12,8 @@ const {
 } = actionType;
 
 export const getPosts = () => async (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_POST });
+
   const request = {
     method: "get",
   };
@@ -42,6 +45,30 @@ export const createPost = (userId, title, text, date) => async (dispatch) => {
       return;
     }
     dispatch({ type: CREATE_POST, payload: postId });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_POST, payload: error.message });
+  }
+};
+
+export const deletePost = (postId) => async (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_POST });
+  const request = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "post",
+    body: JSON.stringify({ postId }),
+  };
+  try {
+    const response = await fetch(`${API_POST}/delete`, request);
+    const data = response.json();
+    const { error } = data;
+    if (response.status !== 200) {
+      dispatch({ type: SET_ERROR_POST, payload: error });
+      return;
+    }
+    console.log("postId avant dispatch delete");
+    dispatch({ type: DELETE_POST, payload: true });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
   }

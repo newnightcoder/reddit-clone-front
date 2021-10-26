@@ -64,7 +64,7 @@ const Comment = ({ comment }) => {
   return (
     <>
       <div
-        className="comment-container h-max w-full flex-col items-center justify-center bg-white border-b border-gray-100 transition-all duration-300 px-2 pt-2 "
+        className="comment-container h-max w-full flex-col items-center justify-center bg-white transition-all duration-300 px-2 pt-2 "
         style={{ marginBottom: replyOpen && "5px" }}
       >
         <div className="top w-full flex items-center justify-center pb-1 border-b">
@@ -178,7 +178,9 @@ const Comment = ({ comment }) => {
       </div>
       {replies &&
         replies.map((reply) => {
-          return <Reply key={reply.replyId} reply={reply} />;
+          if (reply.fk_commentId === commentId) {
+            return <Reply key={reply.replyId} reply={reply} />;
+          }
         })}
     </>
   );
