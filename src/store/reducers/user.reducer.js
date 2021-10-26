@@ -21,19 +21,38 @@ const initialState = {
   currentCommentsCount: null,
 };
 
+const {
+  CLEAR_ERROR_USER,
+  SET_ERROR_USER,
+  LOG_USER,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  CREATE_USER,
+  USER_CREATED,
+  USER_FAIL,
+  ADD_USERNAME,
+  USERNAME_ADDED,
+  USERNAME_FAIL,
+  SAVE_USERPIC,
+  LIKE_POST,
+  TO_COMMENT,
+  CREATE_COMMENT,
+  DELETE_USER,
+} = actionType;
+
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actionType.CLEAR_ERROR_USER:
+    case CLEAR_ERROR_USER:
       return {
         ...state,
         error: "",
       };
-    case actionType.SET_ERROR_USER:
+    case SET_ERROR_USER:
       return {
         ...state,
         error: action.payload,
       };
-    case actionType.LOG_USER: {
+    case LOG_USER: {
       console.log("payload reducer", action.payload);
       const { id, email, password, username, picUrl, creationDate } = action.payload.user;
       const { isNewUser } = action.payload;
@@ -49,37 +68,37 @@ export const userReducer = (state = initialState, action) => {
         isNewUser,
       };
     }
-    case actionType.LOGIN_SUCCESS: {
+    case LOGIN_SUCCESS: {
       return {
         ...state,
         loginSuccess: true,
       };
     }
-    case actionType.LOGIN_FAIL: {
+    case LOGIN_FAIL: {
       return {
         ...state,
         loginSuccess: false,
       };
     }
-    case actionType.CREATE_USER:
+    case CREATE_USER:
       return {
         ...state,
         id: action.payload,
       };
-    case actionType.USER_CREATED: {
+    case USER_CREATED: {
       return {
         ...state,
         userCreated: true,
       };
     }
-    case actionType.USER_FAIL: {
+    case USER_FAIL: {
       return {
         ...state,
         userCreated: false,
       };
     }
 
-    case actionType.ADD_USERNAME: {
+    case ADD_USERNAME: {
       const { username, email, creationDate, isNewUser } = action.payload;
       return {
         ...state,
@@ -89,24 +108,24 @@ export const userReducer = (state = initialState, action) => {
         isNewUser,
       };
     }
-    case actionType.USERNAME_ADDED: {
+    case USERNAME_ADDED: {
       return {
         ...state,
         usernameAdded: true,
       };
     }
-    case actionType.USERNAME_FAIL: {
+    case USERNAME_FAIL: {
       return {
         ...state,
         usernameAdded: false,
       };
     }
-    case actionType.SAVE_USERPIC:
+    case SAVE_USERPIC:
       return {
         ...state,
         picUrl: action.payload,
       };
-    case actionType.LIKE_POST: {
+    case LIKE_POST: {
       const { liked, count } = action.payload;
       return {
         ...state,
@@ -115,18 +134,24 @@ export const userReducer = (state = initialState, action) => {
       };
     }
 
-    case actionType.TO_COMMENT:
+    case TO_COMMENT:
       return {
         ...state,
         currentComment: {
           postId: action.payload,
         },
       };
-    case actionType.CREATE_COMMENT:
+    case CREATE_COMMENT:
       const { comment, count } = action.payload;
       return {
         ...state,
         currentCommentsCount: count,
+      };
+
+    case DELETE_USER:
+      return {
+        ...state,
+        state: initialState,
       };
     default:
       return state;

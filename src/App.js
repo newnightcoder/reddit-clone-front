@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import {
   CommentPage,
   CreatePost,
+  DeletedProfile,
   Feed,
   Homepage,
   Login,
@@ -33,6 +34,9 @@ const App = () => {
         <Route path="/feed">
           <NavBar />
           <Feed />
+        </Route>
+        <Route path="/fin">
+          <DeletedProfile />
         </Route>
       </Switch>
     </Router>

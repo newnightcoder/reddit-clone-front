@@ -154,7 +154,7 @@ const CommentPage = () => {
               >
                 commentaires
               </span>
-              <div className="w-full bg-gray-100 flex flex-col items-end justify-center gap-2 rounded-bl rounded-br  border-red-300 py-2">
+              <div className="w-full bg-gray-100 flex flex-col items-center justify-center  rounded-bl rounded-br  border-red-300 py-2">
                 {commentsToDisplay.map((comment) => {
                   return <Comment key={comment.commentId} comment={comment} />;
                 })}

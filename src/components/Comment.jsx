@@ -138,7 +138,7 @@ const Comment = ({ comment }) => {
               />
             </div>
             <div className="h-12 w-full flex items-center justify-between rounded-b bg-gray-200 pr-2">
-              <div className="w-2/3 h-full flex items-center justify-start">
+              <div className="w-1/2 h-full flex items-center justify-center">
                 <button className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center">
                   <TypeBold />
                 </button>
@@ -155,20 +155,20 @@ const Comment = ({ comment }) => {
                   <Youtube />
                 </button>
               </div>
-              <div className="w-full flex items-center justify-end gap-3">
+              <div className="w-max flex items-center justify-end gap-1">
                 <button
-                  className="h-8 w-8 rounded-full flex items-center justify-center text-white bg-gray-500"
+                  className="h-6 w-6 rounded-full flex items-center justify-center text-white bg-gray-500"
                   disabled={false}
                   onClick={() => setReplyOpen(false)}
                 >
                   <XIcon className="h-4 w-4 text-white" />
                 </button>
                 <button
-                  className="h-8 flex items-center justify-center gap-1 text-white bg-gray-500 rounded-3xl disabled:opacity-50 px-4"
+                  className="h-6 flex items-center justify-center gap-1 text-white bg-gray-500 rounded-3xl disabled:opacity-50 px-2"
                   disabled={false}
                   type="submit"
                 >
-                  <span className="text-sm capitalize">commenter</span>
+                  <span className="text-xs capitalize">commenter</span>
                   <PaperAirplaneIcon className="h-4 w-4 text-white transform rotate-45 -translate-y-px" />
                 </button>
               </div>{" "}
@@ -176,12 +176,17 @@ const Comment = ({ comment }) => {
           </div>
         </form>
       </div>
-      {replies &&
-        replies.map((reply) => {
-          if (reply.fk_commentId === commentId) {
-            return <Reply key={reply.replyId} reply={reply} />;
-          }
-        })}
+      <div
+        className="w-full bg-gray-100 flex flex-col items-end justify-center gap-2 py-2"
+        // style={replies.length !== 0 && { borderLeft: "1px solid pink" }}
+      >
+        {replies &&
+          replies.map((reply) => {
+            if (reply.fk_commentId === commentId) {
+              return <Reply key={reply.replyId} reply={reply} />;
+            }
+          })}
+      </div>
     </>
   );
 };

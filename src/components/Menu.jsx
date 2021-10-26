@@ -1,43 +1,42 @@
-import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
-import { formatDistanceToNowStrict } from "date-fns";
-import fr from "date-fns/locale/fr";
+import {
+  ChevronDoubleRightIcon,
+  HeartIcon,
+  PencilIcon,
+  TrashIcon,
+  UserCircleIcon,
+} from "@heroicons/react/solid";
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import { DeleteModal } from ".";
 import logo2 from "../assets/logo2.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { saveUserPic } from "../store/actions/user.action";
+import { deleteUser, saveUserPic } from "../store/actions/user.action";
+import { formatTimestamp } from "./formatTime";
 
 const Menu = ({ isOpen }) => {
   const [blob, setBlob] = useState(null);
   const [blobName, setBlobName] = useState(null);
   const file = useRef(null);
   const { id, picUrl, username, creationDate } = useSelector((state) => state.user);
+  const [isHidden, setIsHidden] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
+  const history = useHistory();
+
   const dispatch = useDispatch();
-
-  const formatTimestamp = (date) => {
-    const convertedDate = {
-      year: date.split("-")[0],
-      month: date.split("-")[1],
-      day: date.split("-")[2],
-      minute: date.split("-")[3],
-      seconds: date.split("-")[4],
-    };
-
-    return formatDistanceToNowStrict(
-      new Date(
-        convertedDate.year,
-        convertedDate.month,
-        convertedDate.day,
-        convertedDate.minute,
-        convertedDate.seconds
-      ),
-      { addSuffix: false, locale: fr }
-    );
-  };
 
   const handleImgSubmit = async (e) => {
     e.preventDefault();
     dispatch(saveUserPic(blob, id));
+  };
+
+  const toggleDeleteModal = () => {
+    setOpenModal((openModal) => !openModal);
+  };
+
+  const handleDeleteProfile = () => {
+    dispatch(deleteUser(id));
+    history.push("/fin");
   };
 
   return (
@@ -69,16 +68,16 @@ const Menu = ({ isOpen }) => {
           </span>
         </div>
       </div>
-      <div className="main-section h-full w-full flex items-start justify-center pt-1">
+      <div className="main-section h-full w-full flex flex-col items-center justify-start gap-2">
         <form
-          className="h-1/3 w-full flex flex-col items-center justify-center gap-2"
+          className="handle-img h-max w-full flex flex-col items-center justify-start gap-1"
           action=""
           method="POST"
           encType="multipart/form-data"
           onSubmit={handleImgSubmit}
         >
           <label
-            className="w-48 text-center text-white text-sm p-2 rounded shadow-xl"
+            className="button-changer-choisir w-48 text-center text-white text-sm p-2 rounded shadow-xl"
             style={{ backgroundColor: "#ef5350" }}
             htmlFor="file"
           >
@@ -96,37 +95,36 @@ const Menu = ({ isOpen }) => {
               onChange={() => {
                 setBlob(file.current.files[0]);
                 setBlobName(file.current.files[0].name);
+                setIsHidden(false);
               }}
             />
-            <div>
-              {blobName !== null ? (
+            <div className="text-center text-xs">
+              {!isHidden ? (
                 blobName
               ) : !picUrl ? (
                 <span className="italic text-xs">Aucune photo pour le moment.</span>
               ) : null}
             </div>
           </div>
-          <div className="w-full flex items-center justify-center gap-4">
+          <div className="buttons-container-apercu-valider w-full flex items-center justify-center gap-4">
             <button
-              className="text-white text-sm p-2 border border-red-500 rounded transform translate-y-2 transition transition-opacity duration-1000 shadow-xl"
+              className="text-white text-sm px-2 shadow py-1 border border-red-500 rounded transform transition transition-opacity duration-1000 shadow-xl"
               style={
-                blobName == null
-                  ? { visibility: "hidden", opacity: 0 }
-                  : { visibility: "visible", opacity: 1, backgroundColor: "#ef5350" }
+                isHidden
+                  ? { display: "none", opacity: 0 }
+                  : { display: "block", opacity: 1, backgroundColor: "#ef5350" }
               }
             >
               voir l'aperçu
             </button>
             <button
-              className="w-max flex items-center gap-1 text-black font-bold border border-black p-2 rounded transform translate-y-2 transition transition-opacity duration-1000 shadow-xl"
+              className="w-max flex items-center gap-1 text-black font-bold px-2 shadow py-1 rounded transform transition transition-opacity duration-1000 shadow-xl"
               style={
-                blobName === null
+                isHidden
                   ? { opacity: 0, display: "none" }
                   : { opacity: 1, display: "flex", backgroundColor: "#ef5350" }
               }
-              onClick={() => {
-                console.log(picUrl);
-              }}
+              onClick={() => setIsHidden(true)}
             >
               valider
               <ChevronDoubleRightIcon
@@ -136,7 +134,42 @@ const Menu = ({ isOpen }) => {
             </button>
           </div>
         </form>
+        <ul className="h-max w-11/12 flex flex-col items-start justify-center gap-3 pt-10 pl-4 text-sm text-gray-900">
+          <li>
+            <button className="flex items-center justify-center gap-1">
+              <UserCircleIcon className="h-8 text-gray-700" /> Mon profil
+            </button>
+          </li>
+          <li>
+            <button className="flex items-center justify-center gap-1">
+              <PencilIcon className="h-8 text-gray-700" />
+              Créer un nouveau post
+            </button>
+          </li>
+          <li>
+            <button className="flex items-center justify-center gap-1">
+              <HeartIcon className="h-8 text-gray-700" />
+              Posts que j'ai aimé
+            </button>
+          </li>
+          <li>
+            <button
+              className="flex items-center justify-center gap-1 text-sm"
+              onClick={() => setOpenModal(true)}
+            >
+              <TrashIcon className="h-8 text-gray-700" />
+              Supprimer mon profil
+            </button>
+          </li>
+        </ul>
       </div>
+      {openModal && (
+        <DeleteModal
+          toggleDeleteModal={toggleDeleteModal}
+          handleDeleteProfile={handleDeleteProfile}
+          origin={"menu"}
+        />
+      )}
     </div>
   );
 };

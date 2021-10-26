@@ -12,6 +12,7 @@ const {
   LOG_USER,
   USER_FAIL,
   CREATE_USER,
+  DELETE_USER,
   USERNAME_FAIL,
   ADD_USERNAME,
   USERNAME_ADDED,
@@ -212,6 +213,28 @@ export const createReply = (userId, commentId, text, date) => async (dispatch) =
     }
     console.log("last comment posted:", reply);
     dispatch({ type: CREATE_REPLY, payload: { reply, count } });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_USER, payload: error.message });
+  }
+};
+
+export const deleteUser = (id) => async (dispatch) => {
+  const request = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "post",
+    body: JSON.stringify({ id }),
+  };
+  try {
+    const response = await fetch(`${API_AUTH}/delete`, request);
+    const data = response.json();
+    const { error } = data;
+    if (response.status !== 200) {
+      dispatch({ type: SET_ERROR_USER, payload: error });
+      return;
+    }
+    dispatch({ type: DELETE_USER });
   } catch (error) {
     dispatch({ type: SET_ERROR_USER, payload: error.message });
   }

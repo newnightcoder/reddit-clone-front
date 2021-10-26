@@ -1,6 +1,7 @@
 export { default as Comment } from "./Comment";
 export { default as CommentPage } from "./CommentPage";
 export { default as CreatePost } from "./CreatePost";
+export { default as DeletedProfile } from "./DeletedProfile";
 export { default as DeleteModal } from "./DeleteModal";
 export { default as Feed } from "./Feed";
 export { default as Homepage } from "./Homepage";
@@ -11,6 +12,7 @@ export { default as Options } from "./Options";
 export { default as Overlay } from "./Overlay";
 export { default as Post } from "./Post";
 export { default as PostSkeleton } from "./PostSkeleton";
+export { default as Profile } from "./Profile";
 export { default as Reply } from "./Reply";
 export { default as Signup } from "./Signup";
 export { default as SignupForm } from "./SignupForm";

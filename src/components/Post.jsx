@@ -77,7 +77,7 @@ const Post = ({ post }) => {
     }
   };
 
-  const handleDelete = () => {
+  const handleDeletePost = () => {
     dispatch(deletePost(postId));
     setIsDeleted(true);
     setTimeout(() => {
@@ -95,6 +95,7 @@ const Post = ({ post }) => {
   const toggleOptions = () => {
     setOptionsOpen((optionsOpen) => !optionsOpen);
   };
+
   const toggleDeleteModal = () => {
     setOpenModal((openModal) => !openModal);
   };
@@ -105,7 +106,11 @@ const Post = ({ post }) => {
       style={{ transform: isDeleted && "scale(0)", display: isGone && "none" }}
     >
       {openModal && userId === fk_userId_post && (
-        <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDelete={handleDelete} />
+        <DeleteModal
+          toggleDeleteModal={toggleDeleteModal}
+          handleDeletePost={handleDeletePost}
+          origin={"post"}
+        />
       )}
       <div className="top w-full flex items-center justify-center pb-1 border-b">
         <div className="left-column h-full w-2/12 flex justify-center">
