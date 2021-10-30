@@ -145,7 +145,7 @@ const CommentPage = () => {
             </div>
           </div>
         </form>
-        <div className="comments-container w-full flex items-center justify-center ">
+        <div className="comments-container w-full flex flex-col items-center justify-center ">
           {commentsToDisplay.length !== 0 ? (
             <div className="w-11/12 flex flex-col items-center justify-center mt-3 border border-red-300 rounded">
               <span
@@ -163,7 +163,7 @@ const CommentPage = () => {
           ) : (
             <>
               <span
-                className="w-11/12 uppercase italic rounded text-white text-center px-2 py-1"
+                className="w-11/12 uppercase italic rounded-tl rounded-tr text-white text-center px-2 py-1"
                 style={{ backgroundColor: "#ef5350" }}
               >
                 pas encore de commentaire

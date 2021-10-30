@@ -13,8 +13,11 @@ const {
 
 export const getPosts = () => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
-
+  const accessToken = localStorage.getItem("jwt");
   const request = {
+    headers: {
+      Authorization: `${accessToken}`,
+    },
     method: "get",
   };
   try {
@@ -29,9 +32,12 @@ export const getPosts = () => async (dispatch) => {
 
 export const createPost = (userId, title, text, date) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
+  const accessToken = localStorage.getItem("jwt");
+  console.log("token", accessToken);
   const request = {
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
     },
     method: "POST",
     body: JSON.stringify({ userId, title, text, date }),
@@ -39,10 +45,12 @@ export const createPost = (userId, title, text, date) => async (dispatch) => {
   try {
     const response = await fetch(API_POST, request);
     const data = await response.json();
-    const { postId, error } = data;
-    if (response.status !== 201) {
-      dispatch({ type: SET_ERROR_POST, payload: error });
+    const { postId, message, error } = data;
+    if (response.status === 401 || 403) {
+      dispatch({ type: SET_ERROR_POST, payload: message });
       return;
+    } else if (response.status !== 201) {
+      dispatch({ type: SET_ERROR_POST, payload: error.message });
     }
     dispatch({ type: CREATE_POST, payload: postId });
   } catch (error) {

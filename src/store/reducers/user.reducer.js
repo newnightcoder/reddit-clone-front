@@ -11,7 +11,7 @@ const initialState = {
   loginSuccess: false,
   userCreated: false,
   usernameAdded: false,
-  isNewUser: false,
+  isNewUser: null,
   currentComment: {
     postId: null,
   },
@@ -55,7 +55,7 @@ export const userReducer = (state = initialState, action) => {
     case LOG_USER: {
       console.log("payload reducer", action.payload);
       const { id, email, password, username, picUrl, creationDate } = action.payload.user;
-      const { isNewUser } = action.payload;
+      const { isNewUser, accessToken } = action.payload;
 
       return {
         ...state,
@@ -66,6 +66,7 @@ export const userReducer = (state = initialState, action) => {
         picUrl,
         creationDate,
         isNewUser,
+        accessToken,
       };
     }
     case LOGIN_SUCCESS: {

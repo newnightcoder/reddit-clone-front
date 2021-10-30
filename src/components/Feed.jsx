@@ -2,10 +2,10 @@ import { PaperAirplaneIcon, RefreshIcon } from "@heroicons/react/solid";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import { Post } from ".";
 import logo from "../assets/logo.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { getPosts } from "../store/actions/posts.action";
-import { Post } from "./index";
 import PostSkeleton from "./PostSkeleton";
 
 const Feed = () => {
@@ -22,9 +22,9 @@ const Feed = () => {
   }, [isNewUser]);
 
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(getPosts());
-    }, 2000);
+    // setTimeout(() => {
+    dispatch(getPosts());
+    // }, 2000);
   }, [dispatch]);
 
   return (
@@ -33,13 +33,13 @@ const Feed = () => {
       style={{ background: `url(${logo}) no-repeat fixed center/250%` }}
     >
       <div className="bienvenueMsg-newcomer text-center whitespace-pre mb-2">
-        {newUser ? (
+        {newUser === false ? (
           <>
             Bienvenue <span className="capitalize">{user.username}!</span>
             <br />
             Échangez entre collègues.
           </>
-        ) : !newUser ? (
+        ) : newUser === true ? (
           <>
             Content de vous revoir&nbsp;
             <span className="capitalize">{user.username}!</span>
@@ -50,12 +50,14 @@ const Feed = () => {
         <button
           className="refreshBtn outline-none bg-black text-white rounded-md gap-1 transition-opacity duration-1000 delay-200 flex items-center justify-center absolute right-7 top-0 px-2 py-1"
           onClick={() => dispatch(getPosts())}
-          style={{ opacity: posts.length !== 0 ? 1 : 0 }}
+          style={{ opacity: posts && posts.length !== 0 ? 1 : 0 }}
         >
           <RefreshIcon className="h-4 w-4" /> <span className="text-xs">rafraîchir</span>
         </button>
         <div className="posts-wrapper h-full w-full relative flex flex-col items-center justify-center gap-4 py-6">
-          {posts.length === 0 ? (
+          {posts == undefined ? (
+            <div>oops</div>
+          ) : posts.length === 0 ? (
             <PostSkeleton />
           ) : (
             posts.map((post) => <Post key={post.postId} post={post} />)

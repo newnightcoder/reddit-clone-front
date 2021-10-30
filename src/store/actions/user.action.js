@@ -35,7 +35,7 @@ export const logUserAction = (email, password) => async (dispatch) => {
   try {
     const response = await fetch(`${API_AUTH}/login`, request);
     const data = await response.json();
-    const { error, user, isNewUser } = data;
+    const { error, user, isNewUser, accessToken } = data;
     if (response.status !== 200) {
       dispatch({ type: SET_ERROR_USER, payload: error });
       dispatch({ type: LOGIN_FAIL });
@@ -45,6 +45,7 @@ export const logUserAction = (email, password) => async (dispatch) => {
       type: LOG_USER,
       payload: { user, isNewUser },
     });
+    localStorage.setItem("jwt", accessToken);
     dispatch({ type: LOGIN_SUCCESS });
   } catch (err) {
     console.log(err.message);
@@ -176,6 +177,7 @@ export const createComment = (userId, postId, text, date) => async (dispatch) =>
   const request = {
     headers: {
       "Content-Type": "application/json",
+      "x-access-token": "",
     },
     method: "post",
     body: JSON.stringify({ userId, postId, text, date }),

@@ -49,7 +49,7 @@ const Menu = ({ isOpen }) => {
           <div
             className="w-40 h-40 rounded-full border border-gray-400"
             style={
-              picUrl
+              picUrl.length !== 0
                 ? { background: `url(${picUrl}) no-repeat center/cover` }
                 : {
                     background: `url(${picPlaceholder}) no-repeat center/cover`,
@@ -58,13 +58,15 @@ const Menu = ({ isOpen }) => {
           ></div>
         </div>
         <div className="username-member h-max w-full flex flex-col items-center justify-start">
-          <span className="text-xl font-bold capitalize">{username}</span>
+          <span className="text-xl font-bold capitalize">
+            {username.length !== 0 && username}
+          </span>
           <span className="block italic text-sm flex items-center justify-center gap-1">
             <span
               className="block w-6 h-6 rounded-full outline-none transform translate-y-px"
               style={{ background: `url(${logo2}) no-repeat center/cover` }}
             ></span>
-            membre depuis {formatTimestamp(creationDate)}
+            membre depuis {creationDate.length !== 0 && formatTimestamp(creationDate)}
           </span>
         </div>
       </div>
