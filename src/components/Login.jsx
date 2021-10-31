@@ -39,7 +39,7 @@ const Login = () => {
 
   return (
     <div
-      className="h-screen w-screen flex flex-col items-center justify-center gap-4 bg-deep-orange-300"
+      className="h-full w-full flex flex-col items-center justify-center gap-4 bg-deep-orange-300"
       style={{ background: `url(${logo}) no-repeat center/250%` }}
     >
       <h2 className="text-center uppercase flex flex-col md:flex-row md:gap-1">

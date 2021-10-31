@@ -9,21 +9,33 @@ const {
   GET_REPLIES,
   SET_ERROR_POST,
   CLEAR_ERROR_POST,
+  SESSION_EXPIRED,
 } = actionType;
 
 export const getPosts = () => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
   const accessToken = localStorage.getItem("jwt");
+  console.log("token de getPOsts:", accessToken);
   const request = {
     headers: {
-      Authorization: `${accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     method: "get",
   };
   try {
     const response = await fetch(API_POST, request);
     const data = await response.json();
-    const { posts, likes } = data;
+    const { posts, likes, message, sessionExpired } = data;
+    console.log(message);
+    if (sessionExpired) {
+      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+      // setTimeout(() => {
+      //   history.push("/");
+      // }, 500);
+      // localStorage.clear();
+      // dispatch({ type: PURGE, key: "root", result: () => null });
+      return;
+    }
     dispatch({ type: GET_POSTS, payload: { posts, likes } });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });

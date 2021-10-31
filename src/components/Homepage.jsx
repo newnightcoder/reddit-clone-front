@@ -1,14 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.svg";
+import { persistor } from "../store/storeConfig";
 
 const Homepage = () => {
+  persistor.purge();
   return (
     <div
-      className="h-screen w-screen flex flex-col items-center justify-center gap-8 bg-orange-500 text-black"
+      className="h-full w-full flex flex-col items-center justify-center gap-8 bg-orange-500 text-black"
       style={{ background: `url(${logo}) no-repeat center/250%` }}
     >
-      {/* <h1 className="w-screen capitalize text-center">groupomania</h1> */}
       <div className="w-full flex flex-col items-center">
         <h1 className="uppercase font-bold">Déjà membre?</h1>
         <Link

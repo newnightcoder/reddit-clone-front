@@ -1,3 +1,4 @@
+import { PURGE } from "redux-persist";
 import { actionType } from "../constants";
 
 const initialState = {
@@ -8,6 +9,7 @@ const initialState = {
   error: "",
   lastAdded: null,
   lastDeleted: null,
+  sessionExpired: false,
 };
 
 const {
@@ -18,6 +20,7 @@ const {
   CLEAR_ERROR_POST,
   CREATE_POST,
   DELETE_POST,
+  SESSION_EXPIRED,
 } = actionType;
 
 export const postsReducer = (state = initialState, action) => {
@@ -39,6 +42,11 @@ export const postsReducer = (state = initialState, action) => {
       return { ...state, error: action.payload };
     case CLEAR_ERROR_POST:
       return { ...state, error: "" };
+    case SESSION_EXPIRED: {
+      return { ...state, sessionExpired: action.payload };
+    }
+    case PURGE:
+      return initialState;
     default:
       return state;
   }

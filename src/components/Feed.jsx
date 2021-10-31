@@ -13,6 +13,7 @@ const Feed = () => {
   const isNewUser = useSelector((state) => state.user.isNewUser);
   const user = useSelector((state) => state.user);
   const posts = useSelector((state) => state.posts.posts);
+  const sessionExpired = useSelector((state) => state.posts.sessionExpired);
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -22,24 +23,24 @@ const Feed = () => {
   }, [isNewUser]);
 
   useEffect(() => {
-    // setTimeout(() => {
-    dispatch(getPosts());
-    // }, 2000);
+    setTimeout(() => {
+      dispatch(getPosts());
+    }, 2000);
   }, [dispatch]);
 
   return (
     <div
-      className="feed-container min-h-screen w-screen flex flex-col items-center justify-start bg-red-300 relative pt-3"
+      className="feed-container min-h-screen w-full flex flex-col items-center justify-start bg-red-300 relative pt-3"
       style={{ background: `url(${logo}) no-repeat fixed center/250%` }}
     >
       <div className="bienvenueMsg-newcomer text-center whitespace-pre mb-2">
-        {newUser === false ? (
+        {newUser === true ? (
           <>
             Bienvenue <span className="capitalize">{user.username}!</span>
             <br />
             Échangez entre collègues.
           </>
-        ) : newUser === true ? (
+        ) : newUser === false ? (
           <>
             Content de vous revoir&nbsp;
             <span className="capitalize">{user.username}!</span>
@@ -55,9 +56,7 @@ const Feed = () => {
           <RefreshIcon className="h-4 w-4" /> <span className="text-xs">rafraîchir</span>
         </button>
         <div className="posts-wrapper h-full w-full relative flex flex-col items-center justify-center gap-4 py-6">
-          {posts == undefined ? (
-            <div>oops</div>
-          ) : posts.length === 0 ? (
+          {posts?.length === 0 || posts === undefined ? (
             <PostSkeleton />
           ) : (
             posts.map((post) => <Post key={post.postId} post={post} />)

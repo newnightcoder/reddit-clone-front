@@ -1,3 +1,4 @@
+export { default as AppContainer } from "./AppContainer";
 export { default as Comment } from "./Comment";
 export { default as CommentPage } from "./CommentPage";
 export { default as CreatePost } from "./CreatePost";
@@ -18,3 +19,4 @@ export { default as Signup } from "./Signup";
 export { default as SignupForm } from "./SignupForm";
 export { default as StepImage } from "./StepImage";
 export { default as StepUsername } from "./StepUsername";
+export { default as Wrapper } from "./Wrapper";

@@ -1,3 +1,4 @@
+import { PURGE } from "redux-persist";
 import { actionType } from "../constants.js";
 
 const initialState = {
@@ -19,6 +20,7 @@ const initialState = {
   liked: null,
   currentLikesCount: null,
   currentCommentsCount: null,
+  sessionExpired: false,
 };
 
 const {
@@ -42,6 +44,8 @@ const {
 
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
+    case PURGE:
+      return initialState;
     case CLEAR_ERROR_USER:
       return {
         ...state,
