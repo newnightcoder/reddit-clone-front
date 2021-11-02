@@ -29,11 +29,6 @@ export const getPosts = () => async (dispatch) => {
     console.log(message);
     if (sessionExpired) {
       dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
-      // setTimeout(() => {
-      //   history.push("/");
-      // }, 500);
-      // localStorage.clear();
-      // dispatch({ type: PURGE, key: "root", result: () => null });
       return;
     }
     dispatch({ type: GET_POSTS, payload: { posts, likes } });
@@ -57,11 +52,16 @@ export const createPost = (userId, title, text, date) => async (dispatch) => {
   try {
     const response = await fetch(API_POST, request);
     const data = await response.json();
-    const { postId, message, error } = data;
-    if (response.status === 401 || 403) {
+    const { postId, message, error, sessionExpired } = data;
+    if (sessionExpired) {
+      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+      return;
+    }
+    if (response.status === 401) {
       dispatch({ type: SET_ERROR_POST, payload: message });
       return;
-    } else if (response.status !== 201) {
+    }
+    if (response.status !== 201) {
       dispatch({ type: SET_ERROR_POST, payload: error.message });
     }
     dispatch({ type: CREATE_POST, payload: postId });
@@ -72,9 +72,12 @@ export const createPost = (userId, title, text, date) => async (dispatch) => {
 
 export const deletePost = (postId) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
+  const accessToken = localStorage.getItem("jwt");
+
   const request = {
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
     },
     method: "post",
     body: JSON.stringify({ postId }),
@@ -82,7 +85,11 @@ export const deletePost = (postId) => async (dispatch) => {
   try {
     const response = await fetch(`${API_POST}/delete`, request);
     const data = response.json();
-    const { error } = data;
+    const { error, sessionExpired } = data;
+    if (sessionExpired) {
+      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+      return;
+    }
     if (response.status !== 200) {
       dispatch({ type: SET_ERROR_POST, payload: error });
       return;
@@ -96,14 +103,22 @@ export const deletePost = (postId) => async (dispatch) => {
 
 export const getComments = () => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
+  const accessToken = localStorage.getItem("jwt");
 
   const request = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
     method: "get",
   };
   try {
     const response = await fetch(`${API_POST}/comment`, request);
     const data = await response.json();
-    const { comments } = data;
+    const { comments, sessionExpired } = data;
+    if (sessionExpired) {
+      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+      return;
+    }
     console.log(comments);
     dispatch({ type: GET_COMMENTS, payload: { comments } });
   } catch (error) {
@@ -112,13 +127,22 @@ export const getComments = () => async (dispatch) => {
 };
 
 export const getReplies = () => async (dispatch) => {
+  const accessToken = localStorage.getItem("jwt");
+
   const request = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
     method: "get",
   };
   try {
     const response = await fetch(`${API_POST}/reply`, request);
     const data = await response.json();
-    const { replies } = data;
+    const { replies, sessionExpired } = data;
+    if (sessionExpired) {
+      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+      return;
+    }
     console.log(replies);
     dispatch({ type: GET_REPLIES, payload: { replies } });
   } catch (error) {

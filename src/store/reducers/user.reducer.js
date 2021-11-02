@@ -4,7 +4,6 @@ import { actionType } from "../constants.js";
 const initialState = {
   id: null,
   email: "",
-  password: "",
   username: "",
   picUrl: "",
   creationDate: "",
@@ -13,6 +12,7 @@ const initialState = {
   userCreated: false,
   usernameAdded: false,
   isNewUser: null,
+  role: null,
   currentComment: {
     postId: null,
   },
@@ -40,36 +40,26 @@ const {
   TO_COMMENT,
   CREATE_COMMENT,
   DELETE_USER,
+  SESSION_EXPIRED,
 } = actionType;
 
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case PURGE:
-      return initialState;
-    case CLEAR_ERROR_USER:
-      return {
-        ...state,
-        error: "",
-      };
-    case SET_ERROR_USER:
-      return {
-        ...state,
-        error: action.payload,
-      };
     case LOG_USER: {
       console.log("payload reducer", action.payload);
-      const { id, email, password, username, picUrl, creationDate } = action.payload.user;
+      const { id, email, password, username, picUrl, creationDate, role } =
+        action.payload.user;
       const { isNewUser, accessToken } = action.payload;
 
       return {
         ...state,
         id,
         email,
-        password,
         username,
         picUrl,
         creationDate,
         isNewUser,
+        role,
         accessToken,
       };
     }
@@ -104,13 +94,14 @@ export const userReducer = (state = initialState, action) => {
     }
 
     case ADD_USERNAME: {
-      const { username, email, creationDate, isNewUser } = action.payload;
+      const { username, email, creationDate, isNewUser, role } = action.payload;
       return {
         ...state,
         username,
         email,
         creationDate,
         isNewUser,
+        role,
       };
     }
     case USERNAME_ADDED: {
@@ -158,6 +149,21 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         state: initialState,
       };
+    case CLEAR_ERROR_USER:
+      return {
+        ...state,
+        error: "",
+      };
+    case SET_ERROR_USER:
+      return {
+        ...state,
+        error: action.payload,
+      };
+    case SESSION_EXPIRED: {
+      return { ...state, sessionExpired: action.payload };
+    }
+    case PURGE:
+      return initialState;
     default:
       return state;
   }

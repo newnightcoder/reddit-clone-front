@@ -14,7 +14,7 @@ import { likePost, toComment } from "../store/actions/user.action";
 import { formatTimestamp } from "./formatTime";
 import Options from "./Options";
 
-const Post = ({ post }) => {
+const Post = ({ post, isAdmin }) => {
   const {
     title,
     postId,
@@ -105,13 +105,13 @@ const Post = ({ post }) => {
       className="post-container h-max w-11/12 relative flex-col items-center justify-center bg-white border border-gray-300 transition transition-border-color transition-transform duration-300 hover:border-gray-500 rounded-md px-2 pt-2"
       style={{ transform: isDeleted && "scale(0)", display: isGone && "none" }}
     >
-      {openModal && userId === fk_userId_post && (
+      {(openModal && userId === fk_userId_post) || (openModal && isAdmin === true) ? (
         <DeleteModal
           toggleDeleteModal={toggleDeleteModal}
           handleDeletePost={handleDeletePost}
           origin={"post"}
         />
-      )}
+      ) : null}
       <div className="top w-full flex items-center justify-center pb-1 border-b">
         <div className="left-column h-full w-2/12 flex justify-center">
           <div
@@ -173,6 +173,7 @@ const Post = ({ post }) => {
           userId={fk_userId_post}
           toggleOptions={toggleOptions}
           toggleDeleteModal={toggleDeleteModal}
+          isAdmin={isAdmin}
         />
       )}
     </div>

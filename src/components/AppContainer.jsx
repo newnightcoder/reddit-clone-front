@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import {
   CommentPage,
   CreatePost,
@@ -11,19 +11,33 @@ import {
   Menu,
   NavBar,
   Overlay,
+  SessionExpiredModal,
   Signup,
   Wrapper,
 } from ".";
 
 const AppContainer = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const sessionExpired = useSelector((state) => state.posts.posts);
+  const [hidden, setHidden] = useState(true);
+  const [isExpired, setIsExpired] = useState(false);
+  const sessionExpired = useSelector((state) => state.posts.sessionExpired);
+  console.log("session expired", sessionExpired);
+
+  useEffect(() => {
+    if (sessionExpired) setIsExpired(true);
+    console.log("session expired useEffect", sessionExpired);
+  }, [sessionExpired]);
+
   const toggleMenu = () => {
     return setIsOpen((isOpen) => !isOpen);
   };
 
   const closeMenu = () => {
     return setIsOpen(false);
+  };
+
+  const closeExpirationModal = () => {
+    setIsExpired(false);
   };
 
   return (
@@ -42,20 +56,7 @@ const AppContainer = () => {
       </Switch>{" "}
       <Overlay isOpen={isOpen} close={closeMenu} />
       <Menu isOpen={isOpen} />
-      {sessionExpired && (
-        <div
-          className="w-full h-full flex flex-col items-center justify-center gap-2  fixed top-0 left-0 z-50 bg-gray-900 transition-opacity duration-500 opacity-0 text-white text-sm"
-          style={sessionExpired && { opacity: 0.9 }}
-        >
-          Votre session a expiré! <br />{" "}
-          <span className="flex gap-1">
-            Veuillez vous reconnecter
-            <Link to="/login" className="underline hover:text-red-500">
-              ici
-            </Link>
-          </span>
-        </div>
-      )}
+      <SessionExpiredModal isExpired={isExpired} close={closeExpirationModal} />
     </div>
   );
 };

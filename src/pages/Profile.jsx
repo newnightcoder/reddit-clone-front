@@ -5,39 +5,15 @@ import {
   TrashIcon,
   UserCircleIcon,
 } from "@heroicons/react/solid";
-import React, { useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { default as React, default as React } from "react";
+import { useSelector } from "react-redux";
 import { DeleteModal } from ".";
 import logo2 from "../assets/logo2.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { deleteUser, saveUserPic } from "../store/actions/user.action";
 import { formatTimestamp } from "./formatTime";
 
-const Menu = ({ isOpen }) => {
-  const [blob, setBlob] = useState(null);
-  const [blobName, setBlobName] = useState(null);
-  const file = useRef(null);
+const Profile = () => {
   const { id, picUrl, username, creationDate } = useSelector((state) => state?.user);
-  const [isHidden, setIsHidden] = useState(true);
-  const [openModal, setOpenModal] = useState(false);
-  const history = useHistory();
-
-  const dispatch = useDispatch();
-
-  const handleImgSubmit = async (e) => {
-    e.preventDefault();
-    dispatch(saveUserPic(blob, id));
-  };
-
-  const toggleDeleteModal = () => {
-    setOpenModal((openModal) => !openModal);
-  };
-
-  const handleDeleteProfile = () => {
-    dispatch(deleteUser(id));
-    history.push("/fin");
-  };
 
   return (
     <div
@@ -176,4 +152,4 @@ const Menu = ({ isOpen }) => {
   );
 };
 
-export default Menu;
+export default Profile;

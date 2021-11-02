@@ -8,7 +8,7 @@ import {
 import React from "react";
 import { useSelector } from "react-redux";
 
-const Options = ({ userId, toggleOptions, toggleDeleteModal }) => {
+const Options = ({ userId, toggleOptions, toggleDeleteModal, isAdmin }) => {
   const user = useSelector((state) => state.user.id);
 
   return (
@@ -24,7 +24,7 @@ const Options = ({ userId, toggleOptions, toggleDeleteModal }) => {
           <FlagIcon className="text-gray-300 hover:text-white h-3" /> signaler
         </button>
       )}
-      {user === userId ? (
+      {user === userId || isAdmin === true ? (
         <>
           <button className="h-5 flex gap-0.5 items-center justify-center hover:text-white hover:underline">
             <PencilIcon className="text-gray-300 hover:text-white h-3" />

@@ -18,7 +18,6 @@ const DeleteModal = ({
       message =
         "Votre profil est sur le point d'être supprimé définitement de Groupomania.\n Voulez-vous vraiment l'effacer?";
       handleDelete = handleDeleteProfile;
-
       break;
     default:
   }

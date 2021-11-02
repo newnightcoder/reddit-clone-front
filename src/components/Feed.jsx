@@ -15,11 +15,18 @@ const Feed = () => {
   const posts = useSelector((state) => state.posts.posts);
   const sessionExpired = useSelector((state) => state.posts.sessionExpired);
   const history = useHistory();
+  const role = useSelector((state) => state.user.role);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const setRole = () => {
+    if (role === "admin") setIsAdmin(true);
+  };
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     setNewUser(isNewUser);
+    setRole();
   }, [isNewUser]);
 
   useEffect(() => {
@@ -59,7 +66,7 @@ const Feed = () => {
           {posts?.length === 0 || posts === undefined ? (
             <PostSkeleton />
           ) : (
-            posts.map((post) => <Post key={post.postId} post={post} />)
+            posts.map((post) => <Post key={post.postId} post={post} isAdmin={isAdmin} />)
           )}
         </div>
         <div className="createpost-link-bottom w-full fixed bottom-0 left-0 flex flex-col items-center justify-center mt-1 bg-gray-400 border border-gray-300 ">

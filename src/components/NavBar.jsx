@@ -8,7 +8,7 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
 
   return (
     <>
-      <div className="h-16 w-screen relative z-50">
+      <div className="h-16 w-screen relative z-10">
         <div
           className="fixed h-16 w-full pl-2 pr-4 flex items-center justify-evenly gap-1 text-white shadow-md"
           style={{ backgroundColor: "#ef5350" }}
