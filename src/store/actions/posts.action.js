@@ -3,6 +3,7 @@ import { actionType } from "../constants";
 
 const {
   GET_POSTS,
+  GET_USER_POSTS,
   CREATE_POST,
   DELETE_POST,
   GET_COMMENTS,
@@ -15,7 +16,6 @@ const {
 export const getPosts = () => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
   const accessToken = localStorage.getItem("jwt");
-  console.log("token de getPOsts:", accessToken);
   const request = {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -31,6 +31,31 @@ export const getPosts = () => async (dispatch) => {
       return;
     }
     dispatch({ type: GET_POSTS, payload: { posts, likes } });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_POST, payload: error.message });
+  }
+};
+
+export const getUserPosts = (userId) => async (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_POST });
+  const accessToken = localStorage.getItem("jwt");
+  const request = {
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    method: "post",
+    body: JSON.stringify({ userId }),
+  };
+  try {
+    const response = await fetch(`${API_POST}/user`, request);
+    const data = await response.json();
+    const { posts, likes, sessionExpired } = data;
+    if (sessionExpired) {
+      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+      return;
+    }
+    dispatch({ type: GET_USER_POSTS, payload: { posts, likes } });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
   }

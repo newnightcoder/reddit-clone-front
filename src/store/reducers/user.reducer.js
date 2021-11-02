@@ -5,7 +5,7 @@ const initialState = {
   id: null,
   email: "",
   username: "",
-  picUrl: "",
+  picUrl: null,
   creationDate: "",
   error: "",
   loginSuccess: false,
@@ -49,8 +49,7 @@ export const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOG_USER: {
       console.log("payload reducer", action.payload);
-      const { id, email, password, username, picUrl, creationDate, role } =
-        action.payload.user;
+      const { id, email, username, picUrl, creationDate, role } = action.payload.user;
       const { isNewUser, accessToken } = action.payload;
 
       return {
@@ -140,7 +139,7 @@ export const userReducer = (state = initialState, action) => {
         },
       };
     case CREATE_COMMENT:
-      const { comment, count } = action.payload;
+      const { count } = action.payload;
       return {
         ...state,
         currentCommentsCount: count,

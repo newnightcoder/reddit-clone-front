@@ -8,8 +8,9 @@ import {
 import React from "react";
 import { useSelector } from "react-redux";
 
-const Options = ({ userId, toggleOptions, toggleDeleteModal, isAdmin }) => {
+const Options = ({ userId, toggleOptions, toggleDeleteModal }) => {
   const user = useSelector((state) => state.user.id);
+  const role = useSelector((state) => state.user.role);
 
   return (
     <div className="flex flex-col items-start justify-center absolute right-0 bottom-0 bg-gray-800 text-xs text-gray-300 rounded-tl pl-2 pr-6 py-1">
@@ -24,7 +25,7 @@ const Options = ({ userId, toggleOptions, toggleDeleteModal, isAdmin }) => {
           <FlagIcon className="text-gray-300 hover:text-white h-3" /> signaler
         </button>
       )}
-      {user === userId || isAdmin === true ? (
+      {user === userId || role === "admin" ? (
         <>
           <button className="h-5 flex gap-0.5 items-center justify-center hover:text-white hover:underline">
             <PencilIcon className="text-gray-300 hover:text-white h-3" />

@@ -14,7 +14,7 @@ import { getUserProfile, likePost, toComment } from "../store/actions/user.actio
 import { formatTimestamp } from "../utils/formatTime";
 import Options from "./Options";
 
-const Post = ({ post, isAdmin }) => {
+const Post = ({ post }) => {
   const {
     title,
     postId,
@@ -26,7 +26,6 @@ const Post = ({ post, isAdmin }) => {
     commentCount,
     fk_userId_post,
   } = post;
-  const currentLikesCount = useSelector((state) => state.user.currentLikesCount);
   const userId = useSelector((state) => state.user.id);
   const profileName = useSelector((state) => state.user.currentProfileVisit.username);
   const history = useHistory();
@@ -37,7 +36,9 @@ const Post = ({ post, isAdmin }) => {
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
-  const [isGone, setIsGone] = useState(false);
+  const [postIsGone, setpostIsGone] = useState(false);
+  const role = useSelector((state) => state?.user.role);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -77,7 +78,7 @@ const Post = ({ post, isAdmin }) => {
     dispatch(deletePost(postId));
     setIsDeleted(true);
     setTimeout(() => {
-      setIsGone(true);
+      setpostIsGone(true);
     }, 500);
   };
 
@@ -111,9 +112,9 @@ const Post = ({ post, isAdmin }) => {
   return (
     <div
       className="post-container h-max w-11/12 relative flex-col items-center justify-center bg-white border border-gray-300 transition transition-border-color transition-transform duration-300 hover:border-gray-500 rounded-md px-2 pt-2"
-      style={{ transform: isDeleted && "scale(0)", display: isGone && "none" }}
+      style={{ transform: isDeleted && "scale(0)", display: postIsGone && "none" }}
     >
-      {(openModal && userId === fk_userId_post) || (openModal && isAdmin === true) ? (
+      {(openModal && userId === fk_userId_post) || (openModal && role === "admin") ? (
         <DeleteModal
           toggleDeleteModal={toggleDeleteModal}
           handleDeletePost={handleDeletePost}
@@ -122,8 +123,8 @@ const Post = ({ post, isAdmin }) => {
       ) : null}
       <div className="top w-full flex items-center justify-center pb-1 border-b">
         <div className="left-column h-full w-2/12 flex justify-center">
-          <div
-            className="avatar-container w-11 h-11 rounded-full border border-gray-300 hover:cursor-pointer"
+          <button
+            className="avatar-container outline-none w-11 h-11 rounded-full border border-gray-300 hover:cursor-pointer"
             style={
               picUrl
                 ? { background: `url(${picUrl}) no-repeat center/cover` }
@@ -132,15 +133,18 @@ const Post = ({ post, isAdmin }) => {
                   }
             }
             onClick={() => toProfilePage(postId)}
-          ></div>
+          ></button>
         </div>
         <div className="right-column  h-full w-10/12 flex flex-col items-center justify-center">
           <div className="username-title-container h-max w-full flex flex-col items-start justify-center pl-1 pr-3">
             <div className="username-date w-full flex items-center justify-between gap-2">
-              <div className="capitalize">
+              <button
+                className="outline-none capitalize hover:cursor-pointer hover:underline"
+                onClick={() => toProfilePage(postId)}
+              >
                 <span className="text-xs">@</span>
                 {username}
-              </div>
+              </button>
               <div className="text-xs italic">{formatTimestamp(date)}</div>
             </div>
             <div className="title font-bold h-max">{title}</div>
@@ -176,7 +180,6 @@ const Post = ({ post, isAdmin }) => {
           userId={fk_userId_post}
           toggleOptions={toggleOptions}
           toggleDeleteModal={toggleDeleteModal}
-          isAdmin={isAdmin}
         />
       )}
     </div>

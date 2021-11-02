@@ -7,7 +7,6 @@ import StepImage from "./StepImage";
 const StepUsername = () => {
   const [userName, setUserName] = useState("");
   const [isLong, setIsLong] = useState(false);
-  const [isCreated, setIsCreated] = useState(false);
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
   const error = useSelector((state) => state.user.error);
@@ -35,7 +34,6 @@ const StepUsername = () => {
     e.preventDefault();
     dispatch(saveUserName(userId, userName, date));
     if (!usernameAdded) return;
-    setIsCreated(true);
   };
 
   const toNextStep = usernameAdded

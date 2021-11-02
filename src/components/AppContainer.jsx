@@ -16,13 +16,20 @@ import { getPosts } from "../store/actions/posts.action";
 
 const AppContainer = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [hidden, setHidden] = useState(true);
   const [isExpired, setIsExpired] = useState(false);
   const sessionExpired = useSelector((state) => state.posts.sessionExpired);
+  // const [isAdmin, setIsAdmin] = useState(false);
   const dispatch = useDispatch();
-  console.log("session expired", sessionExpired);
+
+  // const setRole = () => {
+  //   if (role === "admin") {
+  //     setIsAdmin(true);
+  //   }
+  // };
+  // console.log("admin?", isAdmin);
 
   useEffect(() => {
+    // setRole();
     if (sessionExpired) setIsExpired(true);
     console.log("session expired useEffect", sessionExpired);
   }, [sessionExpired]);
@@ -54,9 +61,9 @@ const AppContainer = () => {
           <Route path="/comments" component={CommentPage} />
           <Route path="/profile" component={ProfilePage} />
         </Route>
-      </Switch>{" "}
+      </Switch>
       <Overlay isOpen={isOpen} close={closeMenu} />
-      <Menu isOpen={isOpen} toggleMenu={toggleMenu} />
+      {isOpen && <Menu isOpen={isOpen} toggleMenu={toggleMenu} />}
       <SessionExpiredModal isExpired={isExpired} close={closeExpirationModal} />
     </div>
   );

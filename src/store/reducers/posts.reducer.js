@@ -3,6 +3,8 @@ import { actionType } from "../constants";
 
 const initialState = {
   posts: [],
+  userPosts: [],
+  // userPostsLikes:[],
   comments: [],
   replies: [],
   likes: [],
@@ -14,6 +16,7 @@ const initialState = {
 
 const {
   GET_POSTS,
+  GET_USER_POSTS,
   GET_COMMENTS,
   GET_REPLIES,
   SET_ERROR_POST,
@@ -25,9 +28,14 @@ const {
 
 export const postsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_POSTS:
+    case GET_POSTS: {
       const { posts, likes } = action.payload;
       return { ...state, posts, likes };
+    }
+    case GET_USER_POSTS: {
+      const { posts, likes } = action.payload;
+      return { ...state, userPosts: posts, likes };
+    }
     case GET_COMMENTS:
       const { comments } = action.payload;
       return { ...state, comments };

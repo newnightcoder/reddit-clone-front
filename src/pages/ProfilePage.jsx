@@ -10,7 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import logo2 from "../assets/logo2.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { DeleteModal } from "../components";
+import { DeleteModal, Post } from "../components";
+import { getUserPosts } from "../store/actions/posts.action";
 import {
   cleanCurrentProfileVisit,
   deleteUser,
@@ -19,23 +20,34 @@ import {
 import { formatTimestamp } from "../utils/formatTime";
 
 const Profile = () => {
-  // const  = user;
-  const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState(false);
   const history = useHistory();
   const [blob, setBlob] = useState(null);
   const [blobName, setBlobName] = useState(null);
   const file = useRef(null);
   const [isHidden, setIsHidden] = useState(true);
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state?.user);
   const { id, picUrl, username, creationDate } = user;
   const profileUser = useSelector((state) => state?.user?.currentProfileVisit);
+  const role = useSelector((state) => state?.user.role);
+  const posts = useSelector((state) => state?.posts.userPosts);
+  const dispatch = useDispatch();
+
+  const profilePostsTitle = (
+    <>
+      <span>Posts de </span>
+      <span className="capitalize">{profileUser.username}</span>
+    </>
+  );
 
   useEffect(() => {
+    if (profileUser) {
+      dispatch(getUserPosts(profileUser.id));
+    } else dispatch(getUserPosts(id));
     return function cleanup() {
       dispatch(cleanCurrentProfileVisit());
     };
-  }, []);
+  }, [dispatch]);
 
   const handleImgSubmit = async (e) => {
     e.preventDefault();
@@ -46,12 +58,20 @@ const Profile = () => {
     setOpenModal((openModal) => !openModal);
   };
 
-  const handleDeleteProfile = () => {
-    dispatch(deleteUser(id));
-    history.push("/fin");
+  const handleDeleteProfile = (profileId) => {
+    if (profileId === id) {
+      dispatch(deleteUser(id));
+      history.push("/fin");
+    } else if (profileId === profileUser.id) {
+      dispatch(deleteUser(profileUser.id));
+      history.push("/fin");
+    }
   };
   return (
     <div className="page-container h-max w-screen py-5 bg-gray-100 flex flex-col items-center justify-start gap-2 rounded-tr rounded-br transition transition-transform duration-300">
+      {!profileUser && (
+        <h1 className="w-10/12 text-left text-xl text-gray-700 underline ">Mon profil</h1>
+      )}
       <div className="top-section h-max w-10/12 pb-2 flex flex-col items-center justify-center gap-2 border-b border-gray-300">
         <div className="avatar-container h-max w-full flex items-center justify-center">
           <div
@@ -61,7 +81,7 @@ const Profile = () => {
                 ? { background: `url(${profileUser.picUrl}) no-repeat center/cover` }
                 : profileUser?.picUrl === null
                 ? { background: `url(${picPlaceholder}) no-repeat center/cover` }
-                : picUrl?.length !== 0
+                : picUrl !== null
                 ? { background: `url(${picUrl}) no-repeat center/cover` }
                 : { background: `url(${picPlaceholder}) no-repeat center/cover` }
             }
@@ -160,7 +180,7 @@ const Profile = () => {
           <ul className="h-max w-11/12 flex flex-col items-start justify-center gap-3 pt-10 pl-4 text-sm text-gray-900">
             <li>
               <button className="flex items-center justify-center gap-1">
-                <UserCircleIcon className="h-8 text-gray-700" /> Mon profil
+                <UserCircleIcon className="h-8 text-gray-700" /> Modifier mon profil
               </button>
             </li>
             <li>
@@ -187,13 +207,34 @@ const Profile = () => {
           </ul>
         )}
       </div>
+      <div>
+        {role === "admin" && profileUser.id && (
+          <button
+            className="flex items-center justify-center gap-1 text-sm"
+            onClick={() => setOpenModal(true)}
+          >
+            <TrashIcon className="h-8 text-gray-700" />
+            Supprimer le profil
+          </button>
+        )}
+      </div>
       {openModal && (
         <DeleteModal
           toggleDeleteModal={toggleDeleteModal}
           handleDeleteProfile={handleDeleteProfile}
-          origin={"menu"}
+          origin={"profile"}
         />
       )}
+      <div className="w-10/12 flex flex-col items-center justify-center">
+        <h2 className="underline">
+          {profileUser ? <>{profilePostsTitle}</> : "Mes posts"}
+        </h2>
+        <div className="w-full flex flex-col items-center justify-center pt-4">
+          {posts.map((post) => (
+            <Post key={post.postId} post={post} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

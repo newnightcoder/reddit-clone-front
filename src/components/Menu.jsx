@@ -34,8 +34,9 @@ const Menu = ({ isOpen, toggleMenu }) => {
     setOpenModal((openModal) => !openModal);
   };
 
-  const handleDeleteProfile = () => {
+  const handleDeleteProfileFromMenu = () => {
     dispatch(deleteUser(id));
+    toggleMenu();
     history.push("/fin");
   };
 
@@ -49,7 +50,7 @@ const Menu = ({ isOpen, toggleMenu }) => {
           <div
             className="w-40 h-40 rounded-full border border-gray-400"
             style={
-              picUrl?.length !== 0
+              picUrl !== null
                 ? { background: `url(${picUrl}) no-repeat center/cover` }
                 : {
                     background: `url(${picPlaceholder}) no-repeat center/cover`,
@@ -174,8 +175,9 @@ const Menu = ({ isOpen, toggleMenu }) => {
       {openModal && (
         <DeleteModal
           toggleDeleteModal={toggleDeleteModal}
-          handleDeleteProfile={handleDeleteProfile}
+          handleDeleteProfile={handleDeleteProfileFromMenu}
           origin={"menu"}
+          toggleMenu={toggleMenu}
         />
       )}
     </div>

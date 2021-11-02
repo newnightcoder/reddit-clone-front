@@ -27,6 +27,7 @@ export const actionType = {
   //  POSTS
   ////////////////
   GET_POSTS: "GET_POSTS",
+  GET_USER_POSTS: "GET_USER_POSTS",
   GET_REPLIES: "GET_REPLIES",
   CREATE_POST: "CREATE_POST",
   DELETE_POST: "DELETE_POST",

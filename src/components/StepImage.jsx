@@ -8,11 +8,8 @@ import { saveUserPic } from "../store/actions/user.action";
 
 const StepImage = () => {
   const [errorServer, setErrorServer] = useState("");
-  // const [isImg, setIsImg] = useState(false);
-  // const [fileName, setFileName] = useState(null);
   const [blob, setBlob] = useState(null);
   const [blobName, setBlobName] = useState(null);
-  const [error, setError] = useState("");
   const file = useRef(null);
   const { id, picUrl } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -47,7 +44,7 @@ const StepImage = () => {
           className="h-48 w-48 rounded-full border border-gray-600"
           style={{
             background: `url(${
-              picUrl !== "" ? picUrl : picPlaceholder
+              picUrl !== null ? picUrl : picPlaceholder
             }) no-repeat center/cover`,
           }}
         ></div>

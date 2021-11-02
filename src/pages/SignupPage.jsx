@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import SignupForm from "../components/SignupForm";
 import { createUser } from "../store/actions/user.action";
 
@@ -11,9 +11,7 @@ const Signup = () => {
   const [isLowercase, setIsLowercase] = useState(false);
   const [isNumber, setIsNumber] = useState(false);
   const [isLong, setIsLong] = useState(false);
-  const [isCreated, setIsCreated] = useState(false);
   const dispatch = useDispatch();
-  const userCreated = useSelector((state) => state.user.userCreated);
 
   /* eslint no-control-regex: 0 */
   const emailRegex =
@@ -72,7 +70,6 @@ const Signup = () => {
         handleNewEmail={handleNewEmail}
         handleNewPass={handleNewPass}
         handleNewUserSubmit={handleNewUserSubmit}
-        isCreated={isCreated}
       />
     </div>
   );

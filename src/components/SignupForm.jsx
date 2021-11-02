@@ -9,7 +9,6 @@ const SignupForm = ({
   handleNewEmail,
   handleNewPass,
   handleNewUserSubmit,
-  // isCreated,
   isEmail,
   isLong,
   isLowercase,
