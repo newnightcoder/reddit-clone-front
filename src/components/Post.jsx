@@ -178,6 +178,7 @@ const Post = ({ post }) => {
       {optionsOpen && (
         <Options
           userId={fk_userId_post}
+          postId={postId}
           toggleOptions={toggleOptions}
           toggleDeleteModal={toggleDeleteModal}
         />

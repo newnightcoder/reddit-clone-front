@@ -5,6 +5,7 @@ const {
   GET_POSTS,
   GET_USER_POSTS,
   CREATE_POST,
+  EDIT_POST,
   DELETE_POST,
   GET_COMMENTS,
   GET_REPLIES,
@@ -89,6 +90,39 @@ export const createPost = (userId, title, text, date) => async (dispatch) => {
       dispatch({ type: SET_ERROR_POST, payload: error.message });
     }
     dispatch({ type: CREATE_POST, payload: postId });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_POST, payload: error.message });
+  }
+};
+
+export const editPost = (postId, userId, title, text) => async (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_POST });
+  const accessToken = localStorage.getItem("jwt");
+  console.log("token", accessToken);
+  const request = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    method: "POST",
+    body: JSON.stringify({ postId, userId, title, text }),
+  };
+  try {
+    const response = await fetch(`${API_POST}/edit`, request);
+    const data = await response.json();
+    const { post, message, error, sessionExpired } = data;
+    if (sessionExpired) {
+      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+      return;
+    }
+    if (response.status === 401) {
+      dispatch({ type: SET_ERROR_POST, payload: message });
+      return;
+    }
+    if (response.status !== 200) {
+      dispatch({ type: SET_ERROR_POST, payload: error.message });
+    }
+    dispatch({ type: EDIT_POST, payload: post });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
   }

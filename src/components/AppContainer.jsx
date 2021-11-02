@@ -6,6 +6,7 @@ import {
   CommentPage,
   CreatePostPage,
   DeletedProfilePage,
+  EditPage,
   FeedPage,
   HomePage,
   LoginPage,
@@ -18,18 +19,9 @@ const AppContainer = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isExpired, setIsExpired] = useState(false);
   const sessionExpired = useSelector((state) => state.posts.sessionExpired);
-  // const [isAdmin, setIsAdmin] = useState(false);
   const dispatch = useDispatch();
 
-  // const setRole = () => {
-  //   if (role === "admin") {
-  //     setIsAdmin(true);
-  //   }
-  // };
-  // console.log("admin?", isAdmin);
-
   useEffect(() => {
-    // setRole();
     if (sessionExpired) setIsExpired(true);
     console.log("session expired useEffect", sessionExpired);
   }, [sessionExpired]);
@@ -58,6 +50,7 @@ const AppContainer = () => {
           <NavBar toggleMenu={toggleMenu} closeMenu={closeMenu} isOpen={isOpen} />
           <Route path="/feed" component={FeedPage} />
           <Route path="/create" component={CreatePostPage} />
+          <Route path="/edit" component={EditPage} />
           <Route path="/comments" component={CommentPage} />
           <Route path="/profile" component={ProfilePage} />
         </Route>

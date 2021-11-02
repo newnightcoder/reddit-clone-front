@@ -7,8 +7,9 @@ import {
 } from "@heroicons/react/solid";
 import React from "react";
 import { useSelector } from "react-redux";
+import history from "../utils/history";
 
-const Options = ({ userId, toggleOptions, toggleDeleteModal }) => {
+const Options = ({ userId, postId, toggleOptions, toggleDeleteModal }) => {
   const user = useSelector((state) => state.user.id);
   const role = useSelector((state) => state.user.role);
 
@@ -25,21 +26,29 @@ const Options = ({ userId, toggleOptions, toggleDeleteModal }) => {
           <FlagIcon className="text-gray-300 hover:text-white h-3" /> signaler
         </button>
       )}
-      {user === userId || role === "admin" ? (
-        <>
-          <button className="h-5 flex gap-0.5 items-center justify-center hover:text-white hover:underline">
-            <PencilIcon className="text-gray-300 hover:text-white h-3" />
-            modifier
-          </button>
-          <button
-            className="h-5 flex gap-0.5 items-center justify-center hover:text-white hover:underline"
-            onClick={toggleDeleteModal}
-          >
-            <TrashIcon className="text-gray-300 hover:text-white h-3" />
-            supprimer
-          </button>
-        </>
-      ) : null}
+      {user === userId && (
+        <button
+          className="h-5 flex gap-0.5 items-center justify-center hover:text-white hover:underline"
+          onClick={() =>
+            setTimeout(() => {
+              history.push({ pathname: "/edit", state: postId });
+            }, 250)
+          }
+        >
+          <PencilIcon className="text-gray-300 hover:text-white h-3" />
+          modifier
+        </button>
+      )}
+      {(user === userId || role === "admin") && (
+        <button
+          className="h-5 flex gap-0.5 items-center justify-center hover:text-white hover:underline"
+          onClick={toggleDeleteModal}
+        >
+          <TrashIcon className="text-gray-300 hover:text-white h-3" />
+          supprimer
+        </button>
+      )}
+
       <button className="h-5 flex gap-0.5 items-center justify-center hover:text-white hover:underline">
         <ShareIcon className="text-gray-300 hover:text-white h-3" />
         partager
