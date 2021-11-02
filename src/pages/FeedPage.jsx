@@ -2,11 +2,11 @@ import { PaperAirplaneIcon, RefreshIcon } from "@heroicons/react/solid";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Post } from ".";
 import logo from "../assets/logo.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
+import { Post } from "../components";
+import PostSkeleton from "../components/PostSkeleton";
 import { getPosts } from "../store/actions/posts.action";
-import PostSkeleton from "./PostSkeleton";
 
 const Feed = () => {
   const [newUser, setNewUser] = useState(false);

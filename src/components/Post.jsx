@@ -10,8 +10,8 @@ import { useHistory } from "react-router";
 import { DeleteModal } from ".";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { deletePost } from "../store/actions/posts.action";
-import { likePost, toComment } from "../store/actions/user.action";
-import { formatTimestamp } from "./formatTime";
+import { getUserProfile, likePost, toComment } from "../store/actions/user.action";
+import { formatTimestamp } from "../utils/formatTime";
 import Options from "./Options";
 
 const Post = ({ post, isAdmin }) => {
@@ -28,6 +28,7 @@ const Post = ({ post, isAdmin }) => {
   } = post;
   const currentLikesCount = useSelector((state) => state.user.currentLikesCount);
   const userId = useSelector((state) => state.user.id);
+  const profileName = useSelector((state) => state.user.currentProfileVisit.username);
   const history = useHistory();
   const sameUser = [];
   const likes = useSelector((state) => state.posts.likes);
@@ -37,9 +38,7 @@ const Post = ({ post, isAdmin }) => {
   const [openModal, setOpenModal] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [isGone, setIsGone] = useState(false);
-
   const dispatch = useDispatch();
-  // const [currentLike, setCurrentLike] = useState(likesCount);
 
   useEffect(() => {
     setLikesNumber(likesCount);
@@ -52,8 +51,6 @@ const Post = ({ post, isAdmin }) => {
       }
       return sameUser;
     });
-
-    console.log("in useffect", sameUser);
     sameUser.forEach((id) => {
       if (id === postId) {
         setLike(true);
@@ -61,9 +58,8 @@ const Post = ({ post, isAdmin }) => {
     });
   }, [postId, likes, userId]);
 
-  const handleLike = (id) => {
+  const handleLike = (postId) => {
     setLike((like) => !like);
-
     switch (like) {
       case false:
         setLikesNumber(likesNumber + 1);
@@ -71,10 +67,10 @@ const Post = ({ post, isAdmin }) => {
       case true:
         setLikesNumber(likesNumber - 1);
         break;
-
       default:
         break;
     }
+    dispatch(likePost(userId, postId, like));
   };
 
   const handleDeletePost = () => {
@@ -89,6 +85,18 @@ const Post = ({ post, isAdmin }) => {
     dispatch(toComment(postId));
     setTimeout(() => {
       history.push(`/comments/${post.title}`);
+    }, 100);
+  };
+
+  const toProfilePage = (postId) => {
+    console.log("post id", postId);
+    if (userId === fk_userId_post) {
+      history.push(`profile/${username}`);
+      return;
+    }
+    dispatch(getUserProfile(fk_userId_post));
+    setTimeout(() => {
+      history.push(`profile/${profileName}`);
     }, 100);
   };
 
@@ -115,7 +123,7 @@ const Post = ({ post, isAdmin }) => {
       <div className="top w-full flex items-center justify-center pb-1 border-b">
         <div className="left-column h-full w-2/12 flex justify-center">
           <div
-            className="avatar-container w-11 h-11 rounded-full border border-gray-300"
+            className="avatar-container w-11 h-11 rounded-full border border-gray-300 hover:cursor-pointer"
             style={
               picUrl
                 ? { background: `url(${picUrl}) no-repeat center/cover` }
@@ -123,10 +131,11 @@ const Post = ({ post, isAdmin }) => {
                     background: `url(${picPlaceholder}) no-repeat center/cover`,
                   }
             }
+            onClick={() => toProfilePage(postId)}
           ></div>
         </div>
         <div className="right-column  h-full w-10/12 flex flex-col items-center justify-center">
-          <div className="username-title-container h-12 w-full flex flex-col items-start justify-center pl-1 pr-3">
+          <div className="username-title-container h-max w-full flex flex-col items-start justify-center pl-1 pr-3">
             <div className="username-date w-full flex items-center justify-between gap-2">
               <div className="capitalize">
                 <span className="text-xs">@</span>
@@ -134,7 +143,7 @@ const Post = ({ post, isAdmin }) => {
               </div>
               <div className="text-xs italic">{formatTimestamp(date)}</div>
             </div>
-            <div className="title font-bold">{title}</div>
+            <div className="title font-bold h-max">{title}</div>
           </div>
         </div>
       </div>
@@ -149,13 +158,7 @@ const Post = ({ post, isAdmin }) => {
             <span>{commentCount}</span> <span>Commentaires</span>
           </button>
           <div className="w-max flex items-center justify-center gap-1">
-            <button
-              className="outline-none"
-              onClick={() => {
-                handleLike(postId);
-                dispatch(likePost(userId, postId, like));
-              }}
-            >
+            <button className="outline-none" onClick={() => handleLike(postId)}>
               {!like ? <HandThumbsUp size={14} /> : <HandThumbsUpFill size={14} />}
             </button>
             <span>{likesNumber}</span>

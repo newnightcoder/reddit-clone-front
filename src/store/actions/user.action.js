@@ -21,6 +21,8 @@ const {
   TO_COMMENT,
   CREATE_COMMENT,
   CREATE_REPLY,
+  GET_USER_PROFILE,
+  CLEAN_PROFILE_VISIT,
   SESSION_EXPIRED,
 } = actionType;
 
@@ -237,6 +239,28 @@ export const createReply = (userId, commentId, text, date) => async (dispatch) =
   } catch (error) {
     dispatch({ type: SET_ERROR_USER, payload: error.message });
   }
+};
+
+export const getUserProfile = (id) => async (dispatch) => {
+  const request = {
+    headers: {
+      "Content-type": "application/json",
+    },
+    method: "post",
+    body: JSON.stringify({ id }),
+  };
+  try {
+    const response = await fetch(API_AUTH, request);
+    const { user } = await response.json();
+    console.log("user reçu pour le profil", user);
+    dispatch({ type: GET_USER_PROFILE, payload: user });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_USER, payload: error.message });
+  }
+};
+
+export const cleanCurrentProfileVisit = () => (dispatch) => {
+  dispatch({ type: CLEAN_PROFILE_VISIT });
 };
 
 export const deleteUser = (id) => async (dispatch) => {

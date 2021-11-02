@@ -21,7 +21,8 @@ export const actionType = {
   CLEAR_ERROR_USER: "CLEAR_ERROR_USER",
   // WITH POST
   LIKE_POST: "LIKE_POST",
-
+  GET_USER_PROFILE: "GET_USER_PROFILE",
+  CLEAN_PROFILE_VISIT: "CLEAN_PROFILE_VISIT",
   ////////////////
   //  POSTS
   ////////////////

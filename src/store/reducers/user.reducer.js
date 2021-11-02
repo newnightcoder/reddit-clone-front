@@ -16,10 +16,10 @@ const initialState = {
   currentComment: {
     postId: null,
   },
-  // lastComment: null,
   liked: null,
   currentLikesCount: null,
   currentCommentsCount: null,
+  currentProfileVisit: {},
   sessionExpired: false,
 };
 
@@ -39,6 +39,8 @@ const {
   LIKE_POST,
   TO_COMMENT,
   CREATE_COMMENT,
+  GET_USER_PROFILE,
+  CLEAN_PROFILE_VISIT,
   DELETE_USER,
   SESSION_EXPIRED,
 } = actionType;
@@ -142,6 +144,17 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         currentCommentsCount: count,
+      };
+
+    case GET_USER_PROFILE:
+      return {
+        ...state,
+        currentProfileVisit: action.payload,
+      };
+    case CLEAN_PROFILE_VISIT:
+      return {
+        ...state,
+        currentProfileVisit: "",
       };
 
     case DELETE_USER:

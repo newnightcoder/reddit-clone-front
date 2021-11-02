@@ -13,7 +13,8 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
           className="fixed h-16 w-full pl-2 pr-4 flex items-center justify-evenly gap-1 text-white shadow-md"
           style={{ backgroundColor: "#ef5350" }}
         >
-          {location.pathname.includes("comments") ? (
+          {location.pathname.includes("comments") ||
+          location.pathname.includes("profile") ? (
             <Link
               to={"/feed"}
               className="h-12 w-12 flex items-center justify-center text-white p-2 rounded-full"

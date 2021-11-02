@@ -12,9 +12,9 @@ import { DeleteModal } from ".";
 import logo2 from "../assets/logo2.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { deleteUser, saveUserPic } from "../store/actions/user.action";
-import { formatTimestamp } from "./formatTime";
+import { formatTimestamp } from "../utils/formatTime";
 
-const Menu = ({ isOpen }) => {
+const Menu = ({ isOpen, toggleMenu }) => {
   const [blob, setBlob] = useState(null);
   const [blobName, setBlobName] = useState(null);
   const file = useRef(null);
@@ -138,7 +138,13 @@ const Menu = ({ isOpen }) => {
         </form>
         <ul className="h-max w-11/12 flex flex-col items-start justify-center gap-3 pt-10 pl-4 text-sm text-gray-900">
           <li>
-            <button className="flex items-center justify-center gap-1">
+            <button
+              className="flex items-center justify-center gap-1"
+              onClick={() => {
+                history.push(`/profile/${username}`);
+                toggleMenu();
+              }}
+            >
               <UserCircleIcon className="h-8 text-gray-700" /> Mon profil
             </button>
           </li>

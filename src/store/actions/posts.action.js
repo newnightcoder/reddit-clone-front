@@ -25,8 +25,7 @@ export const getPosts = () => async (dispatch) => {
   try {
     const response = await fetch(API_POST, request);
     const data = await response.json();
-    const { posts, likes, message, sessionExpired } = data;
-    console.log(message);
+    const { posts, likes, sessionExpired } = data;
     if (sessionExpired) {
       dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
       return;

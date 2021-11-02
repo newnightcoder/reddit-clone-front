@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import SignupForm from "../components/SignupForm";
 import { createUser } from "../store/actions/user.action";
-import SignupForm from "./SignupForm";
 
 const Signup = () => {
   const [newUserEmail, setNewUserEmail] = useState("");
@@ -59,10 +59,6 @@ const Signup = () => {
   const handleNewUserSubmit = async (e) => {
     e.preventDefault();
     dispatch(createUser(newUserEmail, newUserPass));
-    // if (!userCreated) return;
-    // setTimeout(() => {
-    //   setIsCreated(true);
-    // }, 250);
   };
 
   return (

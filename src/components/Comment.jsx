@@ -18,7 +18,7 @@ import { Reply } from ".";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { getReplies } from "../store/actions/posts.action";
 import { createReply } from "../store/actions/user.action";
-import { formatTimestamp } from "./formatTime";
+import { formatTimestamp } from "../utils/formatTime";
 
 const Comment = ({ comment }) => {
   const { picUrl, username, text, date, commentId } = comment;

@@ -10,11 +10,10 @@ import {
   Youtube,
 } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { Post } from ".";
 import logo from "../assets/logo.svg";
+import { Comment, Post } from "../components";
 import { getComments } from "../store/actions/posts.action";
 import { createComment } from "../store/actions/user.action";
-import { Comment } from "./index";
 
 const CommentPage = () => {
   const posts = useSelector((state) => state.posts.posts);

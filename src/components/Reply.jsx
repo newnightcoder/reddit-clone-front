@@ -6,7 +6,7 @@ import {
   ThreeDotsVertical,
 } from "react-bootstrap-icons";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { formatTimestamp } from "./formatTime";
+import { formatTimestamp } from "../utils/formatTime";
 
 const Reply = ({ reply: { text, date, username, picUrl } }) => {
   const [like, setLike] = useState(false);
