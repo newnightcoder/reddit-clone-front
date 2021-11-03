@@ -1,40 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { ChatRight, HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "react-bootstrap-icons";
-import { useDispatch, useSelector, useStore } from "react-redux";
-import { useHistory } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import { DeleteModal } from ".";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { deletePost } from "../store/actions/posts.action";
 import { getUserProfile, likePost, toComment } from "../store/actions/user.action";
 import { formatTimestamp } from "../utils/formatTime";
+import history from "../utils/history";
 import Options from "./Options";
 
 const Post = ({ post }) => {
   const { title, postId, text, date, username, picUrl, likesCount, commentCount, fk_userId_post } = post;
-  const userId = useSelector((state) => state.user.id);
-  const store = useStore();
-  // const profileName = store.getState().user.currentProfileVisit.username;
-  const history = useHistory();
   const sameUser = [];
+  const userId = useSelector((state) => state.user.id);
+  const role = useSelector((state) => state?.user.role);
   const likes = useSelector((state) => state.posts.likes);
   const [like, setLike] = useState(false);
   const [likesNumber, setLikesNumber] = useState(likesCount);
-  const [optionsOpen, setOptionsOpen] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [postIsGone, setpostIsGone] = useState(false);
-  const profileName = useSelector((state) => state.user.currentProfileVisit.username);
-  const [name, setName] = useState(profileName);
-  console.log(profileName);
-  console.log("userId", userId);
-
-  const role = useSelector((state) => state?.user.role);
+  const [optionsOpen, setOptionsOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    setName(profileName);
-  }, []);
 
   useEffect(() => {
     setLikesNumber(likesCount);
@@ -42,7 +30,7 @@ const Post = ({ post }) => {
 
   useEffect(() => {
     likes.map((like) => {
-      if (like.fk_userId_like === userId) {
+      if (like.fk_userId_like === userId && like.fk_postId_like === postId) {
         return sameUser.push(like.fk_postId_like);
       }
       return sameUser;
@@ -66,7 +54,15 @@ const Post = ({ post }) => {
       default:
         break;
     }
-    dispatch(likePost(userId, postId, like));
+    dispatch(likePost("post", userId, postId, like));
+  };
+
+  const toggleOptions = () => {
+    return setOptionsOpen((optionsOpen) => !optionsOpen);
+  };
+
+  const toggleDeleteModal = () => {
+    setOpenModal((openModal) => !openModal);
   };
 
   const handleDeletePost = () => {
@@ -92,14 +88,6 @@ const Post = ({ post }) => {
     setTimeout(() => {
       history.push(`/profile/${username}`);
     }, 100);
-  };
-
-  const toggleOptions = () => {
-    setOptionsOpen((optionsOpen) => !optionsOpen);
-  };
-
-  const toggleDeleteModal = () => {
-    setOpenModal((openModal) => !openModal);
   };
 
   return (
@@ -142,22 +130,26 @@ const Post = ({ post }) => {
         <div className="icons-container w-max flex items-center justify-end gap-4 text-xs text-gray-500 font-bold rounded-bl-md rounded-br-md">
           <button className="outline-none w-max flex items-center justify-center gap-1" onClick={toCommentPage}>
             <ChatRight size={14} className="font-weight-bold" />
-            <span>{commentCount}</span> <span className="font-bold">Commentaires</span>
+            <span className="font-bold">{commentCount}</span> <span className="font-bold">Commentaires</span>
           </button>
-          <div className="w-max flex items-center justify-center gap-1">
+          <div className="w-max flex items-center justify-center">
             <button className="outline-none transform -translate-y-px" onClick={() => handleLike(postId)}>
-              {!like ? <HandThumbsUp size={14} className="font-weight-bold" /> : <HandThumbsUpFill size={14} />}
+              {like ? <HandThumbsUpFill size={14} /> : <HandThumbsUp size={14} className="font-weight-bold" />}
             </button>
-            <span>{likesNumber}</span>
+            <span className="w-4 text-center">{likesNumber}</span>
           </div>
           <button className="w-max flex items-center justify-center gap-1" onClick={toggleOptions}>
             <ThreeDotsVertical />
           </button>
         </div>
       </div>
-      {optionsOpen && (
-        <Options userId={fk_userId_post} postId={postId} toggleOptions={toggleOptions} toggleDeleteModal={toggleDeleteModal} />
-      )}
+      <Options
+        postUserId={fk_userId_post}
+        postId={postId}
+        optionsOpen={optionsOpen}
+        toggleOptions={toggleOptions}
+        toggleDeleteModal={toggleDeleteModal}
+      />
     </div>
   );
 };

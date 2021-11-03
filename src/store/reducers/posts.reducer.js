@@ -9,7 +9,8 @@ const initialState = {
   replies: [],
   likes: [],
   error: "",
-  lastAdded: null,
+  lastPostAdded: null,
+  lastReplyAdded: null,
   lastDeleted: null,
   sessionExpired: false,
 };
@@ -22,6 +23,7 @@ const {
   SET_ERROR_POST,
   CLEAR_ERROR_POST,
   CREATE_POST,
+  CREATE_REPLY,
   EDIT_POST,
   DELETE_POST,
   SESSION_EXPIRED,
@@ -44,7 +46,9 @@ export const postsReducer = (state = initialState, action) => {
       const { replies } = action.payload;
       return { ...state, replies };
     case CREATE_POST:
-      return { ...state, lastAdded: action.payload };
+      return { ...state, lastPostAdded: action.payload };
+    case CREATE_REPLY:
+      return { ...state, lastReplyAdded: action.payload };
     case EDIT_POST:
       return { ...state };
     case DELETE_POST:

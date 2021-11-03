@@ -2,49 +2,55 @@ import { PaperAirplaneIcon } from "@heroicons/react/solid";
 import { ContentState, convertToRaw, Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import React, { useState } from "react";
-import {
-  Image,
-  TypeBold,
-  TypeItalic,
-  TypeUnderline,
-  XLg,
-  Youtube,
-} from "react-bootstrap-icons";
+import { Image, TypeBold, TypeItalic, TypeUnderline, XLg, Youtube } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../assets/logo.svg";
 import { editPost } from "../store/actions/posts.action";
 import history from "../utils/history";
 
-const EditPost = () => {
+const EditPage = () => {
   const serverError = useSelector((state) => state.posts.error);
   const userId = useSelector((state) => state.user.id);
   const posts = useSelector((state) => state.posts.posts);
+  const comments = useSelector((state) => state.posts.comments);
+  const replies = useSelector((state) => state.posts.replies);
   const location = useLocation();
-  const postId = location.state;
+  const postId = location.state.postId;
+  const commentId = location.state.commentId;
+  const replyId = location.state.replyId;
   const [postToEdit] = posts.filter((post) => post.postId === postId);
-  console.log("post to edit postId", postId);
-  console.log(postToEdit);
-  const [title, setTitle] = useState(postToEdit.title);
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createWithContent(ContentState.createFromText(postToEdit.text))
+  const [commentToEdit] = comments.filter((comment) => comment.commentId === commentId);
+  const [replyToEdit] = replies.filter((reply) => reply.replyId === replyId);
+  const [title, setTitle] = useState(postToEdit && postToEdit.title);
+  const [editorState, setEditorState] = useState(
+    postToEdit && !postToEdit.text
+      ? () => EditorState.createEmpty()
+      : () =>
+          EditorState.createWithContent(
+            ContentState.createFromText(
+              (postToEdit && postToEdit.text) || (commentToEdit && commentToEdit.text) || (replyToEdit && replyToEdit.text)
+            )
+          )
   );
+
+  const text = convertToRaw(editorState.getCurrentContent()).blocks[0].text || undefined;
   const [emptyTitle, setEmptyTitle] = useState(false);
   const [serverErrorMsg, setServerErrorMsg] = useState("");
   const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
-
   const dispatch = useDispatch();
+
+  console.log("post to edit", postId, "comment to edit", commentId, "reply to edit", replyId);
+  console.log(postToEdit, commentToEdit, replyToEdit);
+  console.log(location);
 
   const handleTitleInput = (e) => {
     setTitle(e.currentTarget.value);
     setEmptyTitle(false);
   };
 
-  const text = convertToRaw(editorState.getCurrentContent()).blocks[0].text;
-
-  const handlePostSubmit = (e) => {
+  const handleEdit = (e) => {
     e.preventDefault();
-    if (title.length === 0) {
+    if (title && title.length === 0) {
       setEmptyTitle(true);
       return;
     }
@@ -53,7 +59,11 @@ const EditPost = () => {
       return;
     }
     setServerErrorMsg("");
-    dispatch(editPost(postId, userId, title, text));
+
+    if (postToEdit !== undefined) dispatch(editPost("post", postId, title, text));
+    if (commentToEdit !== undefined) dispatch(editPost("comment", commentId, title, text));
+    if (replyToEdit !== undefined) dispatch(editPost("reply", replyId, title, text));
+    console.log(text);
     history.push({
       pathname: "/feed",
     });
@@ -61,10 +71,10 @@ const EditPost = () => {
 
   return (
     <div
-      className="w-screen flex flex-col items-center justify-center gap-2 pt-2"
+      className="w-screen bg-gray-200 flex flex-col items-center justify-center gap-2 pt-2"
       style={{
         height: "calc(100vh - 4rem)",
-        background: `url(${logo}) no-repeat fixed center/250%`,
+        // background: `url(${logo}) no-repeat fixed center/250%`,
       }}
     >
       <div
@@ -77,16 +87,18 @@ const EditPost = () => {
       <form
         className="h-3/4 w-10/12 md:w-1/2 lg:w-1/3 flex flex-col items-center justify-center"
         method="post"
-        onSubmit={handlePostSubmit}
+        onSubmit={handleEdit}
       >
-        <input
-          className="h-10 w-full px-2 rounded outline-none bg-gray-100 hover:bg-white active:bg-white focus:bg-white border border-gray-400 hover:border-gray-500 transition-all duration-200"
-          type="text"
-          name="editPost"
-          id="editPost"
-          value={title}
-          onChange={handleTitleInput}
-        />
+        {postToEdit && (
+          <input
+            className="h-10 w-full px-2 rounded outline-none bg-gray-100 hover:bg-white active:bg-white focus:bg-white border border-gray-400 hover:border-gray-500 transition-all duration-200"
+            type="text"
+            name="editPost"
+            id="editPost"
+            value={title}
+            onChange={handleTitleInput}
+          />
+        )}
         <div className="form-container h-full w-full flex flex-col items-center justify-start pt-4">
           <div className="h-max w-full border border-gray-400 hover:border-gray-500 transition-border-color duration-300 rounded">
             <div className="h-12 w-full flex items-center justify-between rounded-t bg-gray-200 border-b border-gray-300">
@@ -140,4 +152,4 @@ const EditPost = () => {
   );
 };
 
-export default EditPost;
+export default EditPage;

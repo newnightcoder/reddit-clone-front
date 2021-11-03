@@ -1,10 +1,4 @@
-import {
-  ChevronDoubleRightIcon,
-  HeartIcon,
-  PencilIcon,
-  TrashIcon,
-  UserCircleIcon,
-} from "@heroicons/react/solid";
+import { ChevronDoubleRightIcon, HeartIcon, PencilIcon, TrashIcon, UserCircleIcon } from "@heroicons/react/solid";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -12,11 +6,7 @@ import logo2 from "../assets/logo2.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { DeleteModal, Post } from "../components";
 import { getUserPosts } from "../store/actions/posts.action";
-import {
-  cleanCurrentProfileVisit,
-  deleteUser,
-  saveUserPic,
-} from "../store/actions/user.action";
+import { cleanCurrentProfileVisit, deleteUser, saveUserPic } from "../store/actions/user.action";
 import { formatTimestamp } from "../utils/formatTime";
 
 const Profile = () => {
@@ -70,9 +60,7 @@ const Profile = () => {
   };
   return (
     <div className="page-container h-max w-screen py-5 bg-gray-100 flex flex-col items-center justify-start gap-2 rounded-tr rounded-br transition transition-transform duration-300">
-      {!profileUser && (
-        <h1 className="w-10/12 text-left text-xl text-gray-700 underline ">Mon profil</h1>
-      )}
+      {!profileUser && <h1 className="w-10/12 text-left text-xl text-gray-700 underline ">Mon profil</h1>}
       <div className="top-section h-max w-10/12 pb-2 flex flex-col items-center justify-center gap-2 border-b border-gray-300">
         <div className="avatar-container h-max w-full flex items-center justify-center">
           <div
@@ -90,9 +78,7 @@ const Profile = () => {
         </div>
         <div className="username-member h-max w-full flex flex-col items-center justify-start">
           <span className="text-xl font-bold capitalize">
-            {profileUser.username
-              ? profileUser.username
-              : username?.length !== 0 && username}
+            {profileUser.username ? profileUser.username : username?.length !== 0 && username}
           </span>
           <span className="block italic text-sm flex items-center justify-center gap-1">
             <span
@@ -141,38 +127,23 @@ const Profile = () => {
                 }}
               />
               <div className="text-center text-xs">
-                {!isHidden ? (
-                  blobName
-                ) : !picUrl ? (
-                  <span className="italic text-xs">Aucune photo pour le moment.</span>
-                ) : null}
+                {!isHidden ? blobName : !picUrl ? <span className="italic text-xs">Aucune photo pour le moment.</span> : null}
               </div>
             </div>
             <div className="buttons-container-apercu-valider w-full flex items-center justify-center gap-4">
               <button
                 className="text-white text-sm px-2 shadow py-1 border border-red-500 rounded transform transition transition-opacity duration-1000 shadow-xl"
-                style={
-                  isHidden
-                    ? { display: "none", opacity: 0 }
-                    : { display: "block", opacity: 1, backgroundColor: "#ef5350" }
-                }
+                style={isHidden ? { display: "none", opacity: 0 } : { display: "block", opacity: 1, backgroundColor: "#ef5350" }}
               >
                 voir l'aperçu
               </button>
               <button
                 className="w-max flex items-center gap-1 text-black font-bold px-2 shadow py-1 rounded transform transition transition-opacity duration-1000 shadow-xl"
-                style={
-                  isHidden
-                    ? { opacity: 0, display: "none" }
-                    : { opacity: 1, display: "flex", backgroundColor: "#ef5350" }
-                }
+                style={isHidden ? { opacity: 0, display: "none" } : { opacity: 1, display: "flex", backgroundColor: "#ef5350" }}
                 onClick={() => setIsHidden(true)}
               >
                 valider
-                <ChevronDoubleRightIcon
-                  className="h-4 w-4 text-black font-bold"
-                  style={{ transform: "translateY(1px)" }}
-                />
+                <ChevronDoubleRightIcon className="h-4 w-4 text-black font-bold" style={{ transform: "translateY(1px)" }} />
               </button>
             </div>
           </form>
@@ -197,10 +168,7 @@ const Profile = () => {
               </button>
             </li>
             <li>
-              <button
-                className="flex items-center justify-center gap-1 text-sm"
-                onClick={() => setOpenModal(true)}
-              >
+              <button className="flex items-center justify-center gap-1 text-sm" onClick={() => setOpenModal(true)}>
                 <TrashIcon className="h-8 text-gray-700" />
                 Supprimer mon profil
               </button>
@@ -210,27 +178,18 @@ const Profile = () => {
       </div>
       <div>
         {role === "admin" && profileUser.id && (
-          <button
-            className="flex items-center justify-center gap-1 text-sm"
-            onClick={() => setOpenModal(true)}
-          >
+          <button className="flex items-center justify-center gap-1 text-sm" onClick={() => setOpenModal(true)}>
             <TrashIcon className="h-8 text-gray-700" />
             Supprimer le profil
           </button>
         )}
       </div>
       {openModal && (
-        <DeleteModal
-          toggleDeleteModal={toggleDeleteModal}
-          handleDeleteProfile={handleDeleteProfile}
-          origin={"profile"}
-        />
+        <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeleteProfile={handleDeleteProfile} origin={"profile"} />
       )}
       <div className="w-10/12 flex flex-col items-center justify-center">
-        <h2 className="underline">
-          {profileUser ? <>{profilePostsTitle}</> : "Mes posts"}
-        </h2>
-        <div className="w-full flex flex-col items-center justify-center gap-3 pt-4">
+        <h2 className="underline">{profileUser ? <>{profilePostsTitle}</> : "Mes posts"}</h2>
+        <div className="w-full md:w-1/2 2xl:w-1/3 flex flex-col items-center justify-center gap-3 pt-4">
           {posts.map((post) => (
             <Post key={post.postId} post={post} />
           ))}

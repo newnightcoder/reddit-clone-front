@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
-import { Menu, NavBar, Overlay, SessionExpiredModal, Wrapper } from "../components";
+import { MainContainer, Menu, NavBar, Overlay, SessionExpiredModal } from "../components";
 import {
   CommentPage,
   CreatePostPage,
@@ -18,7 +18,7 @@ import { getPosts } from "../store/actions/posts.action";
 const AppContainer = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isExpired, setIsExpired] = useState(false);
-  const sessionExpired = useSelector((state) => state.posts.sessionExpired);
+  const sessionExpired = useSelector((state) => state?.posts?.sessionExpired);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -46,12 +46,16 @@ const AppContainer = () => {
         <Route path="/login" component={LoginPage} />
         <Route path="/signup" component={SignupPage} />
         <Route path="/fin" component={DeletedProfilePage} />
-        <Route component={Wrapper}>
+        <Route component={MainContainer}>
           <NavBar toggleMenu={toggleMenu} closeMenu={closeMenu} isOpen={isOpen} />
-          <Route path="/feed" component={FeedPage} />
+          <Route path="/feed">
+            <FeedPage />
+          </Route>
           <Route path="/create" component={CreatePostPage} />
           <Route path="/edit" component={EditPage} />
-          <Route path="/comments" component={CommentPage} />
+          <Route path="/comments">
+            <CommentPage />
+          </Route>
           <Route path="/profile" component={ProfilePage} />
         </Route>
       </Switch>

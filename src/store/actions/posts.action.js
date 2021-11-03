@@ -5,6 +5,7 @@ const {
   GET_POSTS,
   GET_USER_POSTS,
   CREATE_POST,
+  CREATE_REPLY,
   EDIT_POST,
   DELETE_POST,
   GET_COMMENTS,
@@ -95,7 +96,7 @@ export const createPost = (userId, title, text, date) => async (dispatch) => {
   }
 };
 
-export const editPost = (postId, userId, title, text) => async (dispatch) => {
+export const editPost = (origin, id, title, text) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
   const accessToken = localStorage.getItem("jwt");
   console.log("token", accessToken);
@@ -105,22 +106,18 @@ export const editPost = (postId, userId, title, text) => async (dispatch) => {
       Authorization: `Bearer ${accessToken}`,
     },
     method: "POST",
-    body: JSON.stringify({ postId, userId, title, text }),
+    body: JSON.stringify({ origin, id, title, text }),
   };
   try {
     const response = await fetch(`${API_POST}/edit`, request);
     const data = await response.json();
-    const { post, message, error, sessionExpired } = data;
+    const { error, sessionExpired } = data;
     if (sessionExpired) {
       dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
       return;
     }
-    if (response.status === 401) {
-      dispatch({ type: SET_ERROR_POST, payload: message });
-      return;
-    }
-    if (response.status !== 200) {
-      dispatch({ type: SET_ERROR_POST, payload: error.message });
+    if (response.status === 500) {
+      dispatch({ type: SET_ERROR_POST, payload: error });
     }
     dispatch({ type: EDIT_POST });
   } catch (error) {
@@ -179,6 +176,37 @@ export const getComments = () => async (dispatch) => {
     }
     console.log(comments);
     dispatch({ type: GET_COMMENTS, payload: { comments } });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_POST, payload: error.message });
+  }
+};
+
+export const createReply = (userId, commentId, text, date) => async (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_POST });
+  const accessToken = localStorage.getItem("jwt");
+
+  const request = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    method: "post",
+    body: JSON.stringify({ userId, commentId, text, date }),
+  };
+  try {
+    const response = await fetch(`${API_POST}/reply`, request);
+    const data = await response.json();
+    const { error, replyId, sessionExpired } = data;
+    if (response.status !== 201) {
+      dispatch({ type: SET_ERROR_POST, payload: error.message });
+      return;
+    }
+    if (sessionExpired) {
+      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+      return;
+    }
+    console.log("last reply posted:", replyId);
+    dispatch({ type: CREATE_REPLY, payload: { replyId } });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
   }

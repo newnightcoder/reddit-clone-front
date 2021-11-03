@@ -16,33 +16,79 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { Reply } from ".";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { getReplies } from "../store/actions/posts.action";
-import { createReply } from "../store/actions/user.action";
-import { formatTimestamp } from "../utils/formatTime";
+import { createReply, getReplies } from "../store/actions/posts.action";
+import { likePost } from "../store/actions/user.action";
+import { createDate, formatTimestamp } from "../utils/formatTime";
+import Options from "./Options";
 
 const Comment = ({ comment }) => {
-  const { picUrl, username, text, date, commentId } = comment;
-  const likes = useSelector((state) => state.posts.likes);
+  const { fk_userId_comment, picUrl, username, text, date, commentId, likesCount } = comment;
+  const likes = useSelector((state) => state?.posts.likes);
   const [like, setLike] = useState(false);
-  const [likesNumber, setLikesNumber] = useState("");
+  const [likesNumber, setLikesNumber] = useState(likesCount);
   const [replyOpen, setReplyOpen] = useState(false);
-  const [emptyComError, setEmptyComError] = useState(false);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
   const replyText = convertToRaw(editorState.getCurrentContent()).blocks[0].text;
+  const [optionsOpen, setOptionsOpen] = useState(false);
+  const userId = useSelector((state) => state?.user.id);
+  const replies = useSelector((state) => state?.posts.replies);
+  const [openModal, setOpenModal] = useState(false);
   const emptyComErrorMsg = "Votre commentaire est vide!";
-  const serverError = useSelector((state) => state.user.error);
+  const [emptyComError, setEmptyComError] = useState(false);
   const [serverErrorMsg, setServerErrorMsg] = useState("");
-  const userId = useSelector((state) => state.user.id);
-  const replies = useSelector((state) => state.posts.replies);
+  const serverError = useSelector((state) => state?.user.error);
+  const sameUserComment = [];
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getReplies());
+    dispatch(getReplies(commentId));
+  }, [dispatch]);
+
+  useEffect(() => {
+    setLikesNumber(likesCount);
+  }, [likesCount]);
+
+  useEffect(() => {
+    likes.map((like) => {
+      if (like.fk_userId_like === userId && like.fk_commentId_like === commentId) {
+        return sameUserComment.push(like.fk_commentId_like);
+      }
+      return sameUserComment;
+    });
+    sameUserComment.forEach((id) => {
+      if (id === commentId) {
+        setLike(true);
+      }
+    });
+  }, [commentId, likes, userId]);
+
+  const toggleOptions = () => {
+    return setOptionsOpen((optionsOpen) => !optionsOpen);
+  };
+
+  const toggleDeleteModal = () => {
+    setOpenModal((openModal) => !openModal);
+  };
 
   const toggleReply = () => {
     return setReplyOpen((replyOpen) => !replyOpen);
   };
 
-  useEffect(() => {
-    dispatch(getReplies());
-  }, [dispatch]);
+  const handleLike = (commentId) => {
+    setLike((like) => !like);
+    switch (like) {
+      case false:
+        setLikesNumber(likesNumber + 1);
+        break;
+      case true:
+        setLikesNumber(likesNumber - 1);
+        break;
+      default:
+        break;
+    }
+    dispatch(likePost("comment", userId, commentId, like));
+  };
 
   const handleReplySubmit = async (e) => {
     e.preventDefault();
@@ -53,7 +99,7 @@ const Comment = ({ comment }) => {
     if (serverError.length !== 0) {
       setServerErrorMsg(serverError);
     }
-    dispatch(createReply(userId, commentId, replyText, date));
+    dispatch(createReply(userId, commentId, replyText, createDate()));
     setEditorState(() => EditorState.createEmpty());
     setReplyOpen(false);
     setTimeout(() => {
@@ -64,7 +110,7 @@ const Comment = ({ comment }) => {
   return (
     <>
       <div
-        className="comment-container h-max w-full flex-col items-center justify-center bg-white transition-all duration-300 px-2 pt-2 "
+        className="comment-container relative h-max w-full flex-col items-center justify-center bg-white transition-all duration-300 px-2 pt-2 "
         style={{ marginBottom: replyOpen && "5px" }}
       >
         <div className="top w-full flex items-center justify-center pb-1 border-b">
@@ -87,7 +133,7 @@ const Comment = ({ comment }) => {
                   <span className="text-xs">@</span>
                   {username}
                 </div>
-                <div className="text-xs italic">{formatTimestamp(date)}</div>
+                <div className="text-xs italic">{formatTimestamp(date, "post")}</div>
               </div>
             </div>
           </div>
@@ -95,30 +141,28 @@ const Comment = ({ comment }) => {
         <div className="text w-full text-left px-3 py-2 text-sm">{text}</div>
         <div className="bottom w-full flex items-center justify-end px-2 py-2 border-t">
           <div className="icons-container w-max flex items-center justify-end gap-4 text-xs">
-            <button
-              className="outline-none w-max flex items-center justify-center gap-1"
-              onClick={toggleReply}
-            >
+            <button className="outline-none w-max flex items-center justify-center gap-2" onClick={toggleReply}>
               <ChatRight size={14} />
-              <span>{}</span> <span>Répondre</span>
+              <span>Répondre</span>
             </button>
-            <div className="w-max flex items-center justify-center gap-1">
-              <button
-                className="outline-none"
-                onClick={() => {
-                  // handleLike();
-                  // dispatch(likePost(userId, postId, like));
-                }}
-              >
-                {!like ? <HandThumbsUp size={14} /> : <HandThumbsUpFill size={14} />}
+            <div className="w-max flex items-center justify-center">
+              <button className="outline-none" onClick={() => handleLike(commentId)}>
+                {like ? <HandThumbsUpFill size={14} /> : <HandThumbsUp size={14} className="font-weight-bold" />}
               </button>
-              <span>{likesNumber}</span>
+              <span className="w-4 text-center">{likesNumber}</span>
             </div>
-            <div className="w-max flex items-center justify-center gap-1">
+            <button className="w-max flex items-center justify-center gap-1" onClick={toggleOptions}>
               <ThreeDotsVertical />
-            </div>
+            </button>
           </div>
-        </div>
+        </div>{" "}
+        <Options
+          commentUserId={fk_userId_comment}
+          commentId={commentId}
+          optionsOpen={optionsOpen}
+          toggleOptions={toggleOptions}
+          toggleDeleteModal={toggleDeleteModal}
+        />
       </div>
       <div className="w-11/12" style={{ display: replyOpen ? "flex" : "none" }}>
         <form
@@ -176,14 +220,11 @@ const Comment = ({ comment }) => {
           </div>
         </form>
       </div>
-      <div
-        className="w-full bg-gray-100 flex flex-col items-end justify-center gap-2 py-2"
-        // style={replies.length !== 0 && { borderLeft: "1px solid pink" }}
-      >
+      <div className="w-full bg-gray-100 flex flex-col items-end justify-center gap-2 py-2">
         {replies &&
           replies.map((reply) => {
             if (reply.fk_commentId === commentId) {
-              return <Reply key={reply.replyId} reply={reply} />;
+              return <Reply key={reply.replyId} reply={reply} toggleOptions={toggleOptions} optionsOpen={optionsOpen} />;
             }
           })}
       </div>

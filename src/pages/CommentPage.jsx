@@ -5,10 +5,11 @@ import React, { useEffect, useState } from "react";
 import { Image, TypeBold, TypeItalic, TypeUnderline, Youtube } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Comment, Post } from "../components";
-import { getComments } from "../store/actions/posts.action";
+import { getComments, getPosts, getReplies } from "../store/actions/posts.action";
 import { createComment } from "../store/actions/user.action";
+import { createDate } from "../utils/formatTime";
 
-const CommentPage = () => {
+const CommentPage = ({ toggleDeleteModal, openModal }) => {
   const posts = useSelector((state) => state.posts.posts);
   const comments = useSelector((state) => state.posts.comments);
   const postId = useSelector((state) => state.user.currentComment.postId);
@@ -19,18 +20,19 @@ const CommentPage = () => {
   const [serverErrorMsg, setServerErrorMsg] = useState("");
   const [emptyComError, setEmptyComError] = useState(false);
   const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
+
   const text = convertToRaw(editorState.getCurrentContent()).blocks[0].text;
   const dispatch = useDispatch();
 
-  const time = {
-    year: new Date().getFullYear(),
-    month: new Date().getMonth(),
-    day: new Date().getDate(),
-    hour: new Date().getHours(),
-    minute: new Date().getMinutes(),
-    second: new Date().getSeconds(),
-  };
-  const date = `${time.year}-${time.month}-${time.day}-${time.hour}-${time.minute}-${time.second}`;
+  useEffect(() => {
+    dispatch(getPosts());
+    dispatch(getComments());
+    dispatch(getReplies());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setServerErrorMsg(serverError);
+  }, [serverError]);
 
   const getRelatedComments = (postId) => {
     const relatedComments = [];
@@ -47,14 +49,6 @@ const CommentPage = () => {
     return relatedComments;
   };
 
-  useEffect(() => {
-    dispatch(getComments());
-  }, [dispatch]);
-
-  useEffect(() => {
-    setServerErrorMsg(serverError);
-  }, [serverError]);
-
   const commentsToDisplay = getRelatedComments(postId);
 
   const handleCommentSubmit = async (e) => {
@@ -66,7 +60,7 @@ const CommentPage = () => {
     if (serverError.length !== 0) {
       setServerErrorMsg(serverError);
     }
-    dispatch(createComment(userId, postId, text, date));
+    dispatch(createComment(userId, postId, text, createDate()));
     setTimeout(() => {
       dispatch(getComments());
     }, 1000);
@@ -76,8 +70,8 @@ const CommentPage = () => {
 
   return (
     <div
-      className="page-container min-h-screen w-screen flex flex-col items-center justify-start relative pb-8 overflow-x-hidden"
-      style={{ background: "#dae0e6" }}
+      className="page-container min-h-screen w-screen bg-gray-200 flex flex-col items-center justify-start relative pb-8 overflow-x-hidden"
+      // style={{ background: "#dae0e6" }}
     >
       <div
         className="error h-8 w-10/12 md:w-1/2 lg:w-1/3 whitespace-pre bg-black text-white text-sm text-center py-1 px-2 rounded overflow-hidden overflow-ellipsis"
@@ -148,7 +142,14 @@ const CommentPage = () => {
               </span>
               <div className="w-full bg-gray-100 flex flex-col items-center justify-center  rounded-bl rounded-br  border-red-300 py-2">
                 {commentsToDisplay.map((comment) => {
-                  return <Comment key={comment.commentId} comment={comment} />;
+                  return (
+                    <Comment
+                      key={comment.commentId}
+                      comment={comment}
+                      toggleDeleteModal={toggleDeleteModal}
+                      openModal={openModal}
+                    />
+                  );
                 })}
               </div>
             </div>

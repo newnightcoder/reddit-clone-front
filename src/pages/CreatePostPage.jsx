@@ -2,17 +2,11 @@ import { PaperAirplaneIcon } from "@heroicons/react/solid";
 import { convertToRaw, Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import React, { useState } from "react";
-import {
-  Image,
-  TypeBold,
-  TypeItalic,
-  TypeUnderline,
-  XLg,
-  Youtube,
-} from "react-bootstrap-icons";
+import { Image, TypeBold, TypeItalic, TypeUnderline, XLg, Youtube } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { createPost } from "../store/actions/posts.action";
+import { createDate } from "../utils/formatTime";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
@@ -24,18 +18,6 @@ const CreatePost = () => {
   const userId = useSelector((state) => state.user.id);
   const history = useHistory();
   const dispatch = useDispatch();
-
-  // useEffect(() => {}, [serverError]);
-
-  const time = {
-    year: new Date().getFullYear(),
-    month: new Date().getMonth(),
-    day: new Date().getDate(),
-    hour: new Date().getHours(),
-    minute: new Date().getMinutes(),
-    second: new Date().getSeconds(),
-  };
-  const date = `${time.year}-${time.month}-${time.day}-${time.hour}-${time.minute}-${time.second}`;
 
   const handleTitleInput = (e) => {
     setTitle(e.currentTarget.value);
@@ -55,7 +37,7 @@ const CreatePost = () => {
       return;
     }
     setServerErrorMsg("");
-    dispatch(createPost(userId, title, text, date));
+    dispatch(createPost(userId, title, text, createDate()));
     history.push({
       pathname: "/feed",
     });
@@ -63,10 +45,10 @@ const CreatePost = () => {
 
   return (
     <div
-      className="w-screen flex flex-col items-center justify-center gap-2 pt-2"
+      className="w-screen bg-gray-200 flex flex-col items-center justify-center gap-2 pt-2"
       style={{
         height: "calc(100vh - 4rem)",
-        background: "#dae0e6",
+        // background: "#dae0e6",
       }}
     >
       <div
@@ -114,11 +96,7 @@ const CreatePost = () => {
               </div>
             </div>
             <div className="container max-w-full h-56 bg-gray-100 hover:bg-white active:bg-white focus:bg-white rounded-bl rounded-br overflow-y-auto p-2">
-              <Editor
-                editorState={editorState}
-                onChange={setEditorState}
-                placeholder="Exprimez-vous..."
-              />
+              <Editor editorState={editorState} onChange={setEditorState} placeholder="Exprimez-vous..." />
             </div>
           </div>
           <button

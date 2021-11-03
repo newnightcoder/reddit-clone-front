@@ -17,7 +17,6 @@ const initialState = {
     postId: null,
   },
   liked: null,
-  currentLikesCount: null,
   currentCommentsCount: null,
   currentProfileVisit: {},
   sessionExpired: false,
@@ -123,11 +122,10 @@ export const userReducer = (state = initialState, action) => {
         picUrl: action.payload,
       };
     case LIKE_POST: {
-      const { liked, count } = action.payload;
+      const { liked } = action.payload;
       return {
         ...state,
         liked,
-        currentLikesCount: count,
       };
     }
 

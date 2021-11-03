@@ -144,7 +144,7 @@ export const saveUserPic = (blob, id) => async (dispatch) => {
   }
 };
 
-export const likePost = (userId, postId, like) => async (dispatch) => {
+export const likePost = (origin, userId, id, like) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_USER });
   const accessToken = localStorage.getItem("jwt");
   const request = {
@@ -153,20 +153,20 @@ export const likePost = (userId, postId, like) => async (dispatch) => {
       Authorization: `Bearer ${accessToken}`,
     },
     method: "POST",
-    body: JSON.stringify({ userId, postId, like }),
+    body: JSON.stringify({ origin, userId, id, like }),
   };
   try {
     const response = await fetch(`${API_POST}/like`, request);
     const data = await response.json();
     console.log(data);
-    const { liked, count, sessionExpired } = data;
+    const { liked, sessionExpired } = data;
     if (sessionExpired) {
       dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
       return;
     }
     dispatch({
       type: LIKE_POST,
-      payload: { liked, count },
+      payload: { liked },
     });
   } catch (error) {
     dispatch({ type: SET_ERROR_USER, payload: error.message });
@@ -205,37 +205,6 @@ export const createComment = (userId, postId, text, date) => async (dispatch) =>
       return;
     }
     dispatch({ type: CREATE_COMMENT, payload: count });
-  } catch (error) {
-    dispatch({ type: SET_ERROR_USER, payload: error.message });
-  }
-};
-
-export const createReply = (userId, commentId, text, date) => async (dispatch) => {
-  dispatch({ type: CLEAR_ERROR_USER });
-  const accessToken = localStorage.getItem("jwt");
-
-  const request = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-    method: "post",
-    body: JSON.stringify({ userId, commentId, text, date }),
-  };
-  try {
-    const response = await fetch(`${API_POST}/reply`, request);
-    const data = await response.json();
-    const { error, reply, count, sessionExpired } = data;
-    if (response.status !== 201) {
-      dispatch({ type: SET_ERROR_USER, payload: error.message });
-      return;
-    }
-    if (sessionExpired) {
-      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
-      return;
-    }
-    console.log("last comment posted:", reply);
-    dispatch({ type: CREATE_REPLY, payload: { reply, count } });
   } catch (error) {
     dispatch({ type: SET_ERROR_USER, payload: error.message });
   }
