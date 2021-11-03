@@ -2,15 +2,8 @@ import { ChatAltIcon, PaperAirplaneIcon } from "@heroicons/react/solid";
 import { convertToRaw, Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import React, { useEffect, useState } from "react";
-import {
-  Image,
-  TypeBold,
-  TypeItalic,
-  TypeUnderline,
-  Youtube,
-} from "react-bootstrap-icons";
+import { Image, TypeBold, TypeItalic, TypeUnderline, Youtube } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-import logo from "../assets/logo.svg";
 import { Comment, Post } from "../components";
 import { getComments } from "../store/actions/posts.action";
 import { createComment } from "../store/actions/user.action";
@@ -84,7 +77,7 @@ const CommentPage = () => {
   return (
     <div
       className="page-container min-h-screen w-screen flex flex-col items-center justify-start relative pb-8 overflow-x-hidden"
-      style={{ background: `url(${logo}) no-repeat fixed center/250%` }}
+      style={{ background: "#dae0e6" }}
     >
       <div
         className="error h-8 w-10/12 md:w-1/2 lg:w-1/3 whitespace-pre bg-black text-white text-sm text-center py-1 px-2 rounded overflow-hidden overflow-ellipsis"
@@ -162,7 +155,7 @@ const CommentPage = () => {
           ) : (
             <>
               <span
-                className="w-11/12 uppercase italic rounded-tl rounded-tr text-white text-center px-2 py-1"
+                className="w-11/12 uppercase italic rounded-tl rounded-tr text-white text-center px-2 py-1 mt-3"
                 style={{ backgroundColor: "#ef5350" }}
               >
                 pas encore de commentaire

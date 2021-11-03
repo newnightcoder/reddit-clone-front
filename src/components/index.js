@@ -1,4 +1,5 @@
 export { default as AppContainer } from "./AppContainer";
+export { default as Aside } from "./Aside";
 export { default as Comment } from "./Comment";
 export { default as DeleteModal } from "./DeleteModal";
 export { default as Menu } from "./Menu";

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import logo from "../assets/logo2.svg";
+import bg from "../assets/bg.webp";
 import { logUserAction } from "../store/actions/user.action";
-// import { API_AUTH } from "./API/index";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -40,7 +39,10 @@ const Login = () => {
   return (
     <div
       className="h-full w-full flex flex-col items-center justify-center gap-4 bg-deep-orange-300"
-      style={{ background: `url(${logo}) no-repeat center/250%` }}
+      // style={{ background: `url(${logo}) no-repeat center/cover` }}
+      style={{
+        background: `linear-gradient(rgba(70,70,70,.8), rgba(70,70,70,.8)), url(${bg}) no-repeat center/cover`,
+      }}
     >
       <h2 className="text-center uppercase flex flex-col md:flex-row md:gap-1">
         <span>Content de vous revoir </span>
@@ -49,20 +51,12 @@ const Login = () => {
       <div className="error h-1/6 w-full flex items-center justify-center">
         <span
           className="w-max h-max whitespace-wrap py-2 px-3 text-center text-white bg-black rounded"
-          style={
-            !error || error.length === 0
-              ? { visibility: "hidden" }
-              : { visibility: "visible" }
-          }
+          style={!error || error.length === 0 ? { visibility: "hidden" } : { visibility: "visible" }}
         >
           {error.length !== 0 && error}
         </span>
       </div>
-      <form
-        method="post"
-        className="h-max flex flex-col items-center justify-center gap-4"
-        onSubmit={handleUserSubmit}
-      >
+      <form method="post" className="h-max flex flex-col items-center justify-center gap-4" onSubmit={handleUserSubmit}>
         <div className="flex flex-col items-start">
           <label htmlFor="email">Email</label>
           <input

@@ -22,6 +22,7 @@ const {
   SET_ERROR_POST,
   CLEAR_ERROR_POST,
   CREATE_POST,
+  EDIT_POST,
   DELETE_POST,
   SESSION_EXPIRED,
 } = actionType;
@@ -44,6 +45,8 @@ export const postsReducer = (state = initialState, action) => {
       return { ...state, replies };
     case CREATE_POST:
       return { ...state, lastAdded: action.payload };
+    case EDIT_POST:
+      return { ...state };
     case DELETE_POST:
       return { ...state, lastDeleted: action.payload };
     case SET_ERROR_POST:

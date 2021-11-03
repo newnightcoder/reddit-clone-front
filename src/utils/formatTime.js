@@ -1,7 +1,7 @@
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 import fr from "date-fns/locale/fr";
 
-export const formatTimestamp = (date) => {
+export const formatTimestamp = (date, origin) => {
   const convertedDate = {
     year: date.split("-")[0],
     month: date.split("-")[1],
@@ -10,13 +10,7 @@ export const formatTimestamp = (date) => {
     seconds: date.split("-")[4],
   };
   return formatDistanceToNowStrict(
-    new Date(
-      convertedDate.year,
-      convertedDate.month,
-      convertedDate.day,
-      convertedDate.minute,
-      convertedDate.seconds
-    ),
-    { addSuffix: true, locale: fr }
+    new Date(convertedDate.year, convertedDate.month, convertedDate.day, convertedDate.minute, convertedDate.seconds),
+    { addSuffix: origin === "post" ? true : false, locale: fr }
   );
 };

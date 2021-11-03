@@ -29,6 +29,7 @@ const Profile = () => {
   const user = useSelector((state) => state?.user);
   const { id, picUrl, username, creationDate } = user;
   const profileUser = useSelector((state) => state?.user?.currentProfileVisit);
+
   const role = useSelector((state) => state?.user.role);
   const posts = useSelector((state) => state?.posts.userPosts);
   const dispatch = useDispatch();
@@ -229,7 +230,7 @@ const Profile = () => {
         <h2 className="underline">
           {profileUser ? <>{profilePostsTitle}</> : "Mes posts"}
         </h2>
-        <div className="w-full flex flex-col items-center justify-center pt-4">
+        <div className="w-full flex flex-col items-center justify-center gap-3 pt-4">
           {posts.map((post) => (
             <Post key={post.postId} post={post} />
           ))}

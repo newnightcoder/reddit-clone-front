@@ -12,7 +12,6 @@ import {
 } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import logo from "../assets/logo.svg";
 import { createPost } from "../store/actions/posts.action";
 
 const CreatePost = () => {
@@ -67,7 +66,7 @@ const CreatePost = () => {
       className="w-screen flex flex-col items-center justify-center gap-2 pt-2"
       style={{
         height: "calc(100vh - 4rem)",
-        background: `url(${logo}) no-repeat fixed center/250%`,
+        background: "#dae0e6",
       }}
     >
       <div

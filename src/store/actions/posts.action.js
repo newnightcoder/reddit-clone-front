@@ -122,7 +122,7 @@ export const editPost = (postId, userId, title, text) => async (dispatch) => {
     if (response.status !== 200) {
       dispatch({ type: SET_ERROR_POST, payload: error.message });
     }
-    dispatch({ type: EDIT_POST, payload: post });
+    dispatch({ type: EDIT_POST });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
   }
