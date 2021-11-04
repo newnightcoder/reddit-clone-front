@@ -6,6 +6,9 @@ module.exports = {
       animation: {
         pulse: "pulse 1.25s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
+      backgroundImage: {
+        hero: "url('/src/assets/bg.webp')",
+      },
       colors: {
         "deep-orange-50": "#fbe9e7",
         "deep-orange-100": "#ffccbc",

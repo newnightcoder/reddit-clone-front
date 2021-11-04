@@ -48,7 +48,7 @@ const StepUsername = () => {
 
   return (
     <div
-      className="h-screen w-screen bg-red-300 flex flex-col items-center justify-center gap-2 transition-transform duration-500 absolute top-0 left-0"
+      className="h-screen w-screen bg-red-300 flex flex-col items-center justify-center gap-2 transition-transform duration-500 absolute top-0 left-0 bg-hero"
       style={toNextStep}
     >
       <span

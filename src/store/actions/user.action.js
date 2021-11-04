@@ -15,6 +15,7 @@ const {
   DELETE_USER,
   USERNAME_FAIL,
   ADD_USERNAME,
+  EDIT_USERNAME,
   USERNAME_ADDED,
   USER_CREATED,
   LIKE_POST,
@@ -109,8 +110,34 @@ export const saveUserName = (id, username, creationDate) => async (dispatch) => 
       payload: { username, creationDate, email, role, isNewUser },
     });
     dispatch({ type: USERNAME_ADDED });
+    dispatch({ type: LOGIN_SUCCESS });
   } catch (err) {
     console.log(err);
+  }
+};
+
+export const editUsername = (userId, username) => async (dispatch) => {
+  const accessToken = localStorage.getItem("jwt");
+  const request = {
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    method: "post",
+    body: JSON.stringify({ userId, username }),
+  };
+
+  try {
+    const response = await fetch(`${API_AUTH}/edit`, request);
+    const data = response.json();
+    const { newName } = data;
+    if (response.status !== 200) {
+      dispatch({ type: SET_ERROR_USER });
+      return;
+    }
+    dispatch({ type: EDIT_USERNAME, payload: newName });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_USER, payload: error.message });
   }
 };
 
@@ -120,7 +147,6 @@ export const saveUserPic = (blob, id) => async (dispatch) => {
   formData.append("id", id);
   const request = {
     headers: {
-      // "Content-Type": "multipart/form-data",
       "Access-Control-Allow-Origin": "*",
     },
     method: "POST",
@@ -131,7 +157,6 @@ export const saveUserPic = (blob, id) => async (dispatch) => {
     const data = await response.json();
     const { error, picUrl } = data;
     if (response.status !== 200) {
-      // setError(data.errorMsg);
       console.log(error);
       return;
     }

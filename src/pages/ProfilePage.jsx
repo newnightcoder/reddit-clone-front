@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import logo2 from "../assets/logo2.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { DeleteModal, Post } from "../components";
+import { DeleteModal, EditModal, Post } from "../components";
 import { cleanCurrentProfilePosts, getUserPosts } from "../store/actions/posts.action";
 import { cleanCurrentProfileVisit, deleteUser, saveUserPic } from "../store/actions/user.action";
 import { formatTimestamp } from "../utils/formatTime";
@@ -12,6 +12,7 @@ import history from "../utils/history";
 
 const Profile = () => {
   const [openModal, setOpenModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
   const [blob, setBlob] = useState(null);
   const [blobName, setBlobName] = useState(null);
   const file = useRef(null);
@@ -61,6 +62,11 @@ const Profile = () => {
       history.push({ pathname: "/fin", state: { admin: true } });
     }
   };
+
+  const toggleEditModal = () => {
+    setOpenEditModal((openEditModal) => !openEditModal);
+  };
+
   return (
     <>
       {!isAuthenticated ? (
@@ -162,31 +168,34 @@ const Profile = () => {
             {profileUser?.username === username && (
               <ul className="h-max w-11/12 xl:w-3/4 2xl:w-2/3 flex flex-col lg:flex-row items-start justify-center gap-3 md:justify-evenly pt-10 pl-4 mb-4 text-sm text-gray-900">
                 <li>
-                  <button className="flex items-center justify-center gap-1 hover:underline hover:drop-shadow">
-                    <UserCircleIcon className="h-8 text-gray-700" /> Modifier mon pseudo
+                  <button
+                    className="h-10 w-max px-3 py-1 flex items-center justify-center gap-1 hover:underline hover:drop-shadow hover:bg-gray-700 text-gray-700 hover:text-white transition duration-200 rounded "
+                    // onClick={toggleEditModal}
+                  >
+                    <UserCircleIcon className="h-8" /> Modifier mon pseudo
                   </button>
                 </li>
                 <li>
                   <button
-                    className="flex items-center justify-center gap-1 hover:underline hover:drop-shadow"
+                    className="h-10 w-max px-3 py-1 flex items-center justify-center gap-1 hover:underline hover:drop-shadow hover:bg-gray-700 text-gray-700 hover:text-white transition duration-300 rounded"
                     onClick={() => history.push("/create")}
                   >
-                    <PencilIcon className="h-8 text-gray-700" />
+                    <PencilIcon className="h-8" />
                     Créer un nouveau post
                   </button>
                 </li>
                 <li>
-                  <button className="flex items-center justify-center gap-1 hover:underline hover:drop-shadow">
-                    <HeartIcon className="h-8 text-gray-700" />
+                  <button className="h-10 w-max px-3 py-1 flex items-center justify-center gap-1 hover:underline hover:drop-shadow hover:bg-gray-700 text-gray-700 hover:text-white transition duration-300 rounded">
+                    <HeartIcon className="h-8 " />
                     Posts que j'ai aimé
                   </button>
                 </li>
                 <li>
                   <button
-                    className="flex items-center justify-center gap-1 hover:underline hover:drop-shadow text-sm"
+                    className="h-10 w-max px-3 py-1 flex items-center justify-center gap-1 hover:underline hover:drop-shadow hover:bg-red-600 text-gray-700 hover:text-white hover:font-bold transition duration-300 rounded text-sm"
                     onClick={() => setOpenModal(true)}
                   >
-                    <TrashIcon className="h-8 text-gray-700" />
+                    <TrashIcon className="h-8" />
                     Supprimer mon profil
                   </button>
                 </li>
@@ -204,6 +213,7 @@ const Profile = () => {
               </button>
             )}
           </div>
+          {openEditModal && <EditModal toggleEditModal={toggleEditModal} openEditModal={openEditModal} />}
           {openModal && (
             <DeleteModal
               toggleDeleteModal={toggleDeleteModal}
@@ -212,7 +222,9 @@ const Profile = () => {
             />
           )}
           <div className="w-10/12 flex flex-col items-center justify-center">
-            <h2 className="underline">{profileUser.id !== id ? <>{profilePostsTitle}</> : "Mes posts"}</h2>
+            <h2 className="uppercase font-bold">
+              {profileUser.id !== id ? <>{profilePostsTitle}</> : `Mes posts (${posts.length})`}
+            </h2>
             <div className="w-full md:w-1/2 2xl:w-1/3 flex flex-col items-center justify-center gap-3 pt-4">
               {posts.map((post) => (
                 <Post key={post.postId} post={post} />

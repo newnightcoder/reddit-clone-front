@@ -32,6 +32,7 @@ const {
   USER_CREATED,
   USER_FAIL,
   ADD_USERNAME,
+  EDIT_USERNAME,
   USERNAME_ADDED,
   USERNAME_FAIL,
   SAVE_USERPIC,
@@ -102,6 +103,16 @@ export const userReducer = (state = initialState, action) => {
         creationDate,
         isNewUser,
         role,
+      };
+    }
+    case EDIT_USERNAME: {
+      const { newName } = action.payload;
+      return {
+        ...state,
+        username: newName,
+        currentProfileVisit: {
+          username: newName,
+        },
       };
     }
     case USERNAME_ADDED: {

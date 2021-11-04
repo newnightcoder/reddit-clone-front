@@ -37,7 +37,9 @@ const DeletedProfile = () => {
               <>Le compte de l'utilisateur a été supprimé de l'application avec succès.</>
             )}
           </div>
-          <button onClick={() => history.push(!isAdmin ? "/" : "/feed")}>retour à la page accueil</button>
+          <button className="hover:cursor-pointer hover:underline" onClick={() => history.push(!isAdmin ? "/" : "/feed")}>
+            Retour à la page accueil
+          </button>
         </div>
       )}
     </>
