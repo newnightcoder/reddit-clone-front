@@ -1,7 +1,7 @@
 import { PaperAirplaneIcon, RefreshIcon } from "@heroicons/react/solid";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useLocation } from "react-router";
+import { Redirect } from "react-router";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { Aside, Post } from "../components";
 import PostSkeleton from "../components/PostSkeleton";
@@ -14,8 +14,6 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
   const user = useSelector((state) => state.user);
   const posts = useSelector((state) => state.posts.posts);
   const isAuthenticated = useSelector((state) => state.user.loginSuccess);
-
-  const location = useLocation();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,7 +21,7 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
     return function cleanup() {
       setNewUser(null);
     };
-  }, []);
+  }, [isNewUser]);
 
   useEffect(() => {
     setTimeout(() => {

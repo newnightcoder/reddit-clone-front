@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { StepUsername } from ".";
 import brand from "../assets/full-logo-row-black.svg";
-import logo from "../assets/logo2.svg";
+import bg from "../assets/logo2.svg";
 
 const SignupForm = ({
   handleNewEmail,
@@ -29,11 +29,11 @@ const SignupForm = ({
   const toNextStep = isCreated
     ? {
         transform: "translateX(-100%)",
-        background: `url(${logo}) no-repeat center/250%`,
+        background: `linear-gradient(rgba(70,70,70,.45), rgba(70,70,70,.45)), url(${bg}) no-repeat center/cover`,
       }
     : {
         transform: "translateX(0%)",
-        background: `url(${logo}) no-repeat center/250%`,
+        background: `linear-gradient(rgba(70,70,70,.45), rgba(70,70,70,.45)), url(${bg}) no-repeat center/cover`,
       };
 
   return (

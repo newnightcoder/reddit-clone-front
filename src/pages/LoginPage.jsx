@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import bg from "../assets/bg.webp";
+import logo from "../assets/full-logo-row-black.svg";
+import bg from "../assets/logo2.svg";
 import { logUserAction } from "../store/actions/user.action";
 
 const Login = () => {
@@ -41,12 +42,12 @@ const Login = () => {
     <div
       className="h-full w-full flex flex-col items-center justify-center gap-4 bg-deep-orange-300"
       style={{
-        background: `linear-gradient(rgba(70,70,70,.8), rgba(70,70,70,.8)), url(${bg}) no-repeat center/cover`,
+        background: `linear-gradient(rgba(70,70,70,.45), rgba(70,70,70,.45)), url(${bg}) no-repeat center/cover`,
       }}
     >
-      <h2 className="text-center uppercase flex flex-col md:flex-row md:gap-1">
-        <span>Content de vous revoir </span>
-        <span>sur Groupomania!</span>
+      <h2 className="text-center uppercase flex flex-col md:gap-1">
+        <span className="font-bold text-lg">Content de vous revoir sur</span>
+        <img src={logo} style={{ height: "150", width: "80%" }} alt="logo Groupomania" />
       </h2>
       <div className="error h-1/6 w-full flex items-center justify-center">
         <span

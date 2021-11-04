@@ -11,7 +11,6 @@ import history from "../utils/history";
 
 const EditPage = () => {
   const serverError = useSelector((state) => state.posts.error);
-  const userId = useSelector((state) => state.user.id);
   const posts = useSelector((state) => state.posts.posts);
   const comments = useSelector((state) => state.posts.comments);
   const replies = useSelector((state) => state.posts.replies);

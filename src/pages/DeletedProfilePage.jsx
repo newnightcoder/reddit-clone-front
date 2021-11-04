@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useLocation } from "react-router";
-import logo from "../assets/logo.svg";
+import bg from "../assets/bg.webp";
 import { getPosts } from "../store/actions/posts.action";
 import history from "../utils/history";
 
@@ -9,7 +9,6 @@ const DeletedProfile = () => {
   const location = useLocation();
   const isAdmin = location?.state?.admin;
   const isAuthenticated = useSelector((state) => state?.user.loginSuccess);
-  const id = useSelector((state) => state.user.id);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -25,7 +24,7 @@ const DeletedProfile = () => {
       ) : (
         <div
           className="page-container min-h-screen w-screen flex flex-col items-center justify-center relative pb-8 overflow-x-hidden"
-          style={{ background: `url(${logo}) no-repeat fixed center/250%` }}
+          style={{ background: `linear-gradient(rgba(70,70,70,.8), rgba(70,70,70,.8)), url(${bg}) no-repeat center/cover` }}
         >
           <div className="h-1/4 w-10/12 flex flex-col items-center justify-center rounded-sm bg-red-400 text-black py-2 px-2">
             {!isAdmin ? (

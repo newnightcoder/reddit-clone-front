@@ -20,6 +20,7 @@ const UserCard = ({ user, mod }) => {
       <button className="flex gap-2 items-center justify-start hover:underline hover:font-bold" onClick={toProfilePage}>
         <img
           src={picUrl ? picUrl : picPlaceholder}
+          alt="avatar"
           className="h-14 w-14 rounded-full border-2 border-blue-400 p-1 hover:border-red-400 transition duration-300"
         />
         <span className="capitalize">{username}</span>

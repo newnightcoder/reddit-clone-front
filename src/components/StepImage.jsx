@@ -2,12 +2,12 @@ import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import logo from "../assets/logo2.svg";
+import bg from "../assets/logo2.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { saveUserPic } from "../store/actions/user.action";
 
 const StepImage = () => {
-  const [errorServer, setErrorServer] = useState("");
+  // const [errorServer, setErrorServer] = useState("");
   const [blob, setBlob] = useState(null);
   const [blobName, setBlobName] = useState(null);
   const file = useRef(null);
@@ -26,26 +26,24 @@ const StepImage = () => {
       className="h-screen w-screen bg-red-400 flex flex-col items-center justify-evenly absolute top-0 left-0"
       style={{
         transform: "translateX(100%)",
-        background: `url(${logo}) repeat center/200%`,
+        background: `linear-gradient(rgba(70,70,70,.45), rgba(70,70,70,.45)), url(${bg}) no-repeat center/cover`,
       }}
     >
-      <h2 className="text-center">
+      <h2 className="text-center font-bold text-lg">
         DERNIÈRE ÉTAPE AVANT DE <br />
         REJOINDRE LA COMMUNAUTÉ!
       </h2>
-      <span
+      {/* <span
         className="w-max h-max whitespace-pre py-2 px-3 text-center border border-red-700 rounded"
         style={errorServer === "" ? { visibility: "hidden" } : { visibility: "visible" }}
       >
         {errorServer !== "" && errorServer}
-      </span>
+      </span> */}
       <div className="h-max w-screen flex flex-col items-center gap-2">
         <div
           className="h-48 w-48 rounded-full border border-gray-600"
           style={{
-            background: `url(${
-              picUrl !== null ? picUrl : picPlaceholder
-            }) no-repeat center/cover`,
+            background: `url(${picUrl !== null ? picUrl : picPlaceholder}) no-repeat center/cover`,
           }}
         ></div>
         <form
@@ -78,32 +76,20 @@ const StepImage = () => {
               }}
             />
             <div>
-              {blobName !== null ? (
-                blobName
-              ) : (
-                <span className="italic text-xs">
-                  Aucune photo choisie pour le moment.
-                </span>
-              )}
+              {blobName !== null ? blobName : <span className="italic text-xs">Aucune photo choisie pour le moment.</span>}
             </div>
           </div>
           <div className="w-full flex items-center justify-center gap-4">
             <button
               className="text-white p-2 border border-red-500 rounded transform translate-y-2 transition transition-opacity duration-1000 shadow-xl"
-              style={
-                blobName == null
-                  ? { opacity: 0 }
-                  : { opacity: 1, backgroundColor: "#ef5350" }
-              }
+              style={blobName == null ? { opacity: 0 } : { opacity: 1, backgroundColor: "#ef5350" }}
             >
               voir l'aperçu
             </button>
             <button
               className="w-max flex items-center gap-1 text-black font-bold border border-black p-2 rounded transform translate-y-2 transition transition-opacity duration-1000 shadow-xl"
               style={
-                picUrl === ""
-                  ? { opacity: 0, display: "none" }
-                  : { opacity: 1, display: "flex", backgroundColor: "#ef5350" }
+                picUrl === "" ? { opacity: 0, display: "none" } : { opacity: 1, display: "flex", backgroundColor: "#ef5350" }
               }
               onClick={() => {
                 setTimeout(() => {
@@ -112,10 +98,7 @@ const StepImage = () => {
               }}
             >
               c'est bon!{" "}
-              <ChevronDoubleRightIcon
-                className="h-4 w-4 text-black font-bold"
-                style={{ transform: "translateY(1px)" }}
-              />
+              <ChevronDoubleRightIcon className="h-4 w-4 text-black font-bold" style={{ transform: "translateY(1px)" }} />
             </button>
           </div>
         </form>
@@ -132,10 +115,7 @@ const StepImage = () => {
       >
         <span className="flex items-center gap-1">
           plus tard, pas maintenant!{" "}
-          <ChevronDoubleRightIcon
-            className="h-4 w-4 text-black"
-            style={{ transform: "translateY(1px)" }}
-          />
+          <ChevronDoubleRightIcon className="h-4 w-4 text-black" style={{ transform: "translateY(1px)" }} />
         </span>
       </button>
     </div>

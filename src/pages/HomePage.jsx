@@ -13,7 +13,7 @@ const Homepage = () => {
         background: `linear-gradient(rgba(70,70,70,.8), rgba(70,70,70,.8)), url(${bg}) no-repeat center/cover`,
       }}
     >
-      <img src={logo} className="h-12 w-full my-4" />
+      <img src={logo} alt="logo" className="h-12 w-full my-4" />
       <div className="w-full flex flex-col items-center">
         <h1 className="uppercase text-gray-100">Déjà membre?</h1>
         <Link
