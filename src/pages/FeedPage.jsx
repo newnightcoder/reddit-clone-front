@@ -32,11 +32,11 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
   }, [dispatch]);
 
   return (
-    <>
+    <div className="h-max">
       {!isAuthenticated ? (
         <Redirect to={{ pathname: "/" }} />
       ) : (
-        <div className="feed-container min-h-screen w-full flex flex-col items-center justify-start bg-gray-200 relative pt-3">
+        <div className="feed-container h-full w-full flex flex-col items-center justify-start bg-gray-200 relative pt-3">
           <div className="bienvenueMsg-newcomer text-center whitespace-pre mb-2">
             {newUser === true ? (
               <>
@@ -107,7 +107,7 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

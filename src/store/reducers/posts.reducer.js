@@ -12,10 +12,12 @@ const initialState = {
   lastReplyAdded: null,
   lastDeleted: null,
   sessionExpired: false,
+  users: [],
 };
 
 const {
   GET_POSTS,
+  GET_USERS,
   GET_USER_POSTS,
   GET_COMMENTS,
   GET_REPLIES,
@@ -34,6 +36,10 @@ export const postsReducer = (state = initialState, action) => {
     case GET_POSTS: {
       const { posts, likes } = action.payload;
       return { ...state, posts, likes };
+    }
+    case GET_USERS: {
+      const { users } = action.payload;
+      return { ...state, users };
     }
     case GET_USER_POSTS: {
       const { posts, likes } = action.payload;

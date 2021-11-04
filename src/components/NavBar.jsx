@@ -33,7 +33,7 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
           <div className="h-full lg:w-3/12 flex items-center justify-evenly ">
             <Link
               to={"/feed"}
-              className="h-12 w-12 flex items-center justify-center text-white p-2 rounded-full"
+              className="h-12 w-12 flex items-center justify-center text-black p-2 rounded-full"
               style={{ backgroundColor: "#ef5350" }}
               disabled={false}
             >

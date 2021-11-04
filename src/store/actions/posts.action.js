@@ -3,6 +3,7 @@ import { actionType } from "../constants";
 
 const {
   GET_POSTS,
+  GET_USERS,
   GET_USER_POSTS,
   CREATE_POST,
   CREATE_REPLY,
@@ -34,6 +35,29 @@ export const getPosts = () => async (dispatch) => {
       return;
     }
     dispatch({ type: GET_POSTS, payload: { posts, likes } });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_POST, payload: error.message });
+  }
+};
+
+export const getUsers = () => async (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_POST });
+  const accessToken = localStorage.getItem("jwt");
+  const request = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    method: "get",
+  };
+  try {
+    const response = await fetch(`${API_POST}/user`, request);
+    const data = await response.json();
+    const { users, sessionExpired } = data;
+    if (sessionExpired) {
+      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+      return;
+    }
+    dispatch({ type: GET_USERS, payload: { users } });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
   }

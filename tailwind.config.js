@@ -47,6 +47,7 @@ module.exports = {
       opacity: ["disabled"],
       cursor: ["hover"],
       fontWeight: ["hover"],
+      borderWidth: ["hover"],
     },
   },
   plugins: [],

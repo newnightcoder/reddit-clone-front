@@ -160,15 +160,15 @@ const Profile = () => {
               </form>
             )}
             {profileUser?.username === username && (
-              <ul className="h-max w-11/12 flex flex-col items-start justify-center gap-3 pt-10 pl-4 text-sm text-gray-900">
+              <ul className="h-max w-11/12 xl:w-3/4 2xl:w-2/3 flex flex-col lg:flex-row items-start justify-center gap-3 md:justify-evenly pt-10 pl-4 mb-4 text-sm text-gray-900">
                 <li>
-                  <button className="flex items-center justify-center gap-1 hover:underline hover:font-bold">
+                  <button className="flex items-center justify-center gap-1 hover:underline hover:drop-shadow">
                     <UserCircleIcon className="h-8 text-gray-700" /> Modifier mon pseudo
                   </button>
                 </li>
                 <li>
                   <button
-                    className="flex items-center justify-center gap-1 hover:underline hover:font-bold"
+                    className="flex items-center justify-center gap-1 hover:underline hover:drop-shadow"
                     onClick={() => history.push("/create")}
                   >
                     <PencilIcon className="h-8 text-gray-700" />
@@ -176,14 +176,14 @@ const Profile = () => {
                   </button>
                 </li>
                 <li>
-                  <button className="flex items-center justify-center gap-1 hover:underline hover:font-bold">
+                  <button className="flex items-center justify-center gap-1 hover:underline hover:drop-shadow">
                     <HeartIcon className="h-8 text-gray-700" />
                     Posts que j'ai aimé
                   </button>
                 </li>
                 <li>
                   <button
-                    className="flex items-center justify-center gap-1 hover:underline hover:font-bold text-sm"
+                    className="flex items-center justify-center gap-1 hover:underline hover:drop-shadow text-sm"
                     onClick={() => setOpenModal(true)}
                   >
                     <TrashIcon className="h-8 text-gray-700" />
@@ -196,7 +196,7 @@ const Profile = () => {
           <div className="w-10/12 pl-4">
             {role === "admin" && profileUser.id !== id && (
               <button
-                className="flex items-center justify-center gap-1 text-md hover:underline hover:font-bold"
+                className="flex items-center justify-center gap-1 text-md hover:underline hover:drop-shadow"
                 onClick={() => setOpenModal(true)}
               >
                 <TrashIcon className="h-8 text-gray-700" />

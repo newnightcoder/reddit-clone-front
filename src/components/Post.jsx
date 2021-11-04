@@ -127,19 +127,25 @@ const Post = ({ post }) => {
         </div>
       </div>
       <div className="text w-full text-left px-3 py-2 text-sm">{text}</div>
-      <div className="bottom bg-gray-100 w-full flex items-center justify-end px-2 py-2 border-t rounded-bl-md rounded-br-md">
-        <div className="icons-container w-max flex items-center justify-end gap-4 text-xs text-gray-500 font-bold rounded-bl-md rounded-br-md">
-          <button className="outline-none w-max flex items-center justify-center gap-1" onClick={toCommentPage}>
+      <div className="bottom bg-gray-100 h-9 w-full flex items-center justify-end px-2  border-t rounded-bl-md rounded-br-md">
+        <div className="icons-container h-full w-max flex items-center justify-end gap-4 text-xs text-gray-500 font-bold rounded-bl-md rounded-br-md">
+          <button
+            className="outline-none h-full w-max flex items-center justify-center gap-1 hover:bg-gray-200 rounded-sm px-2"
+            onClick={toCommentPage}
+          >
             <ChatRight size={14} className="font-weight-bold" />
             <span className="font-bold">{commentsNumber}</span> <span className="font-bold">Commentaires</span>
           </button>
-          <div className="w-max flex items-center justify-center">
+          <div className="h-full w-max flex items-center justify-center hover:bg-gray-200 hover:cursor-pointer px-2 rounded-sm">
             <button className="outline-none transform -translate-y-px" onClick={() => handleLike(postId)}>
               {like ? <HandThumbsUpFill size={14} /> : <HandThumbsUp size={14} className="font-weight-bold" />}
             </button>
             <span className="w-4 text-center">{likesNumber}</span>
           </div>
-          <button className="w-max flex items-center justify-center gap-1" onClick={toggleOptions}>
+          <button
+            className="h-full w-max flex items-center justify-center gap-1 hover:bg-gray-200 px-2 rounded-full"
+            onClick={toggleOptions}
+          >
             <ThreeDotsVertical />
           </button>
         </div>
