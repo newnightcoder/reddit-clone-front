@@ -29,17 +29,17 @@ const Login = () => {
     e.preventDefault();
     dispatch(logUserAction(email, password));
   };
+
   const toFeed = (() => {
     if (!loginSuccess) return;
     setTimeout(() => {
       history.push({ pathname: "/feed", state: { isNewUser: false } });
-    }, 500);
+    }, 1000);
   })();
 
   return (
     <div
       className="h-full w-full flex flex-col items-center justify-center gap-4 bg-deep-orange-300"
-      // style={{ background: `url(${logo}) no-repeat center/cover` }}
       style={{
         background: `linear-gradient(rgba(70,70,70,.8), rgba(70,70,70,.8)), url(${bg}) no-repeat center/cover`,
       }}

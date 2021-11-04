@@ -4,7 +4,6 @@ import { actionType } from "../constants";
 const initialState = {
   posts: [],
   userPosts: [],
-  // userPostsLikes:[],
   comments: [],
   replies: [],
   likes: [],
@@ -26,6 +25,7 @@ const {
   CREATE_REPLY,
   EDIT_POST,
   DELETE_POST,
+  CLEAN_PROFILE_POSTS,
   SESSION_EXPIRED,
 } = actionType;
 
@@ -57,6 +57,8 @@ export const postsReducer = (state = initialState, action) => {
       return { ...state, error: action.payload };
     case CLEAR_ERROR_POST:
       return { ...state, error: "" };
+    case CLEAN_PROFILE_POSTS:
+      return { ...state, userPosts: [] };
     case SESSION_EXPIRED: {
       return { ...state, sessionExpired: action.payload };
     }

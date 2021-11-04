@@ -48,14 +48,10 @@ const AppContainer = () => {
         <Route path="/fin" component={DeletedProfilePage} />
         <Route component={MainContainer}>
           <NavBar toggleMenu={toggleMenu} closeMenu={closeMenu} isOpen={isOpen} />
-          <Route path="/feed">
-            <FeedPage />
-          </Route>
+          <Route path="/feed" component={FeedPage} />
           <Route path="/create" component={CreatePostPage} />
           <Route path="/edit" component={EditPage} />
-          <Route path="/comments">
-            <CommentPage />
-          </Route>
+          <Route path="/comments" component={CommentPage} />
           <Route path="/profile" component={ProfilePage} />
         </Route>
       </Switch>

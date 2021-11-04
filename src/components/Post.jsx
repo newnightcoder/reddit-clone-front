@@ -17,6 +17,7 @@ const Post = ({ post }) => {
   const likes = useSelector((state) => state.posts.likes);
   const [like, setLike] = useState(false);
   const [likesNumber, setLikesNumber] = useState(likesCount);
+  const [commentsNumber, setcommentsNumber] = useState(commentCount);
   const [isDeleted, setIsDeleted] = useState(false);
   const [postIsGone, setpostIsGone] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
@@ -26,7 +27,8 @@ const Post = ({ post }) => {
 
   useEffect(() => {
     setLikesNumber(likesCount);
-  }, [likesCount]);
+    setcommentsNumber(commentCount);
+  }, [likesCount, commentCount]);
 
   useEffect(() => {
     likes.map((like) => {
@@ -66,7 +68,7 @@ const Post = ({ post }) => {
   };
 
   const handleDeletePost = () => {
-    dispatch(deletePost(postId));
+    dispatch(deletePost(postId, null, "post"));
     setIsDeleted(true);
     setTimeout(() => {
       setpostIsGone(true);
@@ -81,10 +83,9 @@ const Post = ({ post }) => {
   };
 
   const toProfilePage = () => {
-    console.log("post id", postId);
     if (userId !== fk_userId_post) {
       dispatch(getUserProfile(fk_userId_post));
-    }
+    } else dispatch(getUserProfile(userId));
     setTimeout(() => {
       history.push(`/profile/${username}`);
     }, 100);
@@ -96,7 +97,7 @@ const Post = ({ post }) => {
       style={{ transform: isDeleted && "scale(0)", display: postIsGone && "none" }}
     >
       {(openModal && userId === fk_userId_post) || (openModal && role === "admin") ? (
-        <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"post"} />
+        <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"post"} postId={postId} />
       ) : null}
       <div className="top w-full flex items-center justify-center pb-1 border-b">
         <div className="left-column h-full w-2/12 flex justify-center">
@@ -130,7 +131,7 @@ const Post = ({ post }) => {
         <div className="icons-container w-max flex items-center justify-end gap-4 text-xs text-gray-500 font-bold rounded-bl-md rounded-br-md">
           <button className="outline-none w-max flex items-center justify-center gap-1" onClick={toCommentPage}>
             <ChatRight size={14} className="font-weight-bold" />
-            <span className="font-bold">{commentCount}</span> <span className="font-bold">Commentaires</span>
+            <span className="font-bold">{commentsNumber}</span> <span className="font-bold">Commentaires</span>
           </button>
           <div className="w-max flex items-center justify-center">
             <button className="outline-none transform -translate-y-px" onClick={() => handleLike(postId)}>

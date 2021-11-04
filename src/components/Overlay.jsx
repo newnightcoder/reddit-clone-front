@@ -8,7 +8,7 @@ const Overlay = ({ isOpen, close }) => {
         isOpen
           ? {
               opacity: 0.75,
-              zIndex: 20,
+              zIndex: 50,
               visibility: "visible",
             }
           : {

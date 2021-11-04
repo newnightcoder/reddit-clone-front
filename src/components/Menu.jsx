@@ -1,17 +1,11 @@
-import {
-  ChevronDoubleRightIcon,
-  HeartIcon,
-  PencilIcon,
-  TrashIcon,
-  UserCircleIcon,
-} from "@heroicons/react/solid";
+import { ChevronDoubleRightIcon, HeartIcon, PencilIcon, TrashIcon, UserCircleIcon } from "@heroicons/react/solid";
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { DeleteModal } from ".";
 import logo2 from "../assets/logo2.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { deleteUser, saveUserPic } from "../store/actions/user.action";
+import { deleteUser, getUserProfile, saveUserPic } from "../store/actions/user.action";
 import { formatTimestamp } from "../utils/formatTime";
 
 const Menu = ({ isOpen, toggleMenu }) => {
@@ -32,6 +26,13 @@ const Menu = ({ isOpen, toggleMenu }) => {
 
   const toggleDeleteModal = () => {
     setOpenModal((openModal) => !openModal);
+  };
+
+  const toProfilePage = () => {
+    dispatch(getUserProfile(id));
+    setTimeout(() => {
+      history.push(`/profile/${username}`);
+    }, 100);
   };
 
   const handleDeleteProfileFromMenu = () => {
@@ -59,9 +60,7 @@ const Menu = ({ isOpen, toggleMenu }) => {
           ></div>
         </div>
         <div className="username-member h-max w-full flex flex-col items-center justify-start">
-          <span className="text-xl font-bold capitalize">
-            {username?.length !== 0 && username}
-          </span>
+          <span className="text-xl font-bold capitalize">{username?.length !== 0 && username}</span>
           <span className="block italic text-sm flex items-center justify-center gap-1">
             <span
               className="block w-6 h-6 rounded-full outline-none transform translate-y-px"
@@ -102,38 +101,23 @@ const Menu = ({ isOpen, toggleMenu }) => {
               }}
             />
             <div className="text-center text-xs">
-              {!isHidden ? (
-                blobName
-              ) : !picUrl ? (
-                <span className="italic text-xs">Aucune photo pour le moment.</span>
-              ) : null}
+              {!isHidden ? blobName : !picUrl ? <span className="italic text-xs">Aucune photo pour le moment.</span> : null}
             </div>
           </div>
           <div className="buttons-container-apercu-valider w-full flex items-center justify-center gap-4">
             <button
               className="text-white text-sm px-2 shadow py-1 border border-red-500 rounded transform transition transition-opacity duration-1000 shadow-xl"
-              style={
-                isHidden
-                  ? { display: "none", opacity: 0 }
-                  : { display: "block", opacity: 1, backgroundColor: "#ef5350" }
-              }
+              style={isHidden ? { display: "none", opacity: 0 } : { display: "block", opacity: 1, backgroundColor: "#ef5350" }}
             >
               voir l'aperçu
             </button>
             <button
               className="w-max flex items-center gap-1 text-black font-bold px-2 shadow py-1 rounded transform transition transition-opacity duration-1000 shadow-xl"
-              style={
-                isHidden
-                  ? { opacity: 0, display: "none" }
-                  : { opacity: 1, display: "flex", backgroundColor: "#ef5350" }
-              }
+              style={isHidden ? { opacity: 0, display: "none" } : { opacity: 1, display: "flex", backgroundColor: "#ef5350" }}
               onClick={() => setIsHidden(true)}
             >
               valider
-              <ChevronDoubleRightIcon
-                className="h-4 w-4 text-black font-bold"
-                style={{ transform: "translateY(1px)" }}
-              />
+              <ChevronDoubleRightIcon className="h-4 w-4 text-black font-bold" style={{ transform: "translateY(1px)" }} />
             </button>
           </div>
         </form>
@@ -142,7 +126,7 @@ const Menu = ({ isOpen, toggleMenu }) => {
             <button
               className="flex items-center justify-center gap-1"
               onClick={() => {
-                history.push(`/profile/${username}`);
+                toProfilePage(id);
                 toggleMenu();
               }}
             >
@@ -150,7 +134,13 @@ const Menu = ({ isOpen, toggleMenu }) => {
             </button>
           </li>
           <li>
-            <button className="flex items-center justify-center gap-1">
+            <button
+              className="flex items-center justify-center gap-1"
+              onClick={() => {
+                history.push("/create");
+                toggleMenu();
+              }}
+            >
               <PencilIcon className="h-8 text-gray-700" />
               Créer un nouveau post
             </button>
@@ -162,10 +152,7 @@ const Menu = ({ isOpen, toggleMenu }) => {
             </button>
           </li>
           <li>
-            <button
-              className="flex items-center justify-center gap-1 text-sm"
-              onClick={() => setOpenModal(true)}
-            >
+            <button className="flex items-center justify-center gap-1 text-sm" onClick={() => setOpenModal(true)}>
               <TrashIcon className="h-8 text-gray-700" />
               Supprimer mon profil
             </button>

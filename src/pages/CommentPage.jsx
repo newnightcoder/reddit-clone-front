@@ -148,6 +148,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
                       comment={comment}
                       toggleDeleteModal={toggleDeleteModal}
                       openModal={openModal}
+                      postId={postId}
                     />
                   );
                 })}

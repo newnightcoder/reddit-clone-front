@@ -14,14 +14,14 @@ import {
   Youtube,
 } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { Reply } from ".";
+import { DeleteModal, Reply } from ".";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { createReply, getReplies } from "../store/actions/posts.action";
+import { createReply, deletePost, getReplies } from "../store/actions/posts.action";
 import { likePost } from "../store/actions/user.action";
 import { createDate, formatTimestamp } from "../utils/formatTime";
 import Options from "./Options";
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, postId }) => {
   const { fk_userId_comment, picUrl, username, text, date, commentId, likesCount } = comment;
   const likes = useSelector((state) => state?.posts.likes);
   const [like, setLike] = useState(false);
@@ -31,8 +31,11 @@ const Comment = ({ comment }) => {
   const replyText = convertToRaw(editorState.getCurrentContent()).blocks[0].text;
   const [optionsOpen, setOptionsOpen] = useState(false);
   const userId = useSelector((state) => state?.user.id);
+  const role = useSelector((state) => state?.user.role);
   const replies = useSelector((state) => state?.posts.replies);
   const [openModal, setOpenModal] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [postIsGone, setpostIsGone] = useState(false);
   const emptyComErrorMsg = "Votre commentaire est vide!";
   const [emptyComError, setEmptyComError] = useState(false);
   const [serverErrorMsg, setServerErrorMsg] = useState("");
@@ -107,12 +110,23 @@ const Comment = ({ comment }) => {
     }, 1000);
   };
 
+  const handleDeletePost = () => {
+    dispatch(deletePost(commentId, postId, "comment"));
+    setIsDeleted(true);
+    setTimeout(() => {
+      setpostIsGone(true);
+    }, 500);
+  };
+
   return (
     <>
       <div
         className="comment-container relative h-max w-full flex-col items-center justify-center bg-white transition-all duration-300 px-2 pt-2 "
-        style={{ marginBottom: replyOpen && "5px" }}
+        style={{ marginBottom: replyOpen && "5px", transform: isDeleted && "scale(0)", display: postIsGone && "none" }}
       >
+        {(openModal && userId === fk_userId_comment) || (openModal && role === "admin") ? (
+          <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"comment"} />
+        ) : null}
         <div className="top w-full flex items-center justify-center pb-1 border-b">
           <div className="left-column h-full w-2/12 flex justify-center">
             <div

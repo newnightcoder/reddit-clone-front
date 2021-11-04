@@ -12,6 +12,7 @@ const {
   GET_REPLIES,
   SET_ERROR_POST,
   CLEAR_ERROR_POST,
+  CLEAN_PROFILE_POSTS,
   SESSION_EXPIRED,
 } = actionType;
 
@@ -125,7 +126,7 @@ export const editPost = (origin, id, title, text) => async (dispatch) => {
   }
 };
 
-export const deletePost = (postId) => async (dispatch) => {
+export const deletePost = (id, postId, origin) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
   const accessToken = localStorage.getItem("jwt");
 
@@ -135,7 +136,7 @@ export const deletePost = (postId) => async (dispatch) => {
       Authorization: `Bearer ${accessToken}`,
     },
     method: "post",
-    body: JSON.stringify({ postId }),
+    body: JSON.stringify({ id, postId, origin }),
   };
   try {
     const response = await fetch(`${API_POST}/delete`, request);
@@ -149,7 +150,6 @@ export const deletePost = (postId) => async (dispatch) => {
       dispatch({ type: SET_ERROR_POST, payload: error });
       return;
     }
-    console.log("postId avant dispatch delete");
     dispatch({ type: DELETE_POST, payload: true });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
@@ -234,4 +234,8 @@ export const getReplies = () => async (dispatch) => {
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
   }
+};
+
+export const cleanCurrentProfilePosts = () => (dispatch) => {
+  dispatch({ type: CLEAN_PROFILE_POSTS });
 };

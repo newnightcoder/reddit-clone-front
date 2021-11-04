@@ -23,6 +23,7 @@ export const actionType = {
   LIKE_POST: "LIKE_POST",
   GET_USER_PROFILE: "GET_USER_PROFILE",
   CLEAN_PROFILE_VISIT: "CLEAN_PROFILE_VISIT",
+  CLEAN_PROFILE_POSTS: "CLEAN_PROFILE_POSTS",
   ////////////////
   //  POSTS
   ////////////////

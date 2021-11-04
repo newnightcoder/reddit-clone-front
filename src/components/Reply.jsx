@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { ChatRight, HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
+import { DeleteModal } from ".";
 import picPlaceholder from "../assets/pic_placeholder.svg";
+import { deletePost } from "../store/actions/posts.action";
 import { likePost } from "../store/actions/user.action";
 import { formatTimestamp } from "../utils/formatTime";
 import Options from "./Options";
@@ -14,7 +16,10 @@ const Reply = ({ reply }) => {
   const [replyOpen, setReplyOpen] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
+  const [postIsGone, setpostIsGone] = useState(false);
   const userId = useSelector((state) => state?.user.id);
+  const role = useSelector((state) => state?.user.role);
   const sameUserReply = [];
   const dispatch = useDispatch();
 
@@ -63,11 +68,22 @@ const Reply = ({ reply }) => {
     dispatch(likePost("reply", userId, replyId, like));
   };
 
+  const handleDeletePost = () => {
+    dispatch(deletePost(replyId, "reply"));
+    setIsDeleted(true);
+    setTimeout(() => {
+      setpostIsGone(true);
+    }, 500);
+  };
+
   return (
     <div
       className="reply-container relative h-max w-11/12 flex-col items-center justify-center bg-white border border-gray-200 rounded-md transition-all duration-300 px-2 pt-2 "
-      style={{ marginBottom: replyOpen && "5px" }}
+      style={{ marginBottom: replyOpen && "5px", transform: isDeleted && "scale(0)", display: postIsGone && "none" }}
     >
+      {(openModal && userId === fk_userId_reply) || (openModal && role === "admin") ? (
+        <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"reply"} />
+      ) : null}
       <div className="top w-full flex items-center justify-center pb-1 border-b">
         <div className="left-column h-full w-2/12 flex justify-center">
           <div

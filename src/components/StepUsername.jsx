@@ -52,18 +52,14 @@ const StepUsername = () => {
       style={toNextStep}
     >
       <span
-        className="whitespace-wrap w-10/12 h-max py-2 px-3 bg-black text-white border border-red-700 rounded"
+        className="whitespace-wrap w-10/12 md:w-1/2 lg:w-1/3 md:text-center h-max py-2 px-3 bg-black text-white border border-red-700 rounded"
         style={error.length !== 0 ? { visibility: "visible" } : { visibility: "hidden" }}
       >
         {error}
       </span>
       <div>
         <p>choisissez votre pseudo:</p>
-        <form
-          className="flex flex-col items-center justify-center gap-1"
-          method="post"
-          onSubmit={handleSubmit}
-        >
+        <form className="flex flex-col items-center justify-center gap-1" method="post" onSubmit={handleSubmit}>
           <label htmlFor="username"></label>
           <input
             className="w-48 rounded p-1 border border-red-300 outline-none"
