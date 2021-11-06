@@ -24,7 +24,7 @@ const DeletedProfile = () => {
       ) : (
         <div
           className="page-container min-h-screen w-screen flex flex-col items-center justify-center relative pb-8 overflow-x-hidden"
-          style={{ background: `linear-gradient(rgba(70,70,70,.8), rgba(70,70,70,.8)), url(${bg}) no-repeat center/cover` }}
+          style={{ background: `linear-gradient(rgba(70,70,70,.45), rgba(70,70,70,.45)), url(${bg}) no-repeat center/cover` }}
         >
           <div className="h-1/4 w-10/12 flex flex-col items-center justify-center rounded-sm bg-red-400 text-black py-2 px-2">
             {!isAdmin ? (
