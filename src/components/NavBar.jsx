@@ -37,11 +37,10 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
               style={{ backgroundColor: "#ef5350" }}
               disabled={false}
             >
-              <ArrowLeftIcon />{" "}
+              <ArrowLeftIcon />
             </Link>
-            {width >= 1024 && (
+            {width > 1024 && (
               <Link to={"/"}>
-                {" "}
                 <img src={logo_desktop} style={{ width: 200 }} />
               </Link>
             )}
@@ -51,7 +50,7 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
             to="/"
             className="w-14 h-14 lg:w-3/12 lg:h-full flex flex-col items-center justify-center rounded-full lg:rounded-none outline-none"
           >
-            <img src={width <= 1024 ? logo_mobile : logo_desktop} style={{ width: width >= 1024 && 260 }} />
+            <img src={width < 1024 ? logo_mobile : logo_desktop} style={{ width: width > 1024 && 260 }} />
           </Link>
         )}
         <form className="w-2/4 flex items-center justify-center" action="">
