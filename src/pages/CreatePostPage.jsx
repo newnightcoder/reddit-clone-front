@@ -1,5 +1,4 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
-import { convertToRaw, Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import React, { useState } from "react";
 import { Image, TypeBold, TypeItalic, TypeUnderline, XLg, Youtube } from "react-bootstrap-icons";
@@ -12,7 +11,7 @@ import history from "../utils/history";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
-  const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
+  const [postText, setPostText] = useState("");
   const [emptyTitle, setEmptyTitle] = useState(false);
   const [serverErrorMsg, setServerErrorMsg] = useState("");
   const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
@@ -26,7 +25,9 @@ const CreatePost = () => {
     setEmptyTitle(false);
   };
 
-  const text = convertToRaw(editorState.getCurrentContent()).blocks[0].text;
+  const handlePostInput = (e) => {
+    setPostText(e.currentTarget.value);
+  };
 
   const handlePostSubmit = (e) => {
     e.preventDefault();
@@ -39,7 +40,7 @@ const CreatePost = () => {
       return;
     }
     setServerErrorMsg("");
-    dispatch(createPost(userId, title, text, createDate()));
+    dispatch(createPost(userId, title, postText, createDate()));
     history.push({
       pathname: "/feed",
     });
@@ -98,8 +99,15 @@ const CreatePost = () => {
                     Enregistrer le brouillon
                   </div>
                 </div>
-                <div className="container max-w-full h-56 bg-gray-100 hover:bg-white active:bg-white focus:bg-white rounded-bl rounded-br overflow-y-auto p-2">
-                  <Editor editorState={editorState} onChange={setEditorState} placeholder="Exprimez-vous..." />
+                <div className="container max-w-full h-56 bg-gray-100 hover:bg-white active:bg-white focus:bg-white rounded-bl rounded-br overflow-y-auto">
+                  <textarea
+                    type="text"
+                    name="post"
+                    id="post"
+                    value={postText}
+                    onChange={handlePostInput}
+                    className="w-full h-full focus:ring-red-300 flex items-start justify-start p-2"
+                  />
                 </div>
               </div>
               <button

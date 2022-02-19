@@ -3,8 +3,6 @@ import React from "react";
 import { Power } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-// import logo_desktop from "../assets/full-logo-row-black.svg";
-import logo_mobile from "../assets/logo4.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { getUserProfile } from "../store/actions/user.action";
 import history from "../utils/history";
@@ -51,7 +49,7 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
             to="/"
             className="w-14 h-14 lg:w-3/12 lg:h-full flex flex-col items-center justify-center rounded-full lg:rounded-none outline-none"
           >
-            <img src={width < 1024 ? logo_mobile : logo_desktop} style={{ width: width > 1024 && 260 }} />
+            {/* <img src={width < 1024 ? logo_mobile : logo_desktop} style={{ width: width > 1024 && 260 }} /> */} CONNECT
           </Link>
         )}
         <form className="w-2/4 flex items-center justify-center" action="">
