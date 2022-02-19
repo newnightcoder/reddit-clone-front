@@ -3,7 +3,7 @@ import React from "react";
 import { Power } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import logo_desktop from "../assets/full-logo-row-black.svg";
+// import logo_desktop from "../assets/full-logo-row-black.svg";
 import logo_mobile from "../assets/logo4.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { getUserProfile } from "../store/actions/user.action";
@@ -40,8 +40,9 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
               <ArrowLeftIcon />
             </Link>
             {width > 1024 && (
-              <Link to={"/"}>
-                <img src={logo_desktop} style={{ width: 200 }} />
+              <Link to={"/"} className="uppercase">
+                {/* <img src={logo_desktop} style={{ width: 200 }} /> */}
+                connect
               </Link>
             )}
           </div>
