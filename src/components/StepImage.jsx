@@ -1,25 +1,24 @@
 import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
-import { useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import bg from "../assets/logo2.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { saveUserPic } from "../store/actions/user.action";
+import ImgUploader from "./ImgUploader";
 
 const StepImage = () => {
   // const [errorServer, setErrorServer] = useState("");
-  const [blob, setBlob] = useState(null);
-  const [blobName, setBlobName] = useState(null);
-  const file = useRef(null);
+  // const [blob, setBlob] = useState(null);
+  // const [blobName, setBlobName] = useState(null);
+  // const file = useRef(null);
   const { id, picUrl } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleImgSubmit = async (e) => {
-    e.preventDefault();
-    console.log("FILE!!!", file.current.files[0]);
-    dispatch(saveUserPic(blob, id));
-  };
+  // const handleImgSubmit = async (e) => {
+  //   e.preventDefault();
+  //   console.log("FILE!!!", file.current.files[0]);
+  //   dispatch(saveUserPic(blob, id));
+  // };
 
   return (
     <div
@@ -46,7 +45,7 @@ const StepImage = () => {
             background: `url(${picUrl !== null ? picUrl : picPlaceholder}) no-repeat center/cover`,
           }}
         ></div>
-        <form
+        {/* <form
           className="flex flex-col items-center justify-center gap-2"
           action=""
           method="POST"
@@ -101,7 +100,8 @@ const StepImage = () => {
               <ChevronDoubleRightIcon className="h-4 w-4 text-black font-bold" style={{ transform: "translateY(1px)" }} />
             </button>
           </div>
-        </form>
+        </form> */}
+        <ImgUploader />
       </div>
 
       <button

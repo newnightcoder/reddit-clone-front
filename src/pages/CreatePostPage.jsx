@@ -26,6 +26,8 @@ const CreatePost = () => {
   const isAuthenticated = useSelector((state) => state.user.loginSuccess);
   const dispatch = useDispatch();
 
+  console.log(youtubeModalOpen);
+
   const handleTitleInput = (e) => {
     setTitle(e.currentTarget.value);
     setEmptyTitle(false);
@@ -57,6 +59,7 @@ const CreatePost = () => {
     setUrlModalOpen(false);
     setYoutubeModalOpen(false);
     setImgInputModalOpen((prev) => !prev);
+    console.log("youtubeModalOpen toggleImgInput:", youtubeModalOpen);
   };
 
   const toggleUrlInput = (e) => {
@@ -64,6 +67,7 @@ const CreatePost = () => {
     setImgInputModalOpen(false);
     setYoutubeModalOpen(false);
     setUrlModalOpen((prev) => !prev);
+    console.log("youtubeModalOpen toggleUrlInput:", youtubeModalOpen);
   };
 
   const toggleYoutubeInput = (e) => {
@@ -71,6 +75,7 @@ const CreatePost = () => {
     setImgInputModalOpen(false);
     setUrlModalOpen(false);
     setYoutubeModalOpen((prev) => !prev);
+    console.log("youtubeModalOpen toggleYoutubeInput:", youtubeModalOpen);
   };
 
   return (
@@ -104,29 +109,30 @@ const CreatePost = () => {
             />
             <div className="form-container h-full w-full flex flex-col items-center justify-start pt-4">
               <div className="h-max w-full border border-gray-400 hover:border-gray-500 transition-border-color duration-300 rounded">
-                <div className="h-12 w-full flex items-center justify-between rounded-t bg-gray-200 border-b border-gray-300">
+                <div className="h-12 w-full flex items-center justify-between rounded-t bg-black border-b border-gray-300 pl-2 pr-4">
                   <div className="w-2/3 h-full flex items-center justify-start">
                     <button
                       className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center"
                       onClick={(e) => toggleImgInput(e)}
                     >
-                      <Image />
+                      <Image className="text-gray-100" />
                     </button>
                     <button
                       className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center"
                       onClick={(e) => toggleUrlInput(e)}
                     >
-                      <Link45deg />
+                      <Link45deg size={20} className="text-gray-100" />
                     </button>
                     <button
                       className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center"
                       onClick={(e) => toggleYoutubeInput(e)}
                     >
-                      <Youtube />
+                      <Youtube size={20} className="text-red-600" />
                     </button>
                   </div>
-                  <div className="w-1/3 h-full whitespace-wrap text-xs text-gray-500 underline flex items-center justify-end text-right pr-4">
-                    Enregistrer le brouillon
+                  <div className="w-1/3 h-full whitespace-wrap text-xs text-gray-100 underline flex items-center justify-end text-right">
+                    Enregistrer <br />
+                    le brouillon
                   </div>
                 </div>
                 <div className="container relative max-w-full h-56 bg-gray-100 hover:bg-white active:bg-white focus:bg-white rounded-bl rounded-br overflow-y-auto">
@@ -157,10 +163,10 @@ const CreatePost = () => {
           <div className="h-1/4 flex flex-col items-center justify-center rounded-full">
             <Link
               to={"/feed"}
-              className="h-12 w-12 bg-gray-500 transition-color duration-300 hover:bg-black md:h-auto md:w-max md:flex items-center justify-center md:space-x-2 text-white px-2 py-2 md:py-1 md:px-5 rounded-full md:rounded shadow-xl"
+              className="h-12 w-12 bg-gray-500 transition-color duration-300 hover:bg-black md:h-auto md:w-max flex items-center justify-center md:space-x-2 text-white px-2 py-2 md:py-1 md:px-5 rounded-full md:rounded shadow-xl"
               disabled={false}
             >
-              <span className="text-sm uppercase">annuler</span> <XLg />
+              <span className="hidden md:inline-block text-sm uppercase">annuler</span> <XLg />
             </Link>
           </div>
         </div>

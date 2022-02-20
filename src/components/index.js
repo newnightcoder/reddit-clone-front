@@ -3,6 +3,7 @@ export { default as Aside } from "./Aside";
 export { default as Comment } from "./Comment";
 export { default as DeleteModal } from "./DeleteModal";
 export { default as EditModal } from "./EditModal";
+export { default as ImgUploader } from "./ImgUploader";
 export { default as MainContainer } from "./MainContainer";
 export { default as Menu } from "./Menu";
 export { default as NavBar } from "./NavBar";
