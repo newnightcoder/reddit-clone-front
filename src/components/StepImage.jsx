@@ -101,7 +101,7 @@ const StepImage = () => {
             </button>
           </div>
         </form> */}
-        <ImgUploader />
+        <ImgUploader profile={true} />
       </div>
 
       <button

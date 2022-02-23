@@ -5,6 +5,7 @@ const {
   GET_POSTS,
   GET_USERS,
   GET_USER_POSTS,
+  SAVE_POST_PIC,
   CREATE_POST,
   CREATE_REPLY,
   EDIT_POST,
@@ -88,7 +89,35 @@ export const getUserPosts = (userId) => async (dispatch) => {
   }
 };
 
-export const createPost = (userId, title, text, date) => async (dispatch) => {
+export const savePostImage = (blob) => async (dispatch) => {
+  const formData = new FormData();
+  formData.append("image", blob);
+  const request = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+    method: "post",
+    body: formData,
+  };
+
+  try {
+    const response = await fetch(`${API_POST}/post-image`, request);
+    const data = await response.json();
+    const { imgUrl, error } = data;
+    console.log("imgUrl,", imgUrl);
+    if (response.status === 401) {
+      return dispatch({ type: SET_ERROR_POST, payload: error });
+    }
+    if (response.status !== 201) {
+      return dispatch({ type: SET_ERROR_POST, payload: error });
+    }
+    dispatch({ type: SAVE_POST_PIC, payload: imgUrl });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_POST, payload: error.message });
+  }
+};
+
+export const createPost = (userId, title, text, date, imgUrl) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
   const accessToken = localStorage.getItem("jwt");
   console.log("token", accessToken);
@@ -98,7 +127,7 @@ export const createPost = (userId, title, text, date) => async (dispatch) => {
       Authorization: `Bearer ${accessToken}`,
     },
     method: "POST",
-    body: JSON.stringify({ userId, title, text, date }),
+    body: JSON.stringify({ userId, title, text, date, imgUrl }),
   };
   try {
     const response = await fetch(API_POST, request);

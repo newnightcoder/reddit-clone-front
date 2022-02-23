@@ -19,7 +19,7 @@ const Aside = () => {
     dispatch(getUsers());
     setAdminUsers(admin);
     setLastFiveUsers(sortedUsers.splice(0, 5));
-  }, [dispatch, sortedUsers]);
+  }, []);
 
   return (
     <div className="hidden w-1/5 md:w-2/5 xl:w-1/3 2xl:w-2/5 h-max md:flex flex-col items-center justify-start gap-2 border border-gray-200 mt-9 rounded">

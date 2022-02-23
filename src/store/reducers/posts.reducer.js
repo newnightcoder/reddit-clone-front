@@ -4,6 +4,11 @@ import { actionType } from "../constants";
 const initialState = {
   posts: [],
   userPosts: [],
+  currentPost: {
+    title: "",
+    text: "",
+    imgUrl: "",
+  },
   comments: [],
   replies: [],
   likes: [],
@@ -23,6 +28,7 @@ const {
   GET_REPLIES,
   SET_ERROR_POST,
   CLEAR_ERROR_POST,
+  SAVE_POST_PIC,
   CREATE_POST,
   CREATE_REPLY,
   EDIT_POST,
@@ -51,6 +57,8 @@ export const postsReducer = (state = initialState, action) => {
     case GET_REPLIES:
       const { replies } = action.payload;
       return { ...state, replies };
+    case SAVE_POST_PIC:
+      return { ...state, currentPost: { ...state.currentPost, imgUrl: action.payload } };
     case CREATE_POST:
       return { ...state, lastPostAdded: action.payload };
     case CREATE_REPLY:

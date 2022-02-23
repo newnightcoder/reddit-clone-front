@@ -142,7 +142,7 @@ export const editUsername = (userId, username) => async (dispatch) => {
 
 export const saveUserPic = (blob, id) => async (dispatch) => {
   const formData = new FormData();
-  formData.append("userBlob", blob);
+  formData.append("image", blob);
   formData.append("id", id);
   const request = {
     headers: {

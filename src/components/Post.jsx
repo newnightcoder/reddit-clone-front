@@ -3,6 +3,7 @@ import { ChatRight, HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "re
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteModal } from ".";
 import picPlaceholder from "../assets/pic_placeholder.svg";
+import "../index.css";
 import { deletePost } from "../store/actions/posts.action";
 import { getUserProfile, likePost, toComment } from "../store/actions/user.action";
 import { formatTimestamp } from "../utils/formatTime";
@@ -10,8 +11,9 @@ import history from "../utils/history";
 import Options from "./Options";
 
 const Post = ({ post }) => {
-  const { title, postId, text, date, username, picUrl, likesCount, commentCount, fk_userId_post } = post;
+  const { title, postId, text, imgUrl, date, username, picUrl, likesCount, commentCount, fk_userId_post } = post;
   const sameUser = [];
+  const lastPostAdded = useSelector((state) => state.posts.lastPostAdded);
   const userId = useSelector((state) => state.user.id);
   const role = useSelector((state) => state?.user.role);
   const likes = useSelector((state) => state.posts.likes);
@@ -93,8 +95,12 @@ const Post = ({ post }) => {
 
   return (
     <div
-      className="post-container h-max w-11/12 md:w-full relative rounded-md flex-col items-center justify-center bg-white border border-gray-300 transition transition-border-color transition-transform duration-300 hover:border-gray-500 pt-2"
-      style={{ transform: isDeleted && "scale(0)", display: postIsGone && "none" }}
+      className="post-container scale-0 h-max w-11/12 md:w-full relative rounded-md flex-col items-center justify-center bg-white border border-gray-300 transition transition-border-color transition-transform duration-300 hover:border-gray-500 pt-2"
+      style={{
+        transform: isDeleted && "scale(0)",
+        display: postIsGone && "none",
+        animation: postId === lastPostAdded && "postAppear 500ms forwards",
+      }}
     >
       {(openModal && userId === fk_userId_post) || (openModal && role === "admin") ? (
         <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"post"} postId={postId} />
@@ -127,6 +133,7 @@ const Post = ({ post }) => {
         </div>
       </div>
       <div className="text w-full text-left px-3 py-2 text-sm">{text}</div>
+      {imgUrl !== null && <img src={imgUrl} className="w-full" />}
       <div className="bottom bg-gray-100 h-9 w-full flex items-center justify-end px-2  border-t rounded-bl-md rounded-br-md">
         <div className="icons-container h-full w-max flex items-center justify-end gap-4 text-xs text-gray-500 font-bold rounded-bl-md rounded-br-md">
           <button

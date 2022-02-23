@@ -27,7 +27,7 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
     setTimeout(() => {
       dispatch(getPosts());
     }, 2000);
-  }, [dispatch]);
+  }, []);
 
   return (
     <div className="h-max">
