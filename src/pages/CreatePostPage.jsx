@@ -16,7 +16,7 @@ import history from "../utils/history";
 const CreatePost = () => {
   const [title, setTitle] = useState("");
   // const postText = useRef("");
-  const [postText, setPostText] = useState();
+  const [postText, setPostText] = useState("");
   const [emptyTitle, setEmptyTitle] = useState(false);
   const [imgInputModalOpen, setImgInputModalOpen] = useState(false);
   const [urlModalOpen, setUrlModalOpen] = useState(false);

@@ -29,6 +29,8 @@ const {
   SET_ERROR_POST,
   CLEAR_ERROR_POST,
   SAVE_POST_PIC,
+  SAVE_LINK_URL,
+  CLEAR_TEMP_POST_PIC,
   CREATE_POST,
   CREATE_REPLY,
   EDIT_POST,
@@ -59,6 +61,10 @@ export const postsReducer = (state = initialState, action) => {
       return { ...state, replies };
     case SAVE_POST_PIC:
       return { ...state, currentPost: { ...state.currentPost, imgUrl: action.payload } };
+    case SAVE_LINK_URL:
+      return { ...state, currentPost: { ...state.currentPost, imgUrl: action.payload } };
+    case CLEAR_TEMP_POST_PIC:
+      return { ...state, currentPost: { ...state.currentPost, imgUrl: "" } };
     case CREATE_POST:
       return { ...state, lastPostAdded: action.payload };
     case CREATE_REPLY:

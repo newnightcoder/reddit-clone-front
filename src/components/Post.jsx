@@ -133,7 +133,9 @@ const Post = ({ post }) => {
         </div>
       </div>
       <div className="text w-full text-left px-3 py-2 text-sm">{text}</div>
-      {imgUrl !== null && <img src={imgUrl} className="w-full" />}
+      <div className="h-full w-full flex items-center justify-center">
+        {imgUrl !== null && <img src={imgUrl} className="w-11/12" />}
+      </div>
       <div className="bottom bg-gray-100 h-9 w-full flex items-center justify-end px-2  border-t rounded-bl-md rounded-br-md">
         <div className="icons-container h-full w-max flex items-center justify-end gap-4 text-xs text-gray-500 font-bold rounded-bl-md rounded-br-md">
           <button

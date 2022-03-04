@@ -5,7 +5,7 @@ import { Redirect } from "react-router";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { Aside, Post } from "../components";
 import PostSkeleton from "../components/PostSkeleton";
-import { getPosts } from "../store/actions/posts.action";
+import { clearTempPostImg, getPosts } from "../store/actions/posts.action";
 import history from "../utils/history";
 
 const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
@@ -24,6 +24,7 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
   }, [isNewUser]);
 
   useEffect(() => {
+    dispatch(clearTempPostImg());
     setTimeout(() => {
       dispatch(getPosts());
     }, 2000);

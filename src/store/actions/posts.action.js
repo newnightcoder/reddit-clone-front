@@ -6,6 +6,8 @@ const {
   GET_USERS,
   GET_USER_POSTS,
   SAVE_POST_PIC,
+  SAVE_LINK_URL,
+  CLEAR_TEMP_POST_PIC,
   CREATE_POST,
   CREATE_REPLY,
   EDIT_POST,
@@ -115,6 +117,14 @@ export const savePostImage = (blob) => async (dispatch) => {
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
   }
+};
+
+export const saveLinkUrl = (url) => (dispatch) => {
+  dispatch({ type: SAVE_LINK_URL, payload: url });
+};
+
+export const clearTempPostImg = () => (dispatch) => {
+  dispatch({ type: CLEAR_TEMP_POST_PIC });
 };
 
 export const createPost = (userId, title, text, date, imgUrl) => async (dispatch) => {
