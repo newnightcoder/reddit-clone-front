@@ -40,6 +40,7 @@ export const logUserAction = (email, password) => async (dispatch) => {
     const data = await response.json();
     const { error, user, isNewUser, accessToken } = data;
     if (response.status !== 200) {
+      console.log(response);
       dispatch({ type: SET_ERROR_USER, payload: error });
       dispatch({ type: LOGIN_FAIL });
       return;
