@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { StepUsername } from ".";
 import brand from "../assets/full-logo-row-black.svg";
-import bg from "../assets/logo2.svg";
 
 const SignupForm = ({
   handleNewEmail,
@@ -26,31 +25,21 @@ const SignupForm = ({
     } else return <XIcon className="h-3 w-3 text-gray-800 transform translate-y-0.5" />;
   };
 
-  const toNextStep = isCreated
-    ? {
-        transform: "translateX(-100%)",
-        background: `linear-gradient(rgba(70,70,70,.45), rgba(70,70,70,.45)), url(${bg}) no-repeat center/cover`,
-      }
-    : {
-        transform: "translateX(0%)",
-        background: `linear-gradient(rgba(70,70,70,.45), rgba(70,70,70,.45)), url(${bg}) no-repeat center/cover`,
-      };
+  const toNextStep = isCreated ? { transform: "translateX(-100%)" } : { transform: "translateX(0%)" };
 
   return (
     <div
-      className="h-screen w-screen bg-red-100 flex flex-col items-center justify-center gap-1 transition-transform duration-500 delay-300 relative"
+      className="h-screen w-screen bg-red-100 flex flex-col items-center justify-center gap-6 transition-transform duration-500 delay-300 relative bg-blue-300"
       style={toNextStep}
     >
-      <h2 className="text-center uppercase text-black font-bold text-lg transform translate-y-4 flex flex-col items-center justify-center">
+      <h2 className="text-center uppercase text-black font-bold text-lg flex flex-col items-center justify-center">
         <span className="pl-4">Rejoignez la communauté</span> <img src={brand} style={{ height: "150", width: "80%" }} />
       </h2>
-      <div className="error h-1/6 w-full flex items-center justify-center ">
-        <span
-          className="block w-max h-max py-2 px-3 border-2 border-red-500 bg-black text-white rounded"
-          style={{ visibility: error.length !== 0 ? "visible" : "hidden" }}
-        >
-          {error}
-        </span>
+      <div
+        style={{ display: error.length !== 0 ? "flex" : "none" }}
+        className="error h-max w-full  items-center justify-center py-2"
+      >
+        <span className="block w-max h-max py-2 px-3 border-2 border-red-500 bg-black text-white rounded">{error}</span>
       </div>
       <form method="post" className="h-max w-64 flex flex-col items-center justify-center gap-4" onSubmit={handleNewUserSubmit}>
         <div className="flex flex-col items-start gap-4">
@@ -165,7 +154,7 @@ const SignupForm = ({
           valider
         </button>
       </form>
-      <div className="w-4/5 md:w-96 border-t border-black text-black transform translate-y-12 md:translate-y-16 py-2 flex items-center justify-center gap-2">
+      <div className="w-4/5 md:w-96 border-t border-black text-black transform translate-y-6 md:translate-y-8 py-2 flex items-center justify-center gap-2">
         J'ai déjà un compte!{" "}
         <Link to="/login" className="font-bold underline uppercase text-red-400">
           Se connecter

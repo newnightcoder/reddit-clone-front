@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import bg from "../assets/logo2.svg";
 import { saveUserName } from "../store/actions/user.action";
 import StepImage from "./StepImage";
 
@@ -36,19 +35,11 @@ const StepUsername = () => {
     if (!usernameAdded) return;
   };
 
-  const toNextStep = usernameAdded
-    ? {
-        transform: "translateX(0%)",
-        background: `linear-gradient(rgba(70,70,70,.45), rgba(70,70,70,.45)), url(${bg}) no-repeat center/cover`,
-      }
-    : {
-        transform: "translateX(100%)",
-        background: `linear-gradient(rgba(70,70,70,.45), rgba(70,70,70,.45)), url(${bg}) no-repeat center/cover`,
-      };
+  const toNextStep = usernameAdded ? { transform: "translateX(0%)" } : { transform: "translateX(100%)" };
 
   return (
     <div
-      className="h-screen w-screen bg-red-300 flex flex-col items-center justify-center gap-2 transition-transform duration-500 absolute top-0 left-0 bg-hero"
+      className="h-screen w-screen bg-blue-300 flex flex-col items-center justify-center gap-2 transition-transform duration-500 absolute top-0 left-0"
       style={toNextStep}
     >
       <span

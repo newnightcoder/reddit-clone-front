@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import logo from "../assets/full-logo-row-black.svg";
-import bg from "../assets/logo2.svg";
-import { logUserAction } from "../store/actions/user.action";
+// import bg from "../assets/logo2.svg";
+import { clearUserError, logUserAction } from "../store/actions/user.action";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -18,6 +18,14 @@ const Login = () => {
   const emailRegex =
     /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
   const isEmail = emailRegex.test(email);
+
+  useEffect(() => {
+    if (error) {
+      console.log("error dsplayed in UI");
+      window.addEventListener("beforeunload", dispatch(clearUserError()));
+    }
+    return () => window.removeEventListener("beforeunload", dispatch(clearUserError()));
+  }, []);
 
   const handleEmail = (e) => {
     setEmail(e.currentTarget.value);
@@ -40,20 +48,20 @@ const Login = () => {
 
   return (
     <div
-      className="h-full w-full flex flex-col items-center justify-center gap-4 bg-deep-orange-300"
-      style={{
-        background: `linear-gradient(rgba(70,70,70,.45), rgba(70,70,70,.45)), url(${bg}) no-repeat center/cover`,
-      }}
+      className="h-full w-full flex flex-col items-center justify-center gap-4 bg-blue-300"
+      // style={{
+      //   background: `linear-gradient(rgba(70,70,70,.45), rgba(70,70,70,.45)), url(${bg}) no-repeat center/cover`,
+      // }}
     >
       <h2 className="text-center uppercase flex flex-col md:gap-1">
         <span className="font-bold text-lg">Content de vous revoir sur</span>
         <img src={logo} style={{ height: "150", width: "80%" }} alt="logo Groupomania" />
       </h2>
-      <div className="error h-1/6 w-full flex items-center justify-center">
-        <span
-          className="w-max h-max whitespace-wrap py-2 px-3 text-center text-white bg-black rounded"
-          style={!error || error.length === 0 ? { visibility: "hidden" } : { visibility: "visible" }}
-        >
+      <div
+        style={!error || error.length === 0 ? { display: "none" } : { display: "flex" }}
+        className="error h-max w-full  items-center justify-center py-2"
+      >
+        <span className="w-max h-max whitespace-wrap py-2 px-3 text-center text-white bg-black rounded">
           {error.length !== 0 && error}
         </span>
       </div>

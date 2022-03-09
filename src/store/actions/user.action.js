@@ -284,3 +284,7 @@ export const deleteUser = (id) => async (dispatch) => {
     dispatch({ type: SET_ERROR_USER, payload: error.message });
   }
 };
+
+export const clearUserError = () => (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_USER });
+};
