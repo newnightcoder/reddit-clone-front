@@ -95,7 +95,7 @@ const Post = ({ post }) => {
 
   return (
     <div
-      className="post-container scale-0 h-max w-11/12 md:w-full relative rounded-md flex-col items-center justify-center bg-white border border-gray-300 transition transition-border-color transition-transform duration-300 hover:border-gray-500 pt-2"
+      className="post-container scale-0 h-max w-11/12 md:w-full max-w-2xl relative rounded-md flex-col items-center justify-center bg-white border border-gray-300 transition transition-border-color transition-transform duration-300 hover:border-gray-500 pt-2"
       style={{
         transform: isDeleted && "scale(0)",
         display: postIsGone && "none",
@@ -105,7 +105,7 @@ const Post = ({ post }) => {
       {(openModal && userId === fk_userId_post) || (openModal && role === "admin") ? (
         <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"post"} postId={postId} />
       ) : null}
-      <div className="top w-full flex items-center justify-center pb-1 border-b">
+      <div className="top w-full flex items-center justify-center pl-2 pb-1 border-b">
         <div className="left-column h-full w-2/12 flex justify-center">
           <button
             className="avatar-container outline-none w-11 h-11 rounded-full border border-gray-300 hover:cursor-pointer"

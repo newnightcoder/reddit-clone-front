@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch } from "react-router-dom";
-import { MainContainer, Menu, NavBar, Overlay, SessionExpiredModal } from "../components";
+import { Menu, NavBar, Overlay, SessionExpiredModal } from "../components";
 import {
   CommentPage,
   CreatePostPage,
@@ -46,14 +46,16 @@ const AppContainer = () => {
         <Route path="/login" component={LoginPage} />
         <Route path="/signup" component={SignupPage} />
         <Route path="/fin" component={DeletedProfilePage} />
-        <Route component={MainContainer}>
+        {/* <Route component={MainContainer}> */}
+        <>
           <NavBar toggleMenu={toggleMenu} closeMenu={closeMenu} isOpen={isOpen} />
           <Route path="/feed" component={FeedPage} />
           <Route path="/create" component={CreatePostPage} />
           <Route path="/edit" component={EditPage} />
           <Route path="/comments" component={CommentPage} />
           <Route path="/profile" component={ProfilePage} />
-        </Route>
+        </>
+        {/* </Route> */}
       </Switch>
       <Overlay isOpen={isOpen} close={closeMenu} />
       {isOpen && <Menu isOpen={isOpen} toggleMenu={toggleMenu} />}
