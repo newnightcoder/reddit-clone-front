@@ -132,19 +132,23 @@ const CreatePost = () => {
                     </div>
                   </div>
                   <div className="container relative max-w-full h-56 bg-gray-100 hover:bg-white active:bg-white focus:bg-white rounded-bl rounded-br overflow-y-auto">
-                    <textarea
+                    {/* <textarea
                       type="text"
                       name="post"
                       id="post"
                       value={postText}
                       onChange={handlePostInput}
                       className="w-full h-full focus:ring-red-300 flex items-start justify-start p-2"
-                    />
-                    {/* <ContentEditable
-                      html={`<div className="p-2">${postText.current}</div>`}
+                    >
+                      <img src={postImg} />
+                    </textarea> */}
+                    <div
+                      contentEditable="true"
                       onChange={handlePostInput}
                       className="w-full h-full focus:ring-red-300 flex flex-col items-start justify-start p-2"
-                    /> */}
+                    >
+                      <img src={postImg} alt="" />
+                    </div>
                   </div>
                 </div>
                 <button
