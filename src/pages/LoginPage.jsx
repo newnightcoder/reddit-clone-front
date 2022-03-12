@@ -9,10 +9,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
+  const { error, isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
-  const error = useSelector((state) => state.user.error);
-  const loginSuccess = useSelector((state) => state.user.loginSuccess);
 
   /* eslint no-control-regex: 0 */
   const emailRegex =
@@ -20,7 +18,7 @@ const Login = () => {
   const isEmail = emailRegex.test(email);
 
   useEffect(() => {
-    if (error) {
+    if (error.length !== 0) {
       console.log("error dsplayed in UI");
       window.addEventListener("beforeunload", dispatch(clearUserError()));
     }
@@ -40,7 +38,7 @@ const Login = () => {
   };
 
   const toFeed = (() => {
-    if (!loginSuccess) return;
+    if (!isAuthenticated) return;
     setTimeout(() => {
       history.push({ pathname: "/feed", state: { isNewUser: false } });
     }, 1000);

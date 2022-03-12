@@ -5,8 +5,9 @@ import { useHistory } from "react-router";
 import { DeleteModal } from ".";
 import logo2 from "../assets/logo2.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { deleteUser, getUserProfile, saveUserPic } from "../store/actions/user.action";
+import { deleteUser, saveUserPic } from "../store/actions/user.action";
 import { formatTimestamp } from "../utils/formatTime";
+import useLinkToProfile from "../utils/useLinkToProfile";
 
 const Menu = ({ isOpen, toggleMenu }) => {
   const [blob, setBlob] = useState(null);
@@ -16,7 +17,7 @@ const Menu = ({ isOpen, toggleMenu }) => {
   const [isHidden, setIsHidden] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const history = useHistory();
-
+  const linkToProfile = useLinkToProfile();
   const dispatch = useDispatch();
 
   const handleImgSubmit = async (e) => {
@@ -28,12 +29,12 @@ const Menu = ({ isOpen, toggleMenu }) => {
     setOpenModal((openModal) => !openModal);
   };
 
-  const toProfilePage = () => {
-    dispatch(getUserProfile(id));
-    setTimeout(() => {
-      history.push(`/profile/${username}`);
-    }, 100);
-  };
+  // const toProfilePage = () => {
+  //   dispatch(getUserProfile(id));
+  //   setTimeout(() => {
+  //     history.push(`/profile/${username}`);
+  //   }, 100);
+  // };
 
   const handleDeleteProfileFromMenu = () => {
     dispatch(deleteUser(id));
@@ -126,7 +127,7 @@ const Menu = ({ isOpen, toggleMenu }) => {
             <button
               className="flex items-center justify-center gap-1"
               onClick={() => {
-                toProfilePage(id);
+                linkToProfile(id);
                 toggleMenu();
               }}
             >

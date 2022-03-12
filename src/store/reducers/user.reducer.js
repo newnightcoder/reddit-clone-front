@@ -8,7 +8,7 @@ const initialState = {
   picUrl: null,
   creationDate: "",
   error: "",
-  loginSuccess: false,
+  isAuthenticated: false,
   userCreated: false,
   usernameAdded: false,
   isNewUser: null,
@@ -67,13 +67,13 @@ export const userReducer = (state = initialState, action) => {
     case LOGIN_SUCCESS: {
       return {
         ...state,
-        loginSuccess: true,
+        isAuthenticated: true,
       };
     }
     case LOGIN_FAIL: {
       return {
         ...state,
-        loginSuccess: false,
+        isAuthenticated: false,
       };
     }
     case CREATE_USER:
@@ -162,7 +162,7 @@ export const userReducer = (state = initialState, action) => {
     case CLEAN_PROFILE_VISIT:
       return {
         ...state,
-        currentProfileVisit: "",
+        currentProfileVisit: {},
       };
 
     case DELETE_USER:

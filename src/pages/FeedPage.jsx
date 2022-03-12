@@ -10,10 +10,9 @@ import history from "../utils/history";
 
 const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
   const [newUser, setNewUser] = useState(false);
-  const isNewUser = useSelector((state) => state.user.isNewUser);
   const user = useSelector((state) => state.user);
+  const { isAuthenticated, isNewUser } = useSelector((state) => state.user);
   const posts = useSelector((state) => state.posts.posts);
-  const isAuthenticated = useSelector((state) => state.user.loginSuccess);
   const dispatch = useDispatch();
 
   useEffect(() => {

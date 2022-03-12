@@ -4,8 +4,8 @@ import { Power } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { getUserProfile } from "../store/actions/user.action";
 import history from "../utils/history";
+import useLinkToProfile from "../utils/useLinkToProfile";
 import useWindowSize from "../utils/useWindowDimensions";
 
 const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
@@ -13,13 +13,7 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
   const { height, width } = useWindowSize();
   const { picUrl, username, id } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
-  const toProfilePage = () => {
-    dispatch(getUserProfile(id));
-    setTimeout(() => {
-      history.push(`/profile/${username}`);
-    }, 100);
-  };
+  const linkToProfile = useLinkToProfile();
 
   return (
     <div className="h-16 w-full relative z-50">
@@ -70,7 +64,7 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
           <button
             tabIndex="0"
             className="hidden md:flex items-center justify-center gap-2 outline-none bg-transparent "
-            onClick={() => toProfilePage(id)}
+            onClick={() => linkToProfile(id)}
           >
             <div
               className="w-10 h-10 rounded-full border border-gray-600"
