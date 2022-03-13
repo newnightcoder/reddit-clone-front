@@ -45,12 +45,7 @@ const Login = () => {
   })();
 
   return (
-    <div
-      className="h-full w-full flex flex-col items-center justify-center gap-4 bg-blue-300"
-      // style={{
-      //   background: `linear-gradient(rgba(70,70,70,.45), rgba(70,70,70,.45)), url(${bg}) no-repeat center/cover`,
-      // }}
-    >
+    <div className="h-full w-full flex flex-col items-center justify-center gap-4 bg-blue-300">
       <h2 className="text-center uppercase flex flex-col md:gap-1">
         <span className="font-bold text-lg">Content de vous revoir sur</span>
         <img src={logo} style={{ height: "150", width: "80%" }} alt="logo Groupomania" />

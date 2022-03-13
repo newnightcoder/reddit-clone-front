@@ -48,10 +48,8 @@ const {
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOG_USER: {
-      console.log("payload reducer", action.payload);
       const { id, email, username, picUrl, creationDate, role } = action.payload.user;
       const { isNewUser, accessToken } = action.payload;
-
       return {
         ...state,
         id,

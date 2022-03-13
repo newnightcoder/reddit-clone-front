@@ -5,9 +5,10 @@ import { DeleteModal } from ".";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import "../index.css";
 import { deletePost } from "../store/actions/posts.action";
-import { getUserProfile, likePost, toComment } from "../store/actions/user.action";
+import { likePost, toComment } from "../store/actions/user.action";
 import { formatTimestamp } from "../utils/formatTime";
 import history from "../utils/history";
+import useLinkToProfile from "../utils/useLinkToProfile";
 import Options from "./Options";
 
 const Post = ({ post }) => {
@@ -26,6 +27,7 @@ const Post = ({ post }) => {
   const [openModal, setOpenModal] = useState(false);
 
   const dispatch = useDispatch();
+  const linkToProfile = useLinkToProfile();
 
   useEffect(() => {
     setLikesNumber(likesCount);
@@ -84,15 +86,6 @@ const Post = ({ post }) => {
     }, 100);
   };
 
-  const toProfilePage = () => {
-    if (userId !== fk_userId_post) {
-      dispatch(getUserProfile(fk_userId_post));
-    } else dispatch(getUserProfile(userId));
-    setTimeout(() => {
-      history.push(`/profile/${username}`);
-    }, 100);
-  };
-
   return (
     <div
       className="post-container scale-0 h-max w-11/12 md:w-full max-w-2xl relative rounded-md flex-col items-center justify-center bg-white border border-gray-300 transition transition-border-color transition-transform duration-300 hover:border-gray-500 pt-2"
@@ -116,13 +109,16 @@ const Post = ({ post }) => {
                     background: `url(${picPlaceholder}) no-repeat center/cover`,
                   }
             }
-            onClick={toProfilePage}
+            onClick={() => linkToProfile(fk_userId_post)}
           ></button>
         </div>
         <div className="right-column  h-full w-10/12 flex flex-col items-center justify-center">
           <div className="username-title-container h-max w-full flex flex-col items-start justify-center pl-1 pr-3">
             <div className="username-date w-full flex items-center justify-between gap-2">
-              <button className="outline-none capitalize hover:cursor-pointer hover:underline" onClick={toProfilePage}>
+              <button
+                className="outline-none capitalize hover:cursor-pointer hover:underline"
+                onClick={() => linkToProfile(fk_userId_post)}
+              >
                 <span className="text-xs">@</span>
                 {username}
               </button>

@@ -25,7 +25,7 @@ const CreatePost = () => {
   const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
   const serverError = useSelector((state) => state.posts.error);
   const userId = useSelector((state) => state.user.id);
-  const isAuthenticated = useSelector((state) => state.user.loginSuccess);
+  const { isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const postImg = useSelector((state) => state.posts.currentPost.imgUrl);
   // const postImg = "";

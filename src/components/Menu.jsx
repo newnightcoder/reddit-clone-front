@@ -127,7 +127,7 @@ const Menu = ({ isOpen, toggleMenu }) => {
             <button
               className="flex items-center justify-center gap-1"
               onClick={() => {
-                linkToProfile(id);
+                // linkToProfile(id);
                 toggleMenu();
               }}
             >
