@@ -8,15 +8,15 @@ const Homepage = () => {
   return (
     <div className="h-full w-full relative bg-gray-200 flex flex-col items-center justify-center text-black">
       <div className="h-full w-full flex items-center justify-center">
-        <div className="h-full w-1/2 flex items-center justify-end">
+        <div className="hidden h-full w-1/2 md:flex items-center justify-center lg:justify-end">
           <img src={phonesImg} alt="mobile phones" className="w-3/5 transform translate-y-10" />
         </div>
-        <div className="h-full w-1/2 flex flex-col items-center justify-center space-y-10">
+        <div className="h-full w-full md:w-1/2 flex flex-col items-center justify-center space-y-10">
           <div className="w-full flex flex-col items-center justify-center space-y-4">
             <header>
               <img src={logo} alt="" />
             </header>
-            <p className="min-w-md max-w-lg text-center">
+            <p className="w-full text-center px-8">
               Une toute nouvelle plate-forme de média sociaux basée sur les principes de la liberté d'expression, de la pensée
               indépendante, du rejet de la censure politique et de la « cancel culture ».
             </p>
@@ -144,12 +144,12 @@ const Homepage = () => {
             </svg>
           </div>
         </div>
-        <ul className="flex items-center justify-center space-x-4 pb-1">
-          <li className="capitalize text-sm text-gray-500">about</li>
-          <li className="capitalize text-sm text-gray-500">press</li>
-          <li className="capitalize text-sm text-gray-500">terms of use</li>
-          <li className="capitalize text-sm text-gray-500">privacy policy</li>
-          <li className="capitalize text-sm text-gray-500">&copy;2022 FORUM, Inc.</li>
+        <ul className="hidden md:flex items-center justify-center text-xs space-x-4 pb-2">
+          <li className="capitalize text-gray-500">about</li>
+          <li className="capitalize text-gray-500">press</li>
+          <li className="capitalize text-gray-500">terms of use</li>
+          <li className="capitalize text-gray-500">privacy policy</li>
+          <li className="capitalize text-gray-500">&copy;2022 FORUM, Inc.</li>
         </ul>
       </div>
     </div>

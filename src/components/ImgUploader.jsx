@@ -34,8 +34,7 @@ const ImgUploader = ({ profile, toggleImgInput }) => {
     >
       {profile && <span> Choisissez votre image de profil</span>}
       <label
-        className="w-48 text-center text-white p-2 rounded shadow-xl cursor-pointer"
-        style={{ backgroundColor: "#ef5350" }}
+        className="w-48 text-center text-white p-2 rounded-full shadow-xl cursor-pointer bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
         htmlFor="file"
       >
         parcourir
@@ -43,8 +42,7 @@ const ImgUploader = ({ profile, toggleImgInput }) => {
 
       <div className="flex items-center gap-4">
         <input
-          className="text-white p-2 rounded hidden"
-          style={{ backgroundColor: "#ef5350" }}
+          className="text-white p-2 rounded hidden bg-blue-400"
           type="file"
           accept="image/x-png,image/jpeg,image/jpg, image/gif"
           id="file"
@@ -60,17 +58,15 @@ const ImgUploader = ({ profile, toggleImgInput }) => {
       <div className="w-full flex items-center justify-center gap-4">
         {profile && (
           <button
-            className="text-white p-2 border border-red-500 rounded transform translate-y-2 transition transition-opacity duration-1000 shadow-xl"
-            style={blobName === null ? { opacity: 0 } : { opacity: 1, backgroundColor: "#ef5350" }}
+            className="text-white py-2 px-4 rounded-full  transform translate-y-2 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
+            style={blobName === null ? { opacity: 0 } : { opacity: 1 }}
           >
-            voir l'aperçu
+            Aperçu
           </button>
         )}
         <button
-          className="w-max flex items-center gap-1 text-black font-bold border border-black p-2 rounded transform translate-y-2 transition transition-opacity duration-1000 shadow-xl"
-          style={
-            blobName === null ? { opacity: 0, display: "none" } : { opacity: 1, display: "flex", backgroundColor: "#ef5350" }
-          }
+          className="w-max flex items-center gap-1 text-black font-bold py-2 px-4 rounded-full transform translate-y-2 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
+          style={blobName === null ? { opacity: 0, display: "none" } : { opacity: 1, display: "flex" }}
           onClick={
             profile
               ? () => {

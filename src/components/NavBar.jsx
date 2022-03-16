@@ -3,6 +3,7 @@ import React from "react";
 import { Power } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import { logo, logo_mobile } from "../assets";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import history from "../utils/history";
 import useLinkToProfile from "../utils/useLinkToProfile";
@@ -18,8 +19,8 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
   return (
     <div className="h-16 w-full relative z-50">
       <div
-        className="fixed h-16 w-full  pl-2 lg:pl-8 pr-4 lg:pr-12 flex items-center justify-evenly lg:justify-center gap-1 md:gap-4 text-white shadow-md"
-        style={{ backgroundColor: "#ef5350" }}
+        className="fixed h-16 w-full  pl-2 lg:pl-8 pr-4 lg:pr-12 flex items-center justify-evenly lg:justify-center gap-1 md:gap-4 text-white shadow-md bg-deep-orange-400"
+        // style={{ backgroundColor: "#ef5350" }}
       >
         {location.pathname.includes("comments") || location.pathname.includes("profile") ? (
           <div className="h-full lg:w-3/12 flex items-center justify-evenly ">
@@ -33,17 +34,13 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
             </Link>
             {width > 1024 && (
               <Link to={"/"} className="uppercase">
-                {/* <img src={logo_desktop} style={{ width: 200 }} /> */}
-                connect
+                <img src={logo} style={{ width: 200 }} />
               </Link>
             )}
           </div>
         ) : (
-          <Link
-            to="/"
-            className="w-14 h-14 lg:w-3/12 lg:h-full flex flex-col items-center justify-center rounded-full lg:rounded-none outline-none"
-          >
-            {/* <img src={width < 1024 ? logo_mobile : logo_desktop} style={{ width: width > 1024 && 260 }} /> */} CONNECT
+          <Link to="/" className="w-max flex items-center justify-center">
+            <img src={width < 768 ? logo_mobile : logo} width={width > 768 ? 140 : 90} />
           </Link>
         )}
         <form className="w-2/4 flex items-center justify-center" action="">

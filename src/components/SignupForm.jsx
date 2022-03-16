@@ -3,7 +3,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { StepUsername } from ".";
-import brand from "../assets/full-logo-row-black.svg";
+import { logo } from "../assets";
 
 const SignupForm = ({
   handleNewEmail,
@@ -29,12 +29,13 @@ const SignupForm = ({
 
   return (
     <div
-      className="h-screen w-screen bg-red-100 flex flex-col items-center justify-center gap-6 transition-transform duration-500 delay-300 relative bg-blue-300"
+      className="h-screen w-screen bg-gray-200 flex flex-col items-center justify-center transition-transform duration-500 delay-300 relative"
       style={toNextStep}
     >
-      <h2 className="text-center uppercase text-black font-bold text-lg flex flex-col items-center justify-center">
-        <span className="pl-4">Rejoignez la communauté</span> <img src={brand} style={{ height: "150", width: "80%" }} />
-      </h2>
+      <header className="text-center uppercase text-black font-bold text-lg flex flex-col items-center justify-center">
+        <span className="pl-4">Rejoignez la communauté</span>
+        <img src={logo} alt="logo Forum" style={{ height: "150", width: "80%" }} />
+      </header>
       <div
         style={{ display: error.length !== 0 ? "flex" : "none" }}
         className="error h-max w-full  items-center justify-center py-2"
@@ -46,7 +47,7 @@ const SignupForm = ({
           <div className="flex flex-col items-start">
             <label htmlFor="email">Entrez votre email</label>
             <input
-              className="w-64 rounded p-1 border border-red-300 outline-none text-black"
+              className="w-64 rounded p-1 border border-blue-400 outline-none text-black"
               type="email"
               id="email"
               onChange={handleNewEmail}
@@ -56,7 +57,7 @@ const SignupForm = ({
             <div>
               <label htmlFor="password">Créez un mot de passe</label>
               <input
-                className="w-64 rounded p-1 border border-red-300 outline-none text-black"
+                className="w-64 rounded p-1 border border-blue-400 outline-none text-black"
                 type="password"
                 name="password"
                 onChange={handleNewPass}
@@ -147,16 +148,18 @@ const SignupForm = ({
           </div>
         </div>
         <button
-          className="w-48 text-white p-2 rounded transform translate-y-2 disabled:opacity-50 shadow-xl"
-          style={{ backgroundColor: "#ef5350" }}
+          className="w-48 text-white p-2 rounded transform translate-y-2 disabled:opacity-50 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
           disabled={!isEmail || !isUppercase || !isLowercase || !isNumber || !isLong ? true : false}
         >
           valider
         </button>
       </form>
       <div className="w-4/5 md:w-96 border-t border-black text-black transform translate-y-6 md:translate-y-8 py-2 flex items-center justify-center gap-2">
-        J'ai déjà un compte!{" "}
-        <Link to="/login" className="font-bold underline uppercase text-red-400">
+        J'ai déjà un compte!
+        <Link
+          to="/login"
+          className="font-bold underline uppercase text-blue-500 transition-color duration-300 hover:text-blue-600"
+        >
           Se connecter
         </Link>
       </div>

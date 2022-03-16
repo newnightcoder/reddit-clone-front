@@ -10,6 +10,7 @@
 
 # development
 .prettierrc
+.babelrc
 
 
 # production

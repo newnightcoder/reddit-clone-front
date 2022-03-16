@@ -53,5 +53,5 @@ module.exports = {
       borderWidth: ["hover"],
     },
   },
-  plugins: [],
+  plugins: [require("autoprefixer")],
 };
