@@ -19,7 +19,7 @@ const PopularPosts = () => {
   return (
     <div className="w-full flex flex-col">
       <div className="header h-24 w-full bg-blue-300 rounded-tl rounded-tr relative">
-        <span className="w-full text-center absolute bottom-0 mb-2 text-gray-900 text-lg font-bold">Publications populaires</span>
+        <span className="w-full text-center absolute bottom-0 mb-2 text-gray-900 text-lg font-bold">Pu</span>
       </div>
       <div className="w-full flex flex-col space-y-2 bg-gray-300 p-4 border border-gray-300">
         {top3.map((post, i) => (

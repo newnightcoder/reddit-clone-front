@@ -9,7 +9,7 @@ import { clearUserError, logUserAction } from "../store/actions/user.action";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoadding] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
   const { error, isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -36,12 +36,12 @@ const Login = () => {
 
   const handleUserSubmit = (e) => {
     e.preventDefault();
-    setIsLoadding(true);
+    setIsLoading(true);
     dispatch(logUserAction(email, password));
   };
 
   const toFeed = (() => {
-    if (!isAuthenticated) return setIsLoadding(false);
+    if (!isAuthenticated) return;
     setTimeout(() => {
       history.push({ pathname: "/feed", state: { isNewUser: false } });
     }, 1000);
@@ -84,7 +84,7 @@ const Login = () => {
           className="w-48 text-white p-2 rounded transform translate-y-2 disabled:opacity-50 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
           disabled={!isEmail || password.length < 8 ? true : false}
         >
-          {!isLoading ? <span>valider</span> : <SyncLoader />}
+          {!isLoading || error ? <span>valider</span> : <SyncLoader size={8} color={"#ffffff"} />}
         </button>
       </form>
       <div className="w-4/5 md:w-96 text-center border-t border-black transform translate-y-12 md:translate-y-16 py-2 flex flex-col items-center justify-center gap-1 md:flex-row md:gap-2">

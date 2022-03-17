@@ -51,6 +51,7 @@ module.exports = {
       cursor: ["hover"],
       fontWeight: ["hover"],
       borderWidth: ["hover"],
+      rotate: ["hover", "group-hover"],
     },
   },
   plugins: [require("autoprefixer")],
