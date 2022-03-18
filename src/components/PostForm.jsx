@@ -1,7 +1,8 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
 import React from "react";
-import { Image, Link45deg, Youtube } from "react-bootstrap-icons";
+import { Image, Link45deg, XLg, Youtube } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const PostForm = ({
   handlePostSubmit,
@@ -14,7 +15,11 @@ const PostForm = ({
   const postImg = useSelector((state) => state.posts.currentPost.imgUrl);
 
   return (
-    <form className="h-full w-full flex flex-col items-center justify-center" method="post" onSubmit={handlePostSubmit}>
+    <form
+      className="h-max w-full flex flex-col items-center justify-center bg-white rounded py-6 px-8"
+      method="post"
+      onSubmit={handlePostSubmit}
+    >
       <input
         className="h-10 w-full px-2 rounded outline-none bg-gray-100 hover:bg-white active:bg-white focus:bg-white border border-gray-400 hover:border-gray-500 transition-all duration-200"
         type="text"
@@ -23,7 +28,7 @@ const PostForm = ({
         placeholder="Titre de votre post"
         onChange={handleTitleInput}
       />
-      <div className="form-container h-full w-full flex flex-col items-center justify-start pt-4">
+      <div className="form-container h-full w-full flex flex-col items-center justify-start pt-4 space-y-6">
         <div className="h-max w-full border border-gray-400 hover:border-gray-500 transition-border-color duration-300 rounded">
           <div className="h-12 w-full flex items-center justify-between rounded-t bg-black border-b border-gray-300 pl-2 pr-4">
             <div className="w-2/3 h-full flex items-center justify-start">
@@ -51,26 +56,38 @@ const PostForm = ({
               le brouillon
             </div>
           </div>
-          <div className="container relative max-w-full h-56 bg-gray-100 hover:bg-white active:bg-white focus:bg-white rounded-bl rounded-br overflow-y-auto">
+          <div
+            style={{ minHeight: "12rem" }}
+            className="container relative max-w-full bg-gray-100 hover:bg-white active:bg-white focus:bg-white rounded-bl rounded-br overflow-y-auto"
+          >
             <div
               contentEditable="true"
               suppressContentEditableWarning={true}
               placeholder="test"
               onBlur={handlePostInput}
-              className="w-full h-full focus:ring-red-300 flex flex-col items-start justify-start p-2"
+              className="w-full h-full focus:outline-none flex flex-col items-start justify-start p-2"
             >
               <img src={postImg} alt="" />
             </div>
           </div>
         </div>
-        <button
-          className="w-48 flex items-center justify-center space-x-1 text-white p-3 rounded-full disabled:opacity-50 mt-4 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
-          disabled={false}
-          type="submit"
-        >
-          <PaperAirplaneIcon className="h-5 w-5 text-white transform rotate-45 -translate-y-0.5" />
-          <span className="text-sm uppercase">publier!</span>
-        </button>
+        <div className="w-full h-max flex items-center justify-between px-8">
+          <Link
+            to={"/feed"}
+            className="w-12 md:w-max flex items-center justify-center md:space-x-2 text-white px-4 py-3 rounded-full shadow-xl bg-gray-500 transition-all duration-300 hover:bg-black hover:shadow-none"
+            disabled={false}
+          >
+            <span className="hidden md:inline-block text-sm uppercase">annuler</span> <XLg />
+          </Link>
+          <button
+            className="w-48 flex items-center justify-center space-x-1 text-white p-3 rounded-full disabled:opacity-50 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
+            disabled={false}
+            type="submit"
+          >
+            <PaperAirplaneIcon className="h-5 w-5 text-white transform rotate-45 -translate-y-0.5" />
+            <span className="text-sm uppercase">publier!</span>
+          </button>
+        </div>
       </div>
     </form>
   );

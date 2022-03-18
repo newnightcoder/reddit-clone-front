@@ -18,7 +18,7 @@ const Aside = () => {
         location.pathname === "/create" && (
           <div className="hidden w-72 h-max md:flex flex-col items-center justify-start space-y-3">
             <Rules />
-            <div className="text-xs texgray-700 px-2">
+            <div className="text-xs texgray-700 px-1">
               Veuillez respecter la <span className="text-blue-400 underline hover:cursor-pointer">politique de contenu </span> de
               Forum et bien prendre en compte
               <span className="text-blue-400 underline hover:cursor-pointer">l'esprit Forum</span>.
