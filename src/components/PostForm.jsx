@@ -21,7 +21,7 @@ const PostForm = ({
       onSubmit={handlePostSubmit}
     >
       <input
-        className="h-10 w-full px-2 rounded outline-none bg-gray-100 hover:bg-white active:bg-white focus:bg-white border border-gray-400 hover:border-gray-500 transition-all duration-200"
+        className="h-10 w-full px-2 rounded outline-none bg-gray-100 hover:bg-white active:bg-white focus:bg-white border border-gray-400 hover:border-gray-500 transition-all duration-200 placeholder-gray-400"
         type="text"
         name="Title"
         id="title"
@@ -56,19 +56,18 @@ const PostForm = ({
               le brouillon
             </div>
           </div>
-          <div
-            style={{ minHeight: "12rem" }}
-            className="container relative max-w-full bg-gray-100 hover:bg-white active:bg-white focus:bg-white rounded-bl rounded-br overflow-y-auto"
-          >
-            <div
+          <div className="container relative max-w-full bg-gray-100 hover:bg-white active:bg-white focus:bg-white rounded-bl rounded-br overflow-y-auto">
+            <span
+              id="postInput"
+              style={{ minHeight: "12rem" }}
+              className="w-full h-full block focus:outline-none p-2"
               contentEditable="true"
               suppressContentEditableWarning={true}
-              placeholder="test"
+              placeholder="Texte (facultatif)"
               onBlur={handlePostInput}
-              className="w-full h-full focus:outline-none flex flex-col items-start justify-start p-2"
             >
-              <img src={postImg} alt="" />
-            </div>
+              {postImg && <img src={postImg} alt="" />}
+            </span>
           </div>
         </div>
         <div className="w-full h-max flex items-center justify-between px-8">

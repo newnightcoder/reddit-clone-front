@@ -72,7 +72,7 @@ const Post = ({ post }) => {
   };
 
   const handleDeletePost = () => {
-    dispatch(deletePost(postId, null, "post"));
+    dispatch(deletePost(postId, "post", null));
     setIsDeleted(true);
     setTimeout(() => {
       setpostIsGone(true);

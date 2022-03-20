@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
@@ -27,18 +27,22 @@ const Login = () => {
     return () => window.removeEventListener("beforeunload", dispatch(clearUserError()));
   }, []);
 
-  const handleEmail = (e) => {
-    setEmail(e.currentTarget.value);
-  };
-  const handlePass = (e) => {
-    setPassword(e.currentTarget.value);
-  };
+  const handleEmail = useCallback((e) => {
+    setEmail(e.target.value);
+  }, []);
 
-  const handleUserSubmit = (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    dispatch(logUserAction(email, password));
-  };
+  const handlePass = useCallback((e) => {
+    setPassword(e.target.value);
+  }, []);
+
+  const handleUserSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      setIsLoading(true);
+      dispatch(logUserAction(email, password));
+    },
+    [email, password]
+  );
 
   const toFeed = (() => {
     if (!isAuthenticated) return;
@@ -48,7 +52,7 @@ const Login = () => {
   })();
 
   return (
-    <div className="h-full w-full flex flex-col items-center justify-center space-y-16 bg-gray-200">
+    <div className="h-screen w-full flex flex-col items-center justify-center space-y-16 bg-gray-200">
       <header className="text-center uppercase flex flex-col items-center justify-center md:gap-1">
         <span className="font-bold text-lg">Content de vous revoir sur</span>
         <img src={logo} style={{ height: "150", width: "80%" }} alt="logo Forum" />

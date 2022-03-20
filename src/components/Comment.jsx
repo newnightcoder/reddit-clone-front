@@ -111,7 +111,7 @@ const Comment = ({ comment, postId }) => {
   };
 
   const handleDeletePost = () => {
-    dispatch(deletePost(commentId, postId, "comment"));
+    dispatch(deletePost(commentId, "comment", postId));
     setIsDeleted(true);
     setTimeout(() => {
       setpostIsGone(true);
@@ -125,7 +125,12 @@ const Comment = ({ comment, postId }) => {
         style={{ marginBottom: replyOpen && "5px", transform: isDeleted && "scale(0)", display: postIsGone && "none" }}
       >
         {(openModal && userId === fk_userId_comment) || (openModal && role === "admin") ? (
-          <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"comment"} />
+          <DeleteModal
+            toggleDeleteModal={toggleDeleteModal}
+            handleDeletePost={handleDeletePost}
+            origin={"comment"}
+            postIdComment={postId}
+          />
         ) : null}
         <div className="top w-full flex items-center justify-center pb-1 border-b">
           <div className="left-column h-full w-2/12 flex justify-center">

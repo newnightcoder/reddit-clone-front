@@ -69,7 +69,7 @@ const Reply = ({ reply }) => {
   };
 
   const handleDeletePost = () => {
-    dispatch(deletePost(replyId, "reply"));
+    dispatch(deletePost(replyId, "reply", null));
     setIsDeleted(true);
     setTimeout(() => {
       setpostIsGone(true);

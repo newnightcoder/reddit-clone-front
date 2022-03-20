@@ -1,5 +1,5 @@
 import "draft-js/dist/Draft.css";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 // import ContentEditable from "react-contenteditable";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
@@ -14,7 +14,7 @@ import history from "../utils/history";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
-  const [postText, setPostText] = useState(null);
+  const [postText, setPostText] = useState("");
   const [emptyTitle, setEmptyTitle] = useState(false);
   const [imgInputModalOpen, setImgInputModalOpen] = useState(false);
   const [urlModalOpen, setUrlModalOpen] = useState(false);
@@ -27,14 +27,14 @@ const CreatePost = () => {
   const postImg = useSelector((state) => state.posts.currentPost.imgUrl);
   const dispatch = useDispatch();
 
-  const handleTitleInput = (e) => {
+  const handleTitleInput = useCallback((e) => {
     setTitle(e.currentTarget.value);
     setEmptyTitle(false);
-  };
+  });
 
   const handlePostInput = (e) => {
     // postText.current = e.target.value;
-    console.log(e.currentTarget.textContent);
+    console.log(e.currentTarget.innerHTML);
     setPostText(e.currentTarget.textContent);
   };
 
@@ -81,7 +81,7 @@ const CreatePost = () => {
         <div className="w-full flex flex-col items-center justify-center py-8" style={{ minHeight: "calc(100vh - 4rem)" }}>
           {/* <h1 className="w-full text-left py-2 text-xl pl-48">Publier un post</h1> */}
           <div className="w-full h-full flex items-start justify-center space-x-8">
-            <div className="h-max w-1/2 max-w-3xl flex flex-col items-center justify-center">
+            <div className="h-max w-10/12 md:w-1/2 max-w-3xl flex flex-col items-center justify-center">
               <div
                 className="error h-12 w-10/12 md:w-1/2 xl:w-1/3 whitespace-pre bg-black text-white text-sm text-center py-1 rounded"
                 style={{ display: emptyTitle ? "block" : "none" }}

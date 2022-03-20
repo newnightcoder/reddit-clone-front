@@ -12,6 +12,7 @@ import { createDate } from "../utils/formatTime";
 const CommentPage = ({ toggleDeleteModal, openModal }) => {
   const posts = useSelector((state) => state.posts.posts);
   const comments = useSelector((state) => state.posts.comments);
+  const [commentsToDisplay, setCommentsToDisplay] = useState([]);
   const postId = useSelector((state) => state.user.currentComment.postId);
   const post = posts.find((post) => post.postId === postId);
   const userId = useSelector((state) => state.user.id);
@@ -23,16 +24,6 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
 
   const text = convertToRaw(editorState.getCurrentContent()).blocks[0].text;
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getPosts());
-    dispatch(getComments());
-    dispatch(getReplies());
-  }, [dispatch]);
-
-  useEffect(() => {
-    setServerErrorMsg(serverError);
-  }, [serverError]);
 
   const getRelatedComments = (postId) => {
     const relatedComments = [];
@@ -49,7 +40,19 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
     return relatedComments;
   };
 
-  const commentsToDisplay = getRelatedComments(postId);
+  useEffect(() => {
+    dispatch(getPosts());
+    dispatch(getComments());
+    dispatch(getReplies());
+  }, [dispatch, postId]);
+
+  useEffect(() => {
+    setCommentsToDisplay(getRelatedComments(postId));
+  }, [comments]);
+
+  useEffect(() => {
+    setServerErrorMsg(serverError);
+  }, [serverError]);
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
@@ -127,12 +130,24 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
                   <span className="text-sm capitalize">commenter</span>
                   <PaperAirplaneIcon className="h-4 w-4 text-white transform rotate-45 -translate-y-px" />
                 </button>
-              </div>{" "}
+              </div>
             </div>
           </div>
         </form>
         <div className="comments-container w-full flex flex-col items-center justify-center ">
-          {commentsToDisplay.length !== 0 ? (
+          {commentsToDisplay.length === 0 ? (
+            <>
+              <span
+                className="w-11/12 uppercase italic rounded-tl rounded-tr text-white text-center px-2 py-1 mt-3"
+                style={{ backgroundColor: "#ef5350" }}
+              >
+                pas encore de commentaire
+              </span>
+              <div className="w-11/12 bg-gray-100 flex flex-col items-center justify-center gap-2 rounded-bl rounded-br border border-red-300">
+                <ChatAltIcon className="h-20 text-gray-200" />
+              </div>
+            </>
+          ) : (
             <div className="w-11/12 flex flex-col items-center justify-center mt-3 border border-red-300 rounded">
               <span
                 className="w-full uppercase italic rounded-tl rounded-tr text-white px-2 py-1"
@@ -154,18 +169,6 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
                 })}
               </div>
             </div>
-          ) : (
-            <>
-              <span
-                className="w-11/12 uppercase italic rounded-tl rounded-tr text-white text-center px-2 py-1 mt-3"
-                style={{ backgroundColor: "#ef5350" }}
-              >
-                pas encore de commentaire
-              </span>
-              <div className="w-11/12 bg-gray-100 flex flex-col items-center justify-center gap-2 rounded-bl rounded-br border border-red-300">
-                <ChatAltIcon className="h-20 text-gray-200" />
-              </div>
-            </>
           )}
         </div>
       </div>

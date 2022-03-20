@@ -24,11 +24,11 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
 
   useEffect(() => {
     dispatch(clearTempPostImg());
-    setTimeout(() => {
-      dispatch(getPosts());
-      dispatch(getUsers());
-    }, 2000);
-  }, [dispatch]);
+    // setTimeout(() => {
+    dispatch(getPosts());
+    dispatch(getUsers());
+    // }, 2000);
+  }, []);
 
   return (
     <div className="h-max">
