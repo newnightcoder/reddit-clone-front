@@ -3,6 +3,7 @@ import { actionType } from "../constants";
 
 const {
   GET_POSTS,
+  GET_LIKES,
   GET_USERS,
   GET_USER_POSTS,
   SAVE_POST_PIC,
@@ -38,6 +39,26 @@ export const getPosts = () => async (dispatch) => {
       return;
     }
     dispatch({ type: GET_POSTS, payload: { posts, likes } });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_POST, payload: error.message });
+  }
+};
+
+export const getLikes = () => async (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_POST });
+  const accessToken = localStorage.getItem("jwt");
+  const request = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    method: "get",
+  };
+  try {
+    const response = await fetch(`${API_POST}/like`, request);
+    const data = await response.json();
+    const { likes } = data;
+
+    dispatch({ type: GET_LIKES, payload: likes });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
   }

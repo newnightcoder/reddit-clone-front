@@ -22,6 +22,7 @@ const initialState = {
 
 const {
   GET_POSTS,
+  GET_LIKES,
   GET_USERS,
   GET_USER_POSTS,
   GET_COMMENTS,
@@ -45,6 +46,10 @@ export const postsReducer = (state = initialState, action) => {
       const { posts, likes } = action.payload;
 
       return { ...state, posts, likes };
+    }
+    case GET_LIKES: {
+      const { likes } = action.payload;
+      return { ...state, likes };
     }
     case GET_USERS: {
       const { users } = action.payload;

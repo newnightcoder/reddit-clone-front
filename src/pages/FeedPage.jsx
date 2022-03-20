@@ -16,6 +16,7 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     setNewUser(isNewUser);
     return function cleanup() {
       setNewUser(null);
@@ -24,10 +25,8 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
 
   useEffect(() => {
     dispatch(clearTempPostImg());
-    // setTimeout(() => {
     dispatch(getPosts());
     dispatch(getUsers());
-    // }, 2000);
   }, []);
 
   return (
