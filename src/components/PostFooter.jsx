@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { ChatRight, HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { likePost, toComment } from "../store/actions/user.action";
-
+import { history } from "../utils/helpers";
 const PostFooter = ({ post }) => {
   const { title, postId, text, imgUrl, date, username, picUrl, likesCount, commentCount, fk_userId_post } = post;
   const [commentsNumber, setcommentsNumber] = useState(commentCount);
@@ -12,7 +11,7 @@ const PostFooter = ({ post }) => {
   const [optionsOpen, setOptionsOpen] = useState(false);
   const userId = useSelector((state) => state.user.id);
   const dispatch = useDispatch();
-  const history = useHistory();
+  // const history = useHistory();
   const allLikes = useSelector((state) => state.posts.likes);
   const sameUser = [];
 

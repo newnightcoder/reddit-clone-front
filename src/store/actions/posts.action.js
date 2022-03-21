@@ -1,4 +1,4 @@
-import { API_POST } from "../../components/API";
+import { API_POST } from "../../API";
 import { actionType } from "../constants";
 
 const {

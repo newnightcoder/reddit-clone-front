@@ -1,6 +1,6 @@
 import { Router } from "react-router";
 import { AppContainer } from "./components";
-import history from "./utils/history";
+import { history } from "./utils/helpers";
 
 const App = () => {
   return (

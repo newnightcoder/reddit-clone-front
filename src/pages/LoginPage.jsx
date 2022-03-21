@@ -1,16 +1,17 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import { logo } from "../assets";
 // import bg from "../assets/logo2.svg";
 import { clearUserError, logUserAction } from "../store/actions/user.action";
+import { history } from "../utils/helpers";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const history = useHistory();
+  // const history = useHistory();
   const { error, isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 

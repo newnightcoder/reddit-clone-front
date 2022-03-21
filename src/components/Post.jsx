@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteModal, PostHeader } from ".";
+import { DeleteModal, Options, PostFooter, PostHeader } from ".";
 import "../index.css";
 import { deletePost } from "../store/actions/posts.action";
-import useLinkToProfile from "../utils/useLinkToProfile";
-import Options from "./Options";
-import PostFooter from "./PostFooter";
+import { useLinkToProfile } from "../utils/hooks";
 
 const Post = ({ post }) => {
   const { title, postId, text, imgUrl, date, username, picUrl, likesCount, commentCount, fk_userId_post } = post;
@@ -40,7 +38,7 @@ const Post = ({ post }) => {
 
   return (
     <div
-      className="post-container scale-0 h-max w-11/12 md:w-full max-w-2xl relative rounded-md flex-col items-center justify-center bg-white border border-gray-300 transition transition-border-color transition-transform duration-300 hover:border-gray-500 pt-2"
+      className="post-container scale-0 h-max w-11/12 md:w-full max-w-5xl relative rounded-md flex-col items-center justify-center bg-white border border-gray-300 transition transition-border-color transition-transform duration-300 hover:border-gray-500 pt-2"
       style={{
         transform: isDeleted && "scale(0)",
         display: postIsGone && "none",

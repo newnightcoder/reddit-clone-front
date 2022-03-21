@@ -1,12 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { logo, phonesImg } from "../assets";
+import { Settings } from "../components";
+import language from "../languages";
 import { persistor } from "../store/storeConfig";
+
 const Homepage = () => {
-  persistor.purge();
+  // const [userLangData, setUserLang] = useState(language?.english);
+  const langInStorage = localStorage.getItem("Lang");
+  const [userLang, setUserLang] = useState(langInStorage ? langInStorage : "english");
+
+  const [userLangData, setUserLangData] = useState(language.deutsch);
+  const { introText, connectLbl, registerLbl, exploreBtn, exploreLbl, download, connectBtn, registerBtn } = userLangData.homepage;
+
+  const setLanguage = (lang) => {
+    switch (lang) {
+      case "français":
+        localStorage.setItem("Lang", lang);
+        return setUserLangData(language.français);
+      case "english":
+        localStorage.setItem("Lang", lang);
+        return setUserLangData(language.english);
+      case "deutsch":
+        localStorage.setItem("Lang", lang);
+        return setUserLangData(language.deutsch);
+      default:
+        localStorage.setItem("Lang", "english");
+        return setUserLangData(language.english);
+    }
+  };
+
+  const handleLang = (langInStorage) => {
+    if (langInStorage === "français") return setUserLangData(language.français);
+    if (langInStorage === "english") return setUserLangData(language.english);
+    if (langInStorage === "deutsch") return setUserLangData(language.deutsch);
+  };
+
+  useEffect(() => {
+    persistor.purge();
+    handleLang(langInStorage);
+  }, []);
 
   return (
-    <div className="h-screen w-full relative bg-gray-200 flex flex-col items-center justify-center text-black">
+    <div className="h-screen w-full relative bg-gray-200 flex flex-col items-center justify-center" style={{ color: "#5e5e5e" }}>
+      <button className="absolute top-5 right-10 tracking-widest font-bold text-2xl">...</button>
+      <Settings setLanguage={setLanguage} userLangData={userLangData} />
       <div className="h-full w-full flex items-center justify-center">
         <div className="hidden h-full w-1/2 md:flex items-center justify-center lg:justify-end">
           <img src={phonesImg} alt="mobile phones" className="w-3/5 transform translate-y-10" />
@@ -16,39 +54,34 @@ const Homepage = () => {
             <header>
               <img src={logo} alt="" />
             </header>
-            <p className="w-full text-center px-8">
-              Une toute nouvelle plate-forme de média sociaux basée sur les principes de la liberté d'expression, de la pensée
-              indépendante, du rejet de la censure politique et de la « cancel culture ».
-            </p>
+            <p className="w-full text-center px-8">{introText}</p>
           </div>
           <div className="w-full flex flex-col items-center justify-center space-y-5">
             <div className="w-full flex flex-col items-center">
-              <h2 className="uppercase text-gray-900">Déjà membre?</h2>
+              <h2 className="uppercase">{connectLbl}?</h2>
               <Link
                 to="/login"
                 className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
               >
-                Se connecter
+                {connectBtn}
               </Link>
             </div>
             <div className="w-full flex flex-col items-center">
-              <h2 className="uppercase text-gray-900">Nouveau sur Forum?</h2>
+              <h2 className="uppercase">{registerLbl}?</h2>
               <Link
                 to="/signup"
                 className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
-                // style={{ backgroundColor: "#ef5350" }}
               >
-                S'inscrire
+                {registerBtn}
               </Link>
             </div>
             <div className="w-full flex flex-col items-center">
-              <h2 className="uppercase text-gray-900">Curieux?</h2>
+              <h2 className="uppercase">{exploreLbl}?</h2>
               <Link
                 to="/feed"
                 className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
-                // style={{ backgroundColor: "#ef5350" }}
               >
-                Explorer Forum
+                {exploreBtn}
               </Link>
             </div>
           </div>
@@ -56,7 +89,7 @@ const Homepage = () => {
       </div>
       <div className="w-full flex flex-col items-center justify-center space-y-12">
         <div className="flex flex-col items-center justify-center space-y-4">
-          <span className="text-sm">Téléchargez cette application</span>
+          <span className="text-sm">{download}</span>
           <div className="flex items-center justify-center space-x-2">
             <svg width="151" height="51" fill="none" xmlns="http://www.w3.org/2000/svg" className="hover:cursor-pointer">
               <path

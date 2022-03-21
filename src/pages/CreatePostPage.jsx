@@ -3,14 +3,13 @@ import React, { useCallback, useState } from "react";
 // import ContentEditable from "react-contenteditable";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
-import { PostForm } from "../components";
-import Aside from "../components/Aside";
+import { Aside, PostForm } from "../components";
 import ImgUploadModal from "../components/createPostModals/ImgUploadModal";
 import UrlModal from "../components/createPostModals/UrlModal";
 import YoutubeLinkModal from "../components/createPostModals/YoutubeLinkModal";
 import { createPost } from "../store/actions/posts.action";
-import { createDate } from "../utils/formatTime";
-import history from "../utils/history";
+import { history } from "../utils/helpers";
+import { createDate } from "../utils/helpers/formatTime";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");

@@ -1,7 +1,7 @@
 import React from "react";
 import { picPlaceholder } from "../assets";
-import { formatTimestamp } from "../utils/formatTime";
-import useLinkToProfile from "../utils/useLinkToProfile";
+import { formatTimestamp } from "../utils/helpers/formatTime";
+import { useLinkToProfile } from "../utils/hooks";
 
 const PostHeader = ({ post }) => {
   const { title, date, username, picUrl, fk_userId_post } = post;

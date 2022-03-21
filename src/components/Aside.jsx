@@ -1,22 +1,22 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { FooterAside, ModsContainer, PopularPosts, RecentUsers } from ".";
-import Rules from "./Rules";
+import { FooterAside, ModsContainer, PopularPosts, RecentUsers, Rules } from ".";
 
 const Aside = () => {
   const location = useLocation();
+
   return (
-    <>
+    <div className="hidden w-72 h-max grow shrink basis-auto lg:flex flex-col items-center justify-start gap-2">
       {location.pathname === "/feed" ? (
-        <div className="hidden w-72 h-max grow shrink basis-auto lg:flex flex-col items-center justify-start gap-2">
+        <>
           <RecentUsers />
           <ModsContainer />
           <PopularPosts />
           <FooterAside />
-        </div>
+        </>
       ) : (
-        location.pathname === "/create" && (
-          <div className="hidden w-72 h-max md:flex flex-col items-center justify-start space-y-3">
+        (location.pathname === "/create" || location.pathname.includes("comments")) && (
+          <>
             <Rules />
             <div className="text-xs texgray-700 px-1">
               Veuillez respecter la <span className="text-blue-400 underline hover:cursor-pointer">politique de contenu </span> de
@@ -24,10 +24,10 @@ const Aside = () => {
               <span className="text-blue-400 underline hover:cursor-pointer">l'esprit Forum</span>.
             </div>
             <FooterAside />
-          </div>
+          </>
         )
       )}
-    </>
+    </div>
   );
 };
 

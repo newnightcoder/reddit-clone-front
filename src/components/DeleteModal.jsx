@@ -1,17 +1,8 @@
 import React from "react";
-import useDelete from "../utils/useDelete";
+import { useDelete } from "../utils/hooks";
 
 const DeleteModal = (props) => {
-  const {
-    toggleDeleteModal,
-    handleDeletePost,
-    handleDeleteProfile,
-    handleDeleteProfileFromMenu,
-    toggleMenu,
-    postId,
-    postIdComment,
-    origin,
-  } = props;
+  const { toggleDeleteModal } = props;
   const { message, deleteFunction } = useDelete(props);
 
   return (

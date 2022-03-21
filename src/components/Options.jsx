@@ -1,7 +1,7 @@
 import { FlagIcon, PencilIcon, ShareIcon, TrashIcon, XIcon } from "@heroicons/react/solid";
 import React from "react";
 import { useSelector } from "react-redux";
-import history from "../utils/history";
+import { history } from "../utils/helpers";
 
 const Options = ({
   postUserId,

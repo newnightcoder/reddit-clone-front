@@ -2,16 +2,16 @@ import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
-import { useHistory } from "react-router-dom";
 import { savePostImage } from "../store/actions/posts.action";
 import { saveUserPic } from "../store/actions/user.action";
+import { history } from "../utils/helpers";
 
 const ImgUploader = ({ profile, toggleImgInput }) => {
   const [blob, setBlob] = useState(null);
   const [blobName, setBlobName] = useState(null);
   const file = useRef(null);
   const { id, picUrl } = useSelector((state) => state.user);
-  const history = useHistory();
+  // const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
 

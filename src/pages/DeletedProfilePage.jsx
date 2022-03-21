@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useLocation } from "react-router";
 import bg from "../assets/bg.webp";
 import { getPosts } from "../store/actions/posts.action";
-import history from "../utils/history";
+import { history } from "../utils/helpers";
 
 const DeletedProfile = () => {
   const location = useLocation();

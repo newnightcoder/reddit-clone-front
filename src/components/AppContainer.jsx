@@ -40,7 +40,7 @@ const AppContainer = () => {
   };
 
   return (
-    <div className="h-full w-full relative bg-gray-100">
+    <div className="h-full w-full relative">
       <Switch>
         <Route path="/" exact component={HomePage} />
         <Route path="/login" component={LoginPage} />

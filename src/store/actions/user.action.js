@@ -1,4 +1,4 @@
-import { API_AUTH, API_POST } from "../../components/API/index";
+import { API_AUTH, API_POST } from "../../API/index";
 import { actionType } from "../constants.js";
 
 /////////////////////////////////////

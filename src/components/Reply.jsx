@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { ChatRight, HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteModal } from ".";
+import { DeleteModal, Options } from ".";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { deletePost } from "../store/actions/posts.action";
 import { likePost } from "../store/actions/user.action";
-import { formatTimestamp } from "../utils/formatTime";
-import Options from "./Options";
+import { formatTimestamp } from "../utils/helpers/formatTime";
 
 const Reply = ({ reply }) => {
   const { replyId, fk_userId_reply, text, date, username, picUrl, likesCount } = reply;

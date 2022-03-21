@@ -6,8 +6,8 @@ import { DeleteModal } from ".";
 import logo2 from "../assets/logo2.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { deleteUser, saveUserPic } from "../store/actions/user.action";
-import { formatTimestamp } from "../utils/formatTime";
-import useLinkToProfile from "../utils/useLinkToProfile";
+import { formatTimestamp } from "../utils/helpers/formatTime";
+import { useLinkToProfile } from "../utils/hooks";
 
 const Menu = ({ isOpen, toggleMenu }) => {
   const [blob, setBlob] = useState(null);

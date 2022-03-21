@@ -7,9 +7,9 @@ import logo2 from "../assets/logo2.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { DeleteModal, EditModal, Post } from "../components";
 import { deleteUser, saveUserPic } from "../store/actions/user.action";
-import { formatTimestamp } from "../utils/formatTime";
-import history from "../utils/history";
-import useGetProfile from "../utils/useGetProfile";
+import { history } from "../utils/helpers";
+import { formatTimestamp } from "../utils/helpers/formatTime";
+import { useGetProfile } from "../utils/hooks";
 
 const Profile = () => {
   const [openModal, setOpenModal] = useState(false);

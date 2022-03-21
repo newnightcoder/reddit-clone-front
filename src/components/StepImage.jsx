@@ -1,13 +1,12 @@
 import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
 import { logo } from "../assets";
 import picPlaceholder from "../assets/pic_placeholder.svg";
+import { history } from "../utils/helpers";
 import ImgUploader from "./ImgUploader";
-
 const StepImage = () => {
   const { id, picUrl } = useSelector((state) => state.user);
-  const history = useHistory();
+  // const history = useHistory();
 
   return (
     <div

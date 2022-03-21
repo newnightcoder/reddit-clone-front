@@ -3,7 +3,7 @@ import React from "react";
 import { Power } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import useLinkToProfile from "../utils/useLinkToProfile";
+import { useLinkToProfile } from "../utils/hooks";
 
 const NavBarDesktop = () => {
   const { id, username } = useSelector((state) => state.user);
@@ -27,7 +27,7 @@ const NavBarDesktop = () => {
         <div className="w-10 h-10 lg:w-max bg-white lg:bg-transparent lg:border-0 rounded-full relative flex items-center justify-center">
           <UserIcon className="h-7 lg:h-5 text-gray-900" />
         </div>
-        <span className="hidden lg:inline-block font-bold">My profile</span>
+        <span className="hidden lg:inline-block font-bold">Mon profil</span>
       </button>
       <Link
         className="lg:w-11/12 flex items-center justify-center rounded-full lg:justify-start space-x-1 lg:pr-4 rounded-full "
@@ -36,7 +36,7 @@ const NavBarDesktop = () => {
         <div className="w-10 h-10 lg:w-max bg-white lg:bg-transparent lg:border-0 rounded-full relative flex items-center justify-center">
           <Power size={25} />
         </div>
-        <span className="hidden lg:inline-block font-bold">Logout</span>
+        <span className="hidden lg:inline-block font-bold">Déconnexion</span>
       </Link>
     </div>
   );

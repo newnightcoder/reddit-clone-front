@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { API_AUTH } from "../components/API";
+import { API_AUTH } from "../../API";
 
 const useGetProfile = (id) => {
   const [userData, setUserData] = useState(null);
