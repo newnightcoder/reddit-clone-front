@@ -1,9 +1,14 @@
 const language = {
+  ////////////////
+  //  ENGLISH  //
+  ///////////////
   english: {
     options: {
-      lang: "english",
+      lang: "language",
       appearance: "appearance",
       help: "help",
+      subtitleLang: "You'll be able to navigate through FORUM in the language you choose.",
+      subtitleMode: "Adjust Forum's interface to your liking: dark or light mode.",
     },
     appearance: {
       dark: "dark",
@@ -28,11 +33,17 @@ const language = {
       registerBtn: "register",
     },
   },
+
+  /////////////////
+  //  FRANCAIS  //
+  ////////////////
   français: {
     options: {
-      lang: "français",
-      appearance: "apparance",
+      lang: "langue",
+      appearance: "apparence",
       help: "aide",
+      subtitleLang: "Vous pourrez naviguer sur FORUM dans la langue de votre choix.",
+      subtitleMode: "Ajustez l'interface de Forum à vos préférences: thème sombre ou thème clair.",
     },
     appearance: {
       dark: "sombre",
@@ -57,11 +68,17 @@ const language = {
       registerBtn: "s'inscrire",
     },
   },
+
+  ////////////////
+  //  DEUTSCH  //
+  ///////////////
   deutsch: {
     options: {
-      lang: "deutsch",
+      lang: "sprache",
       appearance: "erscheinungsbild",
       help: "hilfe",
+      subtitleLang: "Sie können in der von Ihnen gewählten Sprache durch FORUM navigieren.",
+      subtitleMode: "Passen Sie die Benutzeroberfläche des Forums Ihren Wünschen an: Dunkel- oder HellModus.",
     },
     appearance: {
       dark: "DunkelModus",
