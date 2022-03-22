@@ -1,7 +1,17 @@
 import { ChevronLeftIcon } from "@heroicons/react/solid";
 import React from "react";
 
-const SettingsOptions = ({ optionTitle, isOpen, options, langOptions, saveMode, setLanguage, toggleOption, modeOptions }) => {
+const SettingsOptions = ({
+  optionTitle,
+  isOpen,
+  options,
+  userLangData,
+  setLanguage,
+  langOptions,
+  saveMode,
+  toggleOption,
+  modeOptions,
+}) => {
   return (
     <div
       className="z-50 w-52 px-2 absolute top-0 flex-col items-start justify-start bg-white rounded-lg shadow"

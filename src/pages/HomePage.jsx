@@ -1,44 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { logo, phonesImg } from "../assets";
 import { Settings } from "../components";
-import language from "../languages";
 import { persistor } from "../store/storeConfig";
+import useLanguage from "../utils/hooks/useLanguage";
 
 const Homepage = () => {
-  // const [userLangData, setUserLang] = useState(language?.english);
-  const langInStorage = localStorage.getItem("Lang");
-  const [userLang, setUserLang] = useState(langInStorage ? langInStorage : "english");
-
-  const [userLangData, setUserLangData] = useState(language.deutsch);
-  const { introText, connectLbl, registerLbl, exploreBtn, exploreLbl, download, connectBtn, registerBtn } = userLangData.homepage;
-
-  const setLanguage = (lang) => {
-    switch (lang) {
-      case "français":
-        localStorage.setItem("Lang", lang);
-        return setUserLangData(language.français);
-      case "english":
-        localStorage.setItem("Lang", lang);
-        return setUserLangData(language.english);
-      case "deutsch":
-        localStorage.setItem("Lang", lang);
-        return setUserLangData(language.deutsch);
-      default:
-        localStorage.setItem("Lang", "english");
-        return setUserLangData(language.english);
-    }
-  };
-
-  const handleLang = (langInStorage) => {
-    if (langInStorage === "français") return setUserLangData(language.français);
-    if (langInStorage === "english") return setUserLangData(language.english);
-    if (langInStorage === "deutsch") return setUserLangData(language.deutsch);
-  };
+  const [userLangData, setLanguage] = useLanguage();
 
   useEffect(() => {
     persistor.purge();
-    handleLang(langInStorage);
   }, []);
 
   return (
@@ -54,34 +25,34 @@ const Homepage = () => {
             <header>
               <img src={logo} alt="" />
             </header>
-            <p className="w-full text-center px-8">{introText}</p>
+            <p className="w-full text-center px-8">{userLangData.homepage.introText}</p>
           </div>
           <div className="w-full flex flex-col items-center justify-center space-y-5">
             <div className="w-full flex flex-col items-center">
-              <h2 className="uppercase">{connectLbl}?</h2>
+              <h2 className="uppercase">{userLangData.homepage.connectLbl}?</h2>
               <Link
                 to="/login"
                 className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
               >
-                {connectBtn}
+                {userLangData?.homepage.connectBtn}
               </Link>
             </div>
             <div className="w-full flex flex-col items-center">
-              <h2 className="uppercase">{registerLbl}?</h2>
+              <h2 className="uppercase">{userLangData?.homepage.registerLbl}?</h2>
               <Link
                 to="/signup"
                 className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
               >
-                {registerBtn}
+                {userLangData?.homepage.registerBtn}
               </Link>
             </div>
             <div className="w-full flex flex-col items-center">
-              <h2 className="uppercase">{exploreLbl}?</h2>
+              <h2 className="uppercase">{userLangData?.homepage.exploreLbl}?</h2>
               <Link
                 to="/feed"
                 className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
               >
-                {exploreBtn}
+                {userLangData?.homepage.exploreBtn}
               </Link>
             </div>
           </div>
@@ -89,7 +60,7 @@ const Homepage = () => {
       </div>
       <div className="w-full flex flex-col items-center justify-center space-y-12">
         <div className="flex flex-col items-center justify-center space-y-4">
-          <span className="text-sm">{download}</span>
+          <span className="text-sm">{userLangData?.homepage.download}</span>
           <div className="flex items-center justify-center space-x-2">
             <svg width="151" height="51" fill="none" xmlns="http://www.w3.org/2000/svg" className="hover:cursor-pointer">
               <path

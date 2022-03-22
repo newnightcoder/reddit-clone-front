@@ -5,6 +5,7 @@ import picPlaceholder from "../assets/pic_placeholder.svg";
 import { Aside, NavBarDesktop, Post, PostSkeleton } from "../components";
 import { clearTempPostImg, getPosts, getUsers } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
+import useLanguage from "../utils/hooks/useLanguage";
 
 const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
   const [newUser, setNewUser] = useState(false);
@@ -12,6 +13,8 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
   const { isAuthenticated, isNewUser } = useSelector((state) => state.user);
   const posts = useSelector((state) => state.posts.posts);
   const dispatch = useDispatch();
+
+  const [userLangData, setLanguage] = useLanguage();
 
   useEffect(() => {
     window.scrollTo(0, 0);

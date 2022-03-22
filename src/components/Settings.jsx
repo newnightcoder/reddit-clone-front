@@ -4,7 +4,7 @@ import { LifePreserver, ToggleOn } from "react-bootstrap-icons";
 import language from "../languages";
 import SettingsOptions from "./SettingsOptions";
 
-const Settings = ({ setLanguage, userLangData }) => {
+const Settings = ({ userLangData, setLanguage }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [optionTitle, setOptionTitle] = useState("");
 
@@ -74,6 +74,7 @@ const Settings = ({ setLanguage, userLangData }) => {
         setLanguage={setLanguage}
         saveMode={saveMode}
         toggleOption={toggleOption}
+        userLangData={userLangData}
       />
     </div>
   );
