@@ -2,10 +2,11 @@ import { PaperAirplaneIcon, RefreshIcon } from "@heroicons/react/solid";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { Aside, NavBarDesktop, Post, PostSkeleton } from "../components";
+import { Aside, NavBarDesktop, Post, PostSkeleton, Settings } from "../components";
 import { clearTempPostImg, getPosts, getUsers } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
 import useLanguage from "../utils/hooks/useLanguage";
+import useToggleSettings from "../utils/hooks/useToggleSettings";
 
 const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
   const [newUser, setNewUser] = useState(false);
@@ -15,7 +16,7 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
   const dispatch = useDispatch();
 
   const [userLangData, setLanguage] = useLanguage();
-
+  const { settingsOpen, toggleSettings } = useToggleSettings();
   useEffect(() => {
     window.scrollTo(0, 0);
     setNewUser(isNewUser);
@@ -32,6 +33,8 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
 
   return (
     <div className="feed-container h-full w-full flex flex-col items-center justify-start gap-2 bg-gray-200 relative pt-4">
+      <Settings setLanguage={setLanguage} userLangData={userLangData} settingsOpen={settingsOpen} />
+
       <div className="bienvenueMsg-newcomer text-center whitespace-pre mb-2">
         {newUser === true ? (
           <span className="font-bold">
@@ -56,7 +59,7 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
           <span className="text-xs pointer-events-auto">rafraîchir</span>
         </button>
         <div className="posts-aside-container w-full md:w-11/12 max-w-7xl flex items-start justify-center md:gap-8">
-          <NavBarDesktop />
+          <NavBarDesktop toggleSettings={toggleSettings} />
           <div className="posts-section-container w-full md:w-3/4 xl:w-2/3 flex flex-col items-center justify-center pb-20 relative">
             <div className="posts-wrapper h-full w-full relative flex flex-col items-center justify-center gap-4 pb-6">
               {posts?.length === 0 || posts === undefined ? (

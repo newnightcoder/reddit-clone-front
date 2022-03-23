@@ -11,7 +11,7 @@ const RecentUsers = () => {
   });
 
   useEffect(() => {
-    setLastFiveUsers(sortedUsers.splice(0, 5));
+    setLastFiveUsers(sortedUsers?.splice(0, 5));
   }, [users]);
 
   return (

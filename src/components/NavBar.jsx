@@ -3,7 +3,7 @@ import React from "react";
 import { Power } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { logo, logo_mobile } from "../assets";
+import { logo } from "../assets";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { history } from "../utils/helpers";
 import { useLinkToProfile, useWindowSize } from "../utils/hooks";
@@ -35,12 +35,15 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
             )}
           </div>
         ) : (
-          <Link to="/" className=" h-5/6 w-max flex items-center justify-center transform -translate-y-2">
-            <img src={width < 768 ? logo_mobile : logo} className="h-full" />
-            {/* width={width > 768 ? 140 : 90}  */}
+          <Link
+            to="/"
+            className=" h-5/6 w-max flex items-center justify-center ml-3 mr-2"
+            style={{ transform: "translateY(-6px)" }}
+          >
+            <img src={logo} className="h-full" />
           </Link>
         )}
-        <form className="w-full max-w-xl flex items-center justify-center rounded-l-full" action="">
+        <form className="w-2/3  max-w-xl 2xl:max-w-5xl flex items-center justify-center rounded-l-full" action="">
           <input
             className="h-10 w-full rounded-l-full outline-none pl-3 pr-2 text-black text-sm lg:text-md border-t border-b border-l border-gray-200 hover:border-gray-400"
             type="search"

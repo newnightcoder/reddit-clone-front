@@ -4,9 +4,8 @@ import { LifePreserver, ToggleOn } from "react-bootstrap-icons";
 import language from "../languages";
 import SettingsOptions from "./SettingsOptions";
 
-const Settings = ({ userLangData, setLanguage }) => {
+const Settings = ({ userLangData, setLanguage, settingsOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const activeArray = ["langue", "language", "sprache", "erscheinungsbild", "apparence", "appearance"];
   const [isActive, setIsActive] = useState("");
   const [optionTitle, setOptionTitle] = useState("");
   const { lang, appearance, help } = userLangData.options;
@@ -14,6 +13,9 @@ const Settings = ({ userLangData, setLanguage }) => {
   const { dark, light } = userLangData.appearance;
   const modeOptions = [dark, light];
   const [langOptions, setLangOptions] = useState([]);
+  const [allModeOptions, setAllModeOptions] = useState([]);
+
+  // const { settingsOpen } = useToggleSettings();
 
   const getLangOptions = useCallback(() => {
     const options = [];
@@ -23,8 +25,19 @@ const Settings = ({ userLangData, setLanguage }) => {
     setLangOptions(options);
   }, []);
 
+  const getAllAppearanceOptions = () => {
+    let array = [];
+    for (const appearance of Object.entries(language)) {
+      array.push(appearance[1].appearance.dark);
+      array.push(appearance[1].appearance.light);
+    }
+    console.log(array);
+    setAllModeOptions(array);
+  };
+
   useEffect(() => {
     getLangOptions();
+    getAllAppearanceOptions();
   }, []);
 
   const toggleOption = (option) => {
@@ -38,7 +51,10 @@ const Settings = ({ userLangData, setLanguage }) => {
   };
 
   return (
-    <div className="w-52 absolute top-16 right-8 bg-white py-3 rounded-lg shadow">
+    <div
+      className="hidden w-52 absolute top-14 right-8 bg-white py-3 rounded-lg shadow-xl z-50"
+      style={settingsOpen ? { display: "block" } : null}
+    >
       <div className="w-full">
         <button
           className="w-full flex items-center justify-between py-2 px-2 space-x-1 transition duration-300 hover:bg-gray-100"
@@ -78,6 +94,7 @@ const Settings = ({ userLangData, setLanguage }) => {
         userLangData={userLangData}
         isActive={isActive}
         setIsActive={setIsActive}
+        allModeOptions={allModeOptions}
       />
     </div>
   );

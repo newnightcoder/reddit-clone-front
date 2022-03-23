@@ -1,21 +1,38 @@
 import React, { useEffect } from "react";
+import { ThreeDots } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import { logo, phonesImg } from "../assets";
 import { Settings } from "../components";
 import { persistor } from "../store/storeConfig";
 import useLanguage from "../utils/hooks/useLanguage";
+import useToggleSettings from "../utils/hooks/useToggleSettings";
 
 const Homepage = () => {
   const [userLangData, setLanguage] = useLanguage();
+  // const [settingsOpen, setSettingsOpen] = useState(false);
+
+  // const toggleOptionsMenu = () => {
+  //   return setSettingsOpen((prevState) => !prevState);
+  // };
+
+  const { settingsOpen, toggleSettings } = useToggleSettings();
 
   useEffect(() => {
     persistor.purge();
   }, []);
 
   return (
-    <div className="h-screen w-full relative bg-gray-200 flex flex-col items-center justify-center" style={{ color: "#5e5e5e" }}>
-      <button className="absolute top-5 right-10 tracking-widest font-bold text-2xl">...</button>
-      <Settings setLanguage={setLanguage} userLangData={userLangData} />
+    <div
+      className="min-h-screen w-full relative bg-gray-200 flex flex-col items-center justify-center"
+      style={{ color: "#5e5e5e" }}
+    >
+      <button
+        className="h-8 w-8 absolute top-5 right-10 flex items-center justify-center rounded-full tracking-widest font-bold text-2xl transition duration-300 hover:bg-gray-300"
+        onClick={toggleSettings}
+      >
+        <ThreeDots />
+      </button>
+      <Settings setLanguage={setLanguage} userLangData={userLangData} settingsOpen={settingsOpen} />
       <div className="h-full w-full flex items-center justify-center">
         <div className="hidden h-full w-1/2 md:flex items-center justify-center lg:justify-end">
           <img src={phonesImg} alt="mobile phones" className="w-3/5 transform translate-y-10" />
@@ -23,9 +40,9 @@ const Homepage = () => {
         <div className="h-full w-full md:w-1/2 flex flex-col items-center justify-center space-y-10">
           <div className="w-full flex flex-col items-center justify-center space-y-4">
             <header>
-              <img src={logo} alt="" />
+              <img src={logo} alt="" className="h-24" />
             </header>
-            <p className="w-full text-center px-8">{userLangData.homepage.introText}</p>
+            <p className="w-3/4 text-sm text-center px-2">{userLangData.homepage.introText}</p>
           </div>
           <div className="w-full flex flex-col items-center justify-center space-y-5">
             <div className="w-full flex flex-col items-center">
@@ -58,8 +75,8 @@ const Homepage = () => {
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col items-center justify-center space-y-12">
-        <div className="flex flex-col items-center justify-center space-y-4">
+      <div className="w-full flex flex-col items-center justify-center space-y-6">
+        <div className="flex flex-col items-center justify-center space-y-3">
           <span className="text-sm">{userLangData?.homepage.download}</span>
           <div className="flex items-center justify-center space-x-2">
             <svg width="151" height="51" fill="none" xmlns="http://www.w3.org/2000/svg" className="hover:cursor-pointer">
