@@ -1,25 +1,12 @@
-import { PaperAirplaneIcon, XIcon } from "@heroicons/react/solid";
-import { convertToRaw, Editor, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import React, { useEffect, useState } from "react";
-import {
-  ChatRight,
-  HandThumbsUp,
-  HandThumbsUpFill,
-  Image,
-  ThreeDotsVertical,
-  TypeBold,
-  TypeItalic,
-  TypeUnderline,
-  Youtube,
-} from "react-bootstrap-icons";
+import { ChatRight, HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteModal, Reply } from ".";
+import { DeleteModal, Options, Reply, ReplyForm } from ".";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { createReply, deletePost, getReplies } from "../store/actions/posts.action";
 import { likePost } from "../store/actions/user.action";
-import { createDate, formatTimestamp } from "../utils/formatTime";
-import Options from "./Options";
+import { createDate, formatTimestamp } from "../utils/helpers/formatTime";
 
 const Comment = ({ comment, postId }) => {
   const { fk_userId_comment, picUrl, username, text, date, commentId, likesCount } = comment;
@@ -27,8 +14,7 @@ const Comment = ({ comment, postId }) => {
   const [like, setLike] = useState(false);
   const [likesNumber, setLikesNumber] = useState(likesCount);
   const [replyOpen, setReplyOpen] = useState(false);
-  const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
-  const replyText = convertToRaw(editorState.getCurrentContent()).blocks[0].text;
+  const [replyText, setReplyText] = useState("");
   const [optionsOpen, setOptionsOpen] = useState(false);
   const userId = useSelector((state) => state?.user.id);
   const role = useSelector((state) => state?.user.role);
@@ -93,6 +79,10 @@ const Comment = ({ comment, postId }) => {
     dispatch(likePost("comment", userId, commentId, like));
   };
 
+  const handleChange = (e) => {
+    setReplyText(e.target.value);
+  };
+
   const handleReplySubmit = async (e) => {
     e.preventDefault();
     if (replyText.length === 0) {
@@ -103,7 +93,6 @@ const Comment = ({ comment, postId }) => {
       setServerErrorMsg(serverError);
     }
     dispatch(createReply(userId, commentId, replyText, createDate()));
-    setEditorState(() => EditorState.createEmpty());
     setReplyOpen(false);
     setTimeout(() => {
       dispatch(getReplies(commentId));
@@ -111,7 +100,7 @@ const Comment = ({ comment, postId }) => {
   };
 
   const handleDeletePost = () => {
-    dispatch(deletePost(commentId, postId, "comment"));
+    dispatch(deletePost(commentId, "comment", postId));
     setIsDeleted(true);
     setTimeout(() => {
       setpostIsGone(true);
@@ -125,7 +114,12 @@ const Comment = ({ comment, postId }) => {
         style={{ marginBottom: replyOpen && "5px", transform: isDeleted && "scale(0)", display: postIsGone && "none" }}
       >
         {(openModal && userId === fk_userId_comment) || (openModal && role === "admin") ? (
-          <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"comment"} />
+          <DeleteModal
+            toggleDeleteModal={toggleDeleteModal}
+            handleDeletePost={handleDeletePost}
+            origin={"comment"}
+            postIdComment={postId}
+          />
         ) : null}
         <div className="top w-full flex items-center justify-center pb-1 border-b">
           <div className="left-column h-full w-2/12 flex justify-center">
@@ -169,7 +163,7 @@ const Comment = ({ comment, postId }) => {
               <ThreeDotsVertical />
             </button>
           </div>
-        </div>{" "}
+        </div>
         <Options
           commentUserId={fk_userId_comment}
           commentId={commentId}
@@ -178,62 +172,13 @@ const Comment = ({ comment, postId }) => {
           toggleDeleteModal={toggleDeleteModal}
         />
       </div>
-      <div className="w-11/12" style={{ display: replyOpen ? "flex" : "none" }}>
-        <form
-          className="h-max w-full flex flex-col items-center justify-center bg-white mb-2"
-          method="post"
-          onSubmit={handleReplySubmit}
-        >
-          <div className="h-max w-full flex flex-col items-center justify-start border border-gray-600 hover:border-gray-500 rounded">
-            <div className="editor-container w-full overflow-y-auto h-32 bg-gray-100 hover:bg-white active:bg-white focus:bg-white rounded-t pl-3 pr-2 pt-3 pb-2">
-              <Editor
-                editorState={editorState}
-                onChange={(e) => {
-                  setEditorState(e);
-                  setEmptyComError("");
-                }}
-                placeholder="Tapez votre réponse..."
-              />
-            </div>
-            <div className="h-12 w-full flex items-center justify-between rounded-b bg-gray-200 pr-2">
-              <div className="w-1/2 h-full flex items-center justify-center">
-                <button className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center">
-                  <TypeBold />
-                </button>
-                <button className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center">
-                  <TypeItalic />
-                </button>
-                <button className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center">
-                  <TypeUnderline />
-                </button>
-                <button className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center">
-                  <Image />
-                </button>
-                <button className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center">
-                  <Youtube />
-                </button>
-              </div>
-              <div className="w-max flex items-center justify-end gap-1">
-                <button
-                  className="h-6 w-6 rounded-full flex items-center justify-center text-white bg-gray-500"
-                  disabled={false}
-                  onClick={() => setReplyOpen(false)}
-                >
-                  <XIcon className="h-4 w-4 text-white" />
-                </button>
-                <button
-                  className="h-6 flex items-center justify-center gap-1 text-white bg-gray-500 rounded-3xl disabled:opacity-50 px-2"
-                  disabled={false}
-                  type="submit"
-                >
-                  <span className="text-xs capitalize">commenter</span>
-                  <PaperAirplaneIcon className="h-4 w-4 text-white transform rotate-45 -translate-y-px" />
-                </button>
-              </div>{" "}
-            </div>
-          </div>
-        </form>
-      </div>
+      <ReplyForm
+        handleReplySubmit={handleReplySubmit}
+        replyOpen={replyOpen}
+        setReplyOpen={setReplyOpen}
+        replyText={replyText}
+        handleChange={handleChange}
+      />
       <div className="w-full bg-gray-100 flex flex-col items-end justify-center gap-2 py-2">
         {replies &&
           replies.map((reply) => {

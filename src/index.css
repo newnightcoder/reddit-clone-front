@@ -10,3 +10,10 @@
     transform: scale(1);
   }
 }
+
+#postInput:first-child:empty::before {
+  content: attr(placeholder);
+  color: #999;
+  display: block;
+  height: 100%;
+}

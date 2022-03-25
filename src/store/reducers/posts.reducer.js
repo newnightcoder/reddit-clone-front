@@ -22,6 +22,7 @@ const initialState = {
 
 const {
   GET_POSTS,
+  GET_LIKES,
   GET_USERS,
   GET_USER_POSTS,
   GET_COMMENTS,
@@ -43,7 +44,12 @@ export const postsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_POSTS: {
       const { posts, likes } = action.payload;
+
       return { ...state, posts, likes };
+    }
+    case GET_LIKES: {
+      const { likes } = action.payload;
+      return { ...state, likes };
     }
     case GET_USERS: {
       const { users } = action.payload;
@@ -51,6 +57,7 @@ export const postsReducer = (state = initialState, action) => {
     }
     case GET_USER_POSTS: {
       const { posts, likes } = action.payload;
+
       return { ...state, userPosts: posts, likes };
     }
     case GET_COMMENTS:
@@ -71,8 +78,12 @@ export const postsReducer = (state = initialState, action) => {
       return { ...state, lastReplyAdded: action.payload };
     case EDIT_POST:
       return { ...state };
-    case DELETE_POST:
-      return { ...state, lastDeleted: action.payload };
+
+    case DELETE_POST: {
+      const id = action.payload;
+      return { ...state, posts: state.posts.filter((post) => post.postId !== id), lastDeleted: true };
+    }
+
     case SET_ERROR_POST:
       return { ...state, error: action.payload };
     case CLEAR_ERROR_POST:

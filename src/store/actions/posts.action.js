@@ -1,8 +1,9 @@
-import { API_POST } from "../../components/API";
+import { API_POST } from "../../API";
 import { actionType } from "../constants";
 
 const {
   GET_POSTS,
+  GET_LIKES,
   GET_USERS,
   GET_USER_POSTS,
   SAVE_POST_PIC,
@@ -38,6 +39,26 @@ export const getPosts = () => async (dispatch) => {
       return;
     }
     dispatch({ type: GET_POSTS, payload: { posts, likes } });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_POST, payload: error.message });
+  }
+};
+
+export const getLikes = () => async (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_POST });
+  const accessToken = localStorage.getItem("jwt");
+  const request = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+    method: "get",
+  };
+  try {
+    const response = await fetch(`${API_POST}/like`, request);
+    const data = await response.json();
+    const { likes } = data;
+
+    dispatch({ type: GET_LIKES, payload: likes });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
   }
@@ -130,7 +151,7 @@ export const clearTempPostImg = () => (dispatch) => {
 export const createPost = (userId, title, text, date, imgUrl) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
   const accessToken = localStorage.getItem("jwt");
-  console.log("token", accessToken);
+  // console.log("token", accessToken);
   const request = {
     headers: {
       "Content-Type": "application/json",
@@ -189,7 +210,7 @@ export const editPost = (origin, id, title, text) => async (dispatch) => {
   }
 };
 
-export const deletePost = (id, postId, origin) => async (dispatch) => {
+export const deletePost = (postId, origin, postIdComment) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
   const accessToken = localStorage.getItem("jwt");
 
@@ -199,11 +220,11 @@ export const deletePost = (id, postId, origin) => async (dispatch) => {
       Authorization: `Bearer ${accessToken}`,
     },
     method: "post",
-    body: JSON.stringify({ id, postId, origin }),
+    body: JSON.stringify({ postId, origin, postIdComment }),
   };
   try {
     const response = await fetch(`${API_POST}/delete`, request);
-    const data = response.json();
+    const data = await response.json();
     const { error, sessionExpired } = data;
     if (sessionExpired) {
       dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
@@ -213,7 +234,7 @@ export const deletePost = (id, postId, origin) => async (dispatch) => {
       dispatch({ type: SET_ERROR_POST, payload: error });
       return;
     }
-    dispatch({ type: DELETE_POST, payload: true });
+    dispatch({ type: DELETE_POST, payload: postId });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
   }

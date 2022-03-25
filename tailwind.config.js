@@ -1,6 +1,6 @@
 module.exports = {
   purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: "class", // or 'media' or 'class'
   theme: {
     extend: {
       animation: {
@@ -46,12 +46,14 @@ module.exports = {
     },
   },
   variants: {
+    backgroundColor: ["responsive", "hover", "focus", "active", "dark"],
     extend: {
       opacity: ["disabled"],
       cursor: ["hover"],
       fontWeight: ["hover"],
       borderWidth: ["hover"],
+      rotate: ["hover", "group-hover"],
     },
   },
-  plugins: [],
+  plugins: [require("autoprefixer")],
 };

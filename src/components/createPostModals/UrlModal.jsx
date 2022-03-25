@@ -20,7 +20,7 @@ const UrlModal = ({ urlModalOpen, toggleUrlInput }) => {
   return (
     <div
       style={{ opacity: urlModalOpen ? 1 : 0, zIndex: urlModalOpen ? 10 : -1 }}
-      className="absolute inset-0 w-full h-full flex flex-col items-center justify-center space-y-2 bg-black text-white transition-opacity duration-300 overflow-y-auto"
+      className="absolute w-1/2 h-1/2 top-36 mx-auto flex flex-col items-center justify-center space-y-2 bg-black text-white transition-opacity duration-300 overflow-y-auto"
     >
       <span className="text-sm uppercase w-10/12 text-center">ajouter un lien vers un article ou une page web</span>
 

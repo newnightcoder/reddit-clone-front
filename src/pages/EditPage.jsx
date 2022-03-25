@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import { Link, useLocation } from "react-router-dom";
 import { editPost, getPosts } from "../store/actions/posts.action";
-import history from "../utils/history";
+import { history } from "../utils/helpers";
 
 const EditPage = () => {
   const serverError = useSelector((state) => state.posts.error);

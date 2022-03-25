@@ -1,4 +1,4 @@
-import { API_AUTH, API_POST } from "../../components/API/index";
+import { API_AUTH, API_POST } from "../../API/index";
 import { actionType } from "../constants.js";
 
 /////////////////////////////////////
@@ -283,4 +283,8 @@ export const deleteUser = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({ type: SET_ERROR_USER, payload: error.message });
   }
+};
+
+export const clearUserError = () => (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_USER });
 };

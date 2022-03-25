@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import bg from "../assets/logo2.svg";
+import { logo } from "../assets";
 import { saveUserName } from "../store/actions/user.action";
 import StepImage from "./StepImage";
 
@@ -36,40 +36,34 @@ const StepUsername = () => {
     if (!usernameAdded) return;
   };
 
-  const toNextStep = usernameAdded
-    ? {
-        transform: "translateX(0%)",
-        background: `linear-gradient(rgba(70,70,70,.45), rgba(70,70,70,.45)), url(${bg}) no-repeat center/cover`,
-      }
-    : {
-        transform: "translateX(100%)",
-        background: `linear-gradient(rgba(70,70,70,.45), rgba(70,70,70,.45)), url(${bg}) no-repeat center/cover`,
-      };
+  const toNextStep = usernameAdded ? { transform: "translateX(0%)" } : { transform: "translateX(100%)" };
 
   return (
     <div
-      className="h-screen w-screen bg-red-300 flex flex-col items-center justify-center gap-2 transition-transform duration-500 absolute top-0 left-0 bg-hero"
+      className="h-full w-screen bg-gray-200 flex flex-col items-center justify-center gap-2 transition-transform duration-500 absolute top-0 left-0"
       style={toNextStep}
     >
+      <header className="h-1/3 flex items-center justify-center">
+        <img src={logo} alt="" />
+      </header>
       <span
         className="whitespace-wrap w-10/12 md:w-1/2 lg:w-1/3 md:text-center h-max py-2 px-3 bg-black text-white border border-red-700 rounded"
         style={error.length !== 0 ? { visibility: "visible" } : { visibility: "hidden" }}
       >
         {error}
       </span>
-      <div>
+      <div className="h-1/2">
         <p className="font-bold">Choisissez votre pseudo:</p>
         <form className="flex flex-col items-center justify-center gap-1" method="post" onSubmit={handleSubmit}>
           <label htmlFor="username"></label>
           <input
-            className="w-48 rounded p-1 border border-red-300 outline-none"
+            className="w-48 rounded p-1 border border-blue-300 transition-color duration-300 hover:border-blue-400 outline-none"
             type="text"
             id="username"
             onChange={handleInput}
           />
           <button
-            className="w-48 p-2 rounded transform translate-y-2 disabled:opacity-50 shadow-xl"
-            style={{ backgroundColor: "#ef5350" }}
+            className="w-48 p-2 rounded transform translate-y-2 disabled:opacity-50 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
             disabled={!isLong ? true : false}
           >
             valider

@@ -6,7 +6,7 @@ const ImgUploadModal = ({ imgInputModalOpen, toggleImgInput }) => {
   return (
     <div
       style={{ opacity: imgInputModalOpen ? 1 : 0, zIndex: imgInputModalOpen ? 10 : -1 }}
-      className="absolute w-full h-2/3 inset-0 my-auto flex flex-col items-center justify-center bg-black text-white transition-opacity duration-300 overflow-y-auto"
+      className="absolute w-1/2 h-1/2 top-36 mx-auto flex flex-col items-center justify-center bg-black text-white transition-opacity duration-300 overflow-y-auto"
     >
       <span className="text-sm uppercase">ajouter une image</span>
       <ImgUploader toggleImgInput={toggleImgInput} />
