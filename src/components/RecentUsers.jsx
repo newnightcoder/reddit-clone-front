@@ -15,8 +15,8 @@ const RecentUsers = () => {
   }, [users]);
 
   return (
-    <div className="w-full h-max flex flex-col border border-gray-300 rounded">
-      <div className="header h-24 w-full bg-blue-900 rounded-tl rounded-tr relative">
+    <div className="w-full h-max flex flex-col rounded">
+      <div className="header h-24 w-full bg-blue-400 rounded-tl rounded-tr relative">
         <span className="w-full text-center absolute bottom-0 mb-2 text-white text-lg font-bold">Nouveaux membres</span>
       </div>
       <div className="list w-full h-max flex flex-col items-center justify-center rounded-bl rounded-br bg-white pb-12">

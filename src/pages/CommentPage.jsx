@@ -71,7 +71,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
 
   return (
     <div
-      className="page-container min-h-screen w-full bg-gray-200 flex items-start justify-center relative space-x-8 py-8 overflow-x-hidden"
+      className="page-container min-h-screen w-full flex items-start justify-center relative space-x-8 py-8 overflow-x-hidden"
       // style={{ background: "#dae0e6" }}
     >
       <div className="w-10/12 md:w-1/2 max-w-3xl flex flex-col items-center justify-center relative">

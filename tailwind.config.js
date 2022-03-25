@@ -46,7 +46,7 @@ module.exports = {
     },
   },
   variants: {
-    backgroundColor: ["responsive", "hover", "focus", "active"],
+    backgroundColor: ["responsive", "hover", "focus", "active", "dark"],
     extend: {
       opacity: ["disabled"],
       cursor: ["hover"],

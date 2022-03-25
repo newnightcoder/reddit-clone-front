@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { ThreeDots } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
 import { logo, phonesImg } from "../assets";
-import { Settings } from "../components";
 import { persistor } from "../store/storeConfig";
 import useLanguage from "../utils/hooks/useLanguage";
 import useToggleSettings from "../utils/hooks/useToggleSettings";
@@ -32,7 +31,7 @@ const Homepage = () => {
       >
         <ThreeDots />
       </button>
-      <Settings setLanguage={setLanguage} userLangData={userLangData} settingsOpen={settingsOpen} />
+      {/* <Settings setLanguage={setLanguage} userLangData={userLangData} settingsOpen={settingsOpen} /> */}
       <div className="h-full w-full flex items-center justify-center">
         <div className="hidden h-full w-1/2 md:flex items-center justify-center lg:justify-end">
           <img src={phonesImg} alt="mobile phones" className="w-3/5 transform translate-y-10" />

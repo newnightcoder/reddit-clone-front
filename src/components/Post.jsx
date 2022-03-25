@@ -38,7 +38,7 @@ const Post = ({ post }) => {
 
   return (
     <div
-      className="post-container scale-0 h-max w-11/12 md:w-full max-w-5xl relative rounded-md flex-col items-center justify-center bg-white border border-gray-300 transition transition-border-color transition-transform duration-300 hover:border-gray-500 pt-2"
+      className="post-container scale-0 h-max w-11/12 md:w-full max-w-3xl relative rounded-md flex-col items-center justify-center bg-white border border-gray-300 transition transition-border-color transition-transform duration-300 hover:border-gray-500 pt-2"
       style={{
         transform: isDeleted && "scale(0)",
         display: postIsGone && "none",

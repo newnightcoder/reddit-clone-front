@@ -15,8 +15,6 @@ const Settings = ({ userLangData, setLanguage, settingsOpen }) => {
   const [langOptions, setLangOptions] = useState([]);
   const [allModeOptions, setAllModeOptions] = useState([]);
 
-  // const { settingsOpen } = useToggleSettings();
-
   const getLangOptions = useCallback(() => {
     const options = [];
     for (const lang of Object.entries(language)) {
@@ -52,10 +50,10 @@ const Settings = ({ userLangData, setLanguage, settingsOpen }) => {
 
   return (
     <div
-      className="hidden w-52 absolute top-14 right-8 bg-white py-3 rounded-lg shadow-xl z-50"
-      style={settingsOpen ? { display: "block" } : null}
+      className="w-52 h-max absolute top-32 left-1 bg-white py-3 rounded-lg shadow-xl z-30 transform translate-x-20 lg:translate-x-full dark:bg-gray-500"
+      style={settingsOpen ? { display: "inline-block" } : { display: "none" }}
     >
-      <div className="w-full">
+      <div>
         <button
           className="w-full flex items-center justify-between py-2 px-2 space-x-1 transition duration-300 hover:bg-gray-100"
           onClick={() => toggleOption(lang)}

@@ -16,7 +16,7 @@ const PostForm = ({
 
   return (
     <form
-      className="h-max w-full flex flex-col items-center justify-center bg-white rounded py-6 px-8"
+      className="h-max w-full flex flex-col items-center justify-center bg-white border rounded py-6 px-4"
       method="post"
       onSubmit={handlePostSubmit}
     >

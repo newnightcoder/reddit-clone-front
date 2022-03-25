@@ -1,6 +1,7 @@
 import { CheckIcon, ChevronLeftIcon } from "@heroicons/react/solid";
 import React, { useState } from "react";
 import language from "../languages";
+import useDarkMode from "../utils/hooks/useDarkMode";
 
 const SettingsOptions = ({
   isOpen,
@@ -24,7 +25,7 @@ const SettingsOptions = ({
       setActiveBtn(id);
     }
   };
-
+  const [theme, toggleMode] = useDarkMode();
   const saveModeInCurrentLang = (lang) => {
     if (savedMode) {
       switch (lang) {
@@ -49,7 +50,7 @@ const SettingsOptions = ({
 
   return (
     <div
-      className="z-50 w-full px-2 pb-2 absolute top-0 left-0 flex-col items-start justify-start bg-white rounded-lg shadow-xl"
+      className="z-40 w-52 px-2 pb-2 absolute top-0 left-0 flex-col items-start justify-start bg-white rounded-lg shadow-xl dark:bg-gray-500"
       style={isOpen ? { display: "flex" } : { display: "none" }}
     >
       <button
@@ -69,7 +70,7 @@ const SettingsOptions = ({
           isActive === "langue" || isActive === "language" || isActive === "sprache" ? { display: "block" } : { display: "none" }
         }
       >
-        <p className="w-full text-sm px-1 py-3 italic">{subtitleLang}</p>
+        <p className="w-full text-sm px-1 py-3 italic whitespace-normal">{subtitleLang}</p>
         <div className="h-min pt-4 pb-6 w-full flex flex-col items-start justify-start space-y-2">
           {langOptions.map((langOpt, i) => (
             <button
@@ -98,15 +99,15 @@ const SettingsOptions = ({
             : { display: "none" }
         }
       >
-        <p className="text-sm px-1 py-3 italic">{subtitleMode}</p>
+        <p className="text-sm px-1 py-3 italic whitespace-normal">{subtitleMode}</p>
         <div className="h-min pt-4 pb-6 w-full flex flex-col items-start justify-start space-y-2">
           {modeOptions.map((mode, i) => (
             <button
               key={i + 1}
               id={mode}
               onClick={(e) => {
-                setMode(mode);
-                activateBtn(e, mode);
+                savedMode !== mode && toggleMode();
+                activateBtn(e, savedMode);
               }}
               className="w-full flex items-center justify-between py-2 px-2 space-x-1 capitalize transition duration-300 hover:bg-gray-100 outline-none"
               style={savedMode === mode ? { color: "white", fontWeight: "bold", backgroundColor: "rgb(96 165 250)" } : null}

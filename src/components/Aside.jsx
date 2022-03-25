@@ -6,7 +6,7 @@ const Aside = () => {
   const location = useLocation();
 
   return (
-    <div className="hidden w-72 h-max grow shrink basis-auto lg:flex flex-col items-center justify-start gap-2">
+    <div className="hidden mt-24 w-72 h-max lg:flex flex-col items-center justify-start gap-2">
       {location.pathname === "/feed" ? (
         <>
           <RecentUsers />
@@ -23,7 +23,7 @@ const Aside = () => {
               Forum et bien prendre en compte
               <span className="text-blue-400 underline hover:cursor-pointer">l'esprit Forum</span>.
             </div>
-            <FooterAside />
+            {/* <FooterAside /> */}
           </>
         )
       )}

@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, MenuIcon, SearchIcon } from "@heroicons/react/solid";
+import { MenuIcon, SearchIcon } from "@heroicons/react/solid";
 import React from "react";
 import { Power } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,33 +16,16 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
   const linkToProfile = useLinkToProfile();
 
   return (
-    <div className="h-16 w-full relative z-50">
-      <div className="fixed h-16 w-full  pl-2 pr-4 flex items-center justify-evenly  gap-1 md:gap-2 text-white shadow-md bg-gray-100">
-        {location.pathname.includes("comments") || location.pathname.includes("profile") ? (
-          <div className="h-full lg:w-3/12 flex items-center justify-evenly ">
-            <Link
-              to={"/feed"}
-              className="h-12 w-12 flex items-center justify-center text-black p-2 rounded-full"
-              style={{ backgroundColor: "#ef5350" }}
-              disabled={false}
-            >
-              <ArrowLeftIcon />
-            </Link>
-            {width > 1024 && (
-              <Link to={"/"} className="uppercase">
-                <img src={logo} style={{ width: 200 }} />
-              </Link>
-            )}
-          </div>
-        ) : (
-          <Link
-            to="/"
-            className=" h-5/6 w-max flex items-center justify-center ml-3 mr-2"
-            style={{ transform: "translateY(-6px)" }}
-          >
-            <img src={logo} className="h-full" />
-          </Link>
-        )}
+    <div className="h-16 w-full fixed top-0 z-50">
+      <div className=" h-full w-full  pl-2 pr-4 flex items-center justify-evenly  gap-1 md:gap-2 text-white shadow-md bg-gray-100">
+        <Link
+          to="/"
+          className=" h-5/6 w-max flex items-center justify-center ml-3 mr-2"
+          style={{ transform: "translateY(-6px)" }}
+        >
+          <img src={logo} className="h-full" />
+        </Link>
+
         <form className="w-2/3  max-w-xl 2xl:max-w-5xl flex items-center justify-center rounded-l-full" action="">
           <input
             className="h-10 w-full rounded-l-full outline-none pl-3 pr-2 text-black text-sm lg:text-md border-t border-b border-l border-gray-200 hover:border-gray-400"

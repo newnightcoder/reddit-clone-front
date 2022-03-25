@@ -3,7 +3,8 @@ import React, { useCallback, useState } from "react";
 // import ContentEditable from "react-contenteditable";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
-import { Aside, PostForm } from "../components";
+import { PostForm } from "../components";
+import Layout from "../components/ Layout";
 import ImgUploadModal from "../components/createPostModals/ImgUploadModal";
 import UrlModal from "../components/createPostModals/UrlModal";
 import YoutubeLinkModal from "../components/createPostModals/YoutubeLinkModal";
@@ -77,32 +78,33 @@ const CreatePost = () => {
       {!isAuthenticated ? (
         <Redirect to={{ pathname: "/" }} />
       ) : (
-        <div className="w-full flex flex-col items-center justify-center py-8" style={{ minHeight: "calc(100vh - 4rem)" }}>
-          {/* <h1 className="w-full text-left py-2 text-xl pl-48">Publier un post</h1> */}
-          <div className="w-full h-full flex items-start justify-center space-x-8">
-            <div className="h-max w-10/12 md:w-1/2 max-w-3xl flex flex-col items-center justify-center">
-              <div
-                className="error h-12 w-10/12 md:w-1/2 xl:w-1/3 whitespace-pre bg-black text-white text-sm text-center py-1 rounded"
-                style={{ display: emptyTitle ? "block" : "none" }}
-              >
-                {emptyTitle && emptyTitleError}
-                {serverError.length !== 0 && serverErrorMsg}
+        <Layout>
+          <div className="w-full flex flex-col items-center justify-center pt-24" style={{ height: "calc(100vh - 5rem)" }}>
+            {/* <h1 className="w-full text-left py-2 text-xl pl-48">Publier un post</h1> */}
+            <div className="w-full h-full flex items-start justify-center space-x-8">
+              <div className="h-max w-10/12 max-w-3xl flex flex-col items-center justify-center">
+                <div
+                  className="error h-12 w-10/12 md:w-1/2 xl:w-1/3 whitespace-pre bg-black text-white text-sm text-center py-1 rounded"
+                  style={{ display: emptyTitle ? "block" : "none" }}
+                >
+                  {emptyTitle && emptyTitleError}
+                  {serverError.length !== 0 && serverErrorMsg}
+                </div>
+                <PostForm
+                  handlePostSubmit={handlePostSubmit}
+                  handleTitleInput={handleTitleInput}
+                  toggleImgInput={toggleImgInput}
+                  toggleUrlInput={toggleUrlInput}
+                  toggleYoutubeInput={toggleYoutubeInput}
+                  handlePostInput={handlePostInput}
+                />
               </div>
-              <PostForm
-                handlePostSubmit={handlePostSubmit}
-                handleTitleInput={handleTitleInput}
-                toggleImgInput={toggleImgInput}
-                toggleUrlInput={toggleUrlInput}
-                toggleYoutubeInput={toggleYoutubeInput}
-                handlePostInput={handlePostInput}
-              />
             </div>
-            <Aside />
+            <ImgUploadModal imgInputModalOpen={imgInputModalOpen} toggleImgInput={toggleImgInput} />
+            <UrlModal urlModalOpen={urlModalOpen} toggleUrlInput={toggleUrlInput} />
+            <YoutubeLinkModal youtubeModalOpen={youtubeModalOpen} toggleYoutubeInput={toggleYoutubeInput} />
           </div>
-          <ImgUploadModal imgInputModalOpen={imgInputModalOpen} toggleImgInput={toggleImgInput} />
-          <UrlModal urlModalOpen={urlModalOpen} toggleUrlInput={toggleUrlInput} />
-          <YoutubeLinkModal youtubeModalOpen={youtubeModalOpen} toggleYoutubeInput={toggleYoutubeInput} />
-        </div>
+        </Layout>
       )}
     </>
   );

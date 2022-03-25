@@ -12,7 +12,7 @@ const ModsContainer = () => {
   }, [users]);
 
   return (
-    <div className="w-full h-max flex flex-col border border-gray-300 rounded">
+    <div className="w-full h-max flex flex-col rounded">
       <div className="header h-24 w-full bg-gray-500 rounded-tl rounded-tr relative">
         <span className="w-full text-center absolute bottom-0 mb-2 text-white text-lg font-bold">Modérateur(s)</span>
       </div>

@@ -2,7 +2,7 @@ import React from "react";
 
 const Rules = () => {
   return (
-    <div className="h-max w-full flex flex-col rounded">
+    <div className="h-max w-72 flex flex-col rounded">
       <div className="header h-24 w-full bg-blue-400 rounded-tl rounded-tr relative">
         <span className="w-full text-center absolute bottom-0 mb-2 text-white text-lg font-bold">Règles du Forum</span>
       </div>
