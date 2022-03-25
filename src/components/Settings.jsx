@@ -2,6 +2,7 @@ import { ChevronRightIcon, TranslateIcon } from "@heroicons/react/solid";
 import React, { useCallback, useEffect, useState } from "react";
 import { LifePreserver, ToggleOn } from "react-bootstrap-icons";
 import language from "../languages";
+import { useWindowSize } from "../utils/hooks";
 import SettingsOptions from "./SettingsOptions";
 
 const Settings = ({ userLangData, setLanguage, settingsOpen }) => {
@@ -14,6 +15,7 @@ const Settings = ({ userLangData, setLanguage, settingsOpen }) => {
   const modeOptions = [dark, light];
   const [langOptions, setLangOptions] = useState([]);
   const [allModeOptions, setAllModeOptions] = useState([]);
+  const { height, width } = useWindowSize();
 
   const getLangOptions = useCallback(() => {
     const options = [];
@@ -50,8 +52,12 @@ const Settings = ({ userLangData, setLanguage, settingsOpen }) => {
 
   return (
     <div
-      className="w-52 h-max absolute top-32 left-1 bg-white py-3 rounded-lg shadow-xl z-30 transform translate-x-20 lg:translate-x-full dark:bg-gray-500"
-      style={settingsOpen ? { display: "inline-block" } : { display: "none" }}
+      className="w-52 h-max absolute top-32 left-1 bg-white py-3 rounded-lg shadow-xl z-30 transform  dark:bg-gray-500"
+      style={
+        settingsOpen
+          ? { display: "inline-block", transform: width > 1024 ? "translateX(14rem)" : "translateX(4.5rem)" }
+          : { display: "none" }
+      }
     >
       <div>
         <button

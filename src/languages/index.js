@@ -32,6 +32,18 @@ const language = {
       first: "First time on FORUM",
       registerBtn: "register",
     },
+    navbarDesktop: {
+      publish: "Write a post",
+      profile: "My profile",
+      settings: "Settings",
+      logout: "Log out",
+    },
+    feed: {
+      greetingVisitor1: "Welcome to Forum",
+      greetingVisitor2: "Share and discuss with the community.",
+      greetingUser: "Happy to see you again",
+      refreshBtn: "refresh",
+    },
   },
 
   /////////////////
@@ -67,6 +79,18 @@ const language = {
       first: "Première fois sur FORUM",
       registerBtn: "s'inscrire",
     },
+    navbarDesktop: {
+      publish: "Publier un Post",
+      profile: "Mon profil",
+      settings: "Paramètres",
+      logout: "Déconnexion",
+    },
+    feed: {
+      greetingVisitor1: "Bienvenue sur Forum",
+      greetingVisitor2: "Echangez et discutez avec la communauté.",
+      greetingUser: "Content de vous revoir",
+      refreshBtn: "rafraîchir",
+    },
   },
 
   ////////////////
@@ -101,6 +125,18 @@ const language = {
       enter: "bestätigen",
       first: "Zum ersten Mal auf FORUM",
       registerBtn: "registrieren",
+    },
+    navbarDesktop: {
+      publish: "Post schreiben",
+      profile: "Mein Profil",
+      settings: "Einstellungen",
+      logout: "Abmeldung",
+    },
+    feed: {
+      greetingVisitor1: "Wilkommen im Forum",
+      greetingVisitor2: "Teile und diskutiere mit der Community",
+      greetingUser: "Schön dich wiederzusehen",
+      refreshBtn: "aktualisieren",
     },
   },
 };

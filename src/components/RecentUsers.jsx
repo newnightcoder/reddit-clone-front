@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { UserCard } from ".";
+import { useLanguage } from "../utils/hooks";
 
 const RecentUsers = () => {
   const users = useSelector((state) => state?.posts.users);
@@ -9,6 +10,7 @@ const RecentUsers = () => {
     if (a.id > b.id) return -1;
     if (a.id < b.id) return 1;
   });
+  const [userLangData] = useLanguage();
 
   useEffect(() => {
     setLastFiveUsers(sortedUsers?.splice(0, 5));
@@ -17,7 +19,9 @@ const RecentUsers = () => {
   return (
     <div className="w-full h-max flex flex-col rounded">
       <div className="header h-24 w-full bg-blue-400 rounded-tl rounded-tr relative">
-        <span className="w-full text-center absolute bottom-0 mb-2 text-white text-lg font-bold">Nouveaux membres</span>
+        <span className="w-full text-center absolute bottom-0 mb-2 text-white text-lg font-bold">
+          {userLangData.feed.refreshBtn}
+        </span>
       </div>
       <div className="list w-full h-max flex flex-col items-center justify-center rounded-bl rounded-br bg-white pb-12">
         <>

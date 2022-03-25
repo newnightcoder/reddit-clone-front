@@ -6,8 +6,7 @@ import { Post, PostSkeleton } from "../components";
 import Layout from "../components/ Layout";
 import { clearTempPostImg, getPosts, getUsers } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
-import useDarkMode from "../utils/hooks/useDarkMode";
-import useToggleSettings from "../utils/hooks/useToggleSettings";
+import { useLanguage } from "../utils/hooks";
 
 const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
   const [newUser, setNewUser] = useState(false);
@@ -15,7 +14,7 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
   const { isAuthenticated, isNewUser } = useSelector((state) => state.user);
   const posts = useSelector((state) => state.posts.posts);
   const dispatch = useDispatch();
-  const toggleSettings = useToggleSettings();
+  const [userLangData] = useLanguage();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -31,21 +30,19 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
     dispatch(getUsers());
   }, []);
 
-  const [theme, toggleMode] = useDarkMode();
-
   return (
     <Layout>
-      <div className="feed-container h-full w-full flex flex-col items-center justify-start gap-2 transition duration-500 relative pt-4">
+      <div className="feed-container h-full w-full shrink flex flex-col items-center justify-start gap-2 transition duration-500 relative pt-4">
         <div className="h-6 bienvenueMsg-newcomer text-center whitespace-pre mb-2">
           {newUser === true ? (
             <span className="font-bold">
-              Bienvenue <span className="capitalize">{user.username}!</span>
+              {userLangData.feed.greetingVisitor1} <span className="capitalize">{user.username}!</span>
               <br />
-              Échangez entre collègues.
+              {userLangData.feed.greetingVisitor2}
             </span>
           ) : newUser === false ? (
             <span className="font-bold">
-              Content de vous revoir&nbsp;
+              {userLangData.feed.greetingUser}&nbsp;
               <span className="capitalize">{user.username}!</span>
             </span>
           ) : null}
@@ -57,7 +54,7 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
             style={{ opacity: posts && posts.length !== 0 ? 1 : 0 }}
           >
             <RefreshIcon className="h-4 w-4 pointer-events-auto transform transition-transform duration-500 group-hover:-rotate-180" />
-            <span className="text-xs pointer-events-auto">rafraîchir</span>
+            <span className="text-xs pointer-events-auto capitalize">{userLangData.feed.refreshBtn}</span>
           </button>
           <div className="posts-aside-container w-full md:w-11/12 max-w-7xl flex items-start justify-center md:gap-8">
             <div className="posts-section-container w-full flex flex-col items-center justify-center pb-20 relative">
@@ -78,7 +75,6 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
                 )}
               </div>
             </div>
-            {/* <Aside /> */}
           </div>
         </div>
         <div className="createpost-link-bottom md:hidden w-full fixed bottom-0 left-0 flex flex-col items-center justify-center mt-1 md:mt-2 md:mb-4 md:px-6 bg-gray-300 md:bg-white border-t border-gray-600 md:border-t-0 md:rounded md:shadow z-10">
