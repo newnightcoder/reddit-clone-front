@@ -10,10 +10,12 @@
 
 # development
 .prettierrc
+.babelrc
 
 
 # production
 /build
+language.json
 
 # misc
 .DS_Store
