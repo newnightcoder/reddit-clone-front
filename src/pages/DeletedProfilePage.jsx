@@ -8,7 +8,7 @@ import { history } from "../utils/helpers";
 const DeletedProfile = () => {
   const location = useLocation();
   const isAdmin = location?.state?.admin;
-  const isAuthenticated = useSelector((state) => state?.user.loginSuccess);
+  const isAuthenticated = useSelector((state) => state?.user.isAuthenticated);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const DeletedProfile = () => {
             {!isAdmin ? (
               <>
                 Votre compte a bien été supprimé! <br /> Vous allez nous manquer. <br />
-                Nous espérons vous revoir bientôt sur Groupomania!
+                Nous espérons vous revoir bientôt sur Forum!
               </>
             ) : (
               <>Le compte de l'utilisateur a été supprimé de l'application avec succès.</>

@@ -1,5 +1,5 @@
 import { ChevronDoubleRightIcon, TrashIcon, UserCircleIcon } from "@heroicons/react/solid";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import { useLocation } from "react-router-dom";
@@ -7,6 +7,7 @@ import logo2 from "../assets/logo2.svg";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { DeleteModal, EditModal, Post } from "../components";
 import Layout from "../components/ Layout";
+import { getUserPosts } from "../store/actions/posts.action";
 import { deleteUser, saveUserPic } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
 import { formatTimestamp } from "../utils/helpers/formatTime";
@@ -25,6 +26,10 @@ const Profile = () => {
   const location = useLocation();
   const { profileId } = location?.state;
   const userData = useGetProfile(profileId);
+
+  useEffect(() => {
+    dispatch(getUserPosts(profileId));
+  }, [profileId]);
 
   const profilePostsTitle = (
     <>
@@ -63,7 +68,7 @@ const Profile = () => {
       ) : (
         <Layout>
           <div
-            className="page-container w-full pt-12 flex flex-col items-center justify-start gap-2 rounded-tr rounded-br transition transition-transform duration-300"
+            className="page-container w-full py-12 flex flex-col items-center justify-start gap-2 rounded-tr rounded-br transition transition-transform duration-300"
             style={{ minHeight: "calc(100vh - 5rem)" }}
           >
             {/* {userData?.username === username && <h1 className="w-9/12 text-left text-xl text-gray-700 underline">Mon profil</h1>} */}
@@ -106,7 +111,7 @@ const Profile = () => {
                   onSubmit={handleImgSubmit}
                 >
                   <label
-                    className="button-changer-choisir w-48 text-center text-white text-sm p-2 rounded shadow-xl hover:cursor-pointer"
+                    className="button-changer-choisir w-48 text-center text-white text-sm p-2 rounded-full shadow-xl hover:cursor-pointer"
                     style={{ backgroundColor: "#ef5350" }}
                     htmlFor="file"
                   >
@@ -161,7 +166,7 @@ const Profile = () => {
                 <ul className="h-max w-11/12 xl:w-3/4 2xl:w-2/3 flex items-start justify-center gap-3 md:justify-evenly pt-10 md:pt-0 pl-4 mb-4 text-sm text-gray-900">
                   <li>
                     <button
-                      className="h-10 w-max px-3 py-1 flex items-center justify-center gap-1 hover:underline hover:drop-shadow hover:bg-gray-700 text-gray-700 hover:text-white transition duration-200 rounded "
+                      className="h-10 w-max px-3 py-1 flex items-center justify-center gap-1 hover:drop-shadow hover:bg-gray-700 text-gray-700 hover:text-white transition duration-200 rounded-full"
                       // onClick={toggleEditModal}
                     >
                       <UserCircleIcon className="h-8" /> Modifier mon pseudo
@@ -170,7 +175,7 @@ const Profile = () => {
 
                   <li>
                     <button
-                      className="h-10 w-max px-3 py-1 flex items-center justify-center gap-1 hover:underline hover:drop-shadow hover:bg-red-600 text-gray-700 hover:text-white hover:font-bold transition duration-300 rounded text-sm"
+                      className="h-10 w-max px-3 py-1 flex items-center justify-center gap-1 hover:drop-shadow hover:bg-red-600 text-gray-700 hover:text-white hover:font-bold transition duration-300 rounded-full text-sm"
                       onClick={() => setOpenModal(true)}
                     >
                       <TrashIcon className="h-8" />
@@ -183,7 +188,7 @@ const Profile = () => {
             <div className="w-10/12 pl-4">
               {role === "admin" && userData.id !== id && (
                 <button
-                  className="flex items-center justify-center gap-1 text-md hover:underline hover:drop-shadow"
+                  className="flex items-center justify-center gap-1 text-md rounded-full hover:drop-shadow"
                   onClick={() => setOpenModal(true)}
                 >
                   <TrashIcon className="h-8 text-gray-700" />
@@ -203,7 +208,7 @@ const Profile = () => {
               <h2 className="uppercase font-bold">
                 {userData?.id !== id ? <>{profilePostsTitle}</> : `Mes posts (${posts.length})`}
               </h2>
-              <div className="w-full md:w-1/2 2xl:w-1/3 flex flex-col items-center justify-center gap-3 pt-4">
+              <div className="w-full md:w-2/3 2xl:w-1/3 flex flex-col items-center justify-center gap-3 pt-4">
                 {posts.map((post) => (
                   <Post key={post.postId} post={post} />
                 ))}

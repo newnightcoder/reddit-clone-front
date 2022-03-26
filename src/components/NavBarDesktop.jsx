@@ -2,6 +2,7 @@ import { HomeIcon, PencilIcon, UserIcon } from "@heroicons/react/solid";
 import React from "react";
 import { GearFill, Power } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { useLanguage, useLinkToProfile, useWindowSize } from "../utils/hooks";
 import Settings from "./Settings";
@@ -11,6 +12,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
   const linkToProfile = useLinkToProfile(id, username);
   const [userLangData, setLanguage] = useLanguage();
   const { height, width } = useWindowSize();
+  const { pathname } = useLocation();
 
   return (
     <div
@@ -18,8 +20,9 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
       className="hidden md:flex h-min z-30 mt-24 sticky top-20 flex-col items-center justify-center space-y-4 px-4 lg:pt-6 pb-4 whitespace-nowrap rounded-lg lg:bg-white lg:dark:bg-gray-500 lg:shadow-sm "
     >
       <Link
+        style={pathname === "/feed" ? { backgroundColor: "rgb(96 165 250)", color: "white" } : null}
         to={"/feed"}
-        className="h-16 w-16 lg:h-10 lg:w-full space-x-1 font-bold flex items-center justify-center lg:justify-start p-2 rounded-full transition duration-300 bg-white dark:bg-gray-500 lg:bg-transparent  lg:dark:bg-transparent hover:bg-blue-200"
+        className="h-16 w-16 lg:h-10 lg:w-full space-x-1 font-bold flex items-center justify-center lg:justify-start p-2 rounded-full transition duration-300 bg-white dark:bg-gray-500 lg:bg-transparent  lg:dark:bg-transparent hover:bg-blue-100"
         // style={{ backgroundColor: "#ef5350" }}
         disabled={false}
       >
@@ -29,7 +32,8 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
 
       <Link
         to="/create"
-        className="w-16 h-16 lg:w-full lg:h-10 flex items-center justify-center lg:justify-start lg:pl-1 lg:pr-4 rounded-full transition duration-300 bg-white dark:bg-gray-500 lg:bg-transparent lg:dark:bg-transparent hover:bg-blue-200"
+        style={pathname === "/create" ? { backgroundColor: "rgb(96 165 250)", color: "white" } : null}
+        className="w-16 h-16 lg:w-full lg:h-10 flex items-center justify-center lg:justify-start lg:pl-1 lg:pr-4 rounded-full transition duration-300 bg-white dark:bg-gray-500 lg:bg-transparent lg:dark:bg-transparent hover:bg-blue-100"
       >
         <div className="w-16 h-16 lg:w-10 lg:h-10 rounded-full relative flex items-center justify-center">
           <span className="inline-block absolute top-0 left-0 transform translate-x-4 translate-y-2 lg:translate-x-2 lg:translate-y-0">
@@ -40,7 +44,12 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
         <span className="hidden lg:inline-block font-bold">{userLangData.navbarDesktop.publish}</span>
       </Link>
       <button
-        className="lg:w-full outline-none ring-none flex items-center justify-center rounded-full lg:justify-start space-x-1 lg:pl-2 lg:pr-4 rounded-full bg-white lg:bg-transparent lg:dark:bg-transparent dark:bg-gray-500 transition duration-300 hover:bg-blue-200 "
+        style={
+          pathname.includes("/profile") && pathname.includes(username)
+            ? { backgroundColor: "rgb(96 165 250)", color: "white" }
+            : null
+        }
+        className="lg:w-full outline-none ring-none flex items-center justify-center rounded-full lg:justify-start space-x-1 lg:pl-2 lg:pr-4 rounded-full bg-white lg:bg-transparent lg:dark:bg-transparent dark:bg-gray-500 transition duration-300 hover:bg-blue-100"
         onClick={linkToProfile}
       >
         <div className="w-10 h-10 lg:w-max  lg:border-0 rounded-full relative flex items-center justify-center">
@@ -49,7 +58,8 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
         <span className="hidden lg:inline-block font-bold">{userLangData.navbarDesktop.profile}</span>
       </button>
       <button
-        className="lg:w-full outline-none ring-none flex items-center justify-center rounded-full lg:justify-start space-x-2 lg:pl-2 lg:pr-4 rounded-full bg-white lg:bg-transparent lg:dark:bg-transparent dark:bg-gray-500 transition duration-300 hover:bg-blue-200"
+        style={settingsOpen ? { backgroundColor: "rgb(96 165 250)", color: "white" } : null}
+        className="lg:w-full outline-none ring-none flex items-center justify-center rounded-full lg:justify-start space-x-2 lg:pl-2 lg:pr-4 rounded-full bg-white lg:bg-transparent lg:dark:bg-transparent dark:bg-gray-500 transition duration-300 hover:bg-blue-100"
         onClick={toggleSettings}
       >
         <div className="w-10 h-10 lg:w-max  lg:border-0 rounded-full relative flex items-center justify-center">
@@ -58,7 +68,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
         <span className="hidden lg:inline-block font-bold">{userLangData.navbarDesktop.settings}</span>
       </button>
       <Link
-        className="lg:w-full flex items-center justify-center rounded-full lg:justify-start space-x-1 lg:pl-2 lg:pr-4 rounded-full bg-white lg:bg-transparent lg:dark:bg-transparent dark:bg-gray-500 transition duration-300 hover:bg-blue-200"
+        className="lg:w-full flex items-center justify-center rounded-full lg:justify-start space-x-1 lg:pl-2 lg:pr-4 rounded-full bg-white lg:bg-transparent lg:dark:bg-transparent dark:bg-gray-500 transition duration-300 hover:bg-blue-100"
         to="/"
       >
         <div className="w-10 h-10 lg:w-max  lg:border-0 rounded-full relative flex items-center justify-center">

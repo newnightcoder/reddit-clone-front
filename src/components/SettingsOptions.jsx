@@ -26,6 +26,7 @@ const SettingsOptions = ({
     }
   };
   const [theme, toggleMode] = useDarkMode();
+
   const saveModeInCurrentLang = (lang) => {
     if (savedMode) {
       switch (lang) {
@@ -79,7 +80,7 @@ const SettingsOptions = ({
               onClick={(e) => {
                 setLanguage(langOpt);
                 saveModeInCurrentLang(langOpt);
-                activateBtn(e, langOpt);
+                // activateBtn(e, langOpt);
               }}
               className="w-full rounded flex items-center justify-between py-2 px-2 space-x-1 capitalize transition duration-300 hover:bg-gray-100"
               style={
@@ -107,7 +108,7 @@ const SettingsOptions = ({
               id={mode}
               onClick={(e) => {
                 savedMode !== mode && toggleMode();
-                activateBtn(e, savedMode);
+                // activateBtn(e, savedMode);
               }}
               className="w-full flex items-center justify-between py-2 px-2 space-x-1 capitalize transition duration-300 hover:bg-gray-100 outline-none"
               style={savedMode === mode ? { color: "white", fontWeight: "bold", backgroundColor: "rgb(96 165 250)" } : null}

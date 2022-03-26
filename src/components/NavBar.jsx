@@ -13,10 +13,10 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
   const { height, width } = useWindowSize();
   const { isAuthenticated, picUrl, username, id } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const linkToProfile = useLinkToProfile();
+  const linkToProfile = useLinkToProfile(id, username);
 
   return (
-    <div className="h-16 w-full fixed top-0 z-50">
+    <div className="h-16 w-full fixed top-0 z-50 overflow-hidden">
       <div className=" h-full w-full  pl-2 pr-4 flex items-center justify-evenly  gap-1 md:gap-2 text-white shadow-md bg-gray-100">
         <Link
           to="/"

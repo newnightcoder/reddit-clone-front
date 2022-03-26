@@ -1,5 +1,5 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
-import { ContentState, convertToRaw, Editor, EditorState } from "draft-js";
+import { ContentState, convertToRaw, EditorState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import React, { useEffect, useState } from "react";
 import { Image, TypeBold, TypeItalic, TypeUnderline, XLg, Youtube } from "react-bootstrap-icons";
@@ -22,6 +22,11 @@ const EditPage = () => {
   const [commentToEdit] = comments.filter((comment) => comment.commentId === commentId);
   const [replyToEdit] = replies.filter((reply) => reply.replyId === replyId);
   const [title, setTitle] = useState(postToEdit && postToEdit.title);
+  const [emptyTitle, setEmptyTitle] = useState(false);
+  const [serverErrorMsg, setServerErrorMsg] = useState("");
+  const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
+  const isAuthenticated = useSelector((state) => state?.user.isAuthenticated);
+  const dispatch = useDispatch();
   const [editorState, setEditorState] = useState(
     postToEdit && !postToEdit.text
       ? () => EditorState.createEmpty()
@@ -34,11 +39,6 @@ const EditPage = () => {
   );
 
   const text = convertToRaw(editorState.getCurrentContent()).blocks[0].text || undefined;
-  const [emptyTitle, setEmptyTitle] = useState(false);
-  const [serverErrorMsg, setServerErrorMsg] = useState("");
-  const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
-  const isAuthenticated = useSelector((state) => state?.user.loginSuccess);
-  const dispatch = useDispatch();
 
   console.log("post to edit", postId, "comment to edit", commentId, "reply to edit", replyId);
   console.log(postToEdit, commentToEdit, replyToEdit);
@@ -136,7 +136,9 @@ const EditPage = () => {
                   </div>
                 </div>
                 <div className="container max-w-full h-56 bg-gray-100 hover:bg-white active:bg-white focus:bg-white rounded-bl rounded-br overflow-y-auto p-2">
-                  <Editor editorState={editorState} onChange={setEditorState} />
+                  <div contentEditable={true} name="" id="">
+                    <img src={postToEdit.imgUrl} alt="" className="w-10/12" />
+                  </div>
                 </div>
               </div>
               <button

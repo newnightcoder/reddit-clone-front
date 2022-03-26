@@ -52,7 +52,7 @@ const Settings = ({ userLangData, setLanguage, settingsOpen }) => {
 
   return (
     <div
-      className="w-52 h-max absolute top-32 left-1 bg-white py-3 rounded-lg shadow-xl z-30 transform  dark:bg-gray-500"
+      className="w-52 h-max absolute top-36 lg:top-32 left-1 bg-white py-3 rounded-lg shadow-xl z-30 transform  dark:bg-gray-500"
       style={
         settingsOpen
           ? { display: "inline-block", transform: width > 1024 ? "translateX(14rem)" : "translateX(4.5rem)" }

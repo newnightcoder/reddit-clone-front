@@ -3,7 +3,8 @@ import { ChatRight, HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "re
 import { useDispatch, useSelector } from "react-redux";
 import { likePost, toComment } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
-const PostFooter = ({ post }) => {
+
+const PostFooter = ({ post, toggleOptions }) => {
   const { title, postId, text, imgUrl, date, username, picUrl, likesCount, commentCount, fk_userId_post } = post;
   const [commentsNumber, setcommentsNumber] = useState(commentCount);
   const [likesNumber, setLikesNumber] = useState(likesCount);
@@ -39,10 +40,6 @@ const PostFooter = ({ post }) => {
     updateLikesNumber();
     dispatch(likePost("post", userId, postId, like));
   });
-
-  const toggleOptions = () => {
-    return setOptionsOpen((optionsOpen) => !optionsOpen);
-  };
 
   useEffect(() => {
     allLikes.map((like) => {

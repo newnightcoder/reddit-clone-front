@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { DeleteModal, Options, PostFooter, PostHeader } from ".";
 import "../index.css";
 import { deletePost } from "../store/actions/posts.action";
-import { useLinkToProfile } from "../utils/hooks";
 
 const Post = ({ post }) => {
   const { title, postId, text, imgUrl, date, username, picUrl, likesCount, commentCount, fk_userId_post } = post;
@@ -19,7 +18,6 @@ const Post = ({ post }) => {
   const [openModal, setOpenModal] = useState(false);
   const [like, setLike] = useState(false);
   const dispatch = useDispatch();
-  const linkToProfile = useLinkToProfile();
   const toggleOptions = () => {
     return setOptionsOpen((optionsOpen) => !optionsOpen);
   };
@@ -53,7 +51,7 @@ const Post = ({ post }) => {
       <div className="h-full w-full flex items-center justify-center">
         {imgUrl !== null && <img src={imgUrl} className="w-11/12" />}
       </div>
-      <PostFooter post={post} />
+      <PostFooter post={post} toggleOptions={toggleOptions} />
       <Options
         postUserId={fk_userId_post}
         postId={postId}

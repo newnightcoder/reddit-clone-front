@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import language from "../../languages/index";
 
 const useLanguage = () => {
-  let langInStorage = localStorage.Lang;
+  let langInStorage = localStorage.getItem("Lang");
   const [userLang] = useState(langInStorage ? langInStorage : "français");
 
   // function to return lang data depending on langstr
@@ -13,7 +13,7 @@ const useLanguage = () => {
     if (langInStorage === "deutsch") return language.deutsch;
   };
 
-  const [userLangData, setUserLangData] = useState(handleLang(userLang));
+  const [userLangData, setUserLangData] = useState(() => handleLang(userLang));
 
   // set lang depending on option = set lang in storage / get that lang / setData to the lang retrieved
   const setLanguage = (lang) => {
@@ -38,9 +38,10 @@ const useLanguage = () => {
     }
   };
 
-  useEffect(() => {
-    setUserLangData(handleLang(langInStorage));
-  }, [handleLang]);
+  // useEffect(() => {
+  //   setUserLangData(handleLang(langInStorage));
+  //   console.log("langdata hook", userLangData);
+  // }, [userLangData, langInStorage]);
 
   return [userLangData, setLanguage];
 };

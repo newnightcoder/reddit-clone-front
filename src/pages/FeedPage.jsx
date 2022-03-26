@@ -14,6 +14,7 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
   const { isAuthenticated, isNewUser } = useSelector((state) => state.user);
   const posts = useSelector((state) => state.posts.posts);
   const dispatch = useDispatch();
+  let langInStorage = localStorage.getItem("Lang");
   const [userLangData] = useLanguage();
 
   useEffect(() => {
@@ -29,6 +30,11 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
     dispatch(getPosts());
     dispatch(getUsers());
   }, []);
+
+  useEffect(() => {
+    // let langInStorage = localStorage.Lang;
+    console.log("langdata feed", userLangData);
+  }, [langInStorage]);
 
   return (
     <Layout>
