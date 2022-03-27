@@ -31,7 +31,7 @@ const Settings = ({ userLangData, setLanguage, settingsOpen }) => {
       array.push(appearance[1].appearance.dark);
       array.push(appearance[1].appearance.light);
     }
-    console.log(array);
+    // console.log(array);
     setAllModeOptions(array);
   };
 

@@ -6,6 +6,8 @@ import storage from "redux-persist/lib/storage";
 import thunk from "redux-thunk";
 import { rootReducer } from "./reducers/root.reducer";
 
+const composeEnhancer = composeWithDevTools({ trace: true, traceLimit: 25 });
+
 const persistConfig = {
   key: "root",
   storage,
@@ -13,6 +15,6 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-const store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(thunk)));
+const store = createStore(persistedReducer, composeEnhancer(applyMiddleware(thunk)));
 const persistor = persistStore(store);
 export { store, persistor };

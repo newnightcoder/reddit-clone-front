@@ -1,5 +1,5 @@
 import "draft-js/dist/Draft.css";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 // import ContentEditable from "react-contenteditable";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
@@ -8,13 +8,16 @@ import Layout from "../components/ Layout";
 import ImgUploadModal from "../components/createPostModals/ImgUploadModal";
 import UrlModal from "../components/createPostModals/UrlModal";
 import YoutubeLinkModal from "../components/createPostModals/YoutubeLinkModal";
-import { createPost } from "../store/actions/posts.action";
+import { clearTempPostImg, createPost } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
 import { createDate } from "../utils/helpers/formatTime";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
   const [postText, setPostText] = useState("");
+  const postImg = useSelector((state) => state.posts.currentPost.imgUrl);
+  const postImgInTheDom = useRef(document.querySelector("#postImg"));
+  const [imgAdded, setImgAdded] = useState(false);
   const [emptyTitle, setEmptyTitle] = useState(false);
   const [imgInputModalOpen, setImgInputModalOpen] = useState(false);
   const [urlModalOpen, setUrlModalOpen] = useState(false);
@@ -22,9 +25,7 @@ const CreatePost = () => {
   const [serverErrorMsg, setServerErrorMsg] = useState("");
   const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
   const serverError = useSelector((state) => state.posts.error);
-  const userId = useSelector((state) => state.user.id);
-  const { isAuthenticated } = useSelector((state) => state.user);
-  const postImg = useSelector((state) => state.posts.currentPost.imgUrl);
+  const { isAuthenticated, id } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   const handleTitleInput = useCallback((e) => {
@@ -32,46 +33,57 @@ const CreatePost = () => {
     setEmptyTitle(false);
   });
 
-  const handlePostInput = (e) => {
+  const handlePostInput = useCallback((e) => {
     // postText.current = e.target.value;
-    console.log(e.currentTarget.innerHTML);
-    setPostText(e.currentTarget.textContent);
-  };
+    console.log("e.currentTarget", e.currentTarget);
+    if (e.currentTarget.innerHTML.includes("<img")) {
+      console.log("image in the dom");
+    } else {
+      console.log("no image in the dom!");
+      dispatch(clearTempPostImg());
+    }
+    // setPostText(e.currentTarget.textContent);
+  });
 
-  const handlePostSubmit = (e) => {
+  const handlePostSubmit = useCallback((e) => {
     e.preventDefault();
     if (title.length === 0) return setEmptyTitle(true);
     if (serverError.length !== 0) return setServerErrorMsg(serverError);
     setServerErrorMsg("");
-    dispatch(createPost(userId, title, postText, createDate(), postImg));
+
+    if (imgAdded && !postImgInTheDom) {
+      console.log("img added but nothing in the dom babe");
+      // dispatch(clearTempPostImg());
+    }
+    dispatch(createPost(id, title, postText, createDate(), postImg));
+    dispatch(clearTempPostImg());
     history.push({
       pathname: "/feed",
     });
-  };
+  });
 
-  const toggleImgInput = (e) => {
+  const toggleImgInput = useCallback((e) => {
     e.preventDefault();
     setUrlModalOpen(false);
     setYoutubeModalOpen(false);
     setImgInputModalOpen((prev) => !prev);
-    console.log("youtubeModalOpen toggleImgInput:", youtubeModalOpen);
-  };
+  });
 
-  const toggleUrlInput = (e) => {
+  const toggleUrlInput = useCallback((e) => {
     e.preventDefault();
     setImgInputModalOpen(false);
     setYoutubeModalOpen(false);
     setUrlModalOpen((prev) => !prev);
     console.log("youtubeModalOpen toggleUrlInput:", youtubeModalOpen);
-  };
+  });
 
-  const toggleYoutubeInput = (e) => {
+  const toggleYoutubeInput = useCallback((e) => {
     e.preventDefault();
     setImgInputModalOpen(false);
     setUrlModalOpen(false);
     setYoutubeModalOpen((prev) => !prev);
     console.log("youtubeModalOpen toggleYoutubeInput:", youtubeModalOpen);
-  };
+  });
 
   return (
     <>
@@ -79,7 +91,7 @@ const CreatePost = () => {
         <Redirect to={{ pathname: "/" }} />
       ) : (
         <Layout>
-          <div className="w-full flex flex-col items-center justify-center pt-24" style={{ height: "calc(100vh - 5rem)" }}>
+          <div className="w-full flex flex-col items-center justify-center pt-16" style={{ height: "calc(100vh - 4rem)" }}>
             {/* <h1 className="w-full text-left py-2 text-xl pl-48">Publier un post</h1> */}
             <div className="w-full h-full flex items-start justify-center space-x-8">
               <div className="h-max w-10/12 max-w-3xl flex flex-col items-center justify-center">
@@ -91,6 +103,7 @@ const CreatePost = () => {
                   {serverError.length !== 0 && serverErrorMsg}
                 </div>
                 <PostForm
+                  title={title}
                   handlePostSubmit={handlePostSubmit}
                   handleTitleInput={handleTitleInput}
                   toggleImgInput={toggleImgInput}
@@ -100,7 +113,7 @@ const CreatePost = () => {
                 />
               </div>
             </div>
-            <ImgUploadModal imgInputModalOpen={imgInputModalOpen} toggleImgInput={toggleImgInput} />
+            <ImgUploadModal imgInputModalOpen={imgInputModalOpen} toggleImgInput={toggleImgInput} setImgAdded={setImgAdded} />
             <UrlModal urlModalOpen={urlModalOpen} toggleUrlInput={toggleUrlInput} />
             <YoutubeLinkModal youtubeModalOpen={youtubeModalOpen} toggleYoutubeInput={toggleYoutubeInput} />
           </div>

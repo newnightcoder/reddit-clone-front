@@ -1,5 +1,5 @@
 import { CheckIcon, ChevronLeftIcon } from "@heroicons/react/solid";
-import React, { useState } from "react";
+import React from "react";
 import language from "../languages";
 import useDarkMode from "../utils/hooks/useDarkMode";
 
@@ -16,15 +16,16 @@ const SettingsOptions = ({
   allModeOptions,
 }) => {
   const { lang, appearance, subtitleLang, subtitleMode } = userLangData.options;
-  const [activeBtn, setActiveBtn] = useState(null);
   const savedLanguage = localStorage.getItem("Lang");
   const savedMode = localStorage.getItem("Mode");
 
-  const activateBtn = (e, id) => {
-    if (e.target.id === id) {
-      setActiveBtn(id);
-    }
-  };
+  // const [activeBtn, setActiveBtn] = useState(null);
+  // const activateBtn = (e, id) => {
+  //   if (e.target.id === id) {
+  //     setActiveBtn(id);
+  //   }
+  // };
+
   const [theme, toggleMode] = useDarkMode();
 
   const saveModeInCurrentLang = (lang) => {
@@ -77,10 +78,9 @@ const SettingsOptions = ({
             <button
               key={i + 1}
               id={langOpt}
-              onClick={(e) => {
+              onClick={() => {
                 setLanguage(langOpt);
                 saveModeInCurrentLang(langOpt);
-                // activateBtn(e, langOpt);
               }}
               className="w-full rounded flex items-center justify-between py-2 px-2 space-x-1 capitalize transition duration-300 hover:bg-gray-100"
               style={
@@ -108,7 +108,6 @@ const SettingsOptions = ({
               id={mode}
               onClick={(e) => {
                 savedMode !== mode && toggleMode();
-                // activateBtn(e, savedMode);
               }}
               className="w-full flex items-center justify-between py-2 px-2 space-x-1 capitalize transition duration-300 hover:bg-gray-100 outline-none"
               style={savedMode === mode ? { color: "white", fontWeight: "bold", backgroundColor: "rgb(96 165 250)" } : null}

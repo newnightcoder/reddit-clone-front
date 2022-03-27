@@ -16,7 +16,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
 
   return (
     <div
-      style={{ minWidth: width > 1024 ? "14rem" : "max-content" }}
+      style={{ minWidth: width > 1024 ? "14rem" : "max-content", marginTop: pathname === "/feed" ? "6rem" : "4rem" }}
       className="hidden md:flex h-min z-30 mt-24 sticky top-20 flex-col items-center justify-center space-y-4 px-4 lg:pt-6 pb-4 whitespace-nowrap rounded-lg lg:bg-white lg:dark:bg-gray-500 lg:shadow-sm "
     >
       <Link

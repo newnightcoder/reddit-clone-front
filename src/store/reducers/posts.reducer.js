@@ -7,7 +7,7 @@ const initialState = {
   currentPost: {
     title: "",
     text: "",
-    imgUrl: "",
+    imgUrl: null,
   },
   comments: [],
   replies: [],
@@ -71,7 +71,7 @@ export const postsReducer = (state = initialState, action) => {
     case SAVE_LINK_URL:
       return { ...state, currentPost: { ...state.currentPost, imgUrl: action.payload } };
     case CLEAR_TEMP_POST_PIC:
-      return { ...state, currentPost: { ...state.currentPost, imgUrl: "" } };
+      return { ...state, currentPost: { ...state.currentPost, imgUrl: null } };
     case CREATE_POST:
       return { ...state, lastPostAdded: action.payload };
     case CREATE_REPLY:

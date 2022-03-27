@@ -2,31 +2,42 @@ import { PaperAirplaneIcon } from "@heroicons/react/solid";
 import React from "react";
 import { Image, Link45deg, XLg, Youtube } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 
 const PostForm = ({
+  title,
   handlePostSubmit,
   handleTitleInput,
   toggleImgInput,
   toggleUrlInput,
   toggleYoutubeInput,
   handlePostInput,
+  postToEdit,
+  postTitle,
+  postText,
+  postImg,
+  handleEditSubmit,
+  handleEditTitleInput,
+  handleEditText,
 }) => {
-  const postImg = useSelector((state) => state.posts.currentPost.imgUrl);
+  const currentPostImg = useSelector((state) => state.posts.currentPost.imgUrl);
+  const { pathname } = useLocation();
 
   return (
     <form
       className="h-max w-full flex flex-col items-center justify-center bg-white border rounded py-6 px-4"
       method="post"
-      onSubmit={handlePostSubmit}
+      onSubmit={pathname === "/edit" ? handleEditSubmit : handlePostSubmit}
     >
       <input
         className="h-10 w-full px-2 rounded outline-none bg-gray-100 hover:bg-white active:bg-white focus:bg-white border border-gray-400 hover:border-gray-500 transition-all duration-200 placeholder-gray-400"
         type="text"
         name="Title"
         id="title"
-        placeholder="Titre de votre post"
-        onChange={handleTitleInput}
+        placeholder={pathname === "/create" ? "Titre de votre post" : null}
+        onChange={pathname === "/edit" ? (e) => handleEditTitleInput(e) : (e) => handleTitleInput(e)}
+        value={pathname === "/edit" ? postTitle : title}
       />
       <div className="form-container h-full w-full flex flex-col items-center justify-start pt-4 space-y-6">
         <div className="h-max w-full border border-gray-400 hover:border-gray-500 transition-border-color duration-300 rounded">
@@ -56,7 +67,7 @@ const PostForm = ({
               le brouillon
             </div>
           </div>
-          <div className="container relative max-w-full bg-gray-100 hover:bg-white active:bg-white focus:bg-white rounded-bl rounded-br overflow-y-auto">
+          <div className="container relative max-w-full px-2 bg-gray-100 hover:bg-white active:bg-white focus:bg-white rounded-bl rounded-br overflow-y-auto">
             <span
               id="postInput"
               style={{ minHeight: "12rem" }}
@@ -64,9 +75,14 @@ const PostForm = ({
               contentEditable="true"
               suppressContentEditableWarning={true}
               placeholder="Texte (facultatif)"
-              onBlur={handlePostInput}
+              onBlur={pathname === "/edit" ? handleEditText : handlePostInput}
             >
-              {postImg && <img src={postImg} alt="" />}
+              {postText && postText}
+              {pathname === "/edit" && postImg ? (
+                <img src={postImg} alt="" className="w-full" />
+              ) : (
+                currentPostImg && <img id="postImg" src={currentPostImg} alt="" className="w-full" />
+              )}
             </span>
           </div>
         </div>

@@ -6,7 +6,7 @@ import { savePostImage } from "../store/actions/posts.action";
 import { saveUserPic } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
 
-const ImgUploader = ({ profile, toggleImgInput }) => {
+const ImgUploader = ({ profile, toggleImgInput, setImgAdded }) => {
   const [blob, setBlob] = useState(null);
   const [blobName, setBlobName] = useState(null);
   const file = useRef(null);
@@ -17,11 +17,12 @@ const ImgUploader = ({ profile, toggleImgInput }) => {
 
   const handleImgSubmit = (e) => {
     e.preventDefault();
-    console.log("FILE!!!", file.current.files[0]);
+    // console.log("FILE!!!", file.current.files[0]);
     if (profile) return dispatch(saveUserPic(blob, id));
-    console.log(`ready to add file ${blobName}`);
+    // console.log(`ready to add file ${blobName}`);
     dispatch(savePostImage(blob));
     toggleImgInput(e);
+    setImgAdded(true);
   };
 
   return (

@@ -3,11 +3,14 @@ import { useLocation } from "react-router-dom";
 import { FooterAside, ModsContainer, PopularPosts, RecentUsers, Rules } from ".";
 
 const Aside = () => {
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   return (
-    <div className="hidden mt-24 w-72 h-max lg:flex flex-col items-center justify-start gap-2">
-      {location.pathname === "/feed" ? (
+    <div
+      style={{ marginTop: pathname === "/feed" ? "6rem" : "4rem" }}
+      className="hidden w-72 h-max lg:flex flex-col items-center justify-start gap-2"
+    >
+      {pathname === "/feed" ? (
         <>
           <RecentUsers />
           <ModsContainer />
@@ -15,7 +18,7 @@ const Aside = () => {
           <FooterAside />
         </>
       ) : (
-        (location.pathname === "/create" || location.pathname.includes("comments")) && (
+        (pathname === "/create" || pathname.includes("comments")) && (
           <>
             <Rules />
             <div className="text-xs texgray-700 px-1">

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { Post, PostSkeleton } from "../components";
 import Layout from "../components/ Layout";
-import { clearTempPostImg, getPosts, getUsers } from "../store/actions/posts.action";
+import { getPosts, getUsers } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
 import { useLanguage } from "../utils/hooks";
 
@@ -26,15 +26,15 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
   }, [isNewUser]);
 
   useEffect(() => {
-    dispatch(clearTempPostImg());
+    // dispatch(clearTempPostImg());
     dispatch(getPosts());
     dispatch(getUsers());
   }, []);
 
-  useEffect(() => {
-    // let langInStorage = localStorage.Lang;
-    console.log("langdata feed", userLangData);
-  }, [langInStorage]);
+  // useEffect(() => {
+  //   // let langInStorage = localStorage.Lang;
+  //   console.log("langdata feed", userLangData);
+  // }, [langInStorage]);
 
   return (
     <Layout>
