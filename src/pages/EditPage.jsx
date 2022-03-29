@@ -5,7 +5,9 @@ import { Redirect } from "react-router";
 import { useLocation } from "react-router-dom";
 import { PostForm } from "../components";
 import Layout from "../components/ Layout";
-import { editPost, getPosts } from "../store/actions/posts.action";
+import ImgUploadModal from "../components/createPostModals/ImgUploadModal";
+import UrlModal from "../components/createPostModals/UrlModal";
+import { editPost, saveImageToEdit } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
 
 const EditPage = () => {
@@ -13,25 +15,28 @@ const EditPage = () => {
   const isAuthenticated = useSelector((state) => state?.user.isAuthenticated);
   const location = useLocation();
   const { postId, commentId, replyId } = location?.state;
-
   const [postToEdit] = posts.filter((post) => post.postId === postId);
   const [commentToEdit] = comments.filter((comment) => comment.commentId === commentId);
   const [replyToEdit] = replies.filter((reply) => reply.replyId === replyId);
   const [postTitle, setPostTitle] = useState(postToEdit && postToEdit.title);
   const [postText, setPostText] = useState(postToEdit && postToEdit.text);
-  const [postImg, setPostImg] = useState(postToEdit && postToEdit.imgUrl);
+  const [postImgUrl, setPostImgUrl] = useState(postToEdit && postToEdit.imgUrl);
   const [emptyTitle, setEmptyTitle] = useState(false);
+  const [imgInputModalOpen, setImgInputModalOpen] = useState(false);
+  const [urlModalOpen, setUrlModalOpen] = useState(false);
   const [serverErrorMsg, setServerErrorMsg] = useState("");
+  const currentPostImg = useSelector((state) => state.posts.currentPost.imgUrl);
   const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
+    if (postToEdit.imgUrl) {
+      dispatch(saveImageToEdit(postImgUrl));
+    }
+  }, [postImgUrl]);
 
   const handleEditTitleInput = useCallback((e) => {
     setPostTitle(e.currentTarget.value);
-    console.log(e.currentTarget.value);
     setEmptyTitle(false);
   });
 
@@ -47,7 +52,7 @@ const EditPage = () => {
     setServerErrorMsg("");
 
     if (postToEdit !== undefined) {
-      dispatch(editPost("post", postId, postTitle, postText, postImg));
+      dispatch(editPost("post", postId, postTitle, postText, currentPostImg));
       history.push({ pathname: "/feed" });
     }
     if (commentToEdit !== undefined) {
@@ -59,6 +64,18 @@ const EditPage = () => {
       history.push({ pathname: `/comments/${postTitle}` });
     }
     console.log(postText);
+  });
+
+  const toggleImgInput = useCallback((e) => {
+    e.preventDefault();
+    setUrlModalOpen(false);
+    setImgInputModalOpen((prev) => !prev);
+  });
+
+  const toggleUrlInput = useCallback((e) => {
+    e.preventDefault();
+    setImgInputModalOpen(false);
+    setUrlModalOpen((prev) => !prev);
   });
 
   return (
@@ -83,12 +100,15 @@ const EditPage = () => {
                 postToEdit={postToEdit}
                 postTitle={postTitle}
                 postText={postText}
-                postImg={postImg}
+                postImgUrl={postImgUrl}
                 handleEditTitleInput={handleEditTitleInput}
                 handleEditText={handleEditText}
                 handleEditSubmit={handleEditSubmit}
+                toggleImgInput={toggleImgInput}
               />
             </div>
+            <ImgUploadModal imgInputModalOpen={imgInputModalOpen} toggleImgInput={toggleImgInput} />
+            <UrlModal urlModalOpen={urlModalOpen} toggleUrlInput={toggleUrlInput} />
           </div>
         </Layout>
       )}

@@ -140,6 +140,10 @@ export const savePostImage = (blob) => async (dispatch) => {
   }
 };
 
+export const saveImageToEdit = (imgUrl) => (dispatch) => {
+  dispatch({ type: SAVE_POST_PIC, payload: imgUrl });
+};
+
 export const saveLinkUrl = (url) => (dispatch) => {
   dispatch({ type: SAVE_LINK_URL, payload: url });
 };
@@ -181,7 +185,7 @@ export const createPost = (userId, title, text, date, imgUrl) => async (dispatch
   }
 };
 
-export const editPost = (origin, id, title, text) => async (dispatch) => {
+export const editPost = (origin, id, title, text, imgUrl) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
   const accessToken = localStorage.getItem("jwt");
   console.log("token", accessToken);
@@ -191,7 +195,7 @@ export const editPost = (origin, id, title, text) => async (dispatch) => {
       Authorization: `Bearer ${accessToken}`,
     },
     method: "POST",
-    body: JSON.stringify({ origin, id, title, text }),
+    body: JSON.stringify({ origin, id, title, text, imgUrl }),
   };
   try {
     const response = await fetch(`${API_POST}/edit`, request);

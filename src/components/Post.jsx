@@ -18,6 +18,7 @@ const Post = ({ post }) => {
   const [openModal, setOpenModal] = useState(false);
   const [like, setLike] = useState(false);
   const dispatch = useDispatch();
+
   const toggleOptions = () => {
     return setOptionsOpen((optionsOpen) => !optionsOpen);
   };
@@ -49,7 +50,7 @@ const Post = ({ post }) => {
       <PostHeader post={post} />
       <div className="text w-full text-left px-3 py-2 text-sm">{text}</div>
       <div className="h-full w-full flex items-center justify-center">
-        {imgUrl !== null && <img src={imgUrl} className="w-11/12" />}
+        {imgUrl !== "" ? <img src={imgUrl} className="w-11/12" /> : null}
       </div>
       <PostFooter post={post} toggleOptions={toggleOptions} />
       <Options

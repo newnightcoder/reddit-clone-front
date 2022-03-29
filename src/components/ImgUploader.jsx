@@ -1,16 +1,17 @@
 import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { savePostImage } from "../store/actions/posts.action";
 import { saveUserPic } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
 
-const ImgUploader = ({ profile, toggleImgInput, setImgAdded }) => {
+const ImgUploader = ({ profile, toggleImgInput }) => {
   const [blob, setBlob] = useState(null);
   const [blobName, setBlobName] = useState(null);
   const file = useRef(null);
   const { id, picUrl } = useSelector((state) => state.user);
+  const { imgUrl } = useSelector((state) => state.posts.currentPost);
   // const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -21,9 +22,13 @@ const ImgUploader = ({ profile, toggleImgInput, setImgAdded }) => {
     if (profile) return dispatch(saveUserPic(blob, id));
     // console.log(`ready to add file ${blobName}`);
     dispatch(savePostImage(blob));
+    console.log("re-render");
     toggleImgInput(e);
-    setImgAdded(true);
   };
+
+  useEffect(() => {
+    if (!imgUrl) setBlobName(null);
+  }, [imgUrl]);
 
   return (
     <form
@@ -54,7 +59,11 @@ const ImgUploader = ({ profile, toggleImgInput, setImgAdded }) => {
             setBlobName(file.current.files[0].name);
           }}
         />
-        <div>{blobName !== null ? blobName : <span className="italic text-xs">Aucune photo choisie pour le moment.</span>}</div>
+        <div>
+          {blobName || imgUrl
+            ? blobName
+            : !imgUrl && <span className="italic text-xs">Aucune photo choisie pour le moment.</span>}
+        </div>
       </div>
       <div className="w-full flex items-center justify-center gap-4">
         {profile && (

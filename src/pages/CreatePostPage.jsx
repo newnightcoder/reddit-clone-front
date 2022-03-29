@@ -7,7 +7,6 @@ import { PostForm } from "../components";
 import Layout from "../components/ Layout";
 import ImgUploadModal from "../components/createPostModals/ImgUploadModal";
 import UrlModal from "../components/createPostModals/UrlModal";
-import YoutubeLinkModal from "../components/createPostModals/YoutubeLinkModal";
 import { clearTempPostImg, createPost } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
 import { createDate } from "../utils/helpers/formatTime";
@@ -16,12 +15,13 @@ const CreatePost = () => {
   const [title, setTitle] = useState("");
   const [postText, setPostText] = useState("");
   const postImg = useSelector((state) => state.posts.currentPost.imgUrl);
+  const postImgRef = useRef(postImg);
   const postImgInTheDom = useRef(document.querySelector("#postImg"));
   const [imgAdded, setImgAdded] = useState(false);
   const [emptyTitle, setEmptyTitle] = useState(false);
   const [imgInputModalOpen, setImgInputModalOpen] = useState(false);
   const [urlModalOpen, setUrlModalOpen] = useState(false);
-  const [youtubeModalOpen, setYoutubeModalOpen] = useState(false);
+  // const [youtubeModalOpen, setYoutubeModalOpen] = useState(false);
   const [serverErrorMsg, setServerErrorMsg] = useState("");
   const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
   const serverError = useSelector((state) => state.posts.error);
@@ -34,15 +34,7 @@ const CreatePost = () => {
   });
 
   const handlePostInput = useCallback((e) => {
-    // postText.current = e.target.value;
-    console.log("e.currentTarget", e.currentTarget);
-    if (e.currentTarget.innerHTML.includes("<img")) {
-      console.log("image in the dom");
-    } else {
-      console.log("no image in the dom!");
-      dispatch(clearTempPostImg());
-    }
-    // setPostText(e.currentTarget.textContent);
+    setPostText(e.currentTarget.textContent);
   });
 
   const handlePostSubmit = useCallback((e) => {
@@ -50,12 +42,9 @@ const CreatePost = () => {
     if (title.length === 0) return setEmptyTitle(true);
     if (serverError.length !== 0) return setServerErrorMsg(serverError);
     setServerErrorMsg("");
+    console.log("image:", postImg);
 
-    if (imgAdded && !postImgInTheDom) {
-      console.log("img added but nothing in the dom babe");
-      // dispatch(clearTempPostImg());
-    }
-    dispatch(createPost(id, title, postText, createDate(), postImg));
+    dispatch(createPost(id, title, postText, createDate(), postImg && postImg));
     dispatch(clearTempPostImg());
     history.push({
       pathname: "/feed",
@@ -65,24 +54,24 @@ const CreatePost = () => {
   const toggleImgInput = useCallback((e) => {
     e.preventDefault();
     setUrlModalOpen(false);
-    setYoutubeModalOpen(false);
+    // setYoutubeModalOpen(false);
     setImgInputModalOpen((prev) => !prev);
   });
 
   const toggleUrlInput = useCallback((e) => {
     e.preventDefault();
     setImgInputModalOpen(false);
-    setYoutubeModalOpen(false);
+    // setYoutubeModalOpen(false);
     setUrlModalOpen((prev) => !prev);
-    console.log("youtubeModalOpen toggleUrlInput:", youtubeModalOpen);
+    // console.log("youtubeModalOpen toggleUrlInput:", youtubeModalOpen);
   });
 
   const toggleYoutubeInput = useCallback((e) => {
     e.preventDefault();
     setImgInputModalOpen(false);
     setUrlModalOpen(false);
-    setYoutubeModalOpen((prev) => !prev);
-    console.log("youtubeModalOpen toggleYoutubeInput:", youtubeModalOpen);
+    // setYoutubeModalOpen((prev) => !prev);
+    // console.log("youtubeModalOpen toggleYoutubeInput:", youtubeModalOpen);
   });
 
   return (
@@ -115,7 +104,7 @@ const CreatePost = () => {
             </div>
             <ImgUploadModal imgInputModalOpen={imgInputModalOpen} toggleImgInput={toggleImgInput} setImgAdded={setImgAdded} />
             <UrlModal urlModalOpen={urlModalOpen} toggleUrlInput={toggleUrlInput} />
-            <YoutubeLinkModal youtubeModalOpen={youtubeModalOpen} toggleYoutubeInput={toggleYoutubeInput} />
+            {/* <YoutubeLinkModal youtubeModalOpen={youtubeModalOpen} toggleYoutubeInput={toggleYoutubeInput} /> */}
           </div>
         </Layout>
       )}
