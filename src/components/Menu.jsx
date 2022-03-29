@@ -44,8 +44,8 @@ const Menu = ({ isOpen, toggleMenu }) => {
 
   return (
     <div
-      className="menu-container h-screen w-9/12 py-5 bg-gray-100 flex flex-col items-center justify-start gap-2 fixed top-0 left-0 z-50 rounded-tr rounded-br transform -translate-x-full transition transition-transform duration-300"
-      style={{ transform: isOpen && "translateX(0)" }}
+      className="menu-container h-screen w-9/12 py-5 bg-gray-100 flex flex-col items-center justify-start gap-2 fixed top-0 left-0 z-50 rounded-tr rounded-br transition-transform duration-300"
+      style={{ transform: isOpen ? "translateX(0)" : "translateX(-100%)" }}
     >
       <div className="top-section h-max w-10/12 pb-2 flex flex-col items-center justify-center gap-2 border-b border-gray-300">
         <div className="avatar-container h-max w-full flex items-center justify-center">
