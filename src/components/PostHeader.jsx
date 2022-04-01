@@ -3,7 +3,7 @@ import { picPlaceholder } from "../assets";
 import { formatTimestamp } from "../utils/helpers/formatTime";
 import { useLinkToProfile } from "../utils/hooks";
 
-const PostHeader = ({ post }) => {
+const PostHeader = ({ post, handleLink }) => {
   const { title, date, username, picUrl, fk_userId_post } = post;
 
   const linkToProfile = useLinkToProfile(fk_userId_post, username);
@@ -20,7 +20,7 @@ const PostHeader = ({ post }) => {
                   background: `url(${picPlaceholder}) no-repeat center/cover`,
                 }
           }
-          onClick={() => linkToProfile(fk_userId_post)}
+          onClick={() => handleLink("post-profile", fk_userId_post)}
         ></button>
       </div>
       <div className="right-column  h-full w-10/12 flex flex-col items-center justify-center">
@@ -28,7 +28,7 @@ const PostHeader = ({ post }) => {
           <div className="username-date w-full flex items-center justify-between gap-2">
             <button
               className="outline-none capitalize hover:cursor-pointer hover:underline"
-              onClick={() => linkToProfile(fk_userId_post)}
+              onClick={() => handleLink("post-profile", fk_userId_post)}
             >
               <span className="text-xs">@</span>
               {username}

@@ -30,3 +30,4 @@ export { default as SignupForm } from "./SignupForm";
 export { default as StepImage } from "./StepImage";
 export { default as StepUsername } from "./StepUsername";
 export { default as UserCard } from "./UserCard";
+export { default as VisitorModal } from "./VisitorModal";

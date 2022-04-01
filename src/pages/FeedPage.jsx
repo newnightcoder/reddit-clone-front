@@ -8,7 +8,7 @@ import { getPosts, getUsers } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
 import { useLanguage } from "../utils/hooks";
 
-const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
+const Feed = ({ handleLink }) => {
   const [newUser, setNewUser] = useState(false);
   const user = useSelector((state) => state.user);
   const { isAuthenticated, isNewUser } = useSelector((state) => state.user);
@@ -68,16 +68,7 @@ const Feed = ({ toggleOptions, optionsOpen, openModal, toggleDeleteModal }) => {
                 {posts?.length === 0 || posts === undefined ? (
                   <PostSkeleton />
                 ) : (
-                  posts.map((post) => (
-                    <Post
-                      key={post.postId}
-                      post={post}
-                      toggleOptions={toggleOptions}
-                      optionsOpen={optionsOpen}
-                      openModal={openModal}
-                      toggleDeleteModal={toggleDeleteModal}
-                    />
-                  ))
+                  posts.map((post) => <Post key={post.postId} post={post} handleLink={handleLink} />)
                 )}
               </div>
             </div>

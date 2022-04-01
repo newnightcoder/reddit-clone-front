@@ -1,6 +1,7 @@
 import { ChevronRightIcon, TranslateIcon } from "@heroicons/react/solid";
 import React, { useCallback, useEffect, useState } from "react";
 import { LifePreserver, ToggleOn } from "react-bootstrap-icons";
+import { useLocation } from "react-router-dom";
 import language from "../languages";
 import { useWindowSize } from "../utils/hooks";
 import SettingsOptions from "./SettingsOptions";
@@ -16,6 +17,7 @@ const Settings = ({ userLangData, setLanguage, settingsOpen }) => {
   const [langOptions, setLangOptions] = useState([]);
   const [allModeOptions, setAllModeOptions] = useState([]);
   const { height, width } = useWindowSize();
+  const { pathname } = useLocation();
 
   const getLangOptions = useCallback(() => {
     const options = [];
@@ -52,11 +54,26 @@ const Settings = ({ userLangData, setLanguage, settingsOpen }) => {
 
   return (
     <div
-      className="w-52 h-max absolute top-36 lg:top-32 left-1 bg-white py-3 rounded-lg shadow-xl z-30 transform  dark:bg-gray-500"
+      className="w-52 h-max absolute bg-white py-3 rounded-lg shadow-xl z-30 transform  dark:bg-gray-500"
       style={
-        settingsOpen
-          ? { display: "inline-block", transform: width > 1024 ? "translateX(14rem)" : "translateX(4.5rem)" }
-          : { display: "none" }
+        // settingsOpen
+        //   ? { display: "inline-block", transform: width > 1024 ? "translateX(14rem)" : "translateX(4.5rem)" }
+        //   : { display: "none" }
+
+        {
+          display: settingsOpen ? "inline-block" : "none",
+          transform:
+            settingsOpen && pathname === "/"
+              ? "translateX(0)"
+              : settingsOpen && width > 1024
+              ? "translateX(14rem)"
+              : settingsOpen
+              ? "translateX(4.5rem)"
+              : null,
+          top: pathname === "/" ? "3.5rem" : width < 1024 ? "9rem" : "8rem",
+          left: settingsOpen && pathname === "/" ? "auto" : settingsOpen ? "0.25rem" : null,
+          right: pathname === "/" ? "1rem" : null,
+        }
       }
     >
       <div>

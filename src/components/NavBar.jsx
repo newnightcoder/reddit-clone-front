@@ -8,7 +8,7 @@ import picPlaceholder from "../assets/pic_placeholder.svg";
 import { history } from "../utils/helpers";
 import { useLinkToProfile, useWindowSize } from "../utils/hooks";
 
-const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
+const NavBar = ({ toggleMenu, closeMenu, isOpen, handleLink }) => {
   const location = useLocation();
   const { height, width } = useWindowSize();
   const { isAuthenticated, picUrl, username, id } = useSelector((state) => state.user);
@@ -44,7 +44,7 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
           <button
             tabIndex="0"
             className="hidden md:flex items-center justify-center gap-2 outline-none bg-transparent "
-            onClick={() => linkToProfile(id)}
+            onClick={() => handleLink("navbar-profile")}
           >
             <div
               className="w-10 h-10 rounded-full border border-gray-600"
@@ -79,12 +79,12 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
                 >
                   S'inscrire
                 </Link>
-                <Link
-                  to="/login"
+                <button
+                  onClick={() => handleLink("navbar-login")}
                   className="w-max py-2 px-3 text-center text-sm text-white font-bold capitalize shadow bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
                 >
                   Se connecter
-                </Link>
+                </button>
               </>
             )}
           </div>

@@ -23,7 +23,7 @@ const Homepage = () => {
 
   return (
     <div
-      className="min-h-screen w-full relative bg-gray-200 flex flex-col items-center justify-center"
+      className="h-screen w-screen relative bg-gray-200 flex flex-col items-center justify-center"
       style={{ color: "#5e5e5e" }}
     >
       <button
@@ -32,52 +32,53 @@ const Homepage = () => {
       >
         <ThreeDots />
       </button>
-      <Settings setLanguage={setLanguage} userLangData={userLangData} settingsOpen={settingsOpen} />
-      <div className="h-full w-full flex items-center justify-center">
-        <div className="hidden h-full w-1/2 md:flex items-center justify-center lg:justify-end">
-          <img src={phonesImg} alt="mobile phones" className="w-3/5 transform translate-y-10" />
-        </div>
-        <div className="h-full w-full md:w-1/2 flex flex-col items-center justify-center space-y-10">
-          <div className="w-full flex flex-col items-center justify-center space-y-4">
-            <header>
-              <img src={logo} alt="" className="h-24" />
-            </header>
-            <p className="w-3/4 text-sm text-center px-2">{userLangData.homepage.introText}</p>
+      <div className="h-full flex flex-col items-center justify-center">
+        <div className="h-max w-full flex items-center justify-center">
+          <div className="hidden h-full w-1/2 md:flex items-center justify-center lg:justify-end">
+            <img src={phonesImg} alt="mobile phones" className="w-3/5 transform translate-y-10" />
           </div>
-          <div className="w-full flex flex-col items-center justify-center space-y-5">
-            <div className="w-full flex flex-col items-center">
-              <h2 className="uppercase">{userLangData.homepage.connectLbl}?</h2>
-              <Link
-                to="/login"
-                className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
-              >
-                {userLangData?.homepage.connectBtn}
-              </Link>
+          <div className="h-full w-full md:w-1/2 flex flex-col items-center justify-center space-y-10">
+            <div className="w-full flex flex-col items-center justify-center space-y-4">
+              <header>
+                <img src={logo} alt="" className="h-24" />
+              </header>
+              <p className="w-1/2 text-sm text-center px-2">{userLangData.homepage.introText}</p>
             </div>
-            <div className="w-full flex flex-col items-center">
-              <h2 className="uppercase">{userLangData?.homepage.registerLbl}?</h2>
-              <Link
-                to="/signup"
-                className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
-              >
-                {userLangData?.homepage.registerBtn}
-              </Link>
-            </div>
-            <div className="w-full flex flex-col items-center">
-              <h2 className="uppercase">{userLangData?.homepage.exploreLbl}?</h2>
-              <Link
-                to="/feed"
-                className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
-              >
-                {userLangData?.homepage.exploreBtn}
-              </Link>
+            <div className="w-full flex flex-col items-center justify-center space-y-5">
+              <div className="w-full flex flex-col items-center">
+                <h2 className="uppercase">{userLangData.homepage.connectLbl}?</h2>
+                <Link
+                  to="/login"
+                  className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
+                >
+                  {userLangData?.homepage.connectBtn}
+                </Link>
+              </div>
+              <div className="w-full flex flex-col items-center">
+                <h2 className="uppercase">{userLangData?.homepage.registerLbl}?</h2>
+                <Link
+                  to="/signup"
+                  className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
+                >
+                  {userLangData?.homepage.registerBtn}
+                </Link>
+              </div>
+              <div className="w-full flex flex-col items-center">
+                <h2 className="uppercase">{userLangData?.homepage.exploreLbl}?</h2>
+                <Link
+                  to="/feed"
+                  className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
+                >
+                  {userLangData?.homepage.exploreBtn}
+                </Link>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col items-center justify-center space-y-6">
+      <div className="w-full flex flex-col items-center justify-center space-y-12">
         <div className="flex flex-col items-center justify-center space-y-3">
-          <span className="text-sm">{userLangData?.homepage.download}</span>
+          <span className="text-sm pb-2">{userLangData?.homepage.download}</span>
           <div className="flex items-center justify-center space-x-2">
             <svg width="151" height="51" fill="none" xmlns="http://www.w3.org/2000/svg" className="hover:cursor-pointer">
               <path
@@ -173,6 +174,7 @@ const Homepage = () => {
           <li className="capitalize text-gray-500">&copy;2022 FORUM, Inc.</li>
         </ul>
       </div>
+      <Settings setLanguage={setLanguage} userLangData={userLangData} settingsOpen={settingsOpen} />
     </div>
   );
 };
