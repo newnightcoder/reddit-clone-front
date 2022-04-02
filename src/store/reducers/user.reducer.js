@@ -9,6 +9,8 @@ const initialState = {
   creationDate: "",
   error: "",
   isAuthenticated: false,
+  isVisitor: false,
+  visitorMessage: "",
   userCreated: false,
   usernameAdded: false,
   isNewUser: null,
@@ -25,6 +27,7 @@ const initialState = {
 const {
   CLEAR_ERROR_USER,
   SET_ERROR_USER,
+  TOGGLE_VISITOR,
   LOG_USER,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -47,6 +50,10 @@ const {
 
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
+    case TOGGLE_VISITOR: {
+      const toggle = !state.isVisitor;
+      return { ...state, isVisitor: toggle, visitorMessage: action.payload };
+    }
     case LOG_USER: {
       const { id, email, username, picUrl, creationDate, role } = action.payload.user;
       const { isNewUser, accessToken } = action.payload;

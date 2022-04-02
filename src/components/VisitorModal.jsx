@@ -1,6 +1,11 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleVisitorModal } from "../store/actions/user.action";
 
-const VisitorModal = ({ isVisitor, visitorMessage, toggleVisitorModal }) => {
+const VisitorModal = () => {
+  const { isVisitor, visitorMessage } = useSelector((state) => state?.user);
+  const dispatch = useDispatch();
+
   return (
     <div
       style={{
@@ -14,7 +19,7 @@ const VisitorModal = ({ isVisitor, visitorMessage, toggleVisitorModal }) => {
       <div className="flex flex-col items-center justify-center space-y-4">
         <p>{visitorMessage}</p>
         <button
-          onClick={toggleVisitorModal}
+          onClick={() => dispatch(toggleVisitorModal(""))}
           className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
         >
           ok

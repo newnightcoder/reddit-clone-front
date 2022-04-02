@@ -8,7 +8,7 @@ import { getPosts, getUsers } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
 import { useLanguage } from "../utils/hooks";
 
-const Feed = ({ handleLink }) => {
+const Feed = () => {
   const [newUser, setNewUser] = useState(false);
   const user = useSelector((state) => state.user);
   const { isAuthenticated, isNewUser } = useSelector((state) => state.user);
@@ -68,7 +68,7 @@ const Feed = ({ handleLink }) => {
                 {posts?.length === 0 || posts === undefined ? (
                   <PostSkeleton />
                 ) : (
-                  posts.map((post) => <Post key={post.postId} post={post} handleLink={handleLink} />)
+                  posts.map((post) => <Post key={post.postId} post={post} />)
                 )}
               </div>
             </div>

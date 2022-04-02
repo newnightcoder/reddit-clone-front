@@ -4,14 +4,15 @@ import { GearFill, Power } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
-import { useLanguage, useWindowSize } from "../utils/hooks";
+import { useHandleLink, useLanguage, useWindowSize } from "../utils/hooks";
 import Settings from "./Settings";
 
-const NavBarDesktop = ({ toggleSettings, settingsOpen, toggleVisitorModal, handleLink }) => {
+const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
   const { id, username } = useSelector((state) => state.user);
   const [userLangData, setLanguage] = useLanguage();
   const { height, width } = useWindowSize();
   const { pathname } = useLocation();
+  const handleLink = useHandleLink();
 
   return (
     <div

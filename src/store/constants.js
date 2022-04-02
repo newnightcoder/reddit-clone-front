@@ -4,6 +4,7 @@ export const actionType = {
   ////////////////
 
   // LOGIN
+  TOGGLE_VISITOR: "TOGGLE_VISITOR",
   LOG_USER: "LOG_USER",
   LOGIN_SUCCESS: "LOGIN_SUCCESS",
   LOGIN_FAIL: "LOGIN_FAIL",

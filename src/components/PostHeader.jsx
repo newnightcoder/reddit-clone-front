@@ -1,12 +1,14 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { picPlaceholder } from "../assets";
 import { formatTimestamp } from "../utils/helpers/formatTime";
-import { useLinkToProfile } from "../utils/hooks";
+import { useHandleLink, useLinkToProfile } from "../utils/hooks";
 
-const PostHeader = ({ post, handleLink }) => {
+const PostHeader = ({ post }) => {
   const { title, date, username, picUrl, fk_userId_post } = post;
-
+  const { isAuthenticated } = useSelector((state) => state.user);
   const linkToProfile = useLinkToProfile(fk_userId_post, username);
+  const handleLink = useHandleLink();
 
   return (
     <div className="top w-full flex items-center justify-center pl-2 pb-1 border-b">
@@ -20,7 +22,9 @@ const PostHeader = ({ post, handleLink }) => {
                   background: `url(${picPlaceholder}) no-repeat center/cover`,
                 }
           }
-          onClick={() => handleLink("post-profile", fk_userId_post)}
+          onClick={() => {
+            isAuthenticated ? linkToProfile() : handleLink("post-profile");
+          }}
         ></button>
       </div>
       <div className="right-column  h-full w-10/12 flex flex-col items-center justify-center">
@@ -28,7 +32,9 @@ const PostHeader = ({ post, handleLink }) => {
           <div className="username-date w-full flex items-center justify-between gap-2">
             <button
               className="outline-none capitalize hover:cursor-pointer hover:underline"
-              onClick={() => handleLink("post-profile", fk_userId_post)}
+              onClick={() => {
+                isAuthenticated ? linkToProfile() : handleLink("post-profile");
+              }}
             >
               <span className="text-xs">@</span>
               {username}

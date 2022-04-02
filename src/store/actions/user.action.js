@@ -7,6 +7,7 @@ import { actionType } from "../constants.js";
 const {
   CLEAR_ERROR_USER,
   SET_ERROR_USER,
+  TOGGLE_VISITOR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOG_USER,
@@ -25,6 +26,10 @@ const {
   CLEAN_PROFILE_VISIT,
   SESSION_EXPIRED,
 } = actionType;
+
+export const toggleVisitorModal = (message) => (dispatch) => {
+  dispatch({ type: TOGGLE_VISITOR, payload: message });
+};
 
 export const logUserAction = (email, password) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_USER });

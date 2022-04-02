@@ -1,19 +1,18 @@
 import { MenuIcon, SearchIcon } from "@heroicons/react/solid";
 import React from "react";
 import { Power } from "react-bootstrap-icons";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { logo } from "../assets";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { history } from "../utils/helpers";
-import { useLinkToProfile, useWindowSize } from "../utils/hooks";
+import { useHandleLink, useWindowSize } from "../utils/hooks";
 
-const NavBar = ({ toggleMenu, closeMenu, isOpen, handleLink }) => {
+const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
   const location = useLocation();
   const { height, width } = useWindowSize();
   const { isAuthenticated, picUrl, username, id } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
-  const linkToProfile = useLinkToProfile(id, username);
+  const handleLink = useHandleLink();
 
   return (
     <div className="h-16 w-full fixed top-0 z-50 overflow-hidden">
