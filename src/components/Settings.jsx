@@ -3,21 +3,22 @@ import React, { useCallback, useEffect, useState } from "react";
 import { LifePreserver, ToggleOn } from "react-bootstrap-icons";
 import { useLocation } from "react-router-dom";
 import language from "../languages";
-import { useWindowSize } from "../utils/hooks";
+import { useLanguage, useWindowSize } from "../utils/hooks";
 import SettingsOptions from "./SettingsOptions";
 
-const Settings = ({ userLangData, setLanguage, settingsOpen }) => {
+const Settings = ({ settingsOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isActive, setIsActive] = useState("");
   const [optionTitle, setOptionTitle] = useState("");
-  const { lang, appearance, help } = userLangData.options;
-  const options = [lang, appearance, help];
-  const { dark, light } = userLangData.appearance;
-  const modeOptions = [dark, light];
   const [langOptions, setLangOptions] = useState([]);
   const [allModeOptions, setAllModeOptions] = useState([]);
   const { height, width } = useWindowSize();
   const { pathname } = useLocation();
+  const userLanguage = useLanguage();
+  const { lang, appearance, help } = userLanguage.options;
+  const options = [lang, appearance, help];
+  const { dark, light } = userLanguage.appearance;
+  const modeOptions = [dark, light];
 
   const getLangOptions = useCallback(() => {
     const options = [];
@@ -109,10 +110,8 @@ const Settings = ({ userLangData, setLanguage, settingsOpen }) => {
         options={options}
         langOptions={langOptions}
         modeOptions={modeOptions}
-        setLanguage={setLanguage}
         setMode={setMode}
         toggleOption={toggleOption}
-        userLangData={userLangData}
         isActive={isActive}
         setIsActive={setIsActive}
         allModeOptions={allModeOptions}

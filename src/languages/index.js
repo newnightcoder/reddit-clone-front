@@ -32,6 +32,9 @@ const language = {
       first: "First time on FORUM",
       registerBtn: "register",
     },
+    navbar: {
+      connected: "connected",
+    },
     navbarDesktop: {
       publish: "Write a post",
       profile: "My profile",
@@ -79,6 +82,9 @@ const language = {
       first: "Première fois sur FORUM",
       registerBtn: "s'inscrire",
     },
+    navbar: {
+      connected: "connecté(e)",
+    },
     navbarDesktop: {
       publish: "Publier un Post",
       profile: "Mon profil",
@@ -125,6 +131,9 @@ const language = {
       enter: "bestätigen",
       first: "Zum ersten Mal auf FORUM",
       registerBtn: "registrieren",
+    },
+    navbar: {
+      connected: "angemeldet",
     },
     navbarDesktop: {
       publish: "Post schreiben",

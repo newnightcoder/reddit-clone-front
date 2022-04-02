@@ -9,10 +9,10 @@ import Settings from "./Settings";
 
 const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
   const { id, username } = useSelector((state) => state.user);
-  const [userLangData, setLanguage] = useLanguage();
   const { height, width } = useWindowSize();
   const { pathname } = useLocation();
   const handleLink = useHandleLink();
+  const userLanguage = useLanguage();
 
   return (
     <div
@@ -41,7 +41,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
           </span>
           <PencilIcon className="h-9 lg:h-7 w-8 transform translate-x-px" />
         </div>
-        <span className="hidden lg:inline-block font-bold">{userLangData.navbarDesktop.publish}</span>
+        <span className="hidden lg:inline-block font-bold">{userLanguage.navbarDesktop.publish}</span>
       </button>
       <button
         style={
@@ -55,7 +55,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
         <div className="w-10 h-10 lg:w-max  lg:border-0 rounded-full relative flex items-center justify-center">
           <UserIcon className="h-6 w-8" />
         </div>
-        <span className="hidden lg:inline-block font-bold">{userLangData.navbarDesktop.profile}</span>
+        <span className="hidden lg:inline-block font-bold">{userLanguage.navbarDesktop.profile}</span>
       </button>
       <button
         style={settingsOpen ? { backgroundColor: "rgb(96 165 250)", color: "white" } : null}
@@ -65,7 +65,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
         <div className="w-10 h-10 lg:w-max  lg:border-0 rounded-full relative flex items-center justify-center">
           <GearFill size={22} className="w-8" />
         </div>
-        <span className="hidden lg:inline-block font-bold">{userLangData.navbarDesktop.settings}</span>
+        <span className="hidden lg:inline-block font-bold">{userLanguage.navbarDesktop.settings}</span>
       </button>
       <Link
         className="lg:w-full flex items-center justify-center rounded-full lg:justify-start space-x-1 lg:pl-2 lg:pr-4 rounded-full bg-white lg:bg-transparent lg:dark:bg-transparent dark:bg-gray-500 transition duration-300 hover:bg-blue-100"
@@ -74,9 +74,9 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
         <div className="w-10 h-10 lg:w-max  lg:border-0 rounded-full relative flex items-center justify-center">
           <Power size={25} className="w-8" />
         </div>
-        <span className="hidden lg:inline-block font-bold">{userLangData.navbarDesktop.logout}</span>
+        <span className="hidden lg:inline-block font-bold">{userLanguage.navbarDesktop.logout}</span>
       </Link>
-      <Settings settingsOpen={settingsOpen} userLangData={userLangData} setLanguage={setLanguage} />
+      <Settings settingsOpen={settingsOpen} />
     </div>
   );
 };

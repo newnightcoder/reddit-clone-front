@@ -14,8 +14,7 @@ const Feed = () => {
   const { isAuthenticated, isNewUser } = useSelector((state) => state.user);
   const posts = useSelector((state) => state.posts.posts);
   const dispatch = useDispatch();
-  let langInStorage = localStorage.getItem("Lang");
-  const [userLangData] = useLanguage();
+  const userLanguage = useLanguage();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -33,7 +32,7 @@ const Feed = () => {
 
   // useEffect(() => {
   //   // let langInStorage = localStorage.Lang;
-  //   console.log("langdata feed", userLangData);
+  //   console.log("langdata feed", userLanguage);
   // }, [langInStorage]);
 
   return (
@@ -42,13 +41,13 @@ const Feed = () => {
         <div className="h-6 bienvenueMsg-newcomer text-center whitespace-pre mb-2">
           {newUser === true ? (
             <span className="font-bold">
-              {userLangData.feed.greetingVisitor1} <span className="capitalize">{user.username}!</span>
+              {userLanguage?.feed.greetingVisitor1} <span className="capitalize">{user.username}!</span>
               <br />
-              {userLangData.feed.greetingVisitor2}
+              {userLanguage?.feed.greetingVisitor2}
             </span>
           ) : newUser === false ? (
             <span className="font-bold">
-              {userLangData.feed.greetingUser}&nbsp;
+              {userLanguage?.feed.greetingUser}&nbsp;
               <span className="capitalize">{user.username}!</span>
             </span>
           ) : null}
@@ -60,7 +59,7 @@ const Feed = () => {
             style={{ opacity: posts && posts.length !== 0 ? 1 : 0 }}
           >
             <RefreshIcon className="h-4 w-4 pointer-events-auto transform transition-transform duration-500 group-hover:-rotate-180" />
-            <span className="text-xs pointer-events-auto capitalize">{userLangData.feed.refreshBtn}</span>
+            <span className="text-xs pointer-events-auto capitalize">{userLanguage?.feed.refreshBtn}</span>
           </button>
           <div className="posts-aside-container w-full md:w-11/12 max-w-7xl flex items-start justify-center md:gap-8">
             <div className="posts-section-container w-full flex flex-col items-center justify-center pb-20 relative">

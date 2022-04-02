@@ -8,7 +8,7 @@ import useLanguage from "../utils/hooks/useLanguage";
 import useToggleSettings from "../utils/hooks/useToggleSettings";
 
 const Homepage = () => {
-  const [userLangData, setLanguage] = useLanguage();
+  const userLanguage = useLanguage();
   // const [settingsOpen, setSettingsOpen] = useState(false);
 
   // const toggleOptionsMenu = () => {
@@ -42,34 +42,34 @@ const Homepage = () => {
               <header>
                 <img src={logo} alt="" className="h-24" />
               </header>
-              <p className="w-1/2 text-sm text-center px-2">{userLangData.homepage.introText}</p>
+              <p className="w-1/2 text-sm text-center px-2">{userLanguage.homepage.introText}</p>
             </div>
             <div className="w-full flex flex-col items-center justify-center space-y-5">
               <div className="w-full flex flex-col items-center">
-                <h2 className="uppercase">{userLangData.homepage.connectLbl}?</h2>
+                <h2 className="uppercase">{userLanguage.homepage.connectLbl}?</h2>
                 <Link
                   to="/login"
                   className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
                 >
-                  {userLangData?.homepage.connectBtn}
+                  {userLanguage?.homepage.connectBtn}
                 </Link>
               </div>
               <div className="w-full flex flex-col items-center">
-                <h2 className="uppercase">{userLangData?.homepage.registerLbl}?</h2>
+                <h2 className="uppercase">{userLanguage?.homepage.registerLbl}?</h2>
                 <Link
                   to="/signup"
                   className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
                 >
-                  {userLangData?.homepage.registerBtn}
+                  {userLanguage?.homepage.registerBtn}
                 </Link>
               </div>
               <div className="w-full flex flex-col items-center">
-                <h2 className="uppercase">{userLangData?.homepage.exploreLbl}?</h2>
+                <h2 className="uppercase">{userLanguage?.homepage.exploreLbl}?</h2>
                 <Link
                   to="/feed"
                   className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
                 >
-                  {userLangData?.homepage.exploreBtn}
+                  {userLanguage?.homepage.exploreBtn}
                 </Link>
               </div>
             </div>
@@ -78,7 +78,7 @@ const Homepage = () => {
       </div>
       <div className="w-full flex flex-col items-center justify-center space-y-12">
         <div className="flex flex-col items-center justify-center space-y-3">
-          <span className="text-sm pb-2">{userLangData?.homepage.download}</span>
+          <span className="text-sm pb-2">{userLanguage?.homepage.download}</span>
           <div className="flex items-center justify-center space-x-2">
             <svg width="151" height="51" fill="none" xmlns="http://www.w3.org/2000/svg" className="hover:cursor-pointer">
               <path
@@ -174,7 +174,7 @@ const Homepage = () => {
           <li className="capitalize text-gray-500">&copy;2022 FORUM, Inc.</li>
         </ul>
       </div>
-      <Settings setLanguage={setLanguage} userLangData={userLangData} settingsOpen={settingsOpen} />
+      <Settings userLanguage={userLanguage} settingsOpen={settingsOpen} />
     </div>
   );
 };

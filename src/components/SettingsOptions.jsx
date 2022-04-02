@@ -1,54 +1,17 @@
 import { CheckIcon, ChevronLeftIcon } from "@heroicons/react/solid";
 import React from "react";
-import language from "../languages";
+import { useDispatch, useSelector } from "react-redux";
+import { setLanguage } from "../store/actions/user.action";
+import { useLanguage } from "../utils/hooks";
 import useDarkMode from "../utils/hooks/useDarkMode";
 
-const SettingsOptions = ({
-  isOpen,
-  isActive,
-  setIsActive,
-  userLangData,
-  setLanguage,
-  langOptions,
-  setMode,
-  toggleOption,
-  modeOptions,
-  allModeOptions,
-}) => {
-  const { lang, appearance, subtitleLang, subtitleMode } = userLangData.options;
-  const savedLanguage = localStorage.getItem("Lang");
+const SettingsOptions = ({ isOpen, isActive, setIsActive, langOptions, setMode, toggleOption, modeOptions, allModeOptions }) => {
   const savedMode = localStorage.getItem("Mode");
-
-  // const [activeBtn, setActiveBtn] = useState(null);
-  // const activateBtn = (e, id) => {
-  //   if (e.target.id === id) {
-  //     setActiveBtn(id);
-  //   }
-  // };
-
+  const dispatch = useDispatch();
+  const { language } = useSelector((state) => state.user);
   const [theme, toggleMode] = useDarkMode();
-
-  const saveModeInCurrentLang = (lang) => {
-    if (savedMode) {
-      switch (lang) {
-        case "français":
-          if (savedMode === "dark") return setMode(language.français.appearance.dark);
-          if (savedMode === "DunkelModus") return setMode(language.français.appearance.dark);
-          if (savedMode === "light") return setMode(language.français.appearance.light);
-          if (savedMode === "HellModus") return setMode(language.français.appearance.light);
-        case "english":
-          if (savedMode === "sombre") return setMode(language.english.appearance.dark);
-          if (savedMode === "clair") return setMode(language.english.appearance.light);
-          if (savedMode === "DunkelModus") return setMode(language.english.appearance.dark);
-          if (savedMode === "HellModus") return setMode(language.english.appearance.light);
-        case "deutsch":
-          if (savedMode === "sombre") return setMode(language.deutsch.appearance.dark);
-          if (savedMode === "clair") return setMode(language.deutsch.appearance.light);
-          if (savedMode === "light") return setMode(language.deutsch.appearance.light);
-          if (savedMode === "dark") return setMode(language.deutsch.appearance.dark);
-      }
-    }
-  };
+  const userLanguage = useLanguage();
+  const { lang, appearance, subtitleLang, subtitleMode } = userLanguage.options;
 
   return (
     <div
@@ -79,16 +42,20 @@ const SettingsOptions = ({
               key={i + 1}
               id={langOpt}
               onClick={() => {
-                setLanguage(langOpt);
-                saveModeInCurrentLang(langOpt);
+                dispatch(setLanguage(langOpt.slice(0, 2)));
               }}
               className="w-full rounded flex items-center justify-between py-2 px-2 space-x-1 capitalize transition duration-300 hover:bg-gray-100"
               style={
-                savedLanguage === langOpt ? { color: "white", fontWeight: "bold", backgroundColor: "rgb(96 165 250)" } : null
+                language === langOpt.slice(0, 2)
+                  ? { color: "white", fontWeight: "bold", backgroundColor: "rgb(96 165 250)" }
+                  : null
               }
             >
               <>{langOpt}</>
-              <CheckIcon className="hidden text-white h-6" style={savedLanguage === langOpt ? { display: "block" } : null} />
+              <CheckIcon
+                className="hidden text-white h-6"
+                style={language === langOpt.slice(0, 2) ? { display: "block" } : null}
+              />
             </button>
           ))}
         </div>

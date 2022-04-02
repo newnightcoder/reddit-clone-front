@@ -8,6 +8,7 @@ const {
   CLEAR_ERROR_USER,
   SET_ERROR_USER,
   TOGGLE_VISITOR,
+  SET_LANGUAGE,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOG_USER,
@@ -29,6 +30,10 @@ const {
 
 export const toggleVisitorModal = (message) => (dispatch) => {
   dispatch({ type: TOGGLE_VISITOR, payload: message });
+};
+
+export const setLanguage = (lang) => (dispatch) => {
+  dispatch({ type: SET_LANGUAGE, payload: lang });
 };
 
 export const logUserAction = (email, password) => async (dispatch) => {

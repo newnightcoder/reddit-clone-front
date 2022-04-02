@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import { FooterAside, ModsContainer, PopularPosts, RecentUsers, Rules } from ".";
 
-const Aside = ({ handleLink }) => {
+const Aside = () => {
   const { pathname } = useLocation();
 
   return (

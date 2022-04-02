@@ -6,13 +6,14 @@ import { Link, useLocation } from "react-router-dom";
 import { logo } from "../assets";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { history } from "../utils/helpers";
-import { useHandleLink, useWindowSize } from "../utils/hooks";
+import { useHandleLink, useLanguage, useWindowSize } from "../utils/hooks";
 
 const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
   const location = useLocation();
   const { height, width } = useWindowSize();
   const { isAuthenticated, picUrl, username, id } = useSelector((state) => state.user);
   const handleLink = useHandleLink();
+  const userLanguage = useLanguage();
 
   return (
     <div className="h-16 w-full fixed top-0 z-50 overflow-hidden">
@@ -56,7 +57,7 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
               }
             ></div>
             <div className="flex flex-col items-start">
-              <span className="text-xs underline">Connecté</span>
+              <span className="text-xs underline">{userLanguage.navbar.connected}</span>
               <span className="capitalize font-bold whitespace-nowrap">{username ? username : "Visitor mode"}</span>
             </div>
           </button>
@@ -76,13 +77,13 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
                   className="w-max py-2 px-3 text-center text-sm text-white font-bold capitalize shadow rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
                   style={{ backgroundColor: "#ff4500" }}
                 >
-                  S'inscrire
+                  {userLanguage.homepage.registerBtn}
                 </Link>
                 <button
                   onClick={() => handleLink("navbar-login")}
                   className="w-max py-2 px-3 text-center text-sm text-white font-bold capitalize shadow bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
                 >
-                  Se connecter
+                  {userLanguage.homepage.connectBtn}
                 </button>
               </>
             )}

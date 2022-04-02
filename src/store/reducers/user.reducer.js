@@ -11,6 +11,7 @@ const initialState = {
   isAuthenticated: false,
   isVisitor: false,
   visitorMessage: "",
+  language: "de",
   userCreated: false,
   usernameAdded: false,
   isNewUser: null,
@@ -28,6 +29,7 @@ const {
   CLEAR_ERROR_USER,
   SET_ERROR_USER,
   TOGGLE_VISITOR,
+  SET_LANGUAGE,
   LOG_USER,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -53,6 +55,10 @@ export const userReducer = (state = initialState, action) => {
     case TOGGLE_VISITOR: {
       const toggle = !state.isVisitor;
       return { ...state, isVisitor: toggle, visitorMessage: action.payload };
+    }
+
+    case SET_LANGUAGE: {
+      return { ...state, language: action.payload };
     }
     case LOG_USER: {
       const { id, email, username, picUrl, creationDate, role } = action.payload.user;

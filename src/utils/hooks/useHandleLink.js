@@ -24,6 +24,18 @@ const useHandleLink = () => {
       case "post-profile":
         visitorMessage.current = "Veuillez vous inscrire pour voir le profil des utilisateurs!";
         break;
+      case "new-members":
+        visitorMessage.current = "Veuillez vous inscrire pour voir les nouveaux membres!";
+        break;
+      case "mods":
+        visitorMessage.current = "Veuillez vous inscrire pour voir les modérateurs!";
+        break;
+      case "like":
+        visitorMessage.current = "Veuillez vous inscrire pour liker les posts des utilisateurs!";
+        break;
+      case "comment":
+        visitorMessage.current = "Veuillez vous inscrire pour voir et laisser des commentaires!";
+        break;
       default:
         visitorMessage.current = "";
     }
@@ -33,25 +45,29 @@ const useHandleLink = () => {
   const handleLink = useCallback(
     (link) => {
       switch (link) {
-        case "post": {
+        case "post":
           if (!isAuthenticated) return handleVisitorModal("post");
           return history.push("/create");
-        }
-        case "profile": {
+        case "profile":
           if (!isAuthenticated) return handleVisitorModal("profile");
           return linkToProfile();
-        }
-        case "navbar-profile": {
+        case "navbar-profile":
           if (!isAuthenticated) return handleVisitorModal("profile");
           return linkToProfile();
-        }
-        case "navbar-login": {
+        case "navbar-login":
           if (!isAuthenticated) return handleVisitorModal("login");
           return history.push("/login");
-        }
-        case "post-profile": {
+        case "post-profile":
           if (!isAuthenticated) return handleVisitorModal("post-profile");
-        }
+        case "new-members":
+          if (!isAuthenticated) return handleVisitorModal("new-members");
+        case "mods":
+          if (!isAuthenticated) return handleVisitorModal("mods");
+        case "like":
+          if (!isAuthenticated) return handleVisitorModal("like");
+        case "comment":
+          if (!isAuthenticated) return handleVisitorModal("comment");
+        default:
       }
     },
     [visitorMessage.current]

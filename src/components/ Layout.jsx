@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { Aside, NavBar, NavBarDesktop } from ".";
 import { Menu, Overlay, SessionExpiredModal, VisitorModal } from "../components";
 import { getPosts } from "../store/actions/posts.action";
-import { useLanguage, useLinkToProfile, useToggleSettings } from "../utils/hooks";
+import { useLinkToProfile, useToggleSettings } from "../utils/hooks";
 
 const Layout = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
   const dispatch = useDispatch();
   const linkToProfile = useLinkToProfile(id, username);
   const { settingsOpen, toggleSettings } = useToggleSettings();
-  const [userLangData, setLanguage] = useLanguage();
+  // const userLanguage = useLanguage();
 
   useEffect(() => {
     if (sessionExpired) setIsExpired(true);
@@ -42,12 +42,7 @@ const Layout = ({ children }) => {
       <NavBar toggleMenu={toggleMenu} closeMenu={closeMenu} isOpen={isOpen} />
       <div className="px-4 h-full w-full mt-16 relative flex items-start justify-center bg-gray-200 dark:bg-gray-700 dark:text-white">
         <div className="w-full 2xl:w-3/4 flex items-start justify-center relative">
-          <NavBarDesktop
-            toggleSettings={toggleSettings}
-            settingsOpen={settingsOpen}
-            userLangData={userLangData}
-            setLanguage={setLanguage}
-          />
+          <NavBarDesktop toggleSettings={toggleSettings} settingsOpen={settingsOpen} />
           {children}
           {!location.pathname.includes("profile") && <Aside />}
         </div>

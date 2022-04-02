@@ -10,7 +10,7 @@ const RecentUsers = () => {
     if (a.id > b.id) return -1;
     if (a.id < b.id) return 1;
   });
-  const [userLangData] = useLanguage();
+  const userLangData = useLanguage();
 
   useEffect(() => {
     setLastFiveUsers(sortedUsers?.splice(0, 5));
