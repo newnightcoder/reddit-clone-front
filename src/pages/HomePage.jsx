@@ -23,7 +23,10 @@ const Homepage = () => {
   }, []);
 
   return (
-    <Div100vh className="w-screen relative bg-gray-200 flex flex-col items-center justify-center" style={{ color: "#5e5e5e" }}>
+    <Div100vh
+      className="w-screen relative bg-gray-200 flex flex-col items-center justify-center pb-2 md:pb-0"
+      style={{ color: "#5e5e5e" }}
+    >
       <button
         className="h-8 w-8 absolute top-5 right-10 flex items-center justify-center rounded-full tracking-widest font-bold text-2xl transition duration-300 hover:bg-gray-300"
         onClick={toggleSettings}
@@ -75,7 +78,7 @@ const Homepage = () => {
         </div>
       </div>
       <div className="w-full flex flex-col items-center justify-center space-y-12">
-        <div className="flex flex-col items-center justify-center space-y-3">
+        <div className="flex flex-col items-center justify-center space-y-1 md:space-y-3">
           <span className="text-sm pb-2">{userLanguage?.homepage.download}</span>
           <div className="flex items-center justify-center space-x-2">
             <svg width="151" height="51" fill="none" xmlns="http://www.w3.org/2000/svg" className="hover:cursor-pointer">
