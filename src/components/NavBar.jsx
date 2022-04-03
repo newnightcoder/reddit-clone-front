@@ -17,7 +17,7 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
 
   return (
     <div className="h-16 w-full fixed top-0 z-50 overflow-hidden">
-      <div className=" h-full w-full  pl-2 pr-4 flex items-center justify-evenly  gap-1 md:gap-2 text-white shadow-md bg-gray-100">
+      <div className=" h-full w-full  pl-2 pr-4 flex items-center justify-between md:justify-evenly  gap-1 md:gap-2 text-white shadow-md bg-gray-100">
         <Link
           to="/"
           className=" h-5/6 w-max flex items-center justify-center ml-3 mr-2"
@@ -26,7 +26,7 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
           <img src={logo} className="h-full" />
         </Link>
 
-        <form className="w-2/3  max-w-xl 2xl:max-w-5xl flex items-center justify-center rounded-l-full" action="">
+        <form className="hidden w-2/3  max-w-xl 2xl:max-w-5xl md:flex items-center justify-center rounded-l-full" action="">
           <input
             className="h-10 w-full rounded-l-full outline-none pl-3 pr-2 text-black text-sm lg:text-md border-t border-b border-l border-gray-200 hover:border-gray-400"
             type="search"

@@ -11,7 +11,7 @@ const initialState = {
   isAuthenticated: false,
   isVisitor: false,
   visitorMessage: "",
-  language: "de",
+  language: "en",
   userCreated: false,
   usernameAdded: false,
   isNewUser: null,

@@ -4,7 +4,7 @@ import language from "../../languages";
 
 const useLanguage = () => {
   const lang = useSelector((state) => state.user.language);
-  const [userLanguage, setUserLanguage] = useState(language.deutsch);
+  const [userLanguage, setUserLanguage] = useState(language.english);
 
   useEffect(() => {
     switch (lang) {
@@ -15,7 +15,7 @@ const useLanguage = () => {
       case "de":
         return setUserLanguage(language.deutsch);
       default:
-        return setUserLanguage(language.deutsch);
+        return setUserLanguage(language.english);
     }
   }, [lang]);
 

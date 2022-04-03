@@ -42,7 +42,7 @@ const Homepage = () => {
               <header>
                 <img src={logo} alt="" className="h-24" />
               </header>
-              <p className="w-1/2 text-sm text-center px-2">{userLanguage.homepage.introText}</p>
+              <p className="w-full md:w-1/2 text-sm text-center px-2">{userLanguage.homepage.introText}</p>
             </div>
             <div className="w-full flex flex-col items-center justify-center space-y-5">
               <div className="w-full flex flex-col items-center">
