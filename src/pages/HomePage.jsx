@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { ThreeDots } from "react-bootstrap-icons";
+import Div100vh from "react-div-100vh";
 import { Link } from "react-router-dom";
 import { logo, phonesImg } from "../assets";
 import { Settings } from "../components";
@@ -22,10 +23,7 @@ const Homepage = () => {
   }, []);
 
   return (
-    <div
-      className="h-screen w-screen relative bg-gray-200 flex flex-col items-center justify-center"
-      style={{ color: "#5e5e5e" }}
-    >
+    <Div100vh className="w-screen relative bg-gray-200 flex flex-col items-center justify-center" style={{ color: "#5e5e5e" }}>
       <button
         className="h-8 w-8 absolute top-5 right-10 flex items-center justify-center rounded-full tracking-widest font-bold text-2xl transition duration-300 hover:bg-gray-300"
         onClick={toggleSettings}
@@ -175,7 +173,7 @@ const Homepage = () => {
         </ul>
       </div>
       <Settings userLanguage={userLanguage} settingsOpen={settingsOpen} />
-    </div>
+    </Div100vh>
   );
 };
 
