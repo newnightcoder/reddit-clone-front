@@ -73,16 +73,7 @@ const Feed = () => {
         </div>
         {/* <div className="createpost-link-bottom md:hidden w-full fixed bottom-0 left-0 flex flex-col items-center justify-center mt-1 md:mt-2 md:mb-4 md:px-6 bg-gray-300 md:bg-white border-t border-gray-600 md:border-t-0 md:rounded md:shadow z-10">
           <div className="h-16 w-full md:w-5/6 flex items-center justify-evenly md:justify-center md:gap-3 ">
-            <div
-              className="w-10 h-10 rounded-full border border-gray-600"
-              style={
-                user.picUrl
-                  ? { background: `url(${user.picUrl}) no-repeat center/cover` }
-                  : {
-                      background: `url(${picPlaceholder}) no-repeat center/cover`,
-                    }
-              }
-            ></div>
+           
             <input
               className="h-10 w-2/3 md:w-full px-2 rounded outline-none bg-white border border-gray-600 hover:border-red-400 transition-all duration-200"
               type="text"

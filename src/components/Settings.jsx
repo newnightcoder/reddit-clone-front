@@ -6,8 +6,8 @@ import language from "../languages";
 import { useLanguage, useWindowSize } from "../utils/hooks";
 import SettingsOptions from "./SettingsOptions";
 
-const Settings = ({ settingsOpen }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const Settings = ({ settingsOpen, isMenuOpen }) => {
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isActive, setIsActive] = useState("");
   const [optionTitle, setOptionTitle] = useState("");
   const [langOptions, setLangOptions] = useState([]);
@@ -44,7 +44,7 @@ const Settings = ({ settingsOpen }) => {
   }, []);
 
   const toggleOption = (option) => {
-    setIsOpen((prevState) => !prevState);
+    setIsSettingsOpen((prevState) => !prevState);
     setIsActive(option);
     option !== null && setOptionTitle(option);
   };
@@ -64,19 +64,27 @@ const Settings = ({ settingsOpen }) => {
         {
           display: settingsOpen ? "inline-block" : "none",
           transform:
-            settingsOpen && pathname === "/"
+            pathname === "/"
               ? "translateX(0)"
-              : settingsOpen && width > 1024
+              : width > 1024
               ? "translateX(14rem)"
-              : settingsOpen && width < 768
+              : width < 768
               ? "translateX(0)"
               : settingsOpen
               ? "translateX(4.5rem)"
               : null,
-          top: pathname === "/" ? "3.5rem" : width < 768 ? "-265%" : width < 1024 ? "9rem" : "8rem",
-          left: settingsOpen && pathname === "/" ? "auto" : settingsOpen && width < 768 ? "45%" : settingsOpen ? "0.25rem" : null,
+          top:
+            pathname === "/"
+              ? "3.5rem"
+              : width < 768 && isMenuOpen
+              ? "45%"
+              : width < 768
+              ? "-265%"
+              : width < 1024
+              ? "10rem"
+              : "8.75rem",
+          left: pathname === "/" ? "auto" : width < 768 ? "45%" : "0.25rem",
           right: pathname === "/" ? "1rem" : null,
-          // bottom: width < 768 ? "0" : null,
         }
       }
     >
@@ -107,17 +115,12 @@ const Settings = ({ settingsOpen }) => {
         </button>
       </div>
       <SettingsOptions
-        optionTitle={optionTitle}
-        setOptionTitle={setOptionTitle}
-        isOpen={isOpen}
-        options={options}
+        isSettingsOpen={isSettingsOpen}
+        isMenuOpen={isMenuOpen}
         langOptions={langOptions}
         modeOptions={modeOptions}
-        setMode={setMode}
         toggleOption={toggleOption}
         isActive={isActive}
-        setIsActive={setIsActive}
-        allModeOptions={allModeOptions}
       />
     </div>
   );

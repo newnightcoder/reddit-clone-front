@@ -1,14 +1,13 @@
-import { MenuIcon, SearchIcon } from "@heroicons/react/solid";
+import { SearchIcon } from "@heroicons/react/solid";
 import React from "react";
 import { Power } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { logo } from "../assets";
-import picPlaceholder from "../assets/pic_placeholder.svg";
+import { logo, picPlaceholder } from "../assets";
 import { history } from "../utils/helpers";
 import { useHandleLink, useLanguage, useWindowSize } from "../utils/hooks";
 
-const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
+const NavBar = ({ toggleMenu }) => {
   const location = useLocation();
   const { height, width } = useWindowSize();
   const { isAuthenticated, picUrl, username, id } = useSelector((state) => state.user);
@@ -21,9 +20,9 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
         <Link
           to="/"
           className=" h-5/6 w-max flex items-center justify-center ml-3 mr-2"
-          style={{ transform: "translateY(-6px)" }}
+          style={{ transform: width < 768 ? "translateY(-3px)" : "translateY(-6px)" }}
         >
-          <img src={logo} className="h-full" />
+          <img src={logo} className="h-5/6 md:h-full" />
         </Link>
 
         <form className="hidden w-2/3  max-w-xl 2xl:max-w-5xl md:flex items-center justify-center rounded-l-full" action="">
@@ -36,8 +35,26 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
             <SearchIcon className="h-5 w-5 text-white" />
           </button>
         </form>
-        <button tabIndex="0" className="outline-none bg-transparent lg:hidden" onClick={() => toggleMenu()}>
-          <MenuIcon className="h-8 w-8 text-black ml-2 md:ml-0" />
+        <button
+          tabIndex="0"
+          className="flex flex-col items-center justify-center -space-y-0.5 outline-none bg-transparent transform translate-y-px md:transform-none lg:hidden"
+          onClick={() => toggleMenu()}
+        >
+          <div
+            className="rounded-full border border-gray-600 relative"
+            style={{
+              background: picUrl ? `url(${picUrl}) no-repeat center/cover` : `url(${picPlaceholder}) no-repeat center/cover`,
+              height: isAuthenticated ? "2.5rem" : "2rem",
+              width: isAuthenticated ? "2.5rem" : "2rem",
+            }}
+          >
+            <div className="h-3 w-3 rounded-full z-40 absolute -bottom-px -right-px bg-green-500 border-2 border-gray-100"></div>
+          </div>
+          {!isAuthenticated && (
+            <span className="text-gray-900 dark:text-gray-100 whitespace-nowrap text-xs transform translate-y-1 italic">
+              Visitor Mode
+            </span>
+          )}
         </button>
 
         <div className="hidden w-max lg:flex items-center justify-evenly space-x-6 text-black">
@@ -65,7 +82,7 @@ const NavBar = ({ toggleMenu, closeMenu, isOpen }) => {
             {isAuthenticated ? (
               <button
                 tabIndex="0"
-                className="hidden md:flex items-center justify-center gap-1 outline-none bg-transparent transform translate-x-8 hover:underline hover:font-bold"
+                className="hidden xl:flex items-center justify-center gap-1 outline-none bg-transparent transform translate-x-8 hover:underline hover:font-bold"
                 onClick={() => history.push("/")}
               >
                 <span>Déconnexion</span> <Power size={18} className="font-bold" />

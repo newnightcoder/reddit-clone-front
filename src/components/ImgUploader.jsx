@@ -13,7 +13,7 @@ const ImgUploader = ({ profile, toggleImgInput }) => {
   const { id, picUrl } = useSelector((state) => state.user);
   const { imgUrl } = useSelector((state) => state.posts.currentPost);
   // const history = useHistory();
-  const location = useLocation();
+  const { pathname } = useLocation();
   const dispatch = useDispatch();
 
   const handleImgSubmit = (e) => {
@@ -38,12 +38,16 @@ const ImgUploader = ({ profile, toggleImgInput }) => {
       encType="multipart/form-data"
       onSubmit={handleImgSubmit}
     >
-      {profile && <span> Choisissez votre image de profil</span>}
+      {pathname.includes("profile") ? null : profile && <span> Choisissez votre image de profil</span>}
       <label
-        className="w-48 text-center text-white p-2 rounded-full shadow-xl cursor-pointer bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
+        style={{
+          width: pathname.includes("profile") ? "max-content" : "12rem",
+          padding: pathname.includes("profile") ? ".5rem 1rem" : ".5rem",
+        }}
+        className="text-center text-white text-sm rounded-full shadow-xl cursor-pointer bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
         htmlFor="file"
       >
-        parcourir
+        <span className="whitespace-nowrap">{pathname.includes("profile") ? "changer la photo de profil" : "parcourir"}</span>
       </label>
 
       <div className="flex items-center gap-4">
@@ -62,6 +66,8 @@ const ImgUploader = ({ profile, toggleImgInput }) => {
         <div>
           {blobName || imgUrl
             ? blobName
+            : pathname.includes("profile")
+            ? null
             : !imgUrl && <span className="italic text-xs">Aucune photo choisie pour le moment.</span>}
         </div>
       </div>

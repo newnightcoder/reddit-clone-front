@@ -36,6 +36,9 @@ const useHandleLink = () => {
       case "comment":
         visitorMessage.current = "Veuillez vous inscrire pour voir et laisser des commentaires!";
         break;
+      case "delete":
+        visitorMessage.current = "Rien à supprimer, vous n'avez pas encore de profil sur Forum!";
+        break;
       default:
         visitorMessage.current = "";
     }
@@ -67,6 +70,8 @@ const useHandleLink = () => {
           if (!isAuthenticated) return handleVisitorModal("like");
         case "comment":
           if (!isAuthenticated) return handleVisitorModal("comment");
+        case "delete":
+          if (!isAuthenticated) return handleVisitorModal("delete");
         default:
       }
     },

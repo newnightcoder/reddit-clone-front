@@ -148,7 +148,7 @@ const SignupForm = ({
           </div>
         </div>
         <button
-          className="w-48 text-white p-2 rounded transform translate-y-2 disabled:opacity-50 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
+          className="w-48 text-white p-2 rounded-full transform translate-y-2 disabled:opacity-50 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
           disabled={!isEmail || !isUppercase || !isLowercase || !isNumber || !isLong ? true : false}
         >
           valider

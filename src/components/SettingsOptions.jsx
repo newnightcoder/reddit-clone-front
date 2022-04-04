@@ -5,7 +5,7 @@ import { setLanguage } from "../store/actions/user.action";
 import { useLanguage, useWindowSize } from "../utils/hooks";
 import useDarkMode from "../utils/hooks/useDarkMode";
 
-const SettingsOptions = ({ isOpen, isActive, setIsActive, langOptions, setMode, toggleOption, modeOptions, allModeOptions }) => {
+const SettingsOptions = ({ isSettingsOpen, isActive, langOptions, toggleOption, modeOptions, isMenuOpen }) => {
   const savedMode = localStorage.getItem("Mode");
   const dispatch = useDispatch();
   const { language } = useSelector((state) => state.user);
@@ -17,7 +17,7 @@ const SettingsOptions = ({ isOpen, isActive, setIsActive, langOptions, setMode, 
   return (
     <div
       className="z-40 w-52 px-2 pb-2 absolute left-0 flex-col items-start justify-start bg-white rounded-lg shadow-xl dark:bg-gray-500"
-      style={{ display: isOpen ? "flex" : "none", top: width < 768 ? "auto%" : "0", bottom: width < 768 ? "0" : "auto" }}
+      style={{ display: isSettingsOpen ? "flex" : "none", top: width < 768 ? "auto" : "0", bottom: width < 768 ? "0" : "auto" }}
     >
       <button
         className="w-full pt-4 pb-3 flex items-center justify-start space-x-2 border-b border-gray-100"

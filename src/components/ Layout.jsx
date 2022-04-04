@@ -7,7 +7,7 @@ import { getPosts } from "../store/actions/posts.action";
 import { useLinkToProfile, useToggleSettings } from "../utils/hooks";
 
 const Layout = ({ children }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isExpired, setIsExpired] = useState(false);
 
   const sessionExpired = useSelector((state) => state?.posts?.sessionExpired);
@@ -25,11 +25,11 @@ const Layout = ({ children }) => {
   }, [sessionExpired]);
 
   const toggleMenu = () => {
-    return setIsOpen((isOpen) => !isOpen);
+    return setIsMenuOpen((isMenuOpen) => !isMenuOpen);
   };
 
   const closeMenu = () => {
-    setIsOpen(false);
+    setIsMenuOpen(false);
     dispatch(getPosts());
   };
 
@@ -39,7 +39,7 @@ const Layout = ({ children }) => {
 
   return (
     <div className="">
-      <NavBar toggleMenu={toggleMenu} closeMenu={closeMenu} isOpen={isOpen} />
+      <NavBar toggleMenu={toggleMenu} />
       <div className="px-4 h-full w-full mt-16 relative flex items-start justify-center bg-gray-200 dark:bg-gray-700 dark:text-white">
         <div className="w-full 2xl:w-3/4 flex items-start justify-center relative">
           <NavBarDesktop toggleSettings={toggleSettings} settingsOpen={settingsOpen} />
@@ -47,8 +47,8 @@ const Layout = ({ children }) => {
           {!location.pathname.includes("profile") && <Aside />}
         </div>
       </div>
-      <Overlay isOpen={isOpen} close={closeMenu} />
-      <Menu isOpen={isOpen} toggleMenu={toggleMenu} />
+      <Overlay isMenuOpen={isMenuOpen} close={closeMenu} />
+      <Menu isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
       <SessionExpiredModal isExpired={isExpired} close={closeExpirationModal} />
       <VisitorModal />
     </div>

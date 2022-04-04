@@ -1,40 +1,27 @@
-import { ChevronDoubleRightIcon, HeartIcon, PencilIcon, TrashIcon, UserCircleIcon } from "@heroicons/react/solid";
-import React, { useRef, useState } from "react";
+import { CogIcon, PencilIcon, TrashIcon, UserIcon } from "@heroicons/react/solid";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { DeleteModal } from ".";
-import logo2 from "../assets/logo2.svg";
+import { logo_mobile_blue } from "../assets";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { deleteUser, saveUserPic } from "../store/actions/user.action";
+import { deleteUser } from "../store/actions/user.action";
 import { formatTimestamp } from "../utils/helpers/formatTime";
-import { useLinkToProfile } from "../utils/hooks";
+import { useHandleLink, useLanguage, useToggleSettings } from "../utils/hooks";
+import Settings from "./Settings";
 
-const Menu = ({ isOpen, toggleMenu }) => {
-  const [blob, setBlob] = useState(null);
-  const [blobName, setBlobName] = useState(null);
-  const file = useRef(null);
-  const { id, picUrl, username, creationDate } = useSelector((state) => state?.user);
-  const [isHidden, setIsHidden] = useState(true);
+const Menu = ({ isMenuOpen, toggleMenu }) => {
+  const { id, picUrl, username, creationDate, isAuthenticated } = useSelector((state) => state?.user);
   const [openModal, setOpenModal] = useState(false);
   const history = useHistory();
-  const linkToProfile = useLinkToProfile();
+  const handleLink = useHandleLink();
+  const { settingsOpen, toggleSettings } = useToggleSettings();
+  const userLanguage = useLanguage();
   const dispatch = useDispatch();
-
-  const handleImgSubmit = async (e) => {
-    e.preventDefault();
-    dispatch(saveUserPic(blob, id));
-  };
 
   const toggleDeleteModal = () => {
     setOpenModal((openModal) => !openModal);
   };
-
-  // const toProfilePage = () => {
-  //   dispatch(getUserProfile(id));
-  //   setTimeout(() => {
-  //     history.push(`/profile/${username}`);
-  //   }, 100);
-  // };
 
   const handleDeleteProfileFromMenu = () => {
     dispatch(deleteUser(id));
@@ -44,8 +31,8 @@ const Menu = ({ isOpen, toggleMenu }) => {
 
   return (
     <div
-      className="menu-container h-screen w-9/12 py-5 bg-gray-100 flex flex-col items-center justify-start gap-2 fixed top-0 left-0 z-50 rounded-tr rounded-br transition-transform duration-300"
-      style={{ transform: isOpen ? "translateX(0)" : "translateX(-100%)" }}
+      className="menu-container h-screen w-9/12 pt-5 pb-7 bg-white flex flex-col items-center justify-between gap-2 fixed top-0 left-0 z-50 transition-transform duration-300"
+      style={{ transform: isMenuOpen ? "translateX(0)" : "translateX(-100%)" }}
     >
       <div className="top-section h-max w-10/12 pb-2 flex flex-col items-center justify-center gap-2 border-b border-gray-300">
         <div className="avatar-container h-max w-full flex items-center justify-center">
@@ -63,102 +50,69 @@ const Menu = ({ isOpen, toggleMenu }) => {
         <div className="username-member h-max w-full flex flex-col items-center justify-start">
           <span className="text-xl font-bold capitalize">{username?.length !== 0 && username}</span>
           <span className="block italic text-sm flex items-center justify-center gap-1">
-            <span
-              className="block w-6 h-6 rounded-full outline-none transform translate-y-px"
-              style={{ background: `url(${logo2}) no-repeat center/cover` }}
-            ></span>
-            membre depuis {creationDate?.length !== 0 && formatTimestamp(creationDate)}
+            <img src={logo_mobile_blue} className="h-6" />
+            {isAuthenticated ? (
+              <span>membre depuis {creationDate?.length !== 0 && formatTimestamp(creationDate)}</span>
+            ) : (
+              <span>Visitor Mode</span>
+            )}
           </span>
         </div>
       </div>
-      <div className="main-section h-full w-full flex flex-col items-center justify-start gap-2">
-        <form
-          className="handle-img h-max w-full flex flex-col items-center justify-start gap-1"
-          action=""
-          method="POST"
-          encType="multipart/form-data"
-          onSubmit={handleImgSubmit}
-        >
-          <label
-            className="button-changer-choisir w-48 text-center text-white text-sm p-2 rounded shadow-xl hover:cursor-pointer"
-            style={{ backgroundColor: "#ef5350" }}
-            htmlFor="file"
-          >
-            {!picUrl ? "Choisir une photo de profil" : "Changer la photo de profil"}
-          </label>
-
-          <div className="flex items-center ">
-            <input
-              className="text-white p-2 rounded hidden"
-              style={{ backgroundColor: "#ef5350" }}
-              type="file"
-              accept="image/x-png,image/jpeg,image/jpg, image/gif"
-              id="file"
-              ref={file}
-              onChange={() => {
-                setBlob(file.current.files[0]);
-                setBlobName(file.current.files[0].name);
-                setIsHidden(false);
-              }}
-            />
-            <div className="text-center text-xs">
-              {!isHidden ? blobName : !picUrl ? <span className="italic text-xs">Aucune photo pour le moment.</span> : null}
-            </div>
-          </div>
-          <div className="buttons-container-apercu-valider w-full flex items-center justify-center gap-4">
-            <button
-              className="text-white text-sm px-2 shadow py-1 border border-red-500 rounded transform transition transition-opacity duration-1000 shadow-xl"
-              style={isHidden ? { display: "none", opacity: 0 } : { display: "block", opacity: 1, backgroundColor: "#ef5350" }}
-            >
-              voir l'aperçu
-            </button>
-            <button
-              className="w-max flex items-center gap-1 text-black font-bold px-2 shadow py-1 rounded transform transition transition-opacity duration-1000 shadow-xl"
-              style={isHidden ? { opacity: 0, display: "none" } : { opacity: 1, display: "flex", backgroundColor: "#ef5350" }}
-              onClick={() => setIsHidden(true)}
-            >
-              valider
-              <ChevronDoubleRightIcon className="h-4 w-4 text-black font-bold" style={{ transform: "translateY(1px)" }} />
-            </button>
-          </div>
-        </form>
-        <ul className="h-max w-11/12 flex flex-col items-start justify-center gap-3 pt-10 pl-4 text-sm text-gray-900">
+      <div className="main-section h-full w-full flex flex-col items-center justify-start gap-2 pt-10">
+        <ul className="h-max w-11/12 flex flex-col items-start justify-center gap-3 pl-6 text-sm text-gray-900">
           <li>
             <button
-              className="flex items-center justify-center gap-1"
+              className="flex items-center justify-center space-x-2"
               onClick={() => {
-                // linkToProfile(id);
-                toggleMenu();
+                handleLink("profile");
+                isAuthenticated && toggleMenu();
               }}
             >
-              <UserCircleIcon className="h-8 text-gray-700" /> Mon profil
+              <UserIcon className="h-6 text-gray-500" />
+              <span>Mon profil</span>
             </button>
           </li>
           <li>
             <button
-              className="flex items-center justify-center gap-1"
+              className="flex items-center justify-center space-x-2"
               onClick={() => {
-                history.push("/create");
-                toggleMenu();
+                handleLink("post");
+                isAuthenticated && toggleMenu();
               }}
             >
-              <PencilIcon className="h-8 text-gray-700" />
-              Créer un nouveau post
+              <PencilIcon className="h-6 text-gray-500" />
+              <span>Créer un nouveau post</span>
             </button>
           </li>
-          <li>
-            <button className="flex items-center justify-center gap-1">
-              <HeartIcon className="h-8 text-gray-700" />
+          {/* <li>
+            <button className="flex items-center justify-center space-x-2">
+              <HeartIcon className="h-6 text-gray-500" />
               Posts que j'ai aimé
             </button>
+          </li> */}
+          <li>
+            <button className="flex items-center justify-center space-x-2" onClick={toggleSettings}>
+              <CogIcon className="h-6 text-gray-500" />
+              <span className="inline-block">{userLanguage.navbarDesktop.settings}</span>
+            </button>
           </li>
           <li>
-            <button className="flex items-center justify-center gap-1 text-sm" onClick={() => setOpenModal(true)}>
-              <TrashIcon className="h-8 text-gray-700" />
-              Supprimer mon profil
+            <button
+              className="flex items-center justify-center space-x-2 text-sm"
+              onClick={() => (isAuthenticated ? setOpenModal(true) : handleLink("delete"))}
+            >
+              <TrashIcon className="h-6 text-gray-500" />
+              <span>Supprimer mon profil</span>
             </button>
           </li>
         </ul>
+      </div>
+      <div
+        style={{ minWidth: "50%" }}
+        className="h-12 w-max flex items-center justify-center space-x-1 border border-green-500 text-green-500 text-sm rounded-full"
+      >
+        <span className="w-3 h-3 rounded-full bg-green-500 "></span> <span>Statut : en ligne</span>
       </div>
       {openModal && (
         <DeleteModal
@@ -168,6 +122,7 @@ const Menu = ({ isOpen, toggleMenu }) => {
           toggleMenu={toggleMenu}
         />
       )}
+      <Settings settingsOpen={settingsOpen} isMenuOpen={isMenuOpen} />
     </div>
   );
 };
