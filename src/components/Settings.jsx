@@ -68,12 +68,15 @@ const Settings = ({ settingsOpen }) => {
               ? "translateX(0)"
               : settingsOpen && width > 1024
               ? "translateX(14rem)"
+              : settingsOpen && width < 768
+              ? "translateX(0)"
               : settingsOpen
               ? "translateX(4.5rem)"
               : null,
-          top: pathname === "/" ? "3.5rem" : width < 1024 ? "9rem" : "8rem",
-          left: settingsOpen && pathname === "/" ? "auto" : settingsOpen ? "0.25rem" : null,
+          top: pathname === "/" ? "3.5rem" : width < 768 ? "-265%" : width < 1024 ? "9rem" : "8rem",
+          left: settingsOpen && pathname === "/" ? "auto" : settingsOpen && width < 768 ? "45%" : settingsOpen ? "0.25rem" : null,
           right: pathname === "/" ? "1rem" : null,
+          // bottom: width < 768 ? "0" : null,
         }
       }
     >

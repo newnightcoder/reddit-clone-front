@@ -16,6 +16,7 @@
 # production
 /build
 language.json
+TODO
 
 # misc
 .DS_Store

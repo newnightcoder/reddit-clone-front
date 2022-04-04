@@ -2,7 +2,7 @@ import { CheckIcon, ChevronLeftIcon } from "@heroicons/react/solid";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLanguage } from "../store/actions/user.action";
-import { useLanguage } from "../utils/hooks";
+import { useLanguage, useWindowSize } from "../utils/hooks";
 import useDarkMode from "../utils/hooks/useDarkMode";
 
 const SettingsOptions = ({ isOpen, isActive, setIsActive, langOptions, setMode, toggleOption, modeOptions, allModeOptions }) => {
@@ -12,11 +12,12 @@ const SettingsOptions = ({ isOpen, isActive, setIsActive, langOptions, setMode, 
   const [theme, toggleMode] = useDarkMode();
   const userLanguage = useLanguage();
   const { lang, appearance, subtitleLang, subtitleMode } = userLanguage.options;
+  const { height, width } = useWindowSize();
 
   return (
     <div
-      className="z-40 w-52 px-2 pb-2 absolute top-0 left-0 flex-col items-start justify-start bg-white rounded-lg shadow-xl dark:bg-gray-500"
-      style={isOpen ? { display: "flex" } : { display: "none" }}
+      className="z-40 w-52 px-2 pb-2 absolute left-0 flex-col items-start justify-start bg-white rounded-lg shadow-xl dark:bg-gray-500"
+      style={{ display: isOpen ? "flex" : "none", top: width < 768 ? "auto%" : "0", bottom: width < 768 ? "0" : "auto" }}
     >
       <button
         className="w-full pt-4 pb-3 flex items-center justify-start space-x-2 border-b border-gray-100"

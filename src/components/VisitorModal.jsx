@@ -17,7 +17,7 @@ const VisitorModal = () => {
       className="h-screen w-screen fixed inset-0 transition-opacity duration-300 flex items-center justify-center text-white"
     >
       <div className="flex flex-col items-center justify-center space-y-4">
-        <p>{visitorMessage}</p>
+        <p className="text-center w-2/3 md:w-full">{visitorMessage}</p>
         <button
           onClick={() => dispatch(toggleVisitorModal(""))}
           className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"

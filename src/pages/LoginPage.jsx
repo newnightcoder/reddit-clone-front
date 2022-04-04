@@ -6,7 +6,7 @@ import { logo } from "../assets";
 // import bg from "../assets/logo2.svg";
 import { clearUserError, logUserAction } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
-import useLanguage from "../utils/hooks/useLanguage";
+import { useLanguage } from "../utils/hooks";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -16,7 +16,7 @@ const Login = () => {
   const { error, isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const [userLangData, setLanguage] = useLanguage();
+  const userLanguage = useLanguage();
 
   /* eslint no-control-regex: 0 */
   const emailRegex =
@@ -58,7 +58,7 @@ const Login = () => {
   return (
     <div className="h-screen w-full flex flex-col items-center justify-center space-y-16 bg-gray-200">
       <header className="text-center uppercase flex flex-col items-center justify-center md:gap-1">
-        <span className="font-bold text-lg">{userLangData.login.greeting}</span>
+        <span className="font-bold text-lg">{userLanguage.login.greeting}</span>
         <img src={logo} style={{ height: "150", width: "80%" }} alt="logo Forum" />
       </header>
       <div
@@ -80,7 +80,7 @@ const Login = () => {
           ></input>
         </div>
         <div className="flex flex-col items-start">
-          <label htmlFor="password">{userLangData.login.pass}</label>
+          <label htmlFor="password">{userLanguage.login.pass}</label>
           <input
             className="w-64 rounded p-1 border border-blue-400 bg-white outline-none"
             type="password"
@@ -92,16 +92,16 @@ const Login = () => {
           className="w-48 text-white p-2 rounded transform translate-y-2 disabled:opacity-50 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
           disabled={!isEmail || password.length < 8 ? true : false}
         >
-          {!isLoading || error ? <span>{userLangData.login.enter}</span> : <SyncLoader size={8} color={"#ffffff"} />}
+          {!isLoading || error ? <span>{userLanguage.login.enter}</span> : <SyncLoader size={8} color={"#ffffff"} />}
         </button>
       </form>
       <div className="w-4/5 md:w-96 text-center border-t border-black transform translate-y-12 md:translate-y-16 py-2 flex flex-col items-center justify-center gap-1 md:flex-row md:gap-2">
-        {userLangData.login.first}?
+        {userLanguage.login.first}?
         <Link
           to="/signup"
           className="font-bold underline uppercase text-blue-500 transition-color duration-300 hover:text-blue-600"
         >
-          {userLangData.login.registerBtn}
+          {userLanguage.login.registerBtn}
         </Link>
       </div>
     </div>

@@ -77,8 +77,8 @@ const Homepage = () => {
           </div>
         </div>
       </div>
-      <div className="w-full flex flex-col items-center justify-center space-y-12">
-        <div className="flex flex-col items-center justify-center space-y-1 md:space-y-3">
+      <div className="w-full flex flex-col items-center justify-center space-y-10 md:space-y-12">
+        <div className="flex flex-col items-center justify-center md:space-y-3">
           <span className="text-sm pb-2">{userLanguage?.homepage.download}</span>
           <div className="flex items-center justify-center space-x-2">
             <svg width="151" height="51" fill="none" xmlns="http://www.w3.org/2000/svg" className="hover:cursor-pointer">

@@ -30,7 +30,7 @@ const language = {
       pass: "Password",
       enter: "log in",
       first: "First time on FORUM",
-      registerBtn: "register",
+      registerBtn: "sign up",
     },
     navbar: {
       connected: "connected",

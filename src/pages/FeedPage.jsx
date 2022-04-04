@@ -1,11 +1,9 @@
-import { PaperAirplaneIcon, RefreshIcon } from "@heroicons/react/solid";
+import { RefreshIcon } from "@heroicons/react/solid";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import picPlaceholder from "../assets/pic_placeholder.svg";
 import { Post, PostSkeleton } from "../components";
 import Layout from "../components/ Layout";
 import { getPosts, getUsers } from "../store/actions/posts.action";
-import { history } from "../utils/helpers";
 import { useLanguage } from "../utils/hooks";
 
 const Feed = () => {
@@ -73,7 +71,7 @@ const Feed = () => {
             </div>
           </div>
         </div>
-        <div className="createpost-link-bottom md:hidden w-full fixed bottom-0 left-0 flex flex-col items-center justify-center mt-1 md:mt-2 md:mb-4 md:px-6 bg-gray-300 md:bg-white border-t border-gray-600 md:border-t-0 md:rounded md:shadow z-10">
+        {/* <div className="createpost-link-bottom md:hidden w-full fixed bottom-0 left-0 flex flex-col items-center justify-center mt-1 md:mt-2 md:mb-4 md:px-6 bg-gray-300 md:bg-white border-t border-gray-600 md:border-t-0 md:rounded md:shadow z-10">
           <div className="h-16 w-full md:w-5/6 flex items-center justify-evenly md:justify-center md:gap-3 ">
             <div
               className="w-10 h-10 rounded-full border border-gray-600"
@@ -97,7 +95,7 @@ const Feed = () => {
             />
             <PaperAirplaneIcon className="h-6 w-6 text-black transform rotate-45" />
           </div>
-        </div>
+        </div> */}
       </div>
     </Layout>
   );

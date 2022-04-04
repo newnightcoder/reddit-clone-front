@@ -16,66 +16,76 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
 
   return (
     <div
-      style={{ minWidth: width > 1024 ? "14rem" : "max-content", marginTop: pathname === "/feed" ? "6rem" : "4rem" }}
-      className="hidden md:flex h-min z-30 mt-24 sticky top-20 flex-col items-center justify-center space-y-4 px-4 lg:pt-6 pb-4 whitespace-nowrap rounded-lg lg:bg-white lg:dark:bg-gray-500 lg:shadow-sm "
+      style={{
+        minWidth: width > 1024 ? "14rem" : width > 768 ? "max-content" : width < 768 ? "100%" : null,
+        marginTop: pathname === "/feed" ? "6rem" : "4rem",
+        position: width < 768 ? "fixed" : "sticky",
+      }}
+      className="w-max flex h-min z-30 sticky bottom-0 md:top-20 items-center justify-center md:justify-start md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent lg:bg-white lg:dark:bg-gray-500 lg:shadow-sm"
     >
-      <Link
-        style={pathname === "/feed" ? { backgroundColor: "rgb(96 165 250)", color: "white" } : null}
-        to={"/feed"}
-        className="h-16 w-16 lg:h-10 lg:w-full space-x-1 font-bold flex items-center justify-center lg:justify-start p-2 rounded-full transition duration-300 bg-white dark:bg-gray-500 lg:bg-transparent  lg:dark:bg-transparent hover:bg-blue-100"
-        // style={{ backgroundColor: "#ef5350" }}
-        disabled={false}
+      <div
+        style={{ width: "100%", maxWidth: width < 768 ? "550px" : null }}
+        className="flex h-min md:flex-col items-center justify-evenly md:justify-center md:space-y-4 py-2 md:py-0 md:px-4 lg:pt-6 md:pb-4 whitespace-nowrap md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent lg:bg-white lg:dark:bg-gray-500 lg:shadow-sm"
       >
-        <HomeIcon className="h-8 w-8 lg:h-6 transform -translate-y-px" />
-        <span className="capitalize hidden lg:inline-block">forum</span>
-      </Link>
-
-      <button
-        onClick={() => handleLink("post")}
-        style={pathname === "/create" ? { backgroundColor: "rgb(96 165 250)", color: "white" } : null}
-        className="w-16 h-16 lg:w-full lg:h-10 outline-none ring-none flex items-center justify-center lg:justify-start lg:pl-1 lg:pr-4 rounded-full transition duration-300 bg-white dark:bg-gray-500 lg:bg-transparent lg:dark:bg-transparent hover:bg-blue-100"
-      >
-        <div className="w-16 h-16 lg:w-10 lg:h-10 rounded-full relative flex items-center justify-center">
-          <span className="inline-block absolute top-0 left-0 transform translate-x-4 translate-y-2 lg:translate-x-2 lg:translate-y-0">
-            +
-          </span>
-          <PencilIcon className="h-9 lg:h-7 w-8 transform translate-x-px" />
-        </div>
-        <span className="hidden lg:inline-block font-bold">{userLanguage.navbarDesktop.publish}</span>
-      </button>
-      <button
-        style={
-          pathname.includes("/profile") && pathname.includes(username)
-            ? { backgroundColor: "rgb(96 165 250)", color: "white" }
-            : null
-        }
-        className="lg:w-full outline-none ring-none flex items-center justify-center rounded-full lg:justify-start space-x-1 lg:pl-2 lg:pr-4 rounded-full bg-white lg:bg-transparent lg:dark:bg-transparent dark:bg-gray-500 transition duration-300 hover:bg-blue-100"
-        onClick={() => handleLink("profile")}
-      >
-        <div className="w-10 h-10 lg:w-max  lg:border-0 rounded-full relative flex items-center justify-center">
-          <UserIcon className="h-6 w-8" />
-        </div>
-        <span className="hidden lg:inline-block font-bold">{userLanguage.navbarDesktop.profile}</span>
-      </button>
-      <button
-        style={settingsOpen ? { backgroundColor: "rgb(96 165 250)", color: "white" } : null}
-        className="lg:w-full outline-none ring-none flex items-center justify-center rounded-full lg:justify-start space-x-2 lg:pl-2 lg:pr-4 rounded-full bg-white lg:bg-transparent lg:dark:bg-transparent dark:bg-gray-500 transition duration-300 hover:bg-blue-100"
-        onClick={toggleSettings}
-      >
-        <div className="w-10 h-10 lg:w-max  lg:border-0 rounded-full relative flex items-center justify-center">
-          <GearFill size={22} className="w-8" />
-        </div>
-        <span className="hidden lg:inline-block font-bold">{userLanguage.navbarDesktop.settings}</span>
-      </button>
-      <Link
-        className="lg:w-full flex items-center justify-center rounded-full lg:justify-start space-x-1 lg:pl-2 lg:pr-4 rounded-full bg-white lg:bg-transparent lg:dark:bg-transparent dark:bg-gray-500 transition duration-300 hover:bg-blue-100"
-        to="/"
-      >
-        <div className="w-10 h-10 lg:w-max  lg:border-0 rounded-full relative flex items-center justify-center">
-          <Power size={25} className="w-8" />
-        </div>
-        <span className="hidden lg:inline-block font-bold">{userLanguage.navbarDesktop.logout}</span>
-      </Link>
+        <Link
+          style={pathname === "/feed" ? { backgroundColor: "rgb(96 165 250)", color: "white" } : null}
+          to={"/feed"}
+          className="h-10 w-10 md:h-16 md:w-16 lg:h-10 lg:w-full space-x-1 font-bold flex items-center justify-center lg:justify-start p-2 rounded-full transition duration-300 text-gray-500 md:bg-white md:dark:bg-transparent md:text-black dark:text-white bg-transparent md:dark:bg-gray-500 lg:bg-transparent lg:dark:bg-transparent hover:bg-blue-100 dark:hover:bg-blue-400 hover:text-black"
+        >
+          <HomeIcon className="h-8 w-8 lg:h-6 transform -translate-y-px" />
+          <span className="capitalize hidden lg:inline-block">forum</span>
+        </Link>
+        <button
+          onClick={() => handleLink("post")}
+          style={pathname === "/create" ? { backgroundColor: "rgb(96 165 250)", color: "white" } : null}
+          className="h-10 w-10 md:w-16 md:h-16 lg:w-full lg:h-10 outline-none ring-none flex items-center justify-center lg:justify-start lg:pl-1 lg:pr-4 rounded-full transition duration-300 text-gray-500 md:bg-white md:dark:bg-transparent md:text-black dark:text-white bg-transparent md:dark:bg-gray-500 lg:bg-transparent lg:dark:bg-transparent hover:bg-blue-100 dark:hover:bg-blue-400 hover:text-black"
+        >
+          <div className="h-10 w-10 md:w-16 md:h-16 lg:w-10 lg:h-10 rounded-full relative flex items-center justify-center">
+            <span className="inline-block absolute top-0 left-0 transform translate-x-1.5 md:translate-x-4 md:translate-y-2 lg:translate-x-2 lg:translate-y-0">
+              +
+            </span>
+            <PencilIcon className="h-7 md:h-9 lg:h-7 w-8 transform translate-x-px" />
+          </div>
+          <span className="hidden lg:inline-block font-bold">{userLanguage.navbarDesktop.publish}</span>
+        </button>
+        <button
+          style={
+            pathname.includes("/profile") && pathname.includes(username)
+              ? {
+                  backgroundColor: "rgb(96 165 250)",
+                  color: "white",
+                }
+              : null
+          }
+          className="lg:w-full outline-none ring-none flex items-center justify-center rounded-full lg:justify-start space-x-1 lg:pl-2 lg:pr-4 rounded-full bg-transparent md:bg-white md:dark:bg-transparent lg:bg-transparent lg:dark:bg-transparent md:dark:bg-gray-500 transition duration-300 text-gray-500 md:text-black dark:text-white hover:bg-blue-100 dark:hover:bg-blue-400 hover:text-black"
+          onClick={() => handleLink("profile")}
+        >
+          <div className="w-10 h-10 lg:w-max  lg:border-0 rounded-full relative flex items-center justify-center">
+            <UserIcon className="h-6 w-8" />
+          </div>
+          <span className="hidden lg:inline-block font-bold">{userLanguage.navbarDesktop.profile}</span>
+        </button>
+        <button
+          style={settingsOpen ? { backgroundColor: "rgb(96 165 250)", color: "white" } : null}
+          className="lg:w-full outline-none ring-none flex items-center justify-center rounded-full lg:justify-start space-x-2 lg:pl-2 lg:pr-4 rounded-full bg-transparent md:bg-white md:dark:bg-transparent lg:bg-transparent lg:dark:bg-transparent md:dark:bg-gray-500 transition duration-300 text-gray-500 md:text-black dark:text-white hover:bg-blue-100 dark:hover:bg-blue-400 hover:text-black"
+          onClick={toggleSettings}
+        >
+          <div className="w-10 h-10 lg:w-max  lg:border-0 rounded-full relative flex items-center justify-center">
+            <GearFill size={22} className="w-8" />
+          </div>
+          <span className="hidden lg:inline-block font-bold">{userLanguage.navbarDesktop.settings}</span>
+        </button>
+        <Link
+          // style={{ color: width > 768 ? "white" : "black" }}
+          className="lg:w-full flex items-center justify-center rounded-full lg:justify-start space-x-1 lg:pl-2 lg:pr-4 rounded-full bg-transparent md:bg-white md:dark:bg-transparent lg:bg-transparent lg:dark:bg-transparent md:dark:bg-gray-500 transition duration-300 text-gray-500 md:text-black dark:text-white hover:bg-blue-100 dark:hover:bg-blue-400 hover:text-black"
+          to="/"
+        >
+          <div className="w-10 h-10 lg:w-max  lg:border-0 rounded-full relative flex items-center justify-center">
+            <Power size={25} className="w-8" />
+          </div>
+          <span className="hidden lg:inline-block font-bold">{userLanguage.navbarDesktop.logout}</span>
+        </Link>
+      </div>
       <Settings settingsOpen={settingsOpen} />
     </div>
   );
