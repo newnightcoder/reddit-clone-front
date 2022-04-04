@@ -1,5 +1,6 @@
 import { CogIcon, PencilIcon, TrashIcon, UserIcon } from "@heroicons/react/solid";
 import React, { useState } from "react";
+import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { DeleteModal } from ".";
@@ -30,8 +31,8 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
   };
 
   return (
-    <div
-      className="menu-container h-screen w-9/12 pt-5 pb-7 bg-white flex flex-col items-center justify-between gap-2 fixed top-0 left-0 z-50 transition-transform duration-300"
+    <Div100vh
+      className="menu-container w-9/12 pt-5 pb-7 bg-white flex flex-col items-center justify-between gap-2 fixed top-0 left-0 z-50 transition-transform duration-300"
       style={{ transform: isMenuOpen ? "translateX(0)" : "translateX(-100%)" }}
     >
       <div className="top-section h-max w-10/12 pb-2 flex flex-col items-center justify-center gap-2 border-b border-gray-300">
@@ -123,7 +124,7 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
         />
       )}
       <Settings settingsOpen={settingsOpen} isMenuOpen={isMenuOpen} />
-    </div>
+    </Div100vh>
   );
 };
 
