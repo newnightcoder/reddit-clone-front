@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { UserCard } from ".";
+import { Skeleton, UserCard } from ".";
 import { useLanguage } from "../utils/hooks";
 
 const RecentUsers = () => {
@@ -25,9 +25,11 @@ const RecentUsers = () => {
       </div>
       <div className="list w-full h-max flex flex-col items-center justify-center rounded-bl rounded-br bg-white pb-12">
         <>
-          {lastFiveUsers?.map((user) => (
-            <UserCard user={user} key={user.id} />
-          ))}
+          {lastFiveUsers.length === 0 || lastFiveUsers === undefined ? (
+            <Skeleton element="user" number={5} />
+          ) : (
+            lastFiveUsers?.map((user) => <UserCard user={user} key={user.id} />)
+          )}
           <button className="bg-blue-500 shadow flex items-center justify-center rounded-2xl w-3/4 py-1 px-2 text-white transform translate-y-6">
             {userLanguage.aside.newMembersBtn}
           </button>

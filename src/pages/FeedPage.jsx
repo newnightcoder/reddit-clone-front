@@ -1,8 +1,7 @@
 import { RefreshIcon } from "@heroicons/react/solid";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Post, PostSkeleton } from "../components";
-import Layout from "../components/ Layout";
+import { Layout, Post, Skeleton } from "../components";
 import { getPosts, getUsers } from "../store/actions/posts.action";
 import { useLanguage } from "../utils/hooks";
 
@@ -60,7 +59,7 @@ const Feed = () => {
               </div>
               <div className="posts-wrapper h-full w-full relative flex flex-col items-center justify-center gap-4 pb-6">
                 {posts?.length === 0 || posts === undefined ? (
-                  <PostSkeleton />
+                  <Skeleton element="post" number={8} />
                 ) : (
                   posts.map((post) => <Post key={post.postId} post={post} />)
                 )}

@@ -1,8 +1,8 @@
 import React from "react";
 
-const PostElement = () => {
+const PostSkeleton = () => {
   return (
-    <div className="container h-32 w-11/12 flex items-center justify-center bg-white border border-gray-300 rounded-md px-2 pt-2">
+    <div className="container h-32 w-11/12 md:w-full max-w-3xl flex items-center justify-center bg-white border border-gray-300 rounded-md px-2 pt-2">
       <div className="post-container animate-pulse relative h-full w-full flex-col items-center justify-center bg-white">
         <div className="top w-full flex items-center justify-center pb-1 border-b border-gray-300">
           <div className="left-column h-full w-2/12 flex justify-center">
@@ -23,19 +23,28 @@ const PostElement = () => {
   );
 };
 
-const PostSkeleton = () => {
+const UserCardSkeleton = ({ mod }) => {
+  return (
+    <div className="w-72 h-24 lg:flex flex-col items-center justify-start gap-2">
+      <div className="flex gap-2 items-center justify-start hover:underline hover:font-bold">
+        <div className="h-14 w-14 rounded-full bg-gray-500 border-2 border-blue-400 p-1 hover:border-red-400 transition duration-300"></div>
+        <span className="capitalize"></span>
+      </div>
+      {!mod && <span className="w-full flex justify-center text-xs italic"></span>}
+    </div>
+  );
+};
+
+const Skeleton = ({ element, number, mod }) => {
+  let arrayOfSkeletons = new Array(number).fill(number, 0, number);
+  console.log(arrayOfSkeletons);
   return (
     <>
-      <PostElement />
-      <PostElement />
-      <PostElement />
-      <PostElement />
-      <PostElement />
-      <PostElement />
-      <PostElement />
-      <PostElement />
+      {element === "post"
+        ? arrayOfSkeletons.map((sk, i) => <PostSkeleton key={i} />)
+        : element === "user" && arrayOfSkeletons.map((sk, i) => <UserCardSkeleton key={i} mod={mod} />)}
     </>
   );
 };
 
-export default PostSkeleton;
+export default Skeleton;

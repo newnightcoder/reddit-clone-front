@@ -8,7 +8,10 @@ const Aside = () => {
   const [size, setSize] = useState(null);
 
   useEffect(() => {
-    setSize(element.current.getBoundingClientRect());
+    setTimeout(() => {
+      setSize(element?.current.getBoundingClientRect());
+    }, 1000);
+    console.log(element?.current.getBoundingClientRect());
   }, []);
 
   return (

@@ -21,16 +21,17 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
         marginTop: pathname === "/feed" ? "6rem" : "4rem",
         position: width < 768 ? "fixed" : "sticky",
       }}
-      className="w-max flex h-min z-30 sticky bottom-0 md:top-20 items-center justify-center md:justify-start md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent lg:bg-white lg:dark:bg-gray-500 lg:shadow-sm"
+      className="w-max flex h-min z-30 sticky bottom-0 md:top-20 items-center justify-center md:justify-start md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent"
+      // lg:bg-white lg:dark:bg-gray-500 lg:shadow-sm
     >
       <div
         style={{ width: "100%", maxWidth: width < 768 ? "550px" : null }}
-        className="flex h-min md:flex-col items-center justify-evenly md:justify-center md:space-y-4 py-2 md:py-0 md:px-4 lg:pt-6 md:pb-4 whitespace-nowrap md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent lg:bg-white lg:dark:bg-gray-500 lg:shadow-sm"
+        className="flex h-min md:flex-col items-center justify-evenly md:justify-center md:space-y-4 py-2 md:py-0 md:px-4 md:pb-4 whitespace-nowrap md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent"
       >
         <NavLink
           activeStyle={{ backgroundColor: "rgb(96 165 250)", color: "white" }}
           to={"/feed"}
-          className="h-10 w-10 md:h-16 md:w-16 lg:h-10 lg:w-full space-x-1 font-bold flex items-center justify-center lg:justify-start p-2 rounded-full transition duration-300 text-gray-500 md:bg-white md:dark:bg-transparent md:text-black dark:text-white bg-transparent md:dark:bg-gray-500 lg:bg-transparent lg:dark:bg-transparent hover:bg-blue-100 dark:hover:bg-blue-400 hover:text-black"
+          className="h-10 w-10 md:h-16 md:w-16 lg:h-10 lg:w-full space-x-1 font-bold flex items-center justify-center lg:justify-start p-2 rounded-full transition duration-300 text-gray-500 md:bg-white md:dark:bg-transparent md:text-black dark:text-white bg-transparent md:dark:bg-gray-500 lg:bg-transparent lg:dark:bg-transparent hover:bg-blue-400 dark:hover:bg-blue-400 hover:text-black md:hover:text-white"
         >
           <HomeIcon className="h-8 w-8 lg:h-6 transform -translate-y-px" />
           <span className="capitalize hidden lg:inline-block">forum</span>
@@ -38,7 +39,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
         <button
           onClick={() => handleLink("post")}
           style={pathname === "/create" ? { backgroundColor: "rgb(96 165 250)", color: "white" } : null}
-          className="h-10 w-10 md:w-16 md:h-16 lg:w-full lg:h-10 outline-none ring-none flex items-center justify-center lg:justify-start lg:pl-1 lg:pr-4 rounded-full transition duration-300 text-gray-500 md:bg-white md:dark:bg-transparent md:text-black dark:text-white bg-transparent md:dark:bg-gray-500 lg:bg-transparent lg:dark:bg-transparent hover:bg-blue-100 dark:hover:bg-blue-400 hover:text-black"
+          className="h-10 w-10 md:w-16 md:h-16 lg:w-full lg:h-10 outline-none ring-none flex items-center justify-center lg:justify-start lg:pl-1 lg:pr-4 rounded-full transition duration-300 text-gray-500 md:bg-white md:dark:bg-transparent md:text-black dark:text-white bg-transparent md:dark:bg-gray-500 lg:bg-transparent lg:dark:bg-transparent hover:bg-blue-400 dark:hover:bg-blue-400 hover:text-black md:hover:text-white"
         >
           <div className="h-10 w-10 md:w-16 md:h-16 lg:w-10 lg:h-10 rounded-full relative flex items-center justify-center">
             <span className="inline-block absolute top-0 left-0 transform translate-x-1.5 md:translate-x-4 md:translate-y-2 lg:translate-x-2 lg:translate-y-0">
@@ -57,7 +58,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
                 }
               : null
           }
-          className="lg:w-full outline-none ring-none flex items-center justify-center rounded-full lg:justify-start space-x-1 lg:pl-2 lg:pr-4 rounded-full bg-transparent md:bg-white md:dark:bg-transparent lg:bg-transparent lg:dark:bg-transparent md:dark:bg-gray-500 transition duration-300 text-gray-500 md:text-black dark:text-white hover:bg-blue-100 dark:hover:bg-blue-400 hover:text-black"
+          className="lg:w-full outline-none ring-none flex items-center justify-center rounded-full lg:justify-start space-x-1 lg:pl-2 lg:pr-4 rounded-full bg-transparent md:bg-white md:dark:bg-transparent lg:bg-transparent lg:dark:bg-transparent md:dark:bg-gray-500 transition duration-300 text-gray-500 md:text-black dark:text-white hover:bg-blue-400 dark:hover:bg-blue-400 hover:text-black md:hover:text-white"
           onClick={() => handleLink("profile")}
         >
           <div className="w-10 h-10 lg:w-max  lg:border-0 rounded-full relative flex items-center justify-center">
@@ -67,7 +68,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
         </button>
         <button
           style={settingsOpen ? { backgroundColor: "rgb(96 165 250)", color: "white" } : null}
-          className="lg:w-full outline-none ring-none flex items-center justify-center rounded-full lg:justify-start space-x-2 lg:pl-2 lg:pr-4 rounded-full bg-transparent md:bg-white md:dark:bg-transparent lg:bg-transparent lg:dark:bg-transparent md:dark:bg-gray-500 transition duration-300 text-gray-500 md:text-black dark:text-white hover:bg-blue-100 dark:hover:bg-blue-400 hover:text-black"
+          className="lg:w-full outline-none ring-none flex items-center justify-center rounded-full lg:justify-start space-x-2 lg:pl-2 lg:pr-4 rounded-full bg-transparent md:bg-white md:dark:bg-transparent lg:bg-transparent lg:dark:bg-transparent md:dark:bg-gray-500 transition duration-300 text-gray-500 md:text-black dark:text-white hover:bg-blue-400 dark:hover:bg-blue-400 hover:text-black md:hover:text-white"
           onClick={toggleSettings}
         >
           <div className="w-10 h-10 lg:w-max  lg:border-0 rounded-full relative flex items-center justify-center">
@@ -77,7 +78,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
         </button>
         <Link
           // style={{ color: width > 768 ? "white" : "black" }}
-          className="lg:w-full flex items-center justify-center rounded-full lg:justify-start space-x-1 lg:pl-2 lg:pr-4 rounded-full bg-transparent md:bg-white md:dark:bg-transparent lg:bg-transparent lg:dark:bg-transparent md:dark:bg-gray-500 transition duration-300 text-gray-500 md:text-black dark:text-white hover:bg-blue-100 dark:hover:bg-blue-400 hover:text-black"
+          className="lg:w-full flex items-center justify-center rounded-full lg:justify-start space-x-1 lg:pl-2 lg:pr-4 rounded-full bg-transparent md:bg-white md:dark:bg-transparent lg:bg-transparent lg:dark:bg-transparent md:dark:bg-gray-500 transition duration-300 text-gray-500 md:text-black dark:text-white hover:bg-blue-400 dark:hover:bg-blue-400 hover:text-black md:hover:text-white"
           to="/"
         >
           <div className="w-10 h-10 lg:w-max  lg:border-0 rounded-full relative flex items-center justify-center">

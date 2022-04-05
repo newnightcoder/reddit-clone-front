@@ -3,10 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import { useLocation } from "react-router-dom";
-import { PostForm } from "../components";
-import Layout from "../components/ Layout";
-import ImgUploadModal from "../components/createPostModals/ImgUploadModal";
-import UrlModal from "../components/createPostModals/UrlModal";
+import { ImgUploadModal, Layout, PostForm, UrlModal } from "../components";
 import { editPost, saveImageToEdit } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
 

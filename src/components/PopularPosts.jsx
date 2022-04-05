@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLanguage } from "../utils/hooks";
 import Post from "./Post";
+import Skeleton from "./Skeleton";
 
 const PopularPosts = () => {
   const posts = useSelector((state) => state.posts.posts);
@@ -28,9 +29,11 @@ const PopularPosts = () => {
         </span>
       </div>
       <div className="w-full flex flex-col space-y-2 bg-gray-300 p-4 border border-gray-300">
-        {top3.map((post, i) => (
-          <Post post={post} key={i + 1} />
-        ))}
+        {top3.length === 0 || top3 === undefined ? (
+          <Skeleton element="post" number={3} />
+        ) : (
+          top3.map((post, i) => <Post post={post} key={i + 1} />)
+        )}
       </div>
     </div>
   );

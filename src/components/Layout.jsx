@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { Aside, NavBar, NavBarDesktop } from ".";
-import { Menu, Overlay, SessionExpiredModal, VisitorModal } from "../components";
+import { Aside, Menu, NavBar, NavBarDesktop, Overlay, SessionExpiredModal, VisitorModal } from ".";
 import { getPosts } from "../store/actions/posts.action";
 import { useLinkToProfile, useToggleSettings } from "../utils/hooks";
 
