@@ -21,7 +21,6 @@ const CreatePost = () => {
   const [emptyTitle, setEmptyTitle] = useState(false);
   const [imgInputModalOpen, setImgInputModalOpen] = useState(false);
   const [urlModalOpen, setUrlModalOpen] = useState(false);
-  // const [youtubeModalOpen, setYoutubeModalOpen] = useState(false);
   const [serverErrorMsg, setServerErrorMsg] = useState("");
   const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
   const serverError = useSelector((state) => state.posts.error);
@@ -54,24 +53,19 @@ const CreatePost = () => {
   const toggleImgInput = useCallback((e) => {
     e.preventDefault();
     setUrlModalOpen(false);
-    // setYoutubeModalOpen(false);
     setImgInputModalOpen((prev) => !prev);
   });
 
   const toggleUrlInput = useCallback((e) => {
     e.preventDefault();
     setImgInputModalOpen(false);
-    // setYoutubeModalOpen(false);
     setUrlModalOpen((prev) => !prev);
-    // console.log("youtubeModalOpen toggleUrlInput:", youtubeModalOpen);
   });
 
   const toggleYoutubeInput = useCallback((e) => {
     e.preventDefault();
     setImgInputModalOpen(false);
     setUrlModalOpen(false);
-    // setYoutubeModalOpen((prev) => !prev);
-    // console.log("youtubeModalOpen toggleYoutubeInput:", youtubeModalOpen);
   });
 
   return (
@@ -83,7 +77,7 @@ const CreatePost = () => {
           <div className="w-full flex flex-col items-center justify-center pt-16" style={{ height: "calc(100vh - 4rem)" }}>
             {/* <h1 className="w-full text-left py-2 text-xl pl-48">Publier un post</h1> */}
             <div className="w-full h-full flex items-start justify-center space-x-8">
-              <div className="h-max w-10/12 max-w-3xl flex flex-col items-center justify-center">
+              <div className="h-max w-11/12 max-w-2xl flex flex-col items-center justify-center">
                 <div
                   className="error h-12 w-10/12 md:w-1/2 xl:w-1/3 whitespace-pre bg-black text-white text-sm text-center py-1 rounded"
                   style={{ display: emptyTitle ? "block" : "none" }}
@@ -104,7 +98,6 @@ const CreatePost = () => {
             </div>
             <ImgUploadModal imgInputModalOpen={imgInputModalOpen} toggleImgInput={toggleImgInput} setImgAdded={setImgAdded} />
             <UrlModal urlModalOpen={urlModalOpen} toggleUrlInput={toggleUrlInput} />
-            {/* <YoutubeLinkModal youtubeModalOpen={youtubeModalOpen} toggleYoutubeInput={toggleYoutubeInput} /> */}
           </div>
         </Layout>
       )}

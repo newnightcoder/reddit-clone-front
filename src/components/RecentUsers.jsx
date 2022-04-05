@@ -10,7 +10,7 @@ const RecentUsers = () => {
     if (a.id > b.id) return -1;
     if (a.id < b.id) return 1;
   });
-  const userLangData = useLanguage();
+  const userLanguage = useLanguage();
 
   useEffect(() => {
     setLastFiveUsers(sortedUsers?.splice(0, 5));
@@ -20,7 +20,7 @@ const RecentUsers = () => {
     <div className="w-full h-max flex flex-col rounded">
       <div className="header h-24 w-full bg-blue-400 rounded-tl rounded-tr relative">
         <span className="w-full text-center absolute bottom-0 mb-2 text-white text-lg font-bold">
-          {userLangData.feed.refreshBtn}
+          {userLanguage.aside.recentMembers}
         </span>
       </div>
       <div className="list w-full h-max flex flex-col items-center justify-center rounded-bl rounded-br bg-white pb-12">
@@ -28,8 +28,8 @@ const RecentUsers = () => {
           {lastFiveUsers?.map((user) => (
             <UserCard user={user} key={user.id} />
           ))}
-          <button className="bg-blue-900 shadow flex items-center justify-center rounded-2xl w-3/4 py-1 px-2 text-white transform translate-y-6">
-            Voir tous les membres
+          <button className="bg-blue-500 shadow flex items-center justify-center rounded-2xl w-3/4 py-1 px-2 text-white transform translate-y-6">
+            {userLanguage.aside.newMembersBtn}
           </button>
         </>
       </div>

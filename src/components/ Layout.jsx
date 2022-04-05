@@ -40,8 +40,8 @@ const Layout = ({ children }) => {
   return (
     <div className="">
       <NavBar toggleMenu={toggleMenu} />
-      <div className="px-4 h-full w-full mt-16 relative flex items-start justify-center bg-gray-200 dark:bg-gray-700 dark:text-white">
-        <div className="w-full 2xl:w-3/4 flex items-start justify-center relative">
+      <div className="h-full w-full mt-16 relative flex items-start justify-center bg-gray-200 dark:bg-gray-700 dark:text-white">
+        <div className="w-full 2xl:w-3/4 px-2 md:px-12 flex items-start justify-center md:space-x-4 relative">
           <NavBarDesktop toggleSettings={toggleSettings} settingsOpen={settingsOpen} />
           {children}
           {!location.pathname.includes("profile") && <Aside />}

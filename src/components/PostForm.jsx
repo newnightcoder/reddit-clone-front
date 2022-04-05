@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { clearTempPostImg } from "../store/actions/posts.action";
+import { useLanguage } from "../utils/hooks";
 
 const PostForm = ({
   title,
@@ -26,19 +27,9 @@ const PostForm = ({
   const [imgUrl, setImgUrl] = useState(currentPostImgUrl);
   const { pathname } = useLocation();
   const imgDom = currentPostImgUrl ? <img id="postImg" src={currentPostImgUrl} alt="" className="w-full" /> : null;
-
   const imgToEdit = useSelector((state) => state?.posts.currentPost.imgUrl);
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   setImgUrl(currentPostImgUrl);
-  //   // const imgContainer = document.querySelector("#imgContainer");
-  //   // imgContainer.addEventListener("keydown", (e) => {
-  //   //   if (e.keycode === "Backspace" || e.keycode === "Delete") {
-  //   //     console.log("delete img");
-  //   //   }
-  //   // });
-  // }, []);
+  const userLanguage = useLanguage();
 
   return (
     <form
@@ -51,7 +42,7 @@ const PostForm = ({
         type="text"
         name="Title"
         id="title"
-        placeholder={pathname === "/create" ? "Titre de votre post" : null}
+        placeholder={pathname === "/create" ? userLanguage.createPost.titlePlaceholder : null}
         onChange={pathname === "/edit" ? (e) => handleEditTitleInput(e) : (e) => handleTitleInput(e)}
         value={pathname === "/edit" ? postTitle : title}
       />
@@ -64,20 +55,17 @@ const PostForm = ({
                 onClick={(e) => toggleImgInput(e)}
               >
                 <Image size={16} className="text-gray-100" />
-                <span className="hidden md:inline-block">{!currentPostImgUrl ? "Ajouter une image" : "Changer l'image"}</span>
+                <span className="hidden md:inline-block">
+                  {!currentPostImgUrl ? userLanguage.createPost.imgBtn : userLanguage.createPost.changeImgBtn}
+                </span>
               </button>
               <button
                 className="h-8 w-max  text-gray-100 text-xs bg-transparent ouline-none flex items-center justify-start"
                 onClick={(e) => toggleUrlInput(e)}
               >
-                <Link45deg size={20} className="text-gray-100" /> <span className="hidden md:inline-block">Ajouter un gif</span>
+                <Link45deg size={20} className="text-gray-100" />{" "}
+                <span className="hidden md:inline-block">{userLanguage.createPost.gifBtn}</span>
               </button>
-              {/* <button
-                className="h-8 w-8 bg-transparent ouline-none flex items-center justify-center"
-                onClick={(e) => toggleYoutubeInput(e)}
-              >
-                <Youtube size={20} className="text-red-600" />
-              </button> */}
             </div>
             <button
               onClick={(e) => {
@@ -86,7 +74,7 @@ const PostForm = ({
               }}
               className="w-1/3 h-full whitespace-wrap text-xs text-gray-100 underline flex items-center justify-end text-right"
             >
-              {currentPostImgUrl ? "effacer l'image" : null}
+              {currentPostImgUrl ? userLanguage.createPost.deleteImgBtn : null}
             </button>
           </div>
           <div
@@ -99,7 +87,7 @@ const PostForm = ({
               className="w-full h-full block focus:outline-none p-2"
               contentEditable="true"
               suppressContentEditableWarning={true}
-              placeholder="Texte (facultatif)"
+              placeholder={userLanguage.createPost.textPlaceholder}
               onBlur={pathname === "/edit" ? handleEditText : handlePostInput}
             >
               {postText && postText}
@@ -115,7 +103,7 @@ const PostForm = ({
             className="w-12 md:w-max flex items-center justify-center md:space-x-2 text-white px-4 py-3 rounded-full shadow-xl bg-gray-500 transition-all duration-300 hover:bg-black hover:shadow-none"
             disabled={false}
           >
-            <span className="hidden md:inline-block text-sm uppercase">annuler</span> <XLg />
+            <span className="hidden md:inline-block text-sm uppercase">{userLanguage.createPost.cancelBtn}</span> <XLg />
           </Link>
           <button
             className="w-48 flex items-center justify-center space-x-1 text-white p-3 rounded-full disabled:opacity-50 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
@@ -123,7 +111,7 @@ const PostForm = ({
             type="submit"
           >
             <PaperAirplaneIcon className="h-5 w-5 text-white transform rotate-45 -translate-y-0.5" />
-            <span className="text-sm uppercase">publier!</span>
+            <span className="text-sm uppercase">{userLanguage.createPost.publishBtn}</span>
           </button>
         </div>
       </div>

@@ -3,7 +3,7 @@ import React from "react";
 import { GearFill, Power } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useHandleLink, useLanguage, useWindowSize } from "../utils/hooks";
 import Settings from "./Settings";
 
@@ -27,14 +27,14 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
         style={{ width: "100%", maxWidth: width < 768 ? "550px" : null }}
         className="flex h-min md:flex-col items-center justify-evenly md:justify-center md:space-y-4 py-2 md:py-0 md:px-4 lg:pt-6 md:pb-4 whitespace-nowrap md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent lg:bg-white lg:dark:bg-gray-500 lg:shadow-sm"
       >
-        <Link
-          style={pathname === "/feed" ? { backgroundColor: "rgb(96 165 250)", color: "white" } : null}
+        <NavLink
+          activeStyle={{ backgroundColor: "rgb(96 165 250)", color: "white" }}
           to={"/feed"}
           className="h-10 w-10 md:h-16 md:w-16 lg:h-10 lg:w-full space-x-1 font-bold flex items-center justify-center lg:justify-start p-2 rounded-full transition duration-300 text-gray-500 md:bg-white md:dark:bg-transparent md:text-black dark:text-white bg-transparent md:dark:bg-gray-500 lg:bg-transparent lg:dark:bg-transparent hover:bg-blue-100 dark:hover:bg-blue-400 hover:text-black"
         >
           <HomeIcon className="h-8 w-8 lg:h-6 transform -translate-y-px" />
           <span className="capitalize hidden lg:inline-block">forum</span>
-        </Link>
+        </NavLink>
         <button
           onClick={() => handleLink("post")}
           style={pathname === "/create" ? { backgroundColor: "rgb(96 165 250)", color: "white" } : null}

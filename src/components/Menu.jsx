@@ -32,7 +32,7 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
 
   return (
     <Div100vh
-      className="menu-container w-9/12 pt-5 pb-7 bg-white flex flex-col items-center justify-between gap-2 fixed top-0 left-0 z-50 transition-transform duration-300"
+      className="menu-container w-9/12 pt-5 pb-6 bg-white flex flex-col items-center justify-between gap-2 fixed top-0 left-0 z-50 transition-transform duration-300"
       style={{ transform: isMenuOpen ? "translateX(0)" : "translateX(-100%)" }}
     >
       <div className="top-section h-max w-10/12 pb-2 flex flex-col items-center justify-center gap-2 border-b border-gray-300">

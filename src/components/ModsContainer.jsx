@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useLanguage } from "../utils/hooks";
 import UserCard from "./UserCard";
 
 const ModsContainer = () => {
   const users = useSelector((state) => state?.posts.users);
   const admin = users?.filter((user) => user.role === "admin" && user);
   const [adminUsers, setAdminUsers] = useState([]);
+  const userLanguage = useLanguage();
 
   useEffect(() => {
     setAdminUsers(admin);
@@ -14,7 +16,7 @@ const ModsContainer = () => {
   return (
     <div className="w-full h-max flex flex-col rounded">
       <div className="header h-24 w-full bg-gray-500 rounded-tl rounded-tr relative">
-        <span className="w-full text-center absolute bottom-0 mb-2 text-white text-lg font-bold">Modérateur(s)</span>
+        <span className="w-full text-center absolute bottom-0 mb-2 text-white text-lg font-bold"> {userLanguage.aside.mods}</span>
       </div>
       <div className="list w-full h-max flex flex-col items-center justify-center rounded-bl rounded-br bg-white pb-12">
         <>
@@ -22,7 +24,7 @@ const ModsContainer = () => {
             <UserCard user={user} key={user.id} mod={true} />
           ))}
           <button className="bg-gray-500 shadow flex items-center justify-center rounded-2xl w-3/4 py-1 px-2 text-white transform translate-y-6">
-            Contacter un modérateur
+            {userLanguage.aside.modsContactBtn}
           </button>
         </>
       </div>

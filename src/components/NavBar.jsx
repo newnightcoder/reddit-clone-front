@@ -75,7 +75,7 @@ const NavBar = ({ toggleMenu }) => {
             ></div>
             <div className="flex flex-col items-start">
               <span className="text-xs underline">{userLanguage.navbar.connected}</span>
-              <span className="capitalize font-bold whitespace-nowrap">{username ? username : "Visitor mode"}</span>
+              <span className="capitalize font-bold whitespace-nowrap">{username ? username : userLanguage.navbar.visitor}</span>
             </div>
           </button>
           <div className="flex items-center justify-center space-x-4">
@@ -85,7 +85,7 @@ const NavBar = ({ toggleMenu }) => {
                 className="hidden xl:flex items-center justify-center gap-1 outline-none bg-transparent transform translate-x-8 hover:underline hover:font-bold"
                 onClick={() => history.push("/")}
               >
-                <span>Déconnexion</span> <Power size={18} className="font-bold" />
+                <span className="capitalize">{userLanguage.navbar.logout}</span> <Power size={18} className="font-bold" />
               </button>
             ) : (
               <>
