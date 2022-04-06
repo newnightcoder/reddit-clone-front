@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
+import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
@@ -56,7 +57,7 @@ const Login = () => {
   })();
 
   return (
-    <div className="h-screen w-full flex flex-col items-center justify-center space-y-16 bg-gray-200">
+    <Div100vh className="h-screen w-full flex flex-col items-center justify-center space-y-16 bg-gray-200">
       <header className="text-center uppercase flex flex-col items-center justify-center md:gap-1">
         <span className="font-bold text-lg">{userLanguage.login.greeting}</span>
         <img src={logo} style={{ height: "150", width: "80%" }} alt="logo Forum" />
@@ -104,7 +105,7 @@ const Login = () => {
           {userLanguage.login.registerBtn}
         </Link>
       </div>
-    </div>
+    </Div100vh>
   );
 };
 
