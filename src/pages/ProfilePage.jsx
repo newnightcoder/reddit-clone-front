@@ -60,7 +60,7 @@ const Profile = () => {
       ) : (
         <Layout>
           <div
-            className="page-container h-full w-2/3 flex items-center justify-center rounded-md"
+            className="page-container border border-red-500 h-full w-full md:w-2/3 flex items-center justify-center rounded-md"
             style={{ minHeight: "calc(100vh - 4rem)" }}
           >
             {userData === undefined || !userData ? (
@@ -117,7 +117,7 @@ const Profile = () => {
                     }
                   ></div>
                 </div>
-                <div className="username-member relative h-max w-full self-start transform translate-x-44 flex flex-col items-start justify-start">
+                <div className="username-member relative h-max w-max self-start transform translate-x-44 flex flex-col items-start justify-start">
                   <span className="text-xl font-bold capitalize">{userData?.username}</span>
                   <span className="block italic text-sm flex items-center justify-center gap-1 transform -translate-x-2">
                     <img src={logo_mobile_blue} className="h-6" />
