@@ -25,12 +25,39 @@ const PostSkeleton = () => {
 
 const UserCardSkeleton = ({ mod }) => {
   return (
-    <div className="w-72 h-24 lg:flex flex-col items-center justify-start gap-2">
-      <div className="flex gap-2 items-center justify-start hover:underline hover:font-bold">
-        <div className="h-14 w-14 rounded-full bg-gray-500 border-2 border-blue-400 p-1 hover:border-red-400 transition duration-300"></div>
-        <span className="capitalize"></span>
+    <div className="w-72 h-24 lg:flex flex-col items-center justify-start gap-2 animate-pulse px-3 py-2">
+      <div className="w-full flex gap-2 items-center justify-start hover:underline hover:font-bold">
+        <div className="h-14 w-14 rounded-full flex items-center justify-center border-2 border-blue-400 p-1 hover:border-red-400 transition duration-300">
+          <div className="h-11 w-11 rounded-full bg-gray-300"></div>
+        </div>
+        <span className="h-5 w-2/3 bg-gray-300 rounded"></span>
       </div>
-      {!mod && <span className="w-full flex justify-center text-xs italic"></span>}
+      {!mod && <span className="h-3 w-1/2 self-center bg-gray-300 flex justify-center rounded"></span>}
+    </div>
+  );
+};
+
+const ProfileSkeleton = () => {
+  return (
+    <div className="bg-white h-screen w-full md:w-5/6 rounded md:mt-8 pt-10 flex flex-col items-center justify-start gap-2 pb-12 ">
+      <div className="animate-pulse top-section h-max w-10/12 pb-2 flex flex-col items-center justify-center gap-2 border-b border-gray-300">
+        <div className="avatar-container h-max w-full flex items-center justify-center">
+          <div className="w-40 h-40 rounded-full border border-gray-400 bg-gray-300"></div>
+        </div>
+        <div className="username-member h-max w-full flex flex-col items-center justify-start space-y-2 pt-2 pb-1">
+          <span className="h-6 w-40 rounded bg-gray-300 text-xl font-bold capitalize"></span>
+          <span className="h-4 w-40 rounded bg-gray-300 block italic text-sm flex items-center justify-center"></span>
+        </div>
+      </div>
+      {/* <div className="h-10 w-48 rounded-full bg-gray-300 shadow-sm"></div> */}
+      <div className="animate-pulse w-10/12 flex flex-col items-center justify-center">
+        <h2 className="h-6 w-36 bg-gray-300 rounded mt-12"></h2>
+        {/* <div className="w-full md:w-2/3 max-w-3xl flex flex-col items-center justify-center gap-3 pt-4">
+          <PostSkeleton />
+          <PostSkeleton />
+          <PostSkeleton />
+        </div> */}
+      </div>
     </div>
   );
 };
@@ -42,7 +69,9 @@ const Skeleton = ({ element, number, mod }) => {
     <>
       {element === "post"
         ? arrayOfSkeletons.map((sk, i) => <PostSkeleton key={i} />)
-        : element === "user" && arrayOfSkeletons.map((sk, i) => <UserCardSkeleton key={i} mod={mod} />)}
+        : element === "user"
+        ? arrayOfSkeletons.map((sk, i) => <UserCardSkeleton key={i} mod={mod} />)
+        : element === "profile" && arrayOfSkeletons.map((sk, i) => <ProfileSkeleton key={i} />)}
     </>
   );
 };

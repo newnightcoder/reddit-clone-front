@@ -6,6 +6,7 @@ const initialState = {
   email: "",
   username: "",
   picUrl: null,
+  bannerUrl: null,
   creationDate: "",
   error: "",
   isAuthenticated: false,
@@ -92,12 +93,14 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         id: action.payload,
       };
+
     case USER_CREATED: {
       return {
         ...state,
         userCreated: true,
       };
     }
+
     case USER_FAIL: {
       return {
         ...state,
@@ -139,9 +142,11 @@ export const userReducer = (state = initialState, action) => {
       };
     }
     case SAVE_USERPIC:
+      const { picUrl, imgType } = action.payload;
       return {
         ...state,
-        picUrl: action.payload,
+        picUrl: imgType === "pic" ? picUrl : state.picUrl,
+        bannerUrl: imgType === "banner" ? picUrl : state.bannerUrl,
       };
     case LIKE_POST: {
       const { liked } = action.payload;

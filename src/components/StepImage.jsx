@@ -33,7 +33,7 @@ const StepImage = () => {
             background: `url(${picUrl !== null ? picUrl : picPlaceholder}) no-repeat center/cover`,
           }}
         ></div>
-        <ImgUploader profile={true} />
+        <ImgUploader profile={true} imgType={"pic"} />
       </div>
       <button
         className="underline font-bold"

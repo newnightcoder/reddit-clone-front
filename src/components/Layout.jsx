@@ -12,7 +12,7 @@ const Layout = ({ children }) => {
   const sessionExpired = useSelector((state) => state?.posts?.sessionExpired);
   const { id, username, isAuthenticated } = useSelector((state) => state.user);
 
-  const location = useLocation();
+  const { pathname } = useLocation();
   const dispatch = useDispatch();
   const linkToProfile = useLinkToProfile(id, username);
   const { settingsOpen, toggleSettings } = useToggleSettings();
@@ -40,10 +40,14 @@ const Layout = ({ children }) => {
     <div className="">
       <NavBar toggleMenu={toggleMenu} />
       <div className="h-full w-full mt-16 relative flex items-start justify-center bg-gray-200 dark:bg-gray-700 dark:text-white">
-        <div className="w-full 2xl:w-3/4 px-2 md:px-12 flex items-start justify-center md:space-x-4 relative">
+        <div
+          className={`w-full 2xl:w-3/4 ${
+            pathname.includes("profile") ? "px-0" : "px-2"
+          } md:px-12 flex items-start justify-center md:space-x-4 relative`}
+        >
           <NavBarDesktop toggleSettings={toggleSettings} settingsOpen={settingsOpen} />
           {children}
-          {!location.pathname.includes("profile") && <Aside />}
+          <Aside />
         </div>
       </div>
       <Overlay isMenuOpen={isMenuOpen} close={closeMenu} />

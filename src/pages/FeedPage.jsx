@@ -2,7 +2,7 @@ import { RefreshIcon } from "@heroicons/react/solid";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Layout, Post, Skeleton } from "../components";
-import { getPosts, getUsers } from "../store/actions/posts.action";
+import { getPosts } from "../store/actions/posts.action";
 import { useLanguage } from "../utils/hooks";
 
 const Feed = () => {
@@ -24,7 +24,6 @@ const Feed = () => {
   useEffect(() => {
     // dispatch(clearTempPostImg());
     dispatch(getPosts());
-    dispatch(getUsers());
   }, []);
 
   return (

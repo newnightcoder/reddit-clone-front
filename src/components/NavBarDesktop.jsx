@@ -21,7 +21,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
         marginTop: pathname === "/feed" ? "6rem" : "4rem",
         position: width < 768 ? "fixed" : "sticky",
       }}
-      className="w-max flex h-min z-30 sticky bottom-0 md:top-20 items-center justify-center md:justify-start md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent"
+      className="w-max flex h-min z-30 sticky bottom-0 md:top-20 items-center justify-center border-t border-gray-200 md:border-none md:justify-start md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent shadow-xl md:shadow-none"
       // lg:bg-white lg:dark:bg-gray-500 lg:shadow-sm
     >
       <div
@@ -67,8 +67,8 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
           <span className="hidden lg:inline-block font-bold">{userLanguage.navbarDesktop.profile}</span>
         </button>
         <button
-          style={settingsOpen ? { backgroundColor: "rgb(96 165 250)", color: "white" } : null}
-          className="lg:w-full outline-none ring-none flex items-center justify-center rounded-full lg:justify-start space-x-2 lg:pl-2 lg:pr-4 rounded-full bg-transparent md:bg-white md:dark:bg-transparent lg:bg-transparent lg:dark:bg-transparent md:dark:bg-gray-500 transition duration-300 text-gray-500 md:text-black dark:text-white hover:bg-blue-400 dark:hover:bg-blue-400 hover:text-black md:hover:text-white"
+          style={settingsOpen ? { border: "2px solid rgb(96 165 250)" } : null}
+          className="lg:w-full outline-none ring-none flex items-center justify-center rounded-full lg:justify-start space-x-2 lg:pl-2 lg:pr-4 rounded-full bg-transparent md:bg-white md:dark:bg-transparent lg:bg-transparent lg:dark:bg-transparent md:dark:bg-gray-500 transition duration-300 text-gray-500 md:text-black dark:text-white border-2 border-transparent hover:border-blue-400 hover:text-black"
           onClick={toggleSettings}
         >
           <div className="w-10 h-10 lg:w-max  lg:border-0 rounded-full relative flex items-center justify-center">

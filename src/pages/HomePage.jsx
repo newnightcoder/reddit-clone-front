@@ -35,7 +35,7 @@ const Homepage = () => {
       </button>
       <div className="h-full flex flex-col items-center justify-center">
         <div className="h-max w-full flex items-center justify-center">
-          <div className="hidden h-full w-1/2 md:flex items-center justify-center lg:justify-end">
+          <div style={{ minWidth: "300px" }} className="hidden h-full w-1/2 md:flex items-center justify-center lg:justify-end">
             <img src={phonesImg} alt="mobile phones" className="w-3/5 transform translate-y-10" />
           </div>
           <div className="h-full w-full md:w-1/2 flex flex-col items-center justify-center space-y-10">

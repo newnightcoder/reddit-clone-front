@@ -151,10 +151,11 @@ export const editUsername = (userId, username) => async (dispatch) => {
   }
 };
 
-export const saveUserPic = (blob, id) => async (dispatch) => {
+export const saveUserPic = (blob, id, imgType) => async (dispatch) => {
   const formData = new FormData();
   formData.append("image", blob);
   formData.append("id", id);
+  formData.append("imgType", imgType);
   const request = {
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -163,6 +164,7 @@ export const saveUserPic = (blob, id) => async (dispatch) => {
     body: formData,
   };
   try {
+    console.log("imgType sent to backend", imgType);
     const response = await fetch(`${API_AUTH}/userpic`, request);
     const data = await response.json();
     const { error, picUrl } = data;
@@ -172,7 +174,7 @@ export const saveUserPic = (blob, id) => async (dispatch) => {
     }
     dispatch({
       type: actionType.SAVE_USERPIC,
-      payload: picUrl,
+      payload: { picUrl, imgType },
     });
   } catch (err) {
     console.log(err);

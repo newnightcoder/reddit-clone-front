@@ -15,7 +15,7 @@ const NavBar = ({ toggleMenu }) => {
   const userLanguage = useLanguage();
 
   return (
-    <div className="h-16 w-full fixed top-0 z-50 overflow-hidden">
+    <div className="h-16 w-full fixed top-0 z-50 overflow-hidden shadow-sm">
       <div className=" h-full w-full  pl-2 pr-4 flex items-center justify-between md:justify-evenly  gap-1 md:gap-2 text-white shadow-md bg-gray-100">
         <Link
           to="/"

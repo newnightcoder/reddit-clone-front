@@ -5,7 +5,7 @@ import Post from "./Post";
 import Skeleton from "./Skeleton";
 
 const PopularPosts = () => {
-  const posts = useSelector((state) => state.posts.posts);
+  const { posts } = useSelector((state) => state?.posts);
   const [top3, setTop3] = useState([]);
   const userLanguage = useLanguage();
 
@@ -19,7 +19,7 @@ const PopularPosts = () => {
         })
         .splice(0, 3)
     );
-  }, []);
+  }, [posts]);
 
   return (
     <div className="w-full flex flex-col">
