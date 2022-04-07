@@ -31,7 +31,11 @@ const PostForm = ({
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
   const giphy = new GiphyFetch(process.env.REACT_APP_GIPHY_API_KEY);
+  console.log(process.env);
   const fetchGifs = (offset) => giphy.trending({ offset, limit: 5 });
+  const test = () => {
+    return console.log("yay babe");
+  };
 
   return (
     <form
@@ -40,7 +44,7 @@ const PostForm = ({
       onSubmit={pathname === "/edit" ? handleEditSubmit : handlePostSubmit}
     >
       <div className="h-48 w-max relative overflow-scroll border border-red-500">
-        <Grid width={200} columns={3} fetchGifs={fetchGifs} />
+        <Grid width={200} columns={3} fetchGifs={fetchGifs} onGifsFetchError={test} />
       </div>
       <Link
         to={"/feed"}

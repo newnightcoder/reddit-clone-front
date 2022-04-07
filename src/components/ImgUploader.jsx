@@ -91,7 +91,10 @@ const ImgUploader = ({ profile, imgType, toggleImgInput }) => {
           style={blobName === null ? { opacity: 0, display: "none" } : { opacity: 1, display: "flex" }}
           onClick={
             pathname.includes("profile")
-              ? () => setBlobName(null)
+              ? (e) => {
+                  e.preventDefault();
+                  setBlobName(null);
+                }
               : profile
               ? () => {
                   setTimeout(() => {
