@@ -15,7 +15,7 @@ const useGetProfile = (id) => {
     try {
       const response = await fetch(`${API_AUTH}/`, request);
       const { user } = await response.json();
-      console.log("user reçu pour le profil", user);
+      // console.log("user reçu pour le profil", user);
       setUserData(user);
     } catch (error) {
       throw error;
@@ -24,7 +24,7 @@ const useGetProfile = (id) => {
 
   useEffect(() => {
     getProfile(id);
-    console.log("userData", userData);
+    // console.log("userData", userData);
   }, [id]);
 
   return userData;

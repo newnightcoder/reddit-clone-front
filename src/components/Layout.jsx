@@ -20,7 +20,6 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     if (sessionExpired) setIsExpired(true);
-    console.log("session expired useEffect", sessionExpired);
   }, [sessionExpired]);
 
   const toggleMenu = () => {

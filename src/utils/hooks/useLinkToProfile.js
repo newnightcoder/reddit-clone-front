@@ -1,11 +1,14 @@
 import { useHistory } from "react-router";
 
-const useLinkToProfile = (id, username) => {
+const useLinkToProfile = () => {
   const history = useHistory();
 
-  const linkToProfile = () => {
+  const linkToProfile = (userId, name) => {
     setTimeout(() => {
-      history.push({ pathname: `/profile/${username}`, state: { profileId: id } });
+      history.push({
+        pathname: `/profile/${name}`,
+        state: { profileId: userId },
+      });
     }, 100);
   };
 

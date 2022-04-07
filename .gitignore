@@ -17,6 +17,8 @@
 /build
 language.json
 TODO
+.env
+
 
 # misc
 .DS_Store

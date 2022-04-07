@@ -15,12 +15,11 @@ const Aside = () => {
     setTimeout(() => {
       setSize(element?.current?.getBoundingClientRect());
     }, 1000);
-    console.log(element?.current?.getBoundingClientRect());
   }, [posts]);
 
   useEffect(() => {
     dispatch(getUsers());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div

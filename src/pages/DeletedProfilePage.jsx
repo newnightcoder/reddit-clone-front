@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useLocation } from "react-router";
 import bg from "../assets/bg.webp";
@@ -22,7 +23,7 @@ const DeletedProfile = () => {
       {!isAuthenticated ? (
         <Redirect to={{ pathname: "/" }} />
       ) : (
-        <div
+        <Div100vh
           className="page-container min-h-screen w-screen flex flex-col items-center justify-center relative pb-8 overflow-x-hidden"
           style={{ background: `linear-gradient(rgba(70,70,70,.45), rgba(70,70,70,.45)), url(${bg}) no-repeat center/cover` }}
         >
@@ -39,7 +40,7 @@ const DeletedProfile = () => {
           <button className="hover:cursor-pointer hover:underline" onClick={() => history.push(!isAdmin ? "/" : "/feed")}>
             Retour à la page accueil
           </button>
-        </div>
+        </Div100vh>
       )}
     </>
   );

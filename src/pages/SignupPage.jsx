@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Div100vh from "react-div-100vh";
 import { useDispatch } from "react-redux";
 import SignupForm from "../components/SignupForm";
 import { createUser } from "../store/actions/user.action";
@@ -60,7 +61,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="w-screen h-screen overflow-hidden">
+    <Div100vh className="w-screen overflow-hidden">
       <SignupForm
         isEmail={isEmail}
         isUppercase={isUppercase}
@@ -71,7 +72,7 @@ const Signup = () => {
         handleNewPass={handleNewPass}
         handleNewUserSubmit={handleNewUserSubmit}
       />
-    </div>
+    </Div100vh>
   );
 };
 

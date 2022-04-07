@@ -60,7 +60,7 @@ const Profile = () => {
       ) : (
         <Layout>
           <div
-            className="page-container border border-red-500 h-full w-full md:w-2/3 flex items-center justify-center rounded-md"
+            className="page-container h-full w-full md:w-2/3 flex items-start md:items-center justify-center rounded-md"
             style={{ minHeight: "calc(100vh - 4rem)" }}
           >
             {userData === undefined || !userData ? (
@@ -78,30 +78,24 @@ const Profile = () => {
                   }}
                   className="top-section relative h-48 w-full pb-2 flex flex-col items-center justify-center gap-2 rounded-tl-md rounded-tr-md"
                 >
-                  <div className="btns-container absolute top-5 right-5 z-50">
+                  <div className="btns-container h-48 absolute top-0 right-0 z-50 border-2 border-red-500">
                     {userData?.username === username && (
                       <>
                         <ImgUploader profile={true} imgType="pic" />
                         <ImgUploader profile={true} imgType="banner" />
-                        <ul className="border border-black h-max w-max flex flex-col items-start justify-start space-y-2 text-sm text-gray-900">
-                          <li>
-                            <button
-                              className="h-10 w-44 px-3 py-1 flex border hover:border-transparent items-center justify-start gap-1 hover:drop-shadow hover:bg-gray-700 text-gray-700 hover:text-white transition duration-200 rounded-full"
-                              // onClick={toggleEditModal}
-                            >
-                              <UserCircleIcon className="h-6" /> {userLanguage.profile.usernameBtn}
-                            </button>
-                          </li>
-                          <li>
-                            <button
-                              className="h-10 w-44 px-3 py-1 flex border items-center justify-start gap-1 hover:drop-shadow hover:bg-red-600 text-gray-700 hover:text-white hover:font-bold transition duration-300 rounded-full text-sm"
-                              onClick={() => setOpenModal(true)}
-                            >
-                              <TrashIcon className="h-6" />
-                              {userLanguage.profile.deleteBtn}{" "}
-                            </button>
-                          </li>
-                        </ul>
+                        <button
+                          className="h-10 w-44 px-3 py-1 flex border hover:border-transparent items-center justify-start gap-1 hover:drop-shadow hover:bg-gray-700 text-gray-700 hover:text-white transition duration-200 rounded-full"
+                          // onClick={toggleEditModal}
+                        >
+                          <UserCircleIcon className="h-6" /> {userLanguage.profile.usernameBtn}
+                        </button>
+                        <button
+                          className="h-10 w-44 px-3 py-1 flex border items-center justify-start gap-1 hover:drop-shadow hover:bg-red-600 text-gray-700 hover:text-white hover:font-bold transition duration-300 rounded-full text-sm"
+                          onClick={() => setOpenModal(true)}
+                        >
+                          <TrashIcon className="h-6" />
+                          {userLanguage.profile.deleteBtn}{" "}
+                        </button>
                       </>
                     )}
                   </div>

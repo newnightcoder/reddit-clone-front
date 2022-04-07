@@ -26,6 +26,7 @@ export const getPosts = () => async (dispatch) => {
   const accessToken = localStorage.getItem("jwt");
   const request = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       Authorization: `Bearer ${accessToken}`,
     },
     method: "get",
@@ -49,6 +50,7 @@ export const getLikes = () => async (dispatch) => {
   const accessToken = localStorage.getItem("jwt");
   const request = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       Authorization: `Bearer ${accessToken}`,
     },
     method: "get",
@@ -69,6 +71,7 @@ export const getUsers = () => async (dispatch) => {
   const accessToken = localStorage.getItem("jwt");
   const request = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       Authorization: `Bearer ${accessToken}`,
     },
     method: "get",
@@ -92,6 +95,7 @@ export const getUserPosts = (userId) => async (dispatch) => {
   const accessToken = localStorage.getItem("jwt");
   const request = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "Content-type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
@@ -158,6 +162,7 @@ export const createPost = (userId, title, text, date, imgUrl) => async (dispatch
   // console.log("token", accessToken);
   const request = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
@@ -191,6 +196,7 @@ export const editPost = (origin, id, title, text, imgUrl) => async (dispatch) =>
   console.log("token", accessToken);
   const request = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
@@ -220,6 +226,7 @@ export const deletePost = (postId, origin, postIdComment) => async (dispatch) =>
 
   const request = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
@@ -250,6 +257,7 @@ export const getComments = () => async (dispatch) => {
 
   const request = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       Authorization: `Bearer ${accessToken}`,
     },
     method: "get",
@@ -275,6 +283,7 @@ export const createReply = (userId, commentId, text, date) => async (dispatch) =
 
   const request = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
@@ -305,6 +314,7 @@ export const getReplies = () => async (dispatch) => {
 
   const request = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       Authorization: `Bearer ${accessToken}`,
     },
     method: "get",

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { logo } from "../assets";
 import { saveUserName } from "../store/actions/user.action";
@@ -39,8 +40,8 @@ const StepUsername = () => {
   const toNextStep = usernameAdded ? { transform: "translateX(0%)" } : { transform: "translateX(100%)" };
 
   return (
-    <div
-      className="h-full w-screen bg-gray-200 flex flex-col items-center justify-center gap-2 transition-transform duration-500 absolute top-0 left-0"
+    <Div100vh
+      className="w-screen bg-gray-200 flex flex-col items-center justify-center gap-2 transition-transform duration-500 absolute top-0 left-0"
       style={toNextStep}
     >
       <header className="h-1/3 flex items-center justify-center">
@@ -71,7 +72,7 @@ const StepUsername = () => {
         </form>
       </div>
       <StepImage />
-    </div>
+    </Div100vh>
   );
 };
 

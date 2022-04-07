@@ -40,6 +40,7 @@ export const logUserAction = (email, password) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_USER });
   const request = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
     },
     method: "POST",
@@ -70,6 +71,7 @@ export const createUser = (email, password) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_USER });
   const request = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
     },
     method: "POST",
@@ -99,6 +101,7 @@ export const saveUserName = (id, username, creationDate) => async (dispatch) => 
   dispatch({ type: CLEAR_ERROR_USER });
   const request = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
     },
     method: "POST",
@@ -130,6 +133,7 @@ export const editUsername = (userId, username) => async (dispatch) => {
   const accessToken = localStorage.getItem("jwt");
   const request = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "Content-type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
@@ -186,6 +190,7 @@ export const likePost = (origin, userId, id, like) => async (dispatch) => {
   const accessToken = localStorage.getItem("jwt");
   const request = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
@@ -223,6 +228,7 @@ export const createComment = (userId, postId, text, date) => async (dispatch) =>
   const accessToken = localStorage.getItem("jwt");
   const request = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
@@ -250,6 +256,7 @@ export const createComment = (userId, postId, text, date) => async (dispatch) =>
 export const getUserProfile = (id) => async (dispatch) => {
   const request = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "Content-type": "application/json",
     },
     method: "post",
@@ -273,6 +280,7 @@ export const deleteUser = (id) => async (dispatch) => {
   const accessToken = localStorage.getItem("jwt");
   const request = {
     headers: {
+      "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },

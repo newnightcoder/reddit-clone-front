@@ -2,21 +2,22 @@ import React from "react";
 import { useSelector } from "react-redux";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { formatTimestamp } from "../utils/helpers/formatTime";
-import { useHandleLink, useLanguage, useLinkToProfile } from "../utils/hooks";
+import { useHandleLink, useLanguage } from "../utils/hooks";
 
 const UserCard = ({ user, mod }) => {
-  const { id, username, picUrl, creationDate, isAuthenticated } = user;
-  const linkToProfile = useLinkToProfile(id, username);
+  const { id: userId, username, picUrl, creationDate } = user;
   const handleLink = useHandleLink();
   const userLanguage = useLanguage();
-  const { language } = useSelector((state) => state.user);
+  const { id: myId, username: myName, language } = useSelector((state) => state.user);
 
   return (
     <div className="w-full py-2 px-3 border-b border-gray-200 bg-white text-sm text-gray-800">
       <button
         className="flex gap-2 items-center justify-start hover:underline hover:font-bold"
         onClick={() => {
-          isAuthenticated ? linkToProfile() : mod ? handleLink("mods") : handleLink("new-members");
+          mod
+            ? handleLink("mods", userId === myId ? myId : userId, username === myName ? myName : username)
+            : handleLink("new-members", userId === myId ? myId : userId, username === myName ? myName : username);
         }}
       >
         <img

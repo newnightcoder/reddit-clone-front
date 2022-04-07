@@ -8,7 +8,7 @@ const useHandleLink = () => {
   const visitorMessage = useRef("");
   const { id, username, isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const linkToProfile = useLinkToProfile(id, username);
+  const linkToProfile = useLinkToProfile();
 
   const handleVisitorModal = (origin) => {
     switch (origin) {
@@ -46,26 +46,29 @@ const useHandleLink = () => {
   };
 
   const handleLink = useCallback(
-    (link) => {
+    (link, userId, username) => {
       switch (link) {
         case "post":
           if (!isAuthenticated) return handleVisitorModal("post");
           return history.push("/create");
         case "profile":
           if (!isAuthenticated) return handleVisitorModal("profile");
-          return linkToProfile();
+          return linkToProfile(userId, username);
         case "navbar-profile":
           if (!isAuthenticated) return handleVisitorModal("profile");
-          return linkToProfile();
+          return linkToProfile(userId, username);
         case "navbar-login":
           if (!isAuthenticated) return handleVisitorModal("login");
           return history.push("/login");
         case "post-profile":
           if (!isAuthenticated) return handleVisitorModal("post-profile");
+          linkToProfile(userId, username);
         case "new-members":
           if (!isAuthenticated) return handleVisitorModal("new-members");
+          return linkToProfile(userId, username);
         case "mods":
           if (!isAuthenticated) return handleVisitorModal("mods");
+          return linkToProfile(userId, username);
         case "like":
           if (!isAuthenticated) return handleVisitorModal("like");
         case "comment":

@@ -40,7 +40,7 @@ const UserCardSkeleton = ({ mod }) => {
 const ProfileSkeleton = () => {
   return (
     <div className="bg-white h-screen w-full md:w-5/6 rounded md:mt-8 pt-10 flex flex-col items-center justify-start gap-2 pb-12 ">
-      <div className="animate-pulse top-section h-max w-10/12 pb-2 flex flex-col items-center justify-center gap-2 border-b border-gray-300">
+      <div className="animate-pulse top-section h-max w-10/12 pb-2 flex flex-col items-center justify-start gap-2 border-b border-gray-300">
         <div className="avatar-container h-max w-full flex items-center justify-center">
           <div className="w-40 h-40 rounded-full border border-gray-400 bg-gray-300"></div>
         </div>
@@ -64,7 +64,6 @@ const ProfileSkeleton = () => {
 
 const Skeleton = ({ element, number, mod }) => {
   let arrayOfSkeletons = new Array(number).fill(number, 0, number);
-  console.log(arrayOfSkeletons);
   return (
     <>
       {element === "post"

@@ -59,7 +59,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
               : null
           }
           className="lg:w-full outline-none ring-none flex items-center justify-center rounded-full lg:justify-start space-x-1 lg:pl-2 lg:pr-4 rounded-full bg-transparent md:bg-white md:dark:bg-transparent lg:bg-transparent lg:dark:bg-transparent md:dark:bg-gray-500 transition duration-300 text-gray-500 md:text-black dark:text-white hover:bg-blue-400 dark:hover:bg-blue-400 hover:text-black md:hover:text-white"
-          onClick={() => handleLink("profile")}
+          onClick={() => handleLink("profile", id, username)}
         >
           <div className="w-10 h-10 lg:w-max  lg:border-0 rounded-full relative flex items-center justify-center">
             <UserIcon className="h-6 w-8" />

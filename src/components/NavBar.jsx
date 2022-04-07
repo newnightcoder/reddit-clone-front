@@ -61,7 +61,7 @@ const NavBar = ({ toggleMenu }) => {
           <button
             tabIndex="0"
             className="hidden md:flex items-center justify-center gap-2 outline-none bg-transparent "
-            onClick={() => handleLink("navbar-profile")}
+            onClick={() => handleLink("navbar-profile", id, username)}
           >
             <div
               className="w-10 h-10 rounded-full border border-gray-600"

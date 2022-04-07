@@ -1,4 +1,5 @@
 import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
+import Div100vh from "react-div-100vh";
 import { useSelector } from "react-redux";
 import { logo } from "../assets";
 import picPlaceholder from "../assets/pic_placeholder.svg";
@@ -9,8 +10,8 @@ const StepImage = () => {
   // const history = useHistory();
 
   return (
-    <div
-      className="h-screen w-screen bg-gray-200 flex flex-col items-center justify-evenly absolute top-0 left-0"
+    <Div100vh
+      className="w-screen bg-gray-200 flex flex-col items-center justify-evenly absolute top-0 left-0"
       style={{ transform: "translateX(100%)" }}
     >
       <header className="h-1/4 flex flex-col items-center justify-center">
@@ -49,7 +50,7 @@ const StepImage = () => {
           <ChevronDoubleRightIcon className="h-4 w-4 text-black" style={{ transform: "translateY(1px)" }} />
         </span>
       </button>
-    </div>
+    </Div100vh>
   );
 };
 

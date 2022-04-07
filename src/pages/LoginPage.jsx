@@ -57,7 +57,7 @@ const Login = () => {
   })();
 
   return (
-    <Div100vh className="h-screen w-full flex flex-col items-center justify-center space-y-16 bg-gray-200">
+    <Div100vh className="w-full flex flex-col items-center justify-center space-y-16 bg-gray-200">
       <header className="text-center uppercase flex flex-col items-center justify-center md:gap-1">
         <span className="font-bold text-lg">{userLanguage.login.greeting}</span>
         <img src={logo} style={{ height: "150", width: "80%" }} alt="logo Forum" />

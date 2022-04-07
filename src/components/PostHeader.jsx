@@ -2,12 +2,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { picPlaceholder } from "../assets";
 import { formatTimestamp } from "../utils/helpers/formatTime";
-import { useHandleLink, useLinkToProfile } from "../utils/hooks";
+import { useHandleLink } from "../utils/hooks";
 
 const PostHeader = ({ post }) => {
-  const { title, date, username, picUrl, fk_userId_post } = post;
-  const { isAuthenticated } = useSelector((state) => state.user);
-  const linkToProfile = useLinkToProfile(fk_userId_post, username);
+  const { title, date, username: authorName, picUrl, fk_userId_post } = post;
+  const { id, username: myName, isAuthenticated } = useSelector((state) => state.user);
   const handleLink = useHandleLink();
 
   return (
@@ -22,9 +21,9 @@ const PostHeader = ({ post }) => {
                   background: `url(${picPlaceholder}) no-repeat center/cover`,
                 }
           }
-          onClick={() => {
-            isAuthenticated ? linkToProfile() : handleLink("post-profile");
-          }}
+          onClick={() =>
+            handleLink("post-profile", fk_userId_post === id ? id : fk_userId_post, authorName === myName ? myName : authorName)
+          }
         ></button>
       </div>
       <div className="right-column  h-full w-10/12 flex flex-col items-center justify-center">
@@ -32,12 +31,16 @@ const PostHeader = ({ post }) => {
           <div className="username-date w-full flex items-center justify-between gap-2">
             <button
               className="outline-none capitalize hover:cursor-pointer hover:underline"
-              onClick={() => {
-                isAuthenticated ? linkToProfile() : handleLink("post-profile");
-              }}
+              onClick={() =>
+                handleLink(
+                  "post-profile",
+                  fk_userId_post === id ? id : fk_userId_post,
+                  authorName === myName ? myName : authorName
+                )
+              }
             >
               <span className="text-xs">@</span>
-              {username}
+              {authorName}
             </button>
             <div className="text-xs italic">{formatTimestamp(date, "post")}</div>
           </div>
