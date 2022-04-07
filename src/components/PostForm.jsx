@@ -6,7 +6,7 @@ import { Image, Link45deg, XLg } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
-import { clearTempPostImg } from "../store/actions/posts.action";
+import { clearTempPostImg, saveLinkUrl } from "../store/actions/posts.action";
 import { useLanguage } from "../utils/hooks";
 
 const PostForm = ({
@@ -33,10 +33,6 @@ const PostForm = ({
   const giphy = new GiphyFetch(process.env.REACT_APP_GIPHY_API_KEY);
   console.log(process.env);
   const fetchGifs = (offset) => giphy.trending({ offset, limit: 5 });
-  const test = () => {
-    return console.log("yay babe");
-  };
-
   return (
     <form
       className="h-max w-full flex flex-col items-center justify-center space-y-4 bg-white border rounded py-6 px-4"
@@ -44,7 +40,14 @@ const PostForm = ({
       onSubmit={pathname === "/edit" ? handleEditSubmit : handlePostSubmit}
     >
       <div className="h-48 w-max relative overflow-scroll border border-red-500">
-        <Grid width={200} columns={3} fetchGifs={fetchGifs} onGifsFetchError={test} />
+        <Grid
+          width={200}
+          columns={3}
+          fetchGifs={fetchGifs}
+          noLink={true}
+          hideAttribution={true}
+          onGifClick={(gif) => dispatch(saveLinkUrl(gif.embed_url))}
+        />
       </div>
       <Link
         to={"/feed"}
