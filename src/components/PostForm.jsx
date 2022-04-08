@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { giphyDark } from "../assets";
 import { clearTempPostImg } from "../store/actions/posts.action";
 import { useLanguage } from "../utils/hooks";
+import LinkPreview from "./LinkPreview";
 
 const PostForm = ({
   title,
@@ -25,8 +26,14 @@ const PostForm = ({
   handleEditText,
 }) => {
   const currentPostImgUrl = useSelector((state) => state.posts.currentPost.imgUrl);
+  const scrapedPost = useSelector((state) => state.posts.scrapedPost);
   const { pathname } = useLocation();
-  const imgDom = currentPostImgUrl ? <img id="postImg" src={currentPostImgUrl} alt="" className="w-full" /> : null;
+
+  const imgDom = currentPostImgUrl ? (
+    <img id="postImg" src={currentPostImgUrl} alt="" className="w-full" />
+  ) : (
+    scrapedPost && <LinkPreview />
+  );
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
 
@@ -69,12 +76,12 @@ const PostForm = ({
         <div className="h-max w-full border border-gray-400 hover:border-gray-500 transition-border-color duration-300 rounded">
           <div
             style={{ minHeight: "12rem" }}
-            className="container relative max-w-full bg-gray-100 hover:bg-white active:bg-white focus:bg-white rounded-bl rounded-br overflow-y-auto"
+            className="container relative max-w-full bg-gray-100 hover:bg-white active:bg-white focus:bg-white rounded-bl rounded-br overflow-y-auto pb-6"
           >
             <span
               id="postInput"
-              style={{ minHeight: !currentPostImgUrl ? "12rem" : "max-content" }}
-              className="w-full h-full block focus:outline-none p-2"
+              style={{ minHeight: scrapedPost ? "max-content" : !currentPostImgUrl ? "12rem" : "max-content" }}
+              className="w-full  inline-block focus:outline-none p-2 "
               contentEditable="true"
               suppressContentEditableWarning={true}
               placeholder={userLanguage.createPost.textPlaceholder}
@@ -82,7 +89,7 @@ const PostForm = ({
             >
               {postText && postText}
             </span>
-            <div id="imgContainer" className="px-2">
+            <div id="imgContainer" className="px-2 flex items-start justify-center">
               {imgDom}
             </div>
           </div>

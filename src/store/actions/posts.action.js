@@ -340,6 +340,8 @@ export const cleanCurrentProfilePosts = () => (dispatch) => {
 };
 
 export const getLinkData = (targetUrl) => async (dispatch) => {
+  const API =
+    process.env.NODE_ENV === "development" ? "http://localhost:3001/api/post" : process.NODE.ENV === "production" && API_POST;
   const request = {
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -349,7 +351,7 @@ export const getLinkData = (targetUrl) => async (dispatch) => {
     body: JSON.stringify({ targetUrl }),
   };
   try {
-    const response = await fetch(`${API_POST}/post-link`, request);
+    const response = await fetch(`${API}/post-link`, request);
     const data = await response.json();
     const { result } = data;
     console.log(data);

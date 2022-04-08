@@ -10,6 +10,7 @@ export { default as EditModal } from "./EditModal";
 export { default as FooterAside } from "./FooterAside";
 export { default as ImgUploader } from "./ImgUploader";
 export { default as Layout } from "./Layout";
+export { default as LinkPreview } from "./LinkPreview";
 export { default as MainContainer } from "./MainContainer";
 export { default as Menu } from "./Menu";
 export { default as ModsContainer } from "./ModsContainer";
