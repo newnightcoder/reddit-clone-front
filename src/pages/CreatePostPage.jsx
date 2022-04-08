@@ -71,7 +71,7 @@ const CreatePost = () => {
         <Redirect to={{ pathname: "/" }} />
       ) : (
         <Layout>
-          <div className="w-full flex flex-col items-center justify-center pt-16" style={{ height: "calc(100vh - 4rem)" }}>
+          <div className="w-full flex flex-col items-center justify-start pt-16 pb-4" style={{ minHeight: "calc(100vh - 4rem)" }}>
             {/* <h1 className="w-full text-left py-2 text-xl pl-48">Publier un post</h1> */}
             <div className="w-full h-full flex items-start justify-center space-x-8">
               <div className="h-max w-11/12 max-w-2xl flex flex-col items-center justify-center">
