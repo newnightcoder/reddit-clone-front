@@ -9,6 +9,7 @@ const initialState = {
     text: "",
     imgUrl: "",
   },
+  scrapedPost: {},
   comments: [],
   replies: [],
   likes: [],
@@ -25,6 +26,7 @@ const {
   GET_LIKES,
   GET_USERS,
   GET_USER_POSTS,
+  GET_LINK_DATA,
   GET_COMMENTS,
   GET_REPLIES,
   SET_ERROR_POST,
@@ -59,6 +61,9 @@ export const postsReducer = (state = initialState, action) => {
       const { posts, likes } = action.payload;
 
       return { ...state, userPosts: posts, likes };
+    }
+    case GET_LINK_DATA: {
+      return { ...state, scrapedPost: action.payload };
     }
     case GET_COMMENTS:
       const { comments } = action.payload;

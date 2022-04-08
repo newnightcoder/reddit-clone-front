@@ -4,6 +4,7 @@ import { Image, Link45deg, XLg } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
+import { giphyDark } from "../assets";
 import { clearTempPostImg } from "../store/actions/posts.action";
 import { useLanguage } from "../utils/hooks";
 
@@ -35,13 +36,26 @@ const PostForm = ({
       method="post"
       onSubmit={pathname === "/edit" ? handleEditSubmit : handlePostSubmit}
     >
-      <Link
-        to={"/feed"}
-        className="w-8 h-8 md:w-max md:h-max self-start flex items-center justify-center md:space-x-2 text-white md:px-4 md:py-2 rounded-full shadow-xl bg-gray-500 transition-all duration-300 hover:bg-black hover:shadow-none"
-        disabled={false}
-      >
-        <span className="hidden md:inline-block text-xs capitalize">{userLanguage.createPost.cancelBtn}</span> <XLg size={12} />
-      </Link>
+      <div className="w-full flex items-center justify-between">
+        <Link
+          to={"/feed"}
+          className="w-8 h-8 md:w-max md:h-max self-start flex items-center justify-center md:space-x-2 text-white md:px-4 md:py-2 rounded-full shadow-xl bg-gray-500 transition-all duration-300 hover:bg-black hover:shadow-none"
+          disabled={false}
+        >
+          <span className="hidden md:inline-block text-xs capitalize">{userLanguage.createPost.cancelBtn}</span> <XLg size={12} />
+        </Link>
+        {currentPostImgUrl ? (
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              currentPostImgUrl && dispatch(clearTempPostImg());
+            }}
+            className="h-8 w-max rounded-full px-2  border whitespace-wrap text-xs text-gray-500 flex items-center justify-end text-right"
+          >
+            {userLanguage.createPost.deleteImgBtn}
+          </button>
+        ) : null}
+      </div>
       <input
         className="h-10 w-full px-2 rounded outline-none bg-gray-100 hover:bg-white active:bg-white focus:bg-white border border-gray-400 hover:border-gray-500 transition-all duration-200 placeholder-gray-400"
         type="text"
@@ -73,10 +87,10 @@ const PostForm = ({
             </div>
           </div>
         </div>
-        <div className="w-full h-max flex items-center justify-between px-8">
-          <div className="w-2/3 h-full flex items-center justify-start space-x-2">
+        <div className="w-full h-max flex items-center justify-between px-3">
+          <div className="w-max h-full flex items-center justify-start space-x-4">
             <button
-              className="h-10 w-max text-gray-900 text-xs bg-transparent ouline-none flex items-center justify-start space-x-1"
+              className="w-max text-gray-500 text-xs rounded-full border border-gray-200 px-4 py-2 md:text-base bg-transparent ouline-none flex items-center justify-start space-x-1"
               onClick={(e) => toggleImgInput(e)}
             >
               <Image size={16} className="text-gray-900" />
@@ -85,28 +99,25 @@ const PostForm = ({
               </span>
             </button>
             <button
-              className="h-8 w-max  text-gray-900 text-xs bg-transparent ouline-none flex items-center justify-start"
+              className="w-max  text-gray-500 text-xs rounded-full border border-gray-200 px-4 py-2 md:text-base bg-transparent ouline-none flex items-center justify-start space-x-1"
               onClick={(e) => toggleUrlInput(e)}
             >
-              <Link45deg size={20} className="text-gray-900" />{" "}
-              <span className="hidden md:inline-block">{userLanguage.createPost.gifBtn}</span>
+              <img src={giphyDark} width="25" /> <span className="hidden md:inline-block">{userLanguage.createPost.gifBtn}</span>
+            </button>
+            <button
+              className="w-max  text-gray-500 text-xs rounded-full border border-gray-200 px-4 py-2 md:text-base bg-transparent ouline-none flex items-center justify-start"
+              onClick={(e) => toggleYoutubeInput(e)}
+            >
+              <Link45deg size={20} className="text-gray-900" />
+              <span className="hidden md:inline-block capitalize">link</span>
             </button>
           </div>
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              currentPostImgUrl && dispatch(clearTempPostImg());
-            }}
-            className="w-1/3 h-full whitespace-wrap text-xs text-gray-900 underline flex items-center justify-end text-right"
-          >
-            {currentPostImgUrl ? userLanguage.createPost.deleteImgBtn : null}
-          </button>
-          <button
-            className="w-48 flex items-center justify-center space-x-1 text-white p-3 rounded-full disabled:opacity-50 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
+            className="flex items-center justify-center space-x-1 text-white py-3 px-6 rounded-full disabled:opacity-50 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
             disabled={false}
             type="submit"
           >
-            <PaperAirplaneIcon className="h-5 w-5 text-white transform rotate-45 -translate-y-0.5" />
+            <PaperAirplaneIcon className="h-5 text-white transform rotate-45 -translate-y-0.5" />
             <span className="text-sm uppercase">{userLanguage.createPost.publishBtn}</span>
           </button>
         </div>

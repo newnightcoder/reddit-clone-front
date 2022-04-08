@@ -3,7 +3,7 @@ import React, { useCallback, useRef, useState } from "react";
 // import ContentEditable from "react-contenteditable";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
-import { ImgUploadModal, Layout, PostForm, UrlModal } from "../components";
+import { ImgUploadModal, Layout, PostForm, UrlModal, YoutubeLinkModal } from "../components";
 import { clearTempPostImg, createPost } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
 import { createDate } from "../utils/helpers/formatTime";
@@ -18,6 +18,7 @@ const CreatePost = () => {
   const [emptyTitle, setEmptyTitle] = useState(false);
   const [imgInputModalOpen, setImgInputModalOpen] = useState(false);
   const [urlModalOpen, setUrlModalOpen] = useState(false);
+  const [linkModalOpen, setLinkModalOpen] = useState(false);
   const [serverErrorMsg, setServerErrorMsg] = useState("");
   const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
   const serverError = useSelector((state) => state.posts.error);
@@ -61,8 +62,7 @@ const CreatePost = () => {
 
   const toggleYoutubeInput = useCallback((e) => {
     e.preventDefault();
-    setImgInputModalOpen(false);
-    setUrlModalOpen(false);
+    setLinkModalOpen((prevState) => !prevState);
   });
 
   return (
@@ -95,6 +95,7 @@ const CreatePost = () => {
             </div>
             <ImgUploadModal imgInputModalOpen={imgInputModalOpen} toggleImgInput={toggleImgInput} setImgAdded={setImgAdded} />
             <UrlModal urlModalOpen={urlModalOpen} toggleUrlInput={toggleUrlInput} />
+            <YoutubeLinkModal linkModalOpen={linkModalOpen} toggleYoutubeInput={toggleYoutubeInput} />
           </div>
         </Layout>
       )}

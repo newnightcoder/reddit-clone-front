@@ -7,7 +7,7 @@ const {
   GET_USERS,
   GET_USER_POSTS,
   SAVE_POST_PIC,
-  SAVE_LINK_URL,
+  GET_LINK_DATA,
   CLEAR_TEMP_POST_PIC,
   CREATE_POST,
   CREATE_REPLY,
@@ -19,6 +19,7 @@ const {
   CLEAR_ERROR_POST,
   CLEAN_PROFILE_POSTS,
   SESSION_EXPIRED,
+  SAVE_LINK_URL,
 } = actionType;
 
 export const getPosts = () => async (dispatch) => {
@@ -336,4 +337,24 @@ export const getReplies = () => async (dispatch) => {
 
 export const cleanCurrentProfilePosts = () => (dispatch) => {
   dispatch({ type: CLEAN_PROFILE_POSTS });
+};
+
+export const getLinkData = (targetUrl) => async (dispatch) => {
+  const request = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+    },
+    method: "post",
+    body: JSON.stringify({ targetUrl }),
+  };
+  try {
+    const response = await fetch(`${API_POST}/post-link`, request);
+    const data = await response.json();
+    const { result } = data;
+    console.log(data);
+    dispatch({ type: GET_LINK_DATA, payload: result });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_POST, payload: error.message });
+  }
 };
