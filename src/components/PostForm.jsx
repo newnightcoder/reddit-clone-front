@@ -1,12 +1,12 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
-import React from "react";
+import React, { useCallback } from "react";
 import { Image, Link45deg, XLg } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { giphyDark } from "../assets";
 import { clearTempPostImg } from "../store/actions/posts.action";
-import { useLanguage } from "../utils/hooks";
+import { useLanguage, useWindowSize } from "../utils/hooks";
 import LinkPreview from "./LinkPreview";
 
 const PostForm = ({
@@ -28,25 +28,34 @@ const PostForm = ({
   const currentPostImgUrl = useSelector((state) => state.posts.currentPost.imgUrl);
   const scrapedPost = useSelector((state) => state.posts.scrapedPost);
   const { pathname } = useLocation();
+  const { height, width } = useWindowSize();
+  const isObjectEmpty = useCallback((obj) => {
+    for (let prop in obj) {
+      return false;
+    }
+    return true;
+  }, []);
 
   const imgDom = currentPostImgUrl ? (
     <img id="postImg" src={currentPostImgUrl} alt="" className="w-full" />
-  ) : (
-    scrapedPost && <LinkPreview />
-  );
+  ) : !isObjectEmpty(scrapedPost) ? (
+    <LinkPreview />
+  ) : null;
+
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
 
   return (
     <form
-      className="h-max w-full flex flex-col items-center justify-center space-y-4 bg-white border rounded py-6 px-4"
+      style={{ minHeight: width < 768 ? "calc(100vh - 8rem)" : "max-content" }}
+      className="border-2 border-red-500 h-full w-full flex flex-col items-center justify-start md:justify-center space-y-4 bg-white border md:rounded pt-4 pb-6 md:pt-6 px-4"
       method="post"
       onSubmit={pathname === "/edit" ? handleEditSubmit : handlePostSubmit}
     >
       <div className="w-full flex items-center justify-between">
         <Link
           to={"/feed"}
-          className="w-8 h-8 md:w-max md:h-max self-start flex items-center justify-center md:space-x-2 text-white md:px-4 md:py-2 rounded-full shadow-xl bg-gray-500 transition-all duration-300 hover:bg-black hover:shadow-none"
+          className="w-8 h-8 mb-2 md:mb-0 md:w-max md:h-max self-start flex items-center justify-center md:space-x-2 text-white md:px-4 md:py-2 rounded-full shadow-xl bg-gray-500 transition-all duration-300 hover:bg-black hover:shadow-none"
           disabled={false}
         >
           <span className="hidden md:inline-block text-xs capitalize">{userLanguage.createPost.cancelBtn}</span> <XLg size={12} />
@@ -80,7 +89,7 @@ const PostForm = ({
           >
             <span
               id="postInput"
-              style={{ minHeight: scrapedPost ? "max-content" : !currentPostImgUrl ? "12rem" : "max-content" }}
+              style={{ minHeight: isObjectEmpty(scrapedPost) ? "min-content" : !currentPostImgUrl ? "12rem" : "min-content" }}
               className="w-full  inline-block focus:outline-none p-2 "
               contentEditable="true"
               suppressContentEditableWarning={true}

@@ -16,12 +16,16 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
 
   return (
     <div
+      // style={{
+      //   marginTop: width > 768 ? "10rem" : "4rem",
+      //   position: width < 768 ? "fixed" : "sticky",
+      // }}
       style={{
         minWidth: width > 1024 ? "14rem" : width > 768 ? "max-content" : width < 768 ? "100%" : null,
-        marginTop: pathname === "/feed" ? "6rem" : "4rem",
-        position: width < 768 ? "fixed" : "sticky",
+        marginTop: width > 768 ? "12rem" : "4rem",
+        top: width > 768 ? "12rem" : "",
       }}
-      className="w-max flex h-min z-30 sticky bottom-0 md:top-20 items-center justify-center border-t border-gray-200 md:border-none md:justify-start md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent shadow-xl md:shadow-none"
+      className="w-max flex h-16 md:h-min z-30 fixed md:sticky bottom-0 items-center justify-center border-t border-gray-200 md:border-none md:justify-start md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent shadow-xl md:shadow-none"
       // lg:bg-white lg:dark:bg-gray-500 lg:shadow-sm
     >
       <div
