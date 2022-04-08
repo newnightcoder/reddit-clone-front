@@ -341,7 +341,7 @@ export const cleanCurrentProfilePosts = () => (dispatch) => {
 
 export const getLinkData = (targetUrl) => async (dispatch) => {
   const API =
-    process.env.NODE_ENV === "development" ? "http://localhost:3001/api/post" : process.env.NODE.ENV === "production" && API_POST;
+    process.env.NODE_ENV === "development" ? "http://localhost:3001/api/post" : process.env.NODE_ENV === "production" && API_POST;
   const request = {
     headers: {
       "Access-Control-Allow-Origin": "*",
