@@ -21,7 +21,7 @@ const CreatePost = () => {
   const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
   const serverError = useSelector((state) => state.posts.error);
   const { isAuthenticated, id } = useSelector((state) => state.user);
-  const [isPreview, setIsPreview] = useState(false);
+  const [isPreview, setIsPreview] = useState(0);
   const preview = useSelector((state) => state.posts.scrapedPost);
   const dispatch = useDispatch();
   const isObjectEmpty = useCallback((obj) => {
@@ -32,7 +32,7 @@ const CreatePost = () => {
   }, []);
 
   useEffect(() => {
-    if (!isObjectEmpty(preview)) setIsPreview(true);
+    if (!isObjectEmpty(preview)) setIsPreview(1);
   }, [preview]);
 
   const handleTitleInput = useCallback((e) => {
