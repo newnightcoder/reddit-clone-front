@@ -30,11 +30,11 @@ const Post = ({ post }) => {
   const likes = useSelector((state) => state.posts.likes);
   const [likesNumber, setLikesNumber] = useState(likesCount);
   const [commentsNumber, setcommentsNumber] = useState(commentCount);
+  const [like, setLike] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [postIsGone, setpostIsGone] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [like, setLike] = useState(false);
   const dispatch = useDispatch();
 
   const toggleOptions = () => {

@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import { GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
-import { clearTempPostImg, createPost } from "../store/actions/posts.action";
+import { clearTempPostImg, clearTempPreview, createPost } from "../store/actions/posts.action";
 import { createDate } from "../utils/helpers/formatTime";
 import history from "../utils/helpers/history";
 
@@ -53,6 +53,7 @@ const CreatePost = () => {
     console.log("isPreview", isPreview, "preview", preview);
     dispatch(createPost(id, title, postText, createDate(), postImg && postImg, isPreview, preview));
     dispatch(clearTempPostImg());
+    dispatch(clearTempPreview());
     history.push({
       pathname: "/feed",
     });
