@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import { useLocation } from "react-router-dom";
-import { ImgUploadModal, Layout, PostForm, UrlModal } from "../components";
+import { GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
 import { editPost, saveImageToEdit } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
 
@@ -20,7 +20,8 @@ const EditPage = () => {
   const [postImgUrl, setPostImgUrl] = useState(postToEdit && postToEdit.imgUrl);
   const [emptyTitle, setEmptyTitle] = useState(false);
   const [imgInputModalOpen, setImgInputModalOpen] = useState(false);
-  const [urlModalOpen, setUrlModalOpen] = useState(false);
+  const [gifModalOpen, setGifModalOpen] = useState(false);
+  const [linkModalOpen, setLinkModalOpen] = useState(false);
   const [serverErrorMsg, setServerErrorMsg] = useState("");
   const currentPostImg = useSelector((state) => state.posts.currentPost.imgUrl);
   const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
@@ -63,16 +64,21 @@ const EditPage = () => {
     console.log(postText);
   });
 
-  const toggleImgInput = useCallback((e) => {
+  const toggleImgUploadModal = useCallback((e) => {
     e.preventDefault();
-    setUrlModalOpen(false);
+    setGifModalOpen(false);
     setImgInputModalOpen((prev) => !prev);
   });
 
-  const toggleUrlInput = useCallback((e) => {
+  const toggleGifModal = useCallback((e) => {
     e.preventDefault();
     setImgInputModalOpen(false);
-    setUrlModalOpen((prev) => !prev);
+    setGifModalOpen((prev) => !prev);
+  });
+
+  const toggleLinkModal = useCallback((e) => {
+    e.preventDefault();
+    setLinkModalOpen((prevState) => !prevState);
   });
 
   return (
@@ -101,11 +107,12 @@ const EditPage = () => {
                 handleEditTitleInput={handleEditTitleInput}
                 handleEditText={handleEditText}
                 handleEditSubmit={handleEditSubmit}
-                toggleImgInput={toggleImgInput}
+                toggleImgUploadModal={toggleImgUploadModal}
               />
             </div>
-            <ImgUploadModal imgInputModalOpen={imgInputModalOpen} toggleImgInput={toggleImgInput} />
-            <UrlModal urlModalOpen={urlModalOpen} toggleUrlInput={toggleUrlInput} />
+            <ImgUploadModal imgInputModalOpen={imgInputModalOpen} toggleImgUploadModal={toggleImgUploadModal} />
+            <GifModal gifModalOpen={gifModalOpen} toggleGifModal={toggleGifModal} />
+            <PreviewLinkModal linkModalOpen={linkModalOpen} toggleLinkModal={toggleLinkModal} />
           </div>
         </Layout>
       )}

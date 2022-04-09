@@ -7,8 +7,9 @@ const {
   GET_USERS,
   GET_USER_POSTS,
   SAVE_POST_PIC,
-  GET_LINK_DATA,
+  GET_PREVIEW_DATA,
   CLEAR_TEMP_POST_PIC,
+  CLEAR_TEMP_PREVIEW,
   CREATE_POST,
   CREATE_REPLY,
   EDIT_POST,
@@ -19,7 +20,7 @@ const {
   CLEAR_ERROR_POST,
   CLEAN_PROFILE_POSTS,
   SESSION_EXPIRED,
-  SAVE_LINK_URL,
+  SAVE_GIF_URL,
 } = actionType;
 
 export const getPosts = () => async (dispatch) => {
@@ -118,6 +119,8 @@ export const getUserPosts = (userId) => async (dispatch) => {
 };
 
 export const savePostImage = (blob) => async (dispatch) => {
+  dispatch({ type: CLEAR_TEMP_PREVIEW });
+
   const formData = new FormData();
   formData.append("image", blob);
   const request = {
@@ -146,18 +149,48 @@ export const savePostImage = (blob) => async (dispatch) => {
 };
 
 export const saveImageToEdit = (imgUrl) => (dispatch) => {
+  dispatch({ type: CLEAR_TEMP_PREVIEW });
   dispatch({ type: SAVE_POST_PIC, payload: imgUrl });
 };
 
-export const saveLinkUrl = (url) => (dispatch) => {
-  dispatch({ type: SAVE_LINK_URL, payload: url });
+export const saveGifUrl = (url) => (dispatch) => {
+  dispatch({ type: CLEAR_TEMP_PREVIEW });
+  dispatch({ type: SAVE_GIF_URL, payload: url });
+};
+
+export const getPreviewData = (targetUrl) => async (dispatch) => {
+  dispatch({ type: CLEAR_TEMP_POST_PIC });
+
+  const API =
+    process.env.NODE_ENV === "development" ? "http://localhost:3001/api/post" : process.env.NODE_ENV === "production" && API_POST;
+  const request = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+    },
+    method: "post",
+    body: JSON.stringify({ targetUrl }),
+  };
+  try {
+    const response = await fetch(`${API}/post-link`, request);
+    const data = await response.json();
+    const { result } = data;
+    console.log(data);
+    dispatch({ type: GET_PREVIEW_DATA, payload: result });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_POST, payload: error.message });
+  }
 };
 
 export const clearTempPostImg = () => (dispatch) => {
   dispatch({ type: CLEAR_TEMP_POST_PIC });
 };
 
-export const createPost = (userId, title, text, date, imgUrl) => async (dispatch) => {
+export const clearTempPreview = () => (dispatch) => {
+  dispatch({ type: CLEAR_TEMP_PREVIEW });
+};
+
+export const createPost = (userId, title, text, date, imgUrl, isPreview, preview) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
   const accessToken = localStorage.getItem("jwt");
   // console.log("token", accessToken);
@@ -168,7 +201,7 @@ export const createPost = (userId, title, text, date, imgUrl) => async (dispatch
       Authorization: `Bearer ${accessToken}`,
     },
     method: "POST",
-    body: JSON.stringify({ userId, title, text, date, imgUrl }),
+    body: JSON.stringify({ userId, title, text, date, imgUrl, isPreview, preview }),
   };
   try {
     const response = await fetch(API_POST, request);
@@ -337,26 +370,4 @@ export const getReplies = () => async (dispatch) => {
 
 export const cleanCurrentProfilePosts = () => (dispatch) => {
   dispatch({ type: CLEAN_PROFILE_POSTS });
-};
-
-export const getLinkData = (targetUrl) => async (dispatch) => {
-  const API =
-    process.env.NODE_ENV === "development" ? "http://localhost:3001/api/post" : process.env.NODE_ENV === "production" && API_POST;
-  const request = {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Content-Type": "application/json",
-    },
-    method: "post",
-    body: JSON.stringify({ targetUrl }),
-  };
-  try {
-    const response = await fetch(`${API}/post-link`, request);
-    const data = await response.json();
-    const { result } = data;
-    console.log(data);
-    dispatch({ type: GET_LINK_DATA, payload: result });
-  } catch (error) {
-    dispatch({ type: SET_ERROR_POST, payload: error.message });
-  }
 };

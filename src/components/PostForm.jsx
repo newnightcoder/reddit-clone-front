@@ -13,9 +13,9 @@ const PostForm = ({
   title,
   handlePostSubmit,
   handleTitleInput,
-  toggleImgInput,
-  toggleUrlInput,
-  toggleYoutubeInput,
+  toggleImgUploadModal,
+  toggleGifModal,
+  toggleLinkModal,
   handlePostInput,
   postToEdit,
   postTitle,
@@ -48,7 +48,7 @@ const PostForm = ({
   return (
     <form
       style={{ minHeight: width < 768 ? "calc(100vh - 8rem)" : "max-content" }}
-      className="border-2 border-red-500 h-full w-full flex flex-col items-center justify-start md:justify-center space-y-4 bg-white border md:rounded pt-4 pb-6 md:pt-6 px-4"
+      className="h-full w-full flex flex-col items-center justify-start md:justify-center space-y-4 bg-white border md:rounded pt-4 pb-6 md:pt-6 px-4"
       method="post"
       onSubmit={pathname === "/edit" ? handleEditSubmit : handlePostSubmit}
     >
@@ -89,7 +89,9 @@ const PostForm = ({
           >
             <span
               id="postInput"
-              style={{ minHeight: isObjectEmpty(scrapedPost) ? "min-content" : !currentPostImgUrl ? "12rem" : "min-content" }}
+              style={{
+                minHeight: !isObjectEmpty(scrapedPost) || currentPostImgUrl.length !== 0 ? "min-content" : "12rem",
+              }}
               className="w-full  inline-block focus:outline-none p-2 "
               contentEditable="true"
               suppressContentEditableWarning={true}
@@ -107,7 +109,7 @@ const PostForm = ({
           <div className="w-max h-full flex items-center justify-start space-x-4">
             <button
               className="w-max text-gray-500 text-xs rounded-full border border-gray-200 px-4 py-2 md:text-base bg-transparent ouline-none flex items-center justify-start space-x-1"
-              onClick={(e) => toggleImgInput(e)}
+              onClick={(e) => toggleImgUploadModal(e)}
             >
               <Image size={16} className="text-gray-900" />
               <span className="hidden md:inline-block">
@@ -116,13 +118,13 @@ const PostForm = ({
             </button>
             <button
               className="w-max  text-gray-500 text-xs rounded-full border border-gray-200 px-4 py-2 md:text-base bg-transparent ouline-none flex items-center justify-start space-x-1"
-              onClick={(e) => toggleUrlInput(e)}
+              onClick={(e) => toggleGifModal(e)}
             >
               <img src={giphyDark} width="25" /> <span className="hidden md:inline-block">{userLanguage.createPost.gifBtn}</span>
             </button>
             <button
               className="w-max  text-gray-500 text-xs rounded-full border border-gray-200 px-4 py-2 md:text-base bg-transparent ouline-none flex items-center justify-start"
-              onClick={(e) => toggleYoutubeInput(e)}
+              onClick={(e) => toggleLinkModal(e)}
             >
               <Link45deg size={20} className="text-gray-900" />
               <span className="hidden md:inline-block capitalize">link</span>

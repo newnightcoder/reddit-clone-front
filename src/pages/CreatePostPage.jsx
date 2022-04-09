@@ -1,29 +1,39 @@
 import "draft-js/dist/Draft.css";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 // import ContentEditable from "react-contenteditable";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
-import { ImgUploadModal, Layout, PostForm, UrlModal, YoutubeLinkModal } from "../components";
+import { GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
 import { clearTempPostImg, createPost } from "../store/actions/posts.action";
-import { history } from "../utils/helpers";
 import { createDate } from "../utils/helpers/formatTime";
+import history from "../utils/helpers/history";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
   const [postText, setPostText] = useState("");
   const postImg = useSelector((state) => state.posts.currentPost.imgUrl);
-  const postImgRef = useRef(postImg);
-  const postImgInTheDom = useRef(document.querySelector("#postImg"));
   const [imgAdded, setImgAdded] = useState(false);
   const [emptyTitle, setEmptyTitle] = useState(false);
   const [imgInputModalOpen, setImgInputModalOpen] = useState(false);
-  const [urlModalOpen, setUrlModalOpen] = useState(false);
+  const [gifModalOpen, setGifModalOpen] = useState(false);
   const [linkModalOpen, setLinkModalOpen] = useState(false);
   const [serverErrorMsg, setServerErrorMsg] = useState("");
   const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
   const serverError = useSelector((state) => state.posts.error);
   const { isAuthenticated, id } = useSelector((state) => state.user);
+  const [isPreview, setIsPreview] = useState(false);
+  const preview = useSelector((state) => state.posts.scrapedPost);
   const dispatch = useDispatch();
+  const isObjectEmpty = useCallback((obj) => {
+    for (let prop in obj) {
+      return false;
+    }
+    return true;
+  }, []);
+
+  useEffect(() => {
+    if (!isObjectEmpty(preview)) setIsPreview(true);
+  }, [preview]);
 
   const handleTitleInput = useCallback((e) => {
     setTitle(e.currentTarget.value);
@@ -40,27 +50,27 @@ const CreatePost = () => {
     if (serverError.length !== 0) return setServerErrorMsg(serverError);
     setServerErrorMsg("");
     console.log("image:", postImg);
-
-    dispatch(createPost(id, title, postText, createDate(), postImg && postImg));
+    console.log("isPreview", isPreview, "preview", preview);
+    dispatch(createPost(id, title, postText, createDate(), postImg && postImg, isPreview, preview));
     dispatch(clearTempPostImg());
     history.push({
       pathname: "/feed",
     });
   });
 
-  const toggleImgInput = useCallback((e) => {
+  const toggleImgUploadModal = useCallback((e) => {
     e.preventDefault();
-    setUrlModalOpen(false);
+    setGifModalOpen(false);
     setImgInputModalOpen((prev) => !prev);
   });
 
-  const toggleUrlInput = useCallback((e) => {
+  const toggleGifModal = useCallback((e) => {
     e.preventDefault();
     setImgInputModalOpen(false);
-    setUrlModalOpen((prev) => !prev);
+    setGifModalOpen((prev) => !prev);
   });
 
-  const toggleYoutubeInput = useCallback((e) => {
+  const toggleLinkModal = useCallback((e) => {
     e.preventDefault();
     setLinkModalOpen((prevState) => !prevState);
   });
@@ -89,16 +99,20 @@ const CreatePost = () => {
                   title={title}
                   handlePostSubmit={handlePostSubmit}
                   handleTitleInput={handleTitleInput}
-                  toggleImgInput={toggleImgInput}
-                  toggleUrlInput={toggleUrlInput}
-                  toggleYoutubeInput={toggleYoutubeInput}
+                  toggleImgUploadModal={toggleImgUploadModal}
+                  toggleGifModal={toggleGifModal}
+                  toggleLinkModal={toggleLinkModal}
                   handlePostInput={handlePostInput}
                 />
               </div>
             </div>
-            <ImgUploadModal imgInputModalOpen={imgInputModalOpen} toggleImgInput={toggleImgInput} setImgAdded={setImgAdded} />
-            <UrlModal urlModalOpen={urlModalOpen} toggleUrlInput={toggleUrlInput} />
-            <YoutubeLinkModal linkModalOpen={linkModalOpen} toggleYoutubeInput={toggleYoutubeInput} />
+            <ImgUploadModal
+              imgInputModalOpen={imgInputModalOpen}
+              toggleImgUploadModal={toggleImgUploadModal}
+              setImgAdded={setImgAdded}
+            />
+            <GifModal gifModalOpen={gifModalOpen} toggleGifModal={toggleGifModal} />
+            <PreviewLinkModal linkModalOpen={linkModalOpen} toggleLinkModal={toggleLinkModal} />
           </div>
         </Layout>
       )}

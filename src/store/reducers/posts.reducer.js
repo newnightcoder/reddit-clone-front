@@ -26,14 +26,15 @@ const {
   GET_LIKES,
   GET_USERS,
   GET_USER_POSTS,
-  GET_LINK_DATA,
+  GET_PREVIEW_DATA,
   GET_COMMENTS,
   GET_REPLIES,
   SET_ERROR_POST,
   CLEAR_ERROR_POST,
   SAVE_POST_PIC,
-  SAVE_LINK_URL,
+  SAVE_GIF_URL,
   CLEAR_TEMP_POST_PIC,
+  CLEAR_TEMP_PREVIEW,
   CREATE_POST,
   CREATE_REPLY,
   EDIT_POST,
@@ -62,7 +63,7 @@ export const postsReducer = (state = initialState, action) => {
 
       return { ...state, userPosts: posts, likes };
     }
-    case GET_LINK_DATA: {
+    case GET_PREVIEW_DATA: {
       return { ...state, scrapedPost: action.payload };
     }
     case GET_COMMENTS:
@@ -73,10 +74,12 @@ export const postsReducer = (state = initialState, action) => {
       return { ...state, replies };
     case SAVE_POST_PIC:
       return { ...state, currentPost: { ...state.currentPost, imgUrl: action.payload } };
-    case SAVE_LINK_URL:
+    case SAVE_GIF_URL:
       return { ...state, currentPost: { ...state.currentPost, imgUrl: action.payload } };
     case CLEAR_TEMP_POST_PIC:
       return { ...state, currentPost: { ...state.currentPost, imgUrl: "" } };
+    case CLEAR_TEMP_PREVIEW:
+      return { ...state, scrapedPost: {} };
     case CREATE_POST:
       return { ...state, lastPostAdded: action.payload };
     case CREATE_REPLY:
