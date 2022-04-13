@@ -2,6 +2,7 @@ import { useCallback, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleVisitorModal } from "../../store/actions/user.action";
 import history from "../helpers/history";
+import useLanguage from "./useLanguage";
 import useLinkToProfile from "./useLinkToProfile";
 
 const useHandleLink = () => {
@@ -9,35 +10,36 @@ const useHandleLink = () => {
   const { id, username, isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const linkToProfile = useLinkToProfile();
+  const userLanguage = useLanguage();
 
   const handleVisitorModal = (origin) => {
     switch (origin) {
       case "post":
-        visitorMessage.current = "Veuillez créer un compte pour publier un post!";
+        visitorMessage.current = userLanguage.visitorModal.msgPost;
         break;
       case "profile":
-        visitorMessage.current = "Veuillez créer un compte pour voir votre profil!";
+        visitorMessage.current = userLanguage.visitorModal.msgSelfProfile;
         break;
       case "login":
-        visitorMessage.current = "Veuillez vous inscrire pour vous connecter à Forum!";
+        visitorMessage.current = userLanguage.visitorModal.msgConnect;
         break;
       case "post-profile":
-        visitorMessage.current = "Veuillez vous inscrire pour voir le profil des utilisateurs!";
+        visitorMessage.current = userLanguage.visitorModal.msgProfiles;
         break;
       case "new-members":
-        visitorMessage.current = "Veuillez vous inscrire pour voir les nouveaux membres!";
+        visitorMessage.current = userLanguage.visitorModal.msgNewMembers;
         break;
       case "mods":
-        visitorMessage.current = "Veuillez vous inscrire pour voir les modérateurs!";
+        visitorMessage.current = userLanguage.visitorModal.msgMods;
         break;
       case "like":
-        visitorMessage.current = "Veuillez vous inscrire pour liker les posts des utilisateurs!";
+        visitorMessage.current = userLanguage.visitorModal.msgLike;
         break;
       case "comment":
-        visitorMessage.current = "Veuillez vous inscrire pour voir et laisser des commentaires!";
+        visitorMessage.current = userLanguage.visitorModal.msgComments;
         break;
       case "delete":
-        visitorMessage.current = "Rien à supprimer, vous n'avez pas encore de profil sur Forum!";
+        visitorMessage.current = userLanguage.visitorModal.msgDeleteProfile;
         break;
       default:
         visitorMessage.current = "";
@@ -78,7 +80,7 @@ const useHandleLink = () => {
         default:
       }
     },
-    [visitorMessage.current]
+    [visitorMessage.current, userLanguage]
   );
 
   return handleLink;

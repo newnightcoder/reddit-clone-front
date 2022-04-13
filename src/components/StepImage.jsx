@@ -4,10 +4,12 @@ import { useSelector } from "react-redux";
 import { logo } from "../assets";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { history } from "../utils/helpers";
+import { useLanguage } from "../utils/hooks";
 import ImgUploader from "./ImgUploader";
+
 const StepImage = () => {
   const { id, picUrl } = useSelector((state) => state.user);
-  // const history = useHistory();
+  const userLanguage = useLanguage();
 
   return (
     <Div100vh
@@ -15,9 +17,10 @@ const StepImage = () => {
       style={{ transform: "translateX(100%)" }}
     >
       <header className="h-1/4 flex flex-col items-center justify-center">
-        <h1 className="text-center font-bold text-lg">
-          DERNIÈRE ÉTAPE AVANT DE <br />
-          REJOINDRE LA COMMUNAUTÉ
+        <h1 className="text-center font-bold text-lg uppercase">
+          {userLanguage.signup.stepImage.lastStep}
+          <br />
+          {userLanguage.signup.stepImage.join}{" "}
         </h1>
         <img src={logo} alt="" />
       </header>
@@ -46,7 +49,7 @@ const StepImage = () => {
         }}
       >
         <span className="flex items-center gap-1">
-          Plus tard, pas maintenant!
+          {userLanguage.signup.stepImage.later}
           <ChevronDoubleRightIcon className="h-4 w-4 text-black" style={{ transform: "translateY(1px)" }} />
         </span>
       </button>

@@ -3,21 +3,19 @@ import { ChatRight, HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "re
 import { useDispatch, useSelector } from "react-redux";
 import { likePost, toComment } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
-import { useHandleLink } from "../utils/hooks";
+import { useHandleLink, useLanguage } from "../utils/hooks";
 
 const PostFooter = ({ post, toggleOptions }) => {
   const { title, postId, text, imgUrl, date, username, picUrl, likesCount, commentCount, fk_userId_post } = post;
+  const { isAuthenticated, id: userId } = useSelector((state) => state.user);
+  const allLikes = useSelector((state) => state.posts.likes);
   const [commentsNumber, setcommentsNumber] = useState(commentCount);
   const [likesNumber, setLikesNumber] = useState(likesCount);
   const [like, setLike] = useState(false);
-  const [optionsOpen, setOptionsOpen] = useState(false);
-  const userId = useSelector((state) => state.user.id);
-  const { isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  // const history = useHistory();
-  const allLikes = useSelector((state) => state.posts.likes);
-  const sameUser = [];
   const handleLink = useHandleLink();
+  const userLanguage = useLanguage();
+  const sameUser = [];
 
   const toCommentPage = () => {
     dispatch(toComment(postId));
@@ -73,7 +71,8 @@ const PostFooter = ({ post, toggleOptions }) => {
           }}
         >
           <ChatRight size={14} className="font-weight-bold" />
-          <span className="font-bold">{commentsNumber}</span> <span className="font-bold">Commentaires</span>
+          <span className="font-bold">{commentsNumber}</span>{" "}
+          <span className="font-bold">{userLanguage.postFooter.comments}</span>
         </button>
         <div className="h-full w-max flex items-center justify-center hover:bg-gray-200 hover:cursor-pointer px-2 rounded-sm">
           <button

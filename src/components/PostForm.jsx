@@ -40,6 +40,16 @@ const PostForm = ({
     <img id="postImg" src={currentPostImgUrl} alt="" className="w-full" />
   ) : !isObjectEmpty(scrapedPost) ? (
     <LinkPreview />
+  ) : postToEdit && postToEdit.imgUrl ? (
+    <img id="postImg" src={postToEdit.imgUrl || postToEdit.previewImg} alt="" className="w-full" />
+  ) : postToEdit && postToEdit.isPreview === 1 ? (
+    <LinkPreview
+      previewTitle={postToEdit.previewTitle}
+      previewText={postToEdit.previewText}
+      previewImg={postToEdit.previewImg}
+      previewPub={postToEdit.previewPub}
+      previewPubLogo={postToEdit.previewPubLogo}
+    />
   ) : null;
 
   const dispatch = useDispatch();
@@ -90,7 +100,10 @@ const PostForm = ({
             <span
               id="postInput"
               style={{
-                minHeight: !isObjectEmpty(scrapedPost) || currentPostImgUrl.length !== 0 ? "min-content" : "12rem",
+                minHeight:
+                  !isObjectEmpty(scrapedPost) || currentPostImgUrl.length !== 0 || postToEdit?.isPreview === 1
+                    ? "min-content"
+                    : "12rem",
               }}
               className="w-full  inline-block focus:outline-none p-2 "
               contentEditable="true"
@@ -127,7 +140,7 @@ const PostForm = ({
               onClick={(e) => toggleLinkModal(e)}
             >
               <Link45deg size={20} className="text-gray-900" />
-              <span className="hidden md:inline-block capitalize">link</span>
+              <span className="hidden md:inline-block capitalize">{userLanguage.createPost.linkBtn}</span>
             </button>
           </div>
           <button

@@ -1,27 +1,27 @@
 import { ChatAltIcon } from "@heroicons/react/solid";
 import "draft-js/dist/Draft.css";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Comment, CommentForm, Layout, Post } from "../components";
 import { getComments, getPosts, getReplies } from "../store/actions/posts.action";
 import { createComment } from "../store/actions/user.action";
 import { createDate } from "../utils/helpers/formatTime";
+import { useLanguage } from "../utils/hooks";
 
 const CommentPage = ({ toggleDeleteModal, openModal }) => {
-  const posts = useSelector((state) => state.posts.posts);
-  const comments = useSelector((state) => state.posts.comments);
+  const userLanguage = useLanguage();
+  const { posts, comments } = useSelector((state) => state.posts);
   const [commentsToDisplay, setCommentsToDisplay] = useState([]);
   const postId = useSelector((state) => state.user.currentComment.postId);
   const post = posts.find((post) => post.postId === postId);
-  const userId = useSelector((state) => state.user.id);
-  const serverError = useSelector((state) => state.user.error);
-  const emptyComErrorMsg = "Votre commentaire est vide!";
+  const { id: userId, error: serverError } = useSelector((state) => state.user);
+  const emptyComErrorMsg = userLanguage?.commentPage.error;
   const [serverErrorMsg, setServerErrorMsg] = useState("");
   const [emptyComError, setEmptyComError] = useState(false);
   const [commentText, setCommentText] = useState("");
   const dispatch = useDispatch();
 
-  const getRelatedComments = (postId) => {
+  const getRelatedComments = useCallback((postId) => {
     const relatedComments = [];
     comments
       .sort((a, b) => {
@@ -34,7 +34,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
         }
       });
     return relatedComments;
-  };
+  }, []);
 
   useEffect(() => {
     dispatch(getPosts());
@@ -50,11 +50,11 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
     setServerErrorMsg(serverError);
   }, [serverError]);
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     setCommentText(e.target.value);
-  };
+  }, []);
 
-  const handleCommentSubmit = async (e) => {
+  const handleCommentSubmit = useCallback(async (e) => {
     e.preventDefault();
     if (commentText.length === 0) {
       setEmptyComError(true);
@@ -67,7 +67,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
     setTimeout(() => {
       dispatch(getComments());
     }, 1000);
-  };
+  }, []);
 
   return (
     <Layout>
@@ -93,7 +93,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
                   className="w-11/12 uppercase italic rounded-tl rounded-tr text-white text-center px-2 py-1 mt-3"
                   style={{ backgroundColor: "#ef5350" }}
                 >
-                  pas encore de commentaire
+                  {userLanguage.commentPage.noComments}{" "}
                 </span>
                 <div className="w-11/12 bg-gray-100 flex flex-col items-center justify-center gap-2 rounded-bl rounded-br border border-red-300">
                   <ChatAltIcon className="h-20 text-gray-200" />
@@ -105,7 +105,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
                   className="w-full uppercase italic rounded-tl rounded-tr text-white px-2 py-1"
                   style={{ backgroundColor: "#ef5350" }}
                 >
-                  commentaires
+                  {userLanguage.commentPage.comments}
                 </span>
                 <div className="w-full bg-gray-100 flex flex-col items-center justify-center  rounded-bl rounded-br  border-red-300 py-2">
                   {commentsToDisplay.map((comment) => {
@@ -124,7 +124,6 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
             )}
           </div>
         </div>
-        {/* <Aside /> */}
       </div>
     </Layout>
   );

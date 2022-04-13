@@ -5,6 +5,7 @@ import { useLocation } from "react-router";
 import { savePostImage } from "../store/actions/posts.action";
 import { saveUserPic } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
+import { useLanguage } from "../utils/hooks";
 
 const ImgUploader = ({ profile, imgType, toggleImgUploadModal }) => {
   const [blob, setBlob] = useState(null);
@@ -12,9 +13,9 @@ const ImgUploader = ({ profile, imgType, toggleImgUploadModal }) => {
   const file = useRef(null);
   const { id, picUrl } = useSelector((state) => state.user);
   const { imgUrl } = useSelector((state) => state.posts.currentPost);
-  // const history = useHistory();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
+  const userLanguage = useLanguage();
 
   const handleImgSubmit = (e) => {
     e.preventDefault();
@@ -38,7 +39,7 @@ const ImgUploader = ({ profile, imgType, toggleImgUploadModal }) => {
       encType="multipart/form-data"
       onSubmit={handleImgSubmit}
     >
-      {pathname.includes("profile") ? null : profile && <span> Choisissez votre image de profil</span>}
+      {pathname.includes("profile") ? null : profile && <span>{userLanguage.imgUploader.chooseBtn}</span>}
       <label
         style={{
           width: pathname.includes("profile") ? "max-content" : "12rem",
@@ -49,10 +50,10 @@ const ImgUploader = ({ profile, imgType, toggleImgUploadModal }) => {
       >
         <span className="whitespace-nowrap">
           {pathname.includes("profile") && imgType === "pic"
-            ? "changer la photo de profil"
+            ? userLanguage.imgUploader.changePicBtn
             : pathname.includes("profile") && imgType === "banner"
-            ? "changer la bannière"
-            : "parcourir"}
+            ? userLanguage.imgUploader.changeBannerBtn
+            : userLanguage.imgUploader.browse}
         </span>
       </label>
 
@@ -74,7 +75,7 @@ const ImgUploader = ({ profile, imgType, toggleImgUploadModal }) => {
             ? blobName
             : pathname.includes("profile")
             ? null
-            : !imgUrl && <span>Aucune photo choisie pour le moment.</span>}
+            : !imgUrl && <span>{userLanguage.imgUploader.noPic}</span>}
         </div>
       </div>
       <div className="w-full flex items-center justify-center gap-4">
@@ -83,7 +84,7 @@ const ImgUploader = ({ profile, imgType, toggleImgUploadModal }) => {
             className="text-white py-1 px-4 rounded-full  transform translate-y-2 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
             style={blobName === null ? { opacity: 0 } : { opacity: 1 }}
           >
-            Aperçu
+            {userLanguage.imgUploader.preview}
           </button>
         )}
         <button
@@ -106,7 +107,7 @@ const ImgUploader = ({ profile, imgType, toggleImgUploadModal }) => {
         >
           {profile && !pathname.includes("profile") ? (
             <span>
-              c'est bon!{" "}
+              {userLanguage.imgUploader.ok}
               <ChevronDoubleRightIcon className="h-4 w-4 text-black font-bold" style={{ transform: "translateY(1px)" }} />
             </span>
           ) : (

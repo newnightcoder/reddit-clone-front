@@ -1,9 +1,10 @@
 import { CheckIcon, XIcon } from "@heroicons/react/solid";
-import React from "react";
+import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { StepUsername } from ".";
 import { logo } from "../assets";
+import { useLanguage } from "../utils/hooks";
 
 const SignupForm = ({
   handleNewEmail,
@@ -16,16 +17,16 @@ const SignupForm = ({
   isNumber,
   userId,
 }) => {
-  const error = useSelector((state) => state.user.error);
-  const isCreated = useSelector((state) => state.user.userCreated);
+  const { error, userCreated } = useSelector((state) => state.user);
+  const userLanguage = useLanguage();
 
-  const displayCheck = (bool) => {
+  const displayCheck = useCallback((bool) => {
     if (bool) {
       return <CheckIcon className="h-3 w-3 text-green-900 transform translate-y-0.5" />;
     } else return <XIcon className="h-3 w-3 text-gray-800 transform translate-y-0.5" />;
-  };
+  }, []);
 
-  const toNextStep = isCreated ? { transform: "translateX(-100%)" } : { transform: "translateX(0%)" };
+  const toNextStep = userCreated ? { transform: "translateX(-100%)" } : { transform: "translateX(0%)" };
 
   return (
     <div
@@ -33,7 +34,7 @@ const SignupForm = ({
       style={toNextStep}
     >
       <header className="text-center uppercase text-black font-bold text-lg flex flex-col items-center justify-center">
-        <span className="pl-4">Rejoignez la communauté</span>
+        <span className="pl-4">{userLanguage.signup.join}</span>
         <img src={logo} alt="logo Forum" style={{ height: "150", width: "80%" }} />
       </header>
       <div
@@ -45,7 +46,7 @@ const SignupForm = ({
       <form method="post" className="h-max w-64 flex flex-col items-center justify-center gap-4" onSubmit={handleNewUserSubmit}>
         <div className="flex flex-col items-start gap-4">
           <div className="flex flex-col items-start">
-            <label htmlFor="email">Entrez votre email</label>
+            <label htmlFor="email">{userLanguage.signup.email}</label>
             <input
               className="w-64 rounded p-1 border border-blue-400 outline-none text-black"
               type="email"
@@ -55,7 +56,7 @@ const SignupForm = ({
           </div>
           <div className="flex flex-col items-start gap-2">
             <div>
-              <label htmlFor="password">Créez un mot de passe</label>
+              <label htmlFor="password">{userLanguage.signup.pass}</label>
               <input
                 className="w-64 rounded p-1 border border-blue-400 outline-none text-black"
                 type="password"
@@ -82,7 +83,7 @@ const SignupForm = ({
                 }
               >
                 <span>{displayCheck(isUppercase)}</span>
-                <span className="text-xs">contient au moins une majuscule</span>
+                <span className="text-xs">{userLanguage.signup.checkUpper}</span>
               </div>
               <div
                 className="w-60 rounded-xl p-1 flex items-start gap-1 text-gray-400"
@@ -102,7 +103,7 @@ const SignupForm = ({
                 }
               >
                 <span>{displayCheck(isLowercase)}</span>
-                <span className="text-xs">contient au moins une minuscule</span>
+                <span className="text-xs">{userLanguage.signup.checkLower}</span>
               </div>
               <div
                 className="w-60 rounded-xl p-1 flex items-start gap-1 text-gray-400"
@@ -122,7 +123,7 @@ const SignupForm = ({
                 }
               >
                 <span> {displayCheck(isNumber)}</span>
-                <span className="text-xs">contient au moins un chiffre</span>
+                <span className="text-xs">{userLanguage.signup.checkDigit}</span>
               </div>
               <div
                 className="w-60 rounded-xl p-1 flex items-start gap-1 text-gray-400"
@@ -142,7 +143,7 @@ const SignupForm = ({
                 }
               >
                 <span> {displayCheck(isLong)}</span>
-                <span className="text-xs">contient au moins 8 caractères</span>
+                <span className="text-xs">{userLanguage.signup.check8}</span>
               </div>
             </div>
           </div>
@@ -151,16 +152,16 @@ const SignupForm = ({
           className="w-48 text-white p-2 rounded-full transform translate-y-2 disabled:opacity-50 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
           disabled={!isEmail || !isUppercase || !isLowercase || !isNumber || !isLong ? true : false}
         >
-          valider
+          {userLanguage.signup.submit}
         </button>
       </form>
       <div className="w-4/5 md:w-96 border-t border-black text-black transform translate-y-6 md:translate-y-8 py-2 flex items-center justify-center gap-2">
-        J'ai déjà un compte!
+        {userLanguage.signup.already}
         <Link
           to="/login"
           className="font-bold underline uppercase text-blue-500 transition-color duration-300 hover:text-blue-600"
         >
-          Se connecter
+          {userLanguage.signup.alreadyBtn}
         </Link>
       </div>
       <StepUsername userId={userId}></StepUsername>

@@ -1,32 +1,28 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import useLanguage from "./useLanguage";
 
 const useDelete = (props) => {
   const { postId, postIdComment, origin, handleDeletePost, handleDeleteProfile, handleDeleteProfileFromMenu } = props;
   const [message, setMessage] = useState("");
   const profileUserId = useSelector((state) => state?.user?.currentProfileVisit.id);
   const userId = useSelector((state) => state?.user?.id);
+  const userLanguage = useLanguage();
 
   const toggleMessage = () => {
     switch (origin) {
       case "post":
-        return setMessage("Supprimer ce post définitivement?");
+        return setMessage(userLanguage.deleteModal.msgPost);
       case "comment":
-        return setMessage("Supprimer ce commentaire définitivement?");
+        return setMessage(userLanguage.deleteModal.msgComment);
       case "reply":
-        return setMessage("Supprimer cette réponse définitivement?");
+        return setMessage(userLanguage.deleteModal.msgReply);
       case "menu":
-        return setMessage(
-          "Votre profil est sur le point d'être supprimé définitement de Groupomania.\n Voulez-vous vraiment l'effacer?"
-        );
+        return setMessage(userLanguage.deleteModal.msgWarning);
       case "profile":
-        return setMessage(
-          "Votre profil est sur le point d'être supprimé définitement de Groupomania.\n Voulez-vous vraiment l'effacer?"
-        );
+        return setMessage(userLanguage.deleteModal.msgWarning);
       case "profile-admin":
-        return setMessage(
-          "Le profil de l'utilisateur va être supprimé définitement de Groupomania.\n Confirmez-vous sa suppression?"
-        );
+        return setMessage(userLanguage.deleteModal.msgModWarning);
       default:
         return message;
     }
@@ -53,7 +49,7 @@ const useDelete = (props) => {
 
   useEffect(() => {
     toggleMessage();
-  }, []);
+  }, [userLanguage]);
 
   return { message, deleteFunction };
 };

@@ -29,7 +29,7 @@ const NavBar = ({ toggleMenu }) => {
           <input
             className="h-10 w-full rounded-l-full outline-none pl-3 pr-2 text-black text-sm lg:text-md border-t border-b border-l border-gray-200 hover:border-gray-400"
             type="search"
-            placeholder="Rechercher sur Forum..."
+            placeholder={userLanguage.navbar.searchPlaceholder}
           />
           <button className="w-10 h-10 outline-none rounded-r-full bg-black flex items-center justify-center border border-transparent">
             <SearchIcon className="h-5 w-5 text-white" />
@@ -52,7 +52,7 @@ const NavBar = ({ toggleMenu }) => {
           </div>
           {!isAuthenticated && (
             <span className="text-gray-900 dark:text-gray-100 whitespace-nowrap text-xs transform translate-y-1 italic">
-              Visitor Mode
+              {userLanguage.navbar.visitor}
             </span>
           )}
         </button>

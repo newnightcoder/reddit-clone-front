@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { ChatRight, HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "react-bootstrap-icons";
+import React, { useCallback, useEffect, useState } from "react";
+import { HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteModal, Options } from ".";
 import picPlaceholder from "../assets/pic_placeholder.svg";
 import { deletePost } from "../store/actions/posts.action";
 import { likePost } from "../store/actions/user.action";
 import { formatTimestamp } from "../utils/helpers/formatTime";
+import { useLanguage } from "../utils/hooks";
 
 const Reply = ({ reply }) => {
   const { replyId, fk_userId_reply, text, date, username, picUrl, likesCount } = reply;
+  const likes = useSelector((state) => state?.posts.likes);
+  const { id: userId, role } = useSelector((state) => state?.user);
   const [like, setLike] = useState(false);
   const [likesNumber, setLikesNumber] = useState(likesCount);
-  const likes = useSelector((state) => state?.posts.likes);
   const [replyOpen, setReplyOpen] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [postIsGone, setpostIsGone] = useState(false);
-  const userId = useSelector((state) => state?.user.id);
-  const role = useSelector((state) => state?.user.role);
   const sameUserReply = [];
   const dispatch = useDispatch();
+  const userlanguage = useLanguage();
 
   useEffect(() => {
     setLikesNumber(likesCount);
@@ -40,19 +41,19 @@ const Reply = ({ reply }) => {
     });
   }, [replyId, likes, userId]);
 
-  const toggleOptions = () => {
+  const toggleOptions = useCallback(() => {
     return setOptionsOpen((optionsOpen) => !optionsOpen);
-  };
+  }, []);
 
-  const toggleDeleteModal = () => {
+  const toggleDeleteModal = useCallback(() => {
     setOpenModal((openModal) => !openModal);
-  };
+  }, []);
 
-  const toggleReply = () => {
+  const toggleReply = useCallback(() => {
     return setReplyOpen((replyOpen) => !replyOpen);
-  };
+  }, []);
 
-  const handleLike = (replyId) => {
+  const handleLike = useCallback((replyId) => {
     setLike((like) => !like);
     switch (like) {
       case false:
@@ -65,15 +66,15 @@ const Reply = ({ reply }) => {
         break;
     }
     dispatch(likePost("reply", userId, replyId, like));
-  };
+  }, []);
 
-  const handleDeletePost = () => {
+  const handleDeletePost = useCallback(() => {
     dispatch(deletePost(replyId, "reply", null));
     setIsDeleted(true);
     setTimeout(() => {
       setpostIsGone(true);
     }, 500);
-  };
+  }, []);
 
   return (
     <div
@@ -111,10 +112,10 @@ const Reply = ({ reply }) => {
       <div className="text w-full text-left px-3 py-2 text-sm">{text}</div>
       <div className="bottom w-full flex items-center justify-end px-2 py-2 border-t">
         <div className="icons-container w-max flex items-center justify-end gap-4 text-xs">
-          <button className="outline-none w-max flex items-center justify-center gap-1" onClick={toggleReply}>
+          {/* <button className="outline-none w-max flex items-center justify-center gap-1" onClick={toggleReply}>
             <ChatRight size={14} />
             <span>{}</span> <span>Répondre</span>
-          </button>
+          </button> */}
           <div className="w-max flex items-center justify-center">
             <button className="outline-none" onClick={() => handleLike(replyId)}>
               {like ? <HandThumbsUpFill size={14} /> : <HandThumbsUp size={14} className="font-weight-bold" />}

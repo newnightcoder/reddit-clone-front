@@ -3,7 +3,7 @@ import { XIcon } from "@heroicons/react/solid";
 import React, { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { saveGifUrl } from "../../store/actions/posts.action";
-import { useWindowSize } from "../../utils/hooks";
+import { useLanguage, useWindowSize } from "../../utils/hooks";
 
 const GifModal = ({ gifModalOpen, toggleGifModal }) => {
   return (
@@ -29,6 +29,7 @@ const GiphyPicker = ({ toggleGifModal }) => {
   const dispatch = useDispatch();
   const [size, setSize] = useState(null);
   const [giphyLoaded, setGiphyLoaded] = useState(false);
+  const userLanguage = useLanguage();
 
   const getPickerSize = useCallback(() => {
     setSize(ref.current.getBoundingClientRect());
@@ -44,9 +45,9 @@ const GiphyPicker = ({ toggleGifModal }) => {
       className="h-full w-full flex flex-col items-center justify-start space-y-2 relative overflow-y-scroll overflow-x-hidden"
     >
       <div className="w-full p-2 sticky top-0 z-10 bg-black flex items-center justify-center space-x-2">
-        <SearchBar className="w-full bg-red-500 text-white" placeholder="Rechercher un gif" />
+        <SearchBar className="w-full bg-red-500 text-white" placeholder={userLanguage.gifModal.search} />
         <button className="text-gray-400 text-sm flex items-center justify-center space-x-1" onClick={(e) => toggleGifModal(e)}>
-          <span>Annuler</span> <XIcon className="h-4" />
+          <span>{userLanguage.gifModal.cancel}</span> <XIcon className="h-4" />
         </button>
       </div>
       {size && (

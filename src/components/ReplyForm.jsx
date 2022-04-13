@@ -1,8 +1,11 @@
 import { PaperAirplaneIcon, XIcon } from "@heroicons/react/solid";
 import React from "react";
 import { Image, Youtube } from "react-bootstrap-icons";
+import { useLanguage } from "../utils/hooks";
 
 const ReplyForm = ({ handleReplySubmit, replyOpen, setReplyOpen, replyText, handleChange }) => {
+  const userLanguage = useLanguage();
+
   return (
     <div className="w-11/12" style={{ display: replyOpen ? "flex" : "none" }}>
       <form
@@ -15,7 +18,7 @@ const ReplyForm = ({ handleReplySubmit, replyOpen, setReplyOpen, replyText, hand
             <textarea
               className="w-full h-full p-3 focus:outline-none bg-gray-100 hover:bg-white active:bg-white focus:bg-white"
               onChange={handleChange}
-              placeholder="Tapez votre réponse..."
+              placeholder={userLanguage.commentPage.replyForm.placeholder}
             />
           </div>
           <div className="h-12 w-full flex items-center justify-between rounded-b bg-gray-200 pr-2">
@@ -40,7 +43,7 @@ const ReplyForm = ({ handleReplySubmit, replyOpen, setReplyOpen, replyText, hand
                 disabled={false}
                 type="submit"
               >
-                <span className="text-xs capitalize">commenter</span>
+                <span className="text-xs capitalize">{userLanguage.commentPage.replyForm.replyBtn}</span>
                 <PaperAirplaneIcon className="h-4 w-4 text-white transform rotate-45 -translate-y-px" />
               </button>
             </div>

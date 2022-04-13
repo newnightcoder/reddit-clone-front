@@ -2,6 +2,7 @@ import { FlagIcon, PencilIcon, ShareIcon, TrashIcon, XIcon } from "@heroicons/re
 import React from "react";
 import { useSelector } from "react-redux";
 import { history } from "../utils/helpers";
+import { useLanguage } from "../utils/hooks";
 
 const Options = ({
   postUserId,
@@ -15,6 +16,7 @@ const Options = ({
   optionsOpen,
 }) => {
   const { id: user, role } = useSelector((state) => state?.user);
+  const userLanguage = useLanguage();
 
   return (
     <div
@@ -44,19 +46,19 @@ const Options = ({
           }
         >
           <PencilIcon className="h-4 text-gray-300 group-hover:text-white" />
-          <span>Modifier</span>
+          <span>{userLanguage.postOptions.modify}</span>
         </button>
       )}
       <button className="h-max w-32 border border-gray-500 rounded-full px-2 py-px flex items-center justify-center space-x-2 hover:text-white hover:underline hover:font-bold group">
         <ShareIcon className="h-4 text-gray-300 group-hover:text-white" />
-        <span>Partager</span>
+        <span>{userLanguage.postOptions.share}</span>
       </button>
 
       {((postUserId !== undefined && user !== postUserId) ||
         (commentUserId !== undefined && user !== commentUserId) ||
         (replyUserId !== undefined && user !== replyUserId)) && (
         <button className="h-max w-32 border border-gray-500 rounded-full px-2 py-px flex items-center justify-center space-x-2 hover:text-white hover:underline hover:font-bold group">
-          <FlagIcon className="h-4 text-gray-300 group-hover:text-white" /> <span>Signaler</span>
+          <FlagIcon className="h-4 text-gray-300 group-hover:text-white" /> <span>{userLanguage.postOptions.report}</span>
         </button>
       )}
       {((postUserId !== undefined && user === postUserId) ||
@@ -68,7 +70,7 @@ const Options = ({
           onClick={toggleDeleteModal}
         >
           <TrashIcon className="h-4 text-gray-300 group-hover:text-white" />
-          <span>Supprimer</span>
+          <span>{userLanguage.postOptions.delete}</span>
         </button>
       )}
     </div>

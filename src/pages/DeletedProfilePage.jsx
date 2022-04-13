@@ -5,12 +5,14 @@ import { Redirect, useLocation } from "react-router";
 import bg from "../assets/bg.webp";
 import { getPosts } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
+import { useLanguage } from "../utils/hooks";
 
 const DeletedProfile = () => {
   const location = useLocation();
   const isAdmin = location?.state?.admin;
-  const isAuthenticated = useSelector((state) => state?.user.isAuthenticated);
+  const { isAuthenticated } = useSelector((state) => state?.user);
   const dispatch = useDispatch();
+  const userLanguage = useLanguage();
 
   useEffect(() => {
     setTimeout(() => {
@@ -30,15 +32,16 @@ const DeletedProfile = () => {
           <div className="h-1/4 w-10/12 flex flex-col items-center justify-center rounded-sm bg-red-400 text-black py-2 px-2">
             {!isAdmin ? (
               <>
-                Votre compte a bien été supprimé! <br /> Vous allez nous manquer. <br />
-                Nous espérons vous revoir bientôt sur Forum!
+                {userLanguage.deletePage.confirmation}
+                <br /> {userLanguage.deletePage.missYou} <br />
+                {userLanguage.deletePage.hope}
               </>
             ) : (
-              <>Le compte de l'utilisateur a été supprimé de l'application avec succès.</>
+              <>{userLanguage.deletePage.modMsg}</>
             )}
           </div>
           <button className="hover:cursor-pointer hover:underline" onClick={() => history.push(!isAdmin ? "/" : "/feed")}>
-            Retour à la page accueil
+            {userLanguage.deletePage.backBtn}
           </button>
         </Div100vh>
       )}

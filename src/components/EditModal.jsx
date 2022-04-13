@@ -1,24 +1,26 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { editUsername, getUserProfile } from "../store/actions/user.action";
+import { useLanguage } from "../utils/hooks";
 
 const EditModal = ({ toggleEditModal, openEditModal }) => {
   const userId = useSelector((state) => state?.user.id);
   const [username, setUsername] = useState("");
   const dispatch = useDispatch();
+  const userLanguage = useLanguage();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
     dispatch(editUsername(userId, username));
     setTimeout(() => {
       dispatch(getUserProfile(userId));
       toggleEditModal();
     }, 250);
-  };
+  }, []);
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     setUsername(e.currentTarget.value);
-  };
+  }, []);
 
   return (
     <div
@@ -27,10 +29,10 @@ const EditModal = ({ toggleEditModal, openEditModal }) => {
     >
       <form onSubmit={handleSubmit}>
         <label htmlFor="username" className="for">
-          Entrez votre nouveau pseudp
+          {userLanguage.editModal.newUsername}
         </label>
         <input type="text" id="username" onChange={handleChange} />
-        <button type="submit">valider</button>
+        <button type="submit">{userLanguage.editModal.ok}</button>
       </form>
     </div>
   );

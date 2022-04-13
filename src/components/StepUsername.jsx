@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { logo } from "../assets";
 import { saveUserName } from "../store/actions/user.action";
+import { useLanguage } from "../utils/hooks";
 import StepImage from "./StepImage";
 
 const StepUsername = () => {
   const [userName, setUserName] = useState("");
   const [isLong, setIsLong] = useState(false);
+  const { id: userId, error, usernameAdded } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const userId = useSelector((state) => state.user.id);
-  const error = useSelector((state) => state.user.error);
-  const usernameAdded = useSelector((state) => state.user.usernameAdded);
+  const userLanguage = useLanguage();
 
   const handleInput = (e) => {
     setUserName(e.currentTarget.value);
@@ -31,11 +31,11 @@ const StepUsername = () => {
   };
   const date = `${time.year}-${time.month}-${time.day}-${time.hour}-${time.minute}-${time.second}`;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = useCallback((e) => {
     e.preventDefault();
     dispatch(saveUserName(userId, userName, date));
     if (!usernameAdded) return;
-  };
+  }, []);
 
   const toNextStep = usernameAdded ? { transform: "translateX(0%)" } : { transform: "translateX(100%)" };
 
@@ -54,7 +54,7 @@ const StepUsername = () => {
         {error}
       </span>
       <div className="h-1/2">
-        <p className="font-bold">Choisissez votre pseudo:</p>
+        <p className="font-bold">{userLanguage.signup.stepUsername.choose}</p>
         <form className="flex flex-col items-center justify-center gap-1" method="post" onSubmit={handleSubmit}>
           <label htmlFor="username"></label>
           <input
@@ -67,7 +67,7 @@ const StepUsername = () => {
             className="w-48 p-2 rounded-full transform translate-y-2 disabled:opacity-50 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
             disabled={!isLong ? true : false}
           >
-            valider
+            {userLanguage.signup.stepUsername.ok}
           </button>
         </form>
       </div>

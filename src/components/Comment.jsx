@@ -1,5 +1,5 @@
 import "draft-js/dist/Draft.css";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ChatRight, HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteModal, Options, Reply, ReplyForm } from ".";
@@ -7,27 +7,25 @@ import picPlaceholder from "../assets/pic_placeholder.svg";
 import { createReply, deletePost, getReplies } from "../store/actions/posts.action";
 import { likePost } from "../store/actions/user.action";
 import { createDate, formatTimestamp } from "../utils/helpers/formatTime";
+import { useLanguage } from "../utils/hooks";
 
 const Comment = ({ comment, postId }) => {
   const { fk_userId_comment, picUrl, username, text, date, commentId, likesCount } = comment;
-  const likes = useSelector((state) => state?.posts.likes);
+  const { likes, replies } = useSelector((state) => state?.posts);
+  const { id: userId, role, error: serverError } = useSelector((state) => state?.user);
   const [like, setLike] = useState(false);
   const [likesNumber, setLikesNumber] = useState(likesCount);
   const [replyOpen, setReplyOpen] = useState(false);
   const [replyText, setReplyText] = useState("");
   const [optionsOpen, setOptionsOpen] = useState(false);
-  const userId = useSelector((state) => state?.user.id);
-  const role = useSelector((state) => state?.user.role);
-  const replies = useSelector((state) => state?.posts.replies);
   const [openModal, setOpenModal] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [postIsGone, setpostIsGone] = useState(false);
-  const emptyComErrorMsg = "Votre commentaire est vide!";
   const [emptyComError, setEmptyComError] = useState(false);
   const [serverErrorMsg, setServerErrorMsg] = useState("");
-  const serverError = useSelector((state) => state?.user.error);
   const sameUserComment = [];
   const dispatch = useDispatch();
+  const userLanguage = useLanguage();
 
   useEffect(() => {
     dispatch(getReplies());
@@ -52,19 +50,19 @@ const Comment = ({ comment, postId }) => {
     });
   }, [commentId, likes, userId]);
 
-  const toggleOptions = () => {
+  const toggleOptions = useCallback(() => {
     return setOptionsOpen((optionsOpen) => !optionsOpen);
-  };
+  }, []);
 
-  const toggleDeleteModal = () => {
+  const toggleDeleteModal = useCallback(() => {
     setOpenModal((openModal) => !openModal);
-  };
+  }, []);
 
-  const toggleReply = () => {
+  const toggleReply = useCallback(() => {
     return setReplyOpen((replyOpen) => !replyOpen);
-  };
+  }, []);
 
-  const handleLike = (commentId) => {
+  const handleLike = useCallback((commentId) => {
     setLike((like) => !like);
     switch (like) {
       case false:
@@ -77,13 +75,13 @@ const Comment = ({ comment, postId }) => {
         break;
     }
     dispatch(likePost("comment", userId, commentId, like));
-  };
+  }, []);
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     setReplyText(e.target.value);
-  };
+  }, []);
 
-  const handleReplySubmit = async (e) => {
+  const handleReplySubmit = useCallback(async (e) => {
     e.preventDefault();
     if (replyText.length === 0) {
       setEmptyComError(true);
@@ -97,15 +95,15 @@ const Comment = ({ comment, postId }) => {
     setTimeout(() => {
       dispatch(getReplies(commentId));
     }, 1000);
-  };
+  }, []);
 
-  const handleDeletePost = () => {
+  const handleDeletePost = useCallback(() => {
     dispatch(deletePost(commentId, "comment", postId));
     setIsDeleted(true);
     setTimeout(() => {
       setpostIsGone(true);
     }, 500);
-  };
+  }, []);
 
   return (
     <>
@@ -151,7 +149,7 @@ const Comment = ({ comment, postId }) => {
           <div className="icons-container w-max flex items-center justify-end gap-4 text-xs">
             <button className="outline-none w-max flex items-center justify-center gap-2" onClick={toggleReply}>
               <ChatRight size={14} />
-              <span>Répondre</span>
+              <span className="capitalize">{userLanguage.commentPage.comment.reply}</span>
             </button>
             <div className="w-max flex items-center justify-center">
               <button className="outline-none" onClick={() => handleLike(commentId)}>

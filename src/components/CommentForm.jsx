@@ -1,8 +1,10 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
 import React from "react";
 import { Image, Youtube } from "react-bootstrap-icons";
+import { useLanguage } from "../utils/hooks";
 
 const CommentForm = ({ handleCommentSubmit, handleChange }) => {
+  const userLanguage = useLanguage();
   return (
     <form className="h-max w-full flex flex-col items-center justify-center pt-2" method="post" onSubmit={handleCommentSubmit}>
       <div className="h-max w-full flex flex-col items-center justify-start border border-gray-300 hover:border-gray-500 rounded">
@@ -10,7 +12,7 @@ const CommentForm = ({ handleCommentSubmit, handleChange }) => {
           <textarea
             className="w-full h-full p-3 focus:outline-none bg-gray-100 hover:bg-white active:bg-white focus:bg-white"
             onChange={handleChange}
-            placeholder="Votre commentaire..."
+            placeholder={userLanguage.commentPage.commentForm.placeholder}
           />
         </div>
         <div className="h-12 w-full flex items-center justify-between rounded-b bg-gray-200 pr-2">
@@ -28,7 +30,7 @@ const CommentForm = ({ handleCommentSubmit, handleChange }) => {
               disabled={false}
               type="submit"
             >
-              <span className="text-sm capitalize">commenter</span>
+              <span className="text-sm capitalize">{userLanguage.commentPage.commentForm.commentBtn}</span>
               <PaperAirplaneIcon className="h-4 w-4 text-white transform rotate-45 -translate-y-px" />
             </button>
           </div>
