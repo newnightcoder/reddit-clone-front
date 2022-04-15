@@ -57,10 +57,6 @@ const AppContainer = () => {
         <Route path="/profile" component={ProfilePage} />
         <Route path="/fin" component={DeletedProfilePage} />
       </Switch>
-      {/* <Overlay isOpen={isOpen} close={closeMenu} /> */}
-      {/* {isOpen && <Menu isOpen={isOpen} toggleMenu={toggleMenu} />}
-      <SessionExpiredModal isExpired={isExpired} close={closeExpirationModal} />
-      {settingsOpen && <Settings setLanguage={setLanguage} userLangData={userLangData} settingsOpen={settingsOpen} />} */}
     </div>
   );
 };

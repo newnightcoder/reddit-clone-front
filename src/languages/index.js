@@ -146,6 +146,7 @@ const language = {
     editModal: {
       newUsername: "Enter your new username",
       ok: "ok",
+      cancel: "cancel",
     },
     deleteModal: {
       msgPost: "Delete this post forever?",
@@ -359,6 +360,7 @@ const language = {
     editModal: {
       newUsername: "Entrez votre nouveau pseudo",
       ok: "valider",
+      cancel: "annuler",
     },
     deleteModal: {
       msgPost: "Supprimer ce post définitivement?",
@@ -480,7 +482,7 @@ const language = {
       },
     },
     navbar: {
-      searchPlaceholder: "Bei Forum suchen...",
+      searchPlaceholder: "Forum durchsuchen...",
       connected: "Angemeldet",
       visitor: "Besuchermodus",
       logout: "abmelden",
@@ -572,6 +574,7 @@ const language = {
     editModal: {
       newUsername: "Geben Sie Ihre neue Benutzername ein",
       ok: "ok",
+      cancel: "abbrechen",
     },
     deleteModal: {
       msgPost: "Beitrag für immer entfernen?",

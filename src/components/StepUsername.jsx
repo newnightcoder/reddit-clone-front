@@ -13,14 +13,6 @@ const StepUsername = () => {
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
 
-  const handleInput = (e) => {
-    setUserName(e.currentTarget.value);
-    const name = e.currentTarget.value.split("");
-    if (name.length >= 2) {
-      setIsLong(true);
-    } else setIsLong(false);
-  };
-
   const time = {
     year: new Date().getFullYear(),
     month: new Date().getMonth(),
@@ -31,13 +23,24 @@ const StepUsername = () => {
   };
   const date = `${time.year}-${time.month}-${time.day}-${time.hour}-${time.minute}-${time.second}`;
 
+  const toNextStep = usernameAdded ? { transform: "translateX(0%)" } : { transform: "translateX(100%)" };
+
+  const handleInput = useCallback(
+    (e) => {
+      setUserName(e.currentTarget.value);
+      const name = e.currentTarget.value.split("");
+      if (name.length >= 2) {
+        setIsLong(true);
+      } else setIsLong(false);
+    },
+    [setUserName]
+  );
+
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
     dispatch(saveUserName(userId, userName, date));
     if (!usernameAdded) return;
   }, []);
-
-  const toNextStep = usernameAdded ? { transform: "translateX(0%)" } : { transform: "translateX(100%)" };
 
   return (
     <Div100vh

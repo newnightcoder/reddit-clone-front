@@ -1,10 +1,10 @@
-import { TrashIcon, UserCircleIcon } from "@heroicons/react/solid";
-import React, { useEffect, useState } from "react";
+import { TrashIcon } from "@heroicons/react/solid";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import { useLocation } from "react-router-dom";
 import { bannerPlaceholder, logo_mobile_blue, picPlaceholder } from "../assets";
-import { DeleteModal, EditModal, ImgUploader, Layout, Post, Skeleton } from "../components";
+import { DeleteModal, EditModal, Layout, Post, ProfileOptions, Skeleton } from "../components";
 import { getUserPosts } from "../store/actions/posts.action";
 import { deleteUser } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
@@ -14,6 +14,7 @@ import { useGetProfile, useLanguage } from "../utils/hooks";
 const Profile = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [openProfileOptions, setOpenProfileOptions] = useState(false);
   const { id, picUrl, bannerUrl, username, creationDate, role, isAuthenticated, language } = useSelector((state) => state?.user);
   const posts = useSelector((state) => state?.posts.userPosts);
   const dispatch = useDispatch();
@@ -35,11 +36,19 @@ const Profile = () => {
     </>
   );
 
-  const toggleDeleteModal = () => {
+  const toggleDeleteModal = useCallback(() => {
     setOpenModal((openModal) => !openModal);
-  };
+  }, []);
 
-  const handleDeleteProfile = (profileId) => {
+  const toggleEditModal = useCallback(() => {
+    setOpenEditModal((openEditModal) => !openEditModal);
+  }, []);
+
+  const toggleProfileOptions = useCallback(() => {
+    setOpenProfileOptions((prevState) => !prevState);
+  }, [setOpenProfileOptions]);
+
+  const handleDeleteProfile = useCallback((profileId) => {
     if (profileId === id) {
       dispatch(deleteUser(id));
       history.push("/fin");
@@ -47,11 +56,7 @@ const Profile = () => {
       dispatch(deleteUser(userData?.id));
       history.push({ pathname: "/fin", state: { admin: true } });
     }
-  };
-
-  const toggleEditModal = () => {
-    setOpenEditModal((openEditModal) => !openEditModal);
-  };
+  }, []);
 
   return (
     <>
@@ -78,28 +83,20 @@ const Profile = () => {
                   }}
                   className="top-section relative h-48 w-full pb-2 flex flex-col items-center justify-center gap-2 rounded-tl-md rounded-tr-md"
                 >
-                  <div className="btns-container h-48 absolute top-0 right-0 z-50 border-2 border-red-500">
-                    {userData?.username === username && (
-                      <>
-                        <ImgUploader profile={true} imgType="pic" />
-                        <ImgUploader profile={true} imgType="banner" />
-                        <button
-                          className="h-10 w-44 px-3 py-1 flex border hover:border-transparent items-center justify-start gap-1 hover:drop-shadow hover:bg-gray-700 text-gray-700 hover:text-white transition duration-200 rounded-full"
-                          // onClick={toggleEditModal}
-                        >
-                          <UserCircleIcon className="h-6" /> {userLanguage.profile.usernameBtn}
-                        </button>
-                        <button
-                          className="h-10 w-44 px-3 py-1 flex border items-center justify-start gap-1 hover:drop-shadow hover:bg-red-600 text-gray-700 hover:text-white hover:font-bold transition duration-300 rounded-full text-sm"
-                          onClick={() => setOpenModal(true)}
-                        >
-                          <TrashIcon className="h-6" />
-                          {userLanguage.profile.deleteBtn}{" "}
-                        </button>
-                      </>
-                    )}
-                  </div>
-
+                  <button
+                    className="absolute top-4 right-4 flex items-center justify-center space-x-1 text-xs italic text-white py-1 px-6 rounded-full disabled:opacity-50 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
+                    onClick={toggleProfileOptions}
+                  >
+                    Edit profile
+                  </button>
+                  {openProfileOptions && (
+                    <ProfileOptions
+                      setOpenModal={setOpenModal}
+                      toggleEditModal={toggleEditModal}
+                      toggleProfileOptions={toggleProfileOptions}
+                      profileId={profileId}
+                    />
+                  )}
                   <div
                     className="w-36 h-36 rounded-full border-4 border-white absolute left-4 -bottom-20"
                     style={
@@ -110,9 +107,10 @@ const Profile = () => {
                         : { background: `url(${picPlaceholder}) no-repeat center/cover` }
                     }
                   ></div>
+                  {openEditModal && <EditModal toggleEditModal={toggleEditModal} openEditModal={openEditModal} />}
                 </div>
                 <div className="username-member relative h-max w-max self-start transform translate-x-44 flex flex-col items-start justify-start">
-                  <span className="text-xl font-bold capitalize">{userData?.username}</span>
+                  <span className="text-xl font-bold capitalize">{userData?.id === id ? username : userData.username}</span>
                   <span className="block italic text-sm flex items-center justify-center gap-1 transform -translate-x-2">
                     <img src={logo_mobile_blue} className="h-6" />
                     <span>{userLanguage.profile.member}</span>
@@ -136,7 +134,6 @@ const Profile = () => {
                     </button>
                   )}
                 </div>
-                {openEditModal && <EditModal toggleEditModal={toggleEditModal} openEditModal={openEditModal} />}
                 {openModal && (
                   <DeleteModal
                     toggleDeleteModal={toggleDeleteModal}

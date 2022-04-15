@@ -130,6 +130,7 @@ export const saveUserName = (id, username, creationDate) => async (dispatch) => 
 };
 
 export const editUsername = (userId, username) => async (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_USER });
   const accessToken = localStorage.getItem("jwt");
   const request = {
     headers: {
@@ -143,10 +144,11 @@ export const editUsername = (userId, username) => async (dispatch) => {
 
   try {
     const response = await fetch(`${API_AUTH}/edit`, request);
-    const data = response.json();
-    const { newName } = data;
+    const data = await response.json();
+    const { newName, error } = data;
+    console.log("new name", newName);
     if (response.status !== 200) {
-      dispatch({ type: SET_ERROR_USER });
+      dispatch({ type: SET_ERROR_USER, payload: error });
       return;
     }
     dispatch({ type: EDIT_USERNAME, payload: newName });
@@ -254,6 +256,7 @@ export const createComment = (userId, postId, text, date) => async (dispatch) =>
 };
 
 export const getUserProfile = (id) => async (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_USER });
   const request = {
     headers: {
       "Access-Control-Allow-Origin": "*",

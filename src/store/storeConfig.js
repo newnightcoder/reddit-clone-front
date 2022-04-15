@@ -11,7 +11,7 @@ const composeEnhancer = composeWithDevTools({ trace: true, traceLimit: 25 });
 const persistConfig = {
   key: "root",
   storage,
-  stateReconciler: autoMergeLevel2, // ADDED
+  stateReconciler: autoMergeLevel2,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

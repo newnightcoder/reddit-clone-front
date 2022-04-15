@@ -28,8 +28,8 @@ const Feed = () => {
 
   return (
     <Layout>
-      <div className="feed-container h-full w-full shrink flex flex-col items-center justify-start gap-2 transition duration-500 relative pt-4">
-        <div className="h-max bienvenueMsg-newcomer text-center whitespace-pre mb-2">
+      <div className="feed-container h-full w-full shrink flex flex-col items-center justify-start gap-2 transition duration-500 relative">
+        <div className="h-16 flex items-center justify-center border border-red-500 bienvenueMsg-newcomer text-center whitespace-pre mb-2">
           {newUser ? (
             <span className="font-bold">
               {userLanguage?.feed.greetingVisitor1} <span className="capitalize">{user.username}!</span>
@@ -57,7 +57,7 @@ const Feed = () => {
                 </button>
               </div>
               <div className="posts-wrapper h-full w-full relative flex flex-col items-center justify-center gap-4 pb-6">
-                {posts?.length === 0 || posts === undefined ? (
+                {posts.length === 0 ? (
                   <Skeleton element="post" number={8} />
                 ) : (
                   posts.map((post) => <Post key={post.postId} post={post} />)

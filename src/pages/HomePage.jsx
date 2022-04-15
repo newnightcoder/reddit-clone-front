@@ -10,12 +10,6 @@ import useToggleSettings from "../utils/hooks/useToggleSettings";
 
 const Homepage = () => {
   const userLanguage = useLanguage();
-  // const [settingsOpen, setSettingsOpen] = useState(false);
-
-  // const toggleOptionsMenu = () => {
-  //   return setSettingsOpen((prevState) => !prevState);
-  // };
-
   const { settingsOpen, toggleSettings } = useToggleSettings();
 
   useEffect(() => {
@@ -24,7 +18,7 @@ const Homepage = () => {
 
   return (
     <Div100vh
-      className="w-screen relative bg-gray-200 flex flex-col items-center justify-center pb-2 md:pb-0"
+      className="w-screen relative bg-gray-200 dark:bg-gray-700 flex flex-col items-center justify-center pb-2 md:pb-0"
       style={{ color: "#5e5e5e" }}
     >
       <button

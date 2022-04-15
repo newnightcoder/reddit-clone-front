@@ -16,7 +16,6 @@ const Layout = ({ children }) => {
   const dispatch = useDispatch();
   const linkToProfile = useLinkToProfile(id, username);
   const { settingsOpen, toggleSettings } = useToggleSettings();
-  // const userLanguage = useLanguage();
 
   useEffect(() => {
     if (sessionExpired) setIsExpired(true);

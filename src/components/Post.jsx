@@ -5,7 +5,7 @@ import "../index.css";
 import { deletePost } from "../store/actions/posts.action";
 import LinkPreview from "./LinkPreview";
 
-const Post = ({ post }) => {
+const Post = ({ post, aside }) => {
   const {
     title,
     postId,
@@ -74,13 +74,19 @@ const Post = ({ post }) => {
             previewImg={previewImg}
             previewPub={previewPub}
             previewPubLogo={previewPubLogo}
+            aside={aside}
           />
         </div>
       ) : (
         <>
           <div className="text w-full text-left px-3 py-2 text-sm">{text}</div>
-          <div className="h-full w-full flex items-center justify-center pb-4">
-            {imgUrl !== "" ? <img src={imgUrl} className="w-11/12" /> : null}
+          <div
+            className={
+              // `${imgUrl !== "" ? "h-96" : "h-full"}
+              "w-full flex items-center justify-center pb-4 border-2 border-red-500"
+            }
+          >
+            {imgUrl !== "" ? <img src={imgUrl} className="w-full h-max" /> : null}
           </div>
         </>
       )}

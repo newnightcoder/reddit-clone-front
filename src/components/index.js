@@ -23,6 +23,7 @@ export { default as Post } from "./Post";
 export { default as PostFooter } from "./PostFooter";
 export { default as PostForm } from "./PostForm";
 export { default as PostHeader } from "./PostHeader";
+export { default as ProfileOptions } from "./ProfileOptions";
 export { default as RecentUsers } from "./RecentUsers";
 export { default as Reply } from "./Reply";
 export { default as ReplyForm } from "./ReplyForm";

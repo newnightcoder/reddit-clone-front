@@ -120,7 +120,7 @@ export const userReducer = (state = initialState, action) => {
       };
     }
     case EDIT_USERNAME: {
-      const { newName } = action.payload;
+      const newName = action.payload;
       return {
         ...state,
         username: newName,

@@ -92,12 +92,17 @@ export const postsReducer = (state = initialState, action) => {
       return { ...state, posts: state.posts.filter((post) => post.postId !== id), lastDeleted: true };
     }
 
-    case SET_ERROR_POST:
+    case SET_ERROR_POST: {
       return { ...state, error: action.payload };
-    case CLEAR_ERROR_POST:
-      return { ...state, error: "" };
-    case CLEAN_PROFILE_POSTS:
+    }
+    case CLEAR_ERROR_POST: {
+      if (state.error.length !== 0) {
+        return { ...state, error: "" };
+      }
+    }
+    case CLEAN_PROFILE_POSTS: {
       return { ...state, userPosts: [] };
+    }
     case SESSION_EXPIRED: {
       return { ...state, sessionExpired: action.payload };
     }

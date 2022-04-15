@@ -7,7 +7,10 @@ const DeleteModal = (props) => {
   const userLanguage = useLanguage();
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center gap-2 rounded absolute top-0 left-0 z-50 bg-gray-900 opacity-90 text-white text-sm">
+    <div
+      style={{ zIndex: 1100 }}
+      className="w-full h-full flex flex-col items-center justify-center gap-2 rounded fixed top-0 left-0 bg-gray-900 opacity-90 text-white text-sm"
+    >
       <span className="w-full h-max text-center px-2 whitespace-wrap overflow-hidden">{message}</span>
       <div className="w-1/3 flex items-center justify-center gap-4 ">
         <button className="w-max px-2 rounded-sm text-center bg-gray-100 text-black capitalize" onClick={toggleDeleteModal}>
