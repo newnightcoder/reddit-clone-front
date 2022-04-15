@@ -58,14 +58,14 @@ const PostForm = ({
   return (
     <form
       style={{ minHeight: width < 768 ? "calc(100vh - 8rem)" : "max-content" }}
-      className="h-full w-full flex flex-col items-center justify-start md:justify-center space-y-4 bg-white border md:rounded pt-4 pb-6 md:pt-6 px-4"
+      className="h-full w-full flex flex-col items-center justify-start md:justify-center space-y-4 bg-white dark:bg-gray-900 border dark:border-gray-700 md:rounded pt-4 pb-6 md:pt-6 px-4"
       method="post"
       onSubmit={pathname === "/edit" ? handleEditSubmit : handlePostSubmit}
     >
       <div className="w-full flex items-center justify-between">
         <Link
           to={"/feed"}
-          className="w-8 h-8 mb-2 md:mb-0 md:w-max md:h-max self-start flex items-center justify-center md:space-x-2 text-white md:px-4 md:py-2 rounded-full shadow-xl bg-gray-500 transition-all duration-300 hover:bg-black hover:shadow-none"
+          className="w-8 h-8 mb-2 md:mb-0 md:w-max md:h-max self-start flex items-center justify-center md:space-x-2 text-white md:px-4 md:py-2 rounded-full shadow-xl bg-gray-500 dark:bg-black transition-all duration-300 hover:bg-black hover:shadow-none dark:border dark:border-gray-500"
           disabled={false}
         >
           <span className="hidden md:inline-block text-xs capitalize">{userLanguage.createPost.cancelBtn}</span> <XLg size={12} />
@@ -83,7 +83,7 @@ const PostForm = ({
         ) : null}
       </div>
       <input
-        className="h-10 w-full px-2 rounded outline-none bg-gray-100 hover:bg-white active:bg-white focus:bg-white border border-gray-400 hover:border-gray-500 transition-all duration-200 placeholder-gray-400"
+        className="h-10 w-full px-2 rounded outline-none bg-gray-100 dark:bg-gray-500 hover:bg-white active:bg-white focus:bg-white border border-gray-400 hover:border-gray-500 dark:hover:border-gray-200 transition-all duration-200 placeholder-gray-400 dark:placeholder-gray-100"
         type="text"
         name="Title"
         id="title"
@@ -92,10 +92,10 @@ const PostForm = ({
         value={pathname === "/edit" ? postTitle : title}
       />
       <div className="form-container h-full w-full flex flex-col items-center justify-start space-y-6">
-        <div className="h-max w-full border border-gray-400 hover:border-gray-500 transition-border-color duration-300 rounded">
+        <div className="h-max w-full border border-gray-400 hover:border-gray-500 dark:hover:border-gray-200 transition-border-color duration-300 rounded">
           <div
             style={{ minHeight: "12rem" }}
-            className="container relative max-w-full bg-gray-100 hover:bg-white active:bg-white focus:bg-white rounded-bl rounded-br overflow-y-auto pb-6"
+            className="container relative max-w-full bg-gray-100 dark:bg-gray-500 hover:bg-white active:bg-white focus:bg-white rounded-bl rounded-br overflow-y-auto pb-6"
           >
             <span
               id="postInput"
@@ -105,7 +105,7 @@ const PostForm = ({
                     ? "min-content"
                     : "12rem",
               }}
-              className="w-full  inline-block focus:outline-none p-2 "
+              className="w-full inline-block focus:outline-none p-2"
               contentEditable="true"
               suppressContentEditableWarning={true}
               placeholder={userLanguage.createPost.textPlaceholder}
@@ -121,25 +121,25 @@ const PostForm = ({
         <div className="w-full h-max flex items-center justify-between px-3">
           <div className="w-max h-full flex items-center justify-start space-x-4">
             <button
-              className="w-max text-gray-500 text-xs rounded-full border border-gray-200 px-4 py-2 md:text-base bg-transparent ouline-none flex items-center justify-start space-x-1"
+              className="w-max text-gray-500 dark:text-gray-100 text-xs rounded-full border border-gray-200 px-4 py-2 md:text-base bg-transparent ouline-none flex items-center justify-start space-x-1"
               onClick={(e) => toggleImgUploadModal(e)}
             >
-              <Image size={16} className="text-gray-900" />
+              <Image size={16} className="text-gray-900 dark:text-gray-100" />
               <span className="hidden md:inline-block">
                 {!currentPostImgUrl ? userLanguage.createPost.imgBtn : userLanguage.createPost.changeImgBtn}
               </span>
             </button>
             <button
-              className="w-max  text-gray-500 text-xs rounded-full border border-gray-200 px-4 py-2 md:text-base bg-transparent ouline-none flex items-center justify-start space-x-1"
+              className="w-max  text-gray-500 dark:text-gray-100 text-xs rounded-full border border-gray-200 px-4 py-2 md:text-base bg-transparent ouline-none flex items-center justify-start space-x-1"
               onClick={(e) => toggleGifModal(e)}
             >
               <img src={giphyDark} width="25" /> <span className="hidden md:inline-block">{userLanguage.createPost.gifBtn}</span>
             </button>
             <button
-              className="w-max  text-gray-500 text-xs rounded-full border border-gray-200 px-4 py-2 md:text-base bg-transparent ouline-none flex items-center justify-start"
+              className="w-max  text-gray-500 dark:text-gray-100 text-xs rounded-full border border-gray-200 px-4 py-2 md:text-base bg-transparent ouline-none flex items-center justify-start"
               onClick={(e) => toggleLinkModal(e)}
             >
-              <Link45deg size={20} className="text-gray-900" />
+              <Link45deg size={20} className="text-gray-900 dark:text-gray-100" />
               <span className="hidden md:inline-block capitalize">{userLanguage.createPost.linkBtn}</span>
             </button>
           </div>

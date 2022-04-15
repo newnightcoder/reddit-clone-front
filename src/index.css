@@ -34,3 +34,9 @@
   display: block;
   height: 100%;
 }
+.dark #postInput:first-child:empty::before {
+  content: attr(placeholder);
+  color: rgb(246, 246, 246);
+  display: block;
+  height: 100%;
+}

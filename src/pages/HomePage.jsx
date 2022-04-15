@@ -18,7 +18,7 @@ const Homepage = () => {
 
   return (
     <Div100vh
-      className="w-screen relative bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 flex flex-col items-center justify-center pb-2 md:pb-0"
+      className="w-screen relative bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-100 flex flex-col items-center justify-center pb-2 md:pb-0"
       // style={{ color: "#5e5e5e" }}
     >
       <button

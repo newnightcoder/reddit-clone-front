@@ -88,7 +88,7 @@ const EditPage = () => {
       ) : (
         <Layout>
           <div
-            className="w-10/12 bg-gray-200 flex flex-col items-center justify-start pt-16"
+            className="w-10/12 bg-gray-200 dark:bg-black flex flex-col items-center justify-start pt-16"
             style={{ height: "calc(100vh - 4rem)" }}
           >
             <div

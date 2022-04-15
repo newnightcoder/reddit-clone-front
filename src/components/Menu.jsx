@@ -32,8 +32,8 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
 
   return (
     <Div100vh
-      className="menu-container w-9/12 pt-5 pb-6 bg-white flex flex-col items-center justify-between gap-2 fixed top-0 left-0 z-50 transition-transform duration-300"
-      style={{ transform: isMenuOpen ? "translateX(0)" : "translateX(-100%)" }}
+      className="menu-container w-9/12 pt-5 pb-6 bg-white dark:bg-black dark:text-white flex flex-col items-center justify-between gap-2 fixed top-0 left-0 transition-transform duration-300"
+      style={{ transform: isMenuOpen ? "translateX(0)" : "translateX(-100%)", zIndex: 1100 }}
     >
       <div className="top-section h-max w-10/12 pb-2 flex flex-col items-center justify-center gap-2 border-b border-gray-300">
         <div className="avatar-container h-max w-full flex items-center justify-center">
@@ -61,16 +61,16 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
         </div>
       </div>
       <div className="main-section h-full w-full flex flex-col items-center justify-start gap-2 pt-10">
-        <ul className="h-max w-11/12 flex flex-col items-start justify-center gap-3 pl-6 text-sm text-gray-900">
+        <ul className="h-max w-11/12 flex flex-col items-start justify-center gap-3 pl-6 text-sm text-gray-900 dark:text-gray-200">
           <li>
             <button
               className="flex items-center justify-center space-x-2"
               onClick={() => {
-                handleLink("profile");
+                handleLink("profile", id, username);
                 isAuthenticated && toggleMenu();
               }}
             >
-              <UserIcon className="h-6 text-gray-500" />
+              <UserIcon className="h-6 text-gray-500 dark:text-gray-200" />
               <span>Mon profil</span>
             </button>
           </li>
@@ -82,19 +82,19 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
                 isAuthenticated && toggleMenu();
               }}
             >
-              <PencilIcon className="h-6 text-gray-500" />
+              <PencilIcon className="h-6 text-gray-500 dark:text-gray-200" />
               <span>Créer un nouveau post</span>
             </button>
           </li>
           {/* <li>
             <button className="flex items-center justify-center space-x-2">
-              <HeartIcon className="h-6 text-gray-500" />
+              <HeartIcon className="h-6 text-gray-500 dark:text-gray-200" />
               Posts que j'ai aimé
             </button>
           </li> */}
           <li>
             <button className="flex items-center justify-center space-x-2" onClick={toggleSettings}>
-              <CogIcon className="h-6 text-gray-500" />
+              <CogIcon className="h-6 text-gray-500 dark:text-gray-200" />
               <span className="inline-block">{userLanguage.navbarDesktop.settings}</span>
             </button>
           </li>
@@ -103,7 +103,7 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
               className="flex items-center justify-center space-x-2 text-sm"
               onClick={() => (isAuthenticated ? setOpenModal(true) : handleLink("delete"))}
             >
-              <TrashIcon className="h-6 text-gray-500" />
+              <TrashIcon className="h-6 text-gray-500 dark:text-gray-200" />
               <span>Supprimer mon profil</span>
             </button>
           </li>

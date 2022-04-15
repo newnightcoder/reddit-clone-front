@@ -12,9 +12,9 @@ const ProfileOptions = ({ toggleProfileOptions, toggleEditModal, profileId, setO
   return (
     <>
       {userData?.username === username && (
-        <div className="btns-container px-2 pb-1 flex flex-col items-start justify-end space-y-2 h-full absolute top-0 right-0 z-50 bg-gray-100">
+        <div className="btns-container px-2 pb-1 flex flex-col items-start justify-end space-y-2 h-full absolute top-0 right-0 z-50 bg-gray-100 dark:bg-gray-900">
           <button className="absolute top-2 right-3" onClick={toggleProfileOptions}>
-            <XIcon className="h-5 text-black" />
+            <XIcon className="h-5 text-black dark:text-gray-100" />
           </button>
           <ImgUploader profile={true} imgType="pic" />
           <ImgUploader profile={true} imgType="banner" />
