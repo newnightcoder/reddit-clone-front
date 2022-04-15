@@ -18,8 +18,8 @@ const Homepage = () => {
 
   return (
     <Div100vh
-      className="w-screen relative bg-gray-200 dark:bg-gray-700 flex flex-col items-center justify-center pb-2 md:pb-0"
-      style={{ color: "#5e5e5e" }}
+      className="w-screen relative bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 flex flex-col items-center justify-center pb-2 md:pb-0"
+      // style={{ color: "#5e5e5e" }}
     >
       <button
         className="h-8 w-8 absolute top-5 right-10 flex items-center justify-center rounded-full tracking-widest font-bold text-2xl transition duration-300 hover:bg-gray-300"
@@ -73,7 +73,7 @@ const Homepage = () => {
       </div>
       <div className="w-full flex flex-col items-center justify-center space-y-10 md:space-y-12">
         <div className="flex flex-col items-center justify-center md:space-y-3">
-          <span className="text-sm pb-2">{userLanguage?.homepage.download}</span>
+          <span className="text-sm pb-2 md:pb-0">{userLanguage?.homepage.download}</span>
           <div className="flex items-center justify-center space-x-2">
             <svg width="151" height="51" fill="none" xmlns="http://www.w3.org/2000/svg" className="hover:cursor-pointer">
               <path
@@ -161,12 +161,12 @@ const Homepage = () => {
             </svg>
           </div>
         </div>
-        <ul className="hidden md:flex items-center justify-center text-xs space-x-4 pb-2">
-          <li className="capitalize text-gray-500">about</li>
-          <li className="capitalize text-gray-500">press</li>
-          <li className="capitalize text-gray-500">terms of use</li>
-          <li className="capitalize text-gray-500">privacy policy</li>
-          <li className="capitalize text-gray-500">&copy;2022 FORUM, Inc.</li>
+        <ul className="hidden md:flex items-center justify-center text-xs space-x-4 pb-2 text-gray-500 dark:text-gray-400 capitalize">
+          <li>about</li>
+          <li>press</li>
+          <li>terms of use</li>
+          <li>privacy policy</li>
+          <li>&copy;2022 FORUM, Inc.</li>
         </ul>
       </div>
       <Settings userLanguage={userLanguage} settingsOpen={settingsOpen} />

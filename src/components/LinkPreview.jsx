@@ -6,18 +6,18 @@ const LinkPreview = ({ previewTitle, previewText, previewImg, previewPub, previe
   const { title, image, description, publisher, logo } = useSelector((state) => state.posts.scrapedPost);
 
   return (
-    <div className="h-max w-11/12 rounded border border-gray-400 pb-4 mt-1 flex flex-col items-center justify-start space-y-3 border rounded-md ">
+    <div className="h-max w-11/12 rounded border border-gray-400 dark:border-gray-700 pb-4 mt-1 flex flex-col items-center justify-start space-y-3 border rounded-md ">
       <div
-        style={{ background: `url("${image ? image : previewImg}") no-repeat center/cover` }}
+        style={{ background: `white url("${image ? image : previewImg}") no-repeat center/cover` }}
         className={`${aside ? "h-32" : "h-44 md:h-64"}  w-full rounded-tl rounded-tr`}
       ></div>
-      <div className="w-full flex flex-col space-y-1.5 text-gray-700 text-sm ">
+      <div className="w-full flex flex-col space-y-1.5 text-gray-700 dark:text-gray-200 text-sm ">
         <div className={`${aside && "whitespace-nowrap truncate"} w-full font-bold px-4 leading-4`}>
           {title ? title : previewTitle}
         </div>
         <div className="w-full px-4 leading-4">{description ? description : previewText}</div>
       </div>
-      <div className="w-full px-4 flex items-center justify-between space-x-1 text-gray-500 text-xs">
+      <div className="w-full px-4 flex items-center justify-between space-x-1 text-gray-500 dark:text-gray-300 text-xs">
         <div className="w-max flex items-center justify-start space-x-1">
           <Link size={18} style={{ transform: "translateY(-0.03rem)" }} /> <span>{publisher ? publisher : previewPub}</span>
         </div>

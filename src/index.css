@@ -11,6 +11,23 @@
   }
 }
 
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover,
+.dark input:-webkit-autofill:focus,
+.dark textarea:-webkit-autofill,
+.dark textarea:-webkit-autofill:hover,
+.dark textarea:-webkit-autofill:focus,
+.dark select:-webkit-autofill,
+.dark select:-webkit-autofill:hover,
+.dark select:-webkit-autofill:focus {
+  border: 1px solid rgb(50, 120, 248);
+  color: lightgray;
+  -webkit-text-fill-color: lightgray;
+  box-shadow: 0 0 0px 1000px #4b5563 inset;
+  -webkit-box-shadow: 0 0 0px 1000px #4b5563 inset;
+  /* transition: background-color 5000ms ease-in-out 0s; */
+}
+
 #postInput:first-child:empty::before {
   content: attr(placeholder);
   color: #999;

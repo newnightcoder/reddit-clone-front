@@ -55,7 +55,7 @@ const Post = ({ post, aside }) => {
 
   return (
     <div
-      className="post-container scale-0 h-max w-full max-w-3xl relative md:rounded-md flex-col items-center justify-center bg-white border border-gray-300 transition transition-border-color transition-transform duration-300 hover:border-gray-500 pt-2"
+      className="post-container scale-0 h-max w-full max-w-3xl relative md:rounded-md flex-col items-center justify-center bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 transition transition-border-color transition-transform duration-300 hover:border-gray-500 dark:hover:border-gray-500 pt-2"
       style={{
         transform: isDeleted && "scale(0)",
         display: postIsGone && "none",
@@ -83,7 +83,7 @@ const Post = ({ post, aside }) => {
           <div
             className={
               // `${imgUrl !== "" ? "h-96" : "h-full"}
-              "w-full flex items-center justify-center pb-4 border-2 border-red-500"
+              "w-full flex items-center justify-center pb-4"
             }
           >
             {imgUrl !== "" ? <img src={imgUrl} className="w-full h-max" /> : null}

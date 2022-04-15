@@ -10,7 +10,7 @@ const PostHeader = ({ post }) => {
   const handleLink = useHandleLink();
 
   return (
-    <div className="top w-full flex items-center justify-center pl-2 pb-1 border-b">
+    <div className="top w-full flex items-center justify-center pl-2 pb-1 border-b dark:border-gray-700">
       <div className="left-column h-full w-2/12 flex justify-center">
         <button
           className="avatar-container outline-none w-11 h-11 rounded-full border border-gray-300 hover:cursor-pointer"

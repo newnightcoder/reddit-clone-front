@@ -37,7 +37,7 @@ const Layout = ({ children }) => {
   return (
     <div className="">
       <NavBar toggleMenu={toggleMenu} />
-      <div className="h-full w-full mt-16 relative flex items-start justify-center bg-gray-200 dark:bg-gray-700 dark:text-white">
+      <div className="h-full w-full mt-16 relative flex items-start justify-center bg-gray-200 dark:bg-black dark:text-white">
         <div className={`w-full 2xl:w-3/4 md:px-12 flex items-start justify-center md:space-x-4 relative`}>
           <NavBarDesktop toggleSettings={toggleSettings} settingsOpen={settingsOpen} />
           {children}

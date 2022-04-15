@@ -45,7 +45,7 @@ const SettingsOptions = ({ isSettingsOpen, isActive, langOptions, toggleOption, 
               onClick={() => {
                 dispatch(setLanguage(langOpt.slice(0, 2)));
               }}
-              className="w-full rounded flex items-center justify-between py-2 px-2 space-x-1 capitalize transition duration-300 hover:bg-gray-100"
+              className="w-full rounded flex items-center justify-between py-2 px-2 space-x-1 capitalize outline-none transition duration-300 hover:bg-gray-100 dark:hover:text-black"
               style={
                 language === langOpt.slice(0, 2)
                   ? { color: "white", fontWeight: "bold", backgroundColor: "rgb(96 165 250)" }
@@ -77,7 +77,7 @@ const SettingsOptions = ({ isSettingsOpen, isActive, langOptions, toggleOption, 
               onClick={(e) => {
                 savedMode !== mode && toggleMode();
               }}
-              className="w-full flex items-center justify-between py-2 px-2 space-x-1 capitalize transition duration-300 hover:bg-gray-100 outline-none"
+              className="w-full flex items-center justify-between py-2 px-2 space-x-1 capitalize transition duration-300 hover:bg-gray-100 dark:hover:text-black outline-none"
               style={savedMode === mode ? { color: "white", fontWeight: "bold", backgroundColor: "rgb(96 165 250)" } : null}
             >
               <>{mode}</>

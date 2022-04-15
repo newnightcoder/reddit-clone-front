@@ -11,7 +11,7 @@ const UserCard = ({ user, mod }) => {
   const { id: myId, username: myName, language } = useSelector((state) => state.user);
 
   return (
-    <div className="w-full py-2 px-3 border-b border-gray-200 bg-white text-sm text-gray-800">
+    <div className="w-full py-2 px-3 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm text-gray-800 dark:text-gray-200">
       <button
         className="flex gap-2 items-center justify-start hover:underline hover:font-bold"
         onClick={() => {

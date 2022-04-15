@@ -34,7 +34,6 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
       array.push(appearance[1].appearance.dark);
       array.push(appearance[1].appearance.light);
     }
-    // console.log(array);
     setAllModeOptions(array);
   };
 
@@ -56,41 +55,35 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
   return (
     <div
       className="w-52 h-max absolute bg-white py-3 rounded-lg shadow-xl z-30 transform  dark:bg-gray-500"
-      style={
-        // settingsOpen
-        //   ? { display: "inline-block", transform: width > 1024 ? "translateX(14rem)" : "translateX(4.5rem)" }
-        //   : { display: "none" }
-
-        {
-          display: settingsOpen ? "inline-block" : "none",
-          transform:
-            pathname === "/"
-              ? "translateX(0)"
-              : width > 1024
-              ? "translateX(14rem)"
-              : width < 768
-              ? "translateX(0)"
-              : settingsOpen
-              ? "translateX(4.5rem)"
-              : null,
-          top:
-            pathname === "/"
-              ? "3.5rem"
-              : width < 768 && isMenuOpen
-              ? "45%"
-              : width < 768
-              ? "-265%"
-              : width < 1024
-              ? "10rem"
-              : "8.75rem",
-          left: pathname === "/" ? "auto" : width < 768 ? "45%" : "0.25rem",
-          right: pathname === "/" ? "1rem" : null,
-        }
-      }
+      style={{
+        display: settingsOpen ? "inline-block" : "none",
+        transform:
+          pathname === "/"
+            ? "translateX(0)"
+            : width > 1024
+            ? "translateX(14rem)"
+            : width < 768
+            ? "translateX(0)"
+            : settingsOpen
+            ? "translateX(4.5rem)"
+            : null,
+        top:
+          pathname === "/"
+            ? "3.5rem"
+            : width < 768 && isMenuOpen
+            ? "45%"
+            : width < 768
+            ? "-265%"
+            : width < 1024
+            ? "10rem"
+            : "8.75rem",
+        left: pathname === "/" ? "auto" : width < 768 ? "45%" : "0.25rem",
+        right: pathname === "/" ? "1rem" : null,
+      }}
     >
       <div>
         <button
-          className="w-full flex items-center justify-between py-2 px-2 space-x-1 transition duration-300 hover:bg-gray-100"
+          className="w-full flex items-center justify-between py-2 px-2 space-x-1 transition duration-300 hover:bg-gray-100 dark:hover:text-black"
           onClick={() => toggleOption(lang)}
         >
           <div className="w-full flex items-center justify-start space-x-1">
@@ -99,7 +92,7 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
           <ChevronRightIcon className="h-6" />
         </button>
         <button
-          className="w-full flex items-center justify-between py-2 px-2 space-x-1 transition duration-300 hover:bg-gray-100"
+          className="w-full flex items-center justify-between py-2 px-2 space-x-1 transition duration-300 hover:bg-gray-100 dark:hover:text-black"
           onClick={() => toggleOption(options[1])}
         >
           <div className="w-full flex items-center justify-start space-x-2">
@@ -107,7 +100,7 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
           </div>
           <ChevronRightIcon className="h-6" />
         </button>
-        <button className="w-full flex items-center justify-between py-2 px-2 space-x-1 transition duration-300 hover:bg-gray-100">
+        <button className="w-full flex items-center justify-between py-2 px-2 space-x-1 transition duration-300 hover:bg-gray-100 dark:hover:text-black">
           <div className="w-full flex items-center justify-start space-x-2">
             <LifePreserver className="h-5" /> <span className="capitalize">{options[2]}</span>
           </div>

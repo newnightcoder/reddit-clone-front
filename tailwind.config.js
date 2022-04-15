@@ -46,13 +46,14 @@ module.exports = {
     },
   },
   variants: {
-    backgroundColor: ["responsive", "hover", "focus", "active", "dark"],
+    backgroundColor: ["responsive", "hover", "focus", "active", "dark", "focus-within"],
     extend: {
       opacity: ["disabled"],
       cursor: ["hover"],
       fontWeight: ["hover"],
       borderWidth: ["hover"],
       rotate: ["hover", "group-hover"],
+      fill: ["dark"],
     },
   },
   plugins: [require("autoprefixer")],

@@ -16,7 +16,7 @@ const NavBar = ({ toggleMenu }) => {
 
   return (
     <div style={{ zIndex: 1000 }} className="h-16 w-full fixed top-0 overflow-hidden shadow-sm">
-      <div className=" h-full w-full  pl-2 pr-4 flex items-center justify-between md:justify-evenly  gap-1 md:gap-2 text-white shadow-md bg-gray-100">
+      <div className=" h-full w-full  pl-2 pr-4 flex items-center justify-between md:justify-evenly  gap-1 md:gap-2 dark:text-white shadow-md bg-gray-100 dark:bg-gray-900">
         <Link
           to="/"
           className=" h-5/6 w-max flex items-center justify-center ml-3 mr-2"
@@ -27,11 +27,11 @@ const NavBar = ({ toggleMenu }) => {
 
         <form className="hidden w-2/3  max-w-xl 2xl:max-w-5xl md:flex items-center justify-center rounded-l-full" action="">
           <input
-            className="h-10 w-full rounded-l-full outline-none pl-3 pr-2 text-black text-sm lg:text-md border-t border-b border-l border-gray-200 hover:border-gray-400"
+            className="h-10 w-full rounded-l-full outline-none pl-3 pr-2 text-black dark:text-gray-100 dark:placeholder-gray-200 dark:bg-gray-500 text-sm lg:text-md border-t border-b border-l border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-400"
             type="search"
             placeholder={userLanguage.navbar.searchPlaceholder}
           />
-          <button className="w-10 h-10 outline-none rounded-r-full bg-black flex items-center justify-center border border-transparent">
+          <button className="w-10 h-10 outline-none rounded-r-full bg-black dark:bg-gray-700 flex items-center justify-center border border-transparent">
             <SearchIcon className="h-5 w-5 text-white" />
           </button>
         </form>
@@ -57,7 +57,7 @@ const NavBar = ({ toggleMenu }) => {
           )}
         </button>
 
-        <div className="hidden w-max lg:flex items-center justify-evenly space-x-6 text-black">
+        <div className="hidden w-max lg:flex items-center justify-evenly space-x-6 text-black dark:text-gray-100">
           <button
             tabIndex="0"
             className="hidden md:flex items-center justify-center gap-2 outline-none bg-transparent "

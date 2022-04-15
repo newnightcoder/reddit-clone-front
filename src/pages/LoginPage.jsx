@@ -57,7 +57,7 @@ const Login = () => {
   })();
 
   return (
-    <Div100vh className="w-full flex flex-col items-center justify-center space-y-16 bg-gray-200">
+    <Div100vh className="w-full flex flex-col items-center justify-center space-y-16 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-200">
       <header className="text-center uppercase flex flex-col items-center justify-center md:gap-1">
         <span className="font-bold text-lg">{userLanguage.login.greeting}</span>
         <img src={logo} style={{ height: "150", width: "80%" }} alt="logo Forum" />
@@ -74,7 +74,7 @@ const Login = () => {
         <div className="flex flex-col items-start">
           <label htmlFor="email">Email</label>
           <input
-            className="w-64 rounded p-1 border border-blue-400 outline-none"
+            className="w-64 rounded p-1 border border-blue-400 bg-gray-100 text-gray-900 dark:bg-gray-600 dark:text-gray-100 outline-none"
             type="email"
             id="email"
             onChange={handleEmail}
@@ -83,14 +83,14 @@ const Login = () => {
         <div className="flex flex-col items-start">
           <label htmlFor="password">{userLanguage.login.pass}</label>
           <input
-            className="w-64 rounded p-1 border border-blue-400 bg-white outline-none"
+            className="w-64 rounded p-1 border border-blue-400 dark:bg-gray-600 dark:text-gray-100 outline-none"
             type="password"
             id="password"
             onChange={handlePass}
           ></input>
         </div>
         <button
-          className="w-48 text-white p-2 rounded transform translate-y-2 disabled:opacity-50 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
+          className="w-48 text-white p-2 rounded transform translate-y-2 disabled:opacity-50 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none uppercase"
           disabled={!isEmail || password.length < 8 ? true : false}
         >
           {!isLoading || error ? <span>{userLanguage.login.enter}</span> : <SyncLoader size={8} color={"#ffffff"} />}

@@ -15,11 +15,11 @@ const ModsContainer = () => {
   }, [users]);
 
   return (
-    <div className="w-full h-max flex flex-col rounded">
-      <div className="header h-24 w-full bg-gray-500 rounded-tl rounded-tr relative">
+    <div className="w-full h-max flex flex-col rounded dark:bg-gray-900 ">
+      <div className="header h-24 w-full bg-gray-500 rounded-tl rounded-tr relative border-t border-l border-r border-transparent">
         <span className="w-full text-center absolute bottom-0 mb-2 text-white text-lg font-bold"> {userLanguage.aside.mods}</span>
       </div>
-      <div className="list w-full h-max flex flex-col items-center justify-center rounded-bl rounded-br bg-white pb-12">
+      <div className="list w-full h-max flex flex-col items-center justify-center rounded-bl rounded-br bg-white dark:bg-gray-900 border-b border-l border-r dark:border-gray-600 pb-12">
         <>
           {adminUsers.length === 0 || adminUsers === undefined ? (
             <Skeleton element="user" number={2} mod={true} />

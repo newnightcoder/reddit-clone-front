@@ -8,23 +8,23 @@ const Rules = () => {
 
   return (
     <div className="h-max w-72 flex flex-col rounded">
-      <div className="header h-24 w-full bg-blue-400 rounded-tl rounded-tr relative">
+      <div className="header h-24 w-full bg-blue-400 rounded-tl rounded-tr relative border-l border-r border-t border-transparent">
         <span className="w-full text-center absolute bottom-0 mb-2 text-white text-lg font-bold">{rules}</span>
       </div>
-      <ul className="flex flex-col items-center justify-start px-2 py-2 border-l border-r border-b border-gray-300 bg-white">
-        <li className="w-full flex items-start justify-start space-x-1 text-sm font-bold py-2 border-b border-gray-300">
+      <ul className="flex flex-col items-center justify-start px-2 py-2 border-l border-r border-b border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-br rounded-bl">
+        <li className="w-full flex items-start justify-start space-x-1 text-sm font-bold py-2 border-b border-gray-300 dark:border-gray-500">
           <span>1.</span>
           <p>{rule_human}</p>
         </li>
-        <li className="w-full flex items-start justify-start space-x-1 text-sm font-bold py-2 border-b border-gray-300">
+        <li className="w-full flex items-start justify-start space-x-1 text-sm font-bold py-2 border-b border-gray-300 dark:border-gray-500">
           <span>2.</span>
           <p>{rule_irl}</p>
         </li>
-        <li className="w-full flex items-start justify-start space-x-1 text-sm font-bold py-2 border-b border-gray-300">
+        <li className="w-full flex items-start justify-start space-x-1 text-sm font-bold py-2 border-b border-gray-300 dark:border-gray-500">
           <span>3.</span>
           <p>{rule_source}</p>
         </li>
-        <li className="w-full flex items-start justify-start space-x-1 text-sm font-bold py-2 border-b border-gray-300">
+        <li className="w-full flex items-start justify-start space-x-1 text-sm font-bold py-2 border-b border-gray-300 dark:border-gray-500">
           <span>4.</span>
           <p>{rule_double}</p>
         </li>
