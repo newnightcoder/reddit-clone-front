@@ -27,6 +27,9 @@ export const actionType = {
   GET_USER_PROFILE: "GET_USER_PROFILE",
   CLEAN_PROFILE_VISIT: "CLEAN_PROFILE_VISIT",
   CLEAN_PROFILE_POSTS: "CLEAN_PROFILE_POSTS",
+  // MODE
+  TOGGLE_DARK_MODE: "TOGGLE_DARK_MODE",
+
   ////////////////
   //  POSTS
   ////////////////

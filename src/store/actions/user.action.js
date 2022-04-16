@@ -8,6 +8,7 @@ const {
   CLEAR_ERROR_USER,
   SET_ERROR_USER,
   TOGGLE_VISITOR,
+  TOGGLE_DARK_MODE,
   SET_LANGUAGE,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -310,4 +311,8 @@ export const deleteUser = (id) => async (dispatch) => {
 
 export const clearUserError = () => (dispatch) => {
   dispatch({ type: CLEAR_ERROR_USER });
+};
+
+export const toggleDarkMode = () => (dispatch) => {
+  dispatch({ type: TOGGLE_DARK_MODE });
 };

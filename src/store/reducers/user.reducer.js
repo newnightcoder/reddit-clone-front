@@ -13,6 +13,7 @@ const initialState = {
   isVisitor: false,
   visitorMessage: "",
   language: "en",
+  darkMode: false,
   userCreated: false,
   usernameAdded: false,
   isNewUser: null,
@@ -30,6 +31,7 @@ const {
   CLEAR_ERROR_USER,
   SET_ERROR_USER,
   TOGGLE_VISITOR,
+  TOGGLE_DARK_MODE,
   SET_LANGUAGE,
   LOG_USER,
   LOGIN_SUCCESS,
@@ -56,6 +58,13 @@ export const userReducer = (state = initialState, action) => {
     case TOGGLE_VISITOR: {
       const toggle = !state.isVisitor;
       return { ...state, isVisitor: toggle, visitorMessage: action.payload };
+    }
+    case TOGGLE_DARK_MODE: {
+      const toggle = !state.darkMode;
+      return {
+        ...state,
+        darkMode: toggle,
+      };
     }
 
     case SET_LANGUAGE: {

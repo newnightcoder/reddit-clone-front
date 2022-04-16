@@ -1,23 +1,28 @@
 import { CheckIcon, ChevronLeftIcon } from "@heroicons/react/solid";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { setLanguage } from "../store/actions/user.action";
 import { useLanguage, useWindowSize } from "../utils/hooks";
 import useDarkMode from "../utils/hooks/useDarkMode";
 
 const SettingsOptions = ({ isSettingsOpen, isActive, langOptions, toggleOption, modeOptions, isMenuOpen }) => {
-  const savedMode = localStorage.getItem("Mode");
   const dispatch = useDispatch();
   const { language } = useSelector((state) => state.user);
-  const [theme, toggleMode] = useDarkMode();
+  const [isDarkMode, toggleMode] = useDarkMode();
   const userLanguage = useLanguage();
   const { lang, appearance, subtitleLang, subtitleMode } = userLanguage.options;
   const { height, width } = useWindowSize();
+  const { pathname } = useLocation();
 
   return (
     <div
       className="z-40 w-52 px-2 pb-2 absolute left-0 flex-col items-start justify-start bg-white rounded-lg shadow-xl dark:bg-gray-500"
-      style={{ display: isSettingsOpen ? "flex" : "none", top: width < 768 ? "auto" : "0", bottom: width < 768 ? "0" : "auto" }}
+      style={{
+        display: isSettingsOpen ? "flex" : "none",
+        top: width < 768 && pathname === "/" ? 0 : width < 768 ? "auto" : "0",
+        bottom: width < 768 && pathname === "/" ? "auto" : width < 768 ? "0" : "auto",
+      }}
     >
       <button
         className="w-full pt-4 pb-3 flex items-center justify-start space-x-2 border-b border-gray-100"
@@ -75,13 +80,24 @@ const SettingsOptions = ({ isSettingsOpen, isActive, langOptions, toggleOption, 
               key={i + 1}
               id={mode}
               onClick={(e) => {
-                savedMode !== mode && toggleMode();
+                toggleMode();
               }}
               className="w-full flex items-center justify-between py-2 px-2 space-x-1 capitalize transition duration-300 hover:bg-gray-100 dark:hover:text-black outline-none"
-              style={savedMode === mode ? { color: "white", fontWeight: "bold", backgroundColor: "rgb(96 165 250)" } : null}
+              style={
+                (!isDarkMode && mode === userLanguage.appearance.light) || (isDarkMode && mode === userLanguage.appearance.dark)
+                  ? { color: "white", fontWeight: "bold", backgroundColor: "rgb(96 165 250)" }
+                  : null
+              }
             >
               <>{mode}</>
-              <CheckIcon className="hidden text-white h-6" style={savedMode === mode ? { display: "block" } : null} />
+              <CheckIcon
+                className="hidden text-white h-6"
+                style={
+                  (isDarkMode && mode === userLanguage.appearance.dark) || (!isDarkMode && mode === userLanguage.appearance.light)
+                    ? { display: "block" }
+                    : null
+                }
+              />
             </button>
           ))}
         </div>

@@ -11,7 +11,7 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
   const [isActive, setIsActive] = useState("");
   const [optionTitle, setOptionTitle] = useState("");
   const [langOptions, setLangOptions] = useState([]);
-  const [allModeOptions, setAllModeOptions] = useState([]);
+  // const [allModeOptions, setAllModeOptions] = useState([]);
   const { height, width } = useWindowSize();
   const { pathname } = useLocation();
   const userLanguage = useLanguage();
@@ -28,28 +28,24 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
     setLangOptions(options);
   }, []);
 
-  const getAllAppearanceOptions = () => {
-    let array = [];
-    for (const appearance of Object.entries(language)) {
-      array.push(appearance[1].appearance.dark);
-      array.push(appearance[1].appearance.light);
-    }
-    setAllModeOptions(array);
-  };
+  // const getAllAppearanceOptions = () => {
+  //   let array = [];
+  //   for (const appearance of Object.entries(language)) {
+  //     array.push(appearance[1].appearance.dark);
+  //     array.push(appearance[1].appearance.light);
+  //   }
+  //   setAllModeOptions(array);
+  // };
 
   useEffect(() => {
     getLangOptions();
-    getAllAppearanceOptions();
+    // getAllAppearanceOptions();
   }, []);
 
   const toggleOption = (option) => {
     setIsSettingsOpen((prevState) => !prevState);
     setIsActive(option);
     option !== null && setOptionTitle(option);
-  };
-
-  const setMode = (mode) => {
-    localStorage.setItem("Mode", mode);
   };
 
   return (
