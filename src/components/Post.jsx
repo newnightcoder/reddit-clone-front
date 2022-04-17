@@ -23,6 +23,7 @@ const Post = ({ post, aside }) => {
     previewImg,
     previewPub,
     previewPubLogo,
+    previewUrl,
   } = post;
   const lastPostAdded = useSelector((state) => state.posts.lastPostAdded);
   const userId = useSelector((state) => state.user.id);
@@ -55,7 +56,7 @@ const Post = ({ post, aside }) => {
 
   return (
     <div
-      className="post-container scale-0 h-max w-full max-w-3xl relative md:rounded-md flex-col items-center justify-center bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 transition transition-border-color transition-transform duration-300 hover:border-gray-500 dark:hover:border-gray-500 pt-2"
+      className="post-container scale-0 h-max w-full max-w-3xl relative md:rounded-md flex-col items-center justify-center bg-white dark:bg-gray-900 border-t border-b md:border border-gray-300 dark:border-gray-700 transition transition-border-color transition-transform duration-300 hover:border-gray-500 dark:hover:border-gray-500 pt-2"
       style={{
         transform: isDeleted && "scale(0)",
         display: postIsGone && "none",
@@ -74,6 +75,7 @@ const Post = ({ post, aside }) => {
             previewImg={previewImg}
             previewPub={previewPub}
             previewPubLogo={previewPubLogo}
+            previewUrl={previewUrl}
             aside={aside}
           />
         </div>

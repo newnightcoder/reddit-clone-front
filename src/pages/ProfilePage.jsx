@@ -83,12 +83,14 @@ const Profile = () => {
                   }}
                   className="top-section relative h-48 w-full pb-2 flex flex-col items-center justify-center gap-2 rounded-tl-md rounded-tr-md"
                 >
-                  <button
-                    className="absolute top-4 right-4 flex items-center justify-center space-x-1 text-xs italic text-white py-1 px-6 rounded-full shadow-xl bg-blue-400 dark:bg-black transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
-                    onClick={toggleProfileOptions}
-                  >
-                    Edit profile
-                  </button>
+                  {profileId === id && (
+                    <button
+                      className="absolute top-4 right-4 flex items-center justify-center space-x-1 text-xs italic text-white py-1 px-6 rounded-full shadow-xl bg-blue-400 dark:bg-black transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
+                      onClick={toggleProfileOptions}
+                    >
+                      Edit profile
+                    </button>
+                  )}
                   {openProfileOptions && (
                     <ProfileOptions
                       setOpenModal={setOpenModal}

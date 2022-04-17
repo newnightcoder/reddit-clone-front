@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "react-bootstrap-icons";
+import { Link as LinkIcon } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 
-const LinkPreview = ({ previewTitle, previewText, previewImg, previewPub, previewPubLogo, aside }) => {
+const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previewPub, previewPubLogo, aside }) => {
   const { title, image, description, publisher, logo } = useSelector((state) => state.posts.scrapedPost);
 
   return (
@@ -11,16 +11,26 @@ const LinkPreview = ({ previewTitle, previewText, previewImg, previewPub, previe
         style={{ background: `white url("${image ? image : previewImg}") no-repeat center/cover` }}
         className={`${aside ? "h-32" : "h-44 md:h-64"}  w-full rounded-tl rounded-tr`}
       ></div>
-      <div className="w-full flex flex-col space-y-1.5 text-gray-700 dark:text-gray-200 text-sm ">
-        <div className={`${aside && "whitespace-nowrap truncate"} w-full font-bold px-4 leading-4`}>
+      <div className="w-full flex flex-col space-y-1.5 text-gray-700 dark:text-gray-200 text-sm cursor-pointer">
+        <a
+          href={previewUrl}
+          target="_blank"
+          className={`${aside && "whitespace-nowrap truncate"} w-full font-bold px-4 leading-4 hover:underline`}
+        >
           {title ? title : previewTitle}
-        </div>
-        <div className="w-full px-4 leading-4">{description ? description : previewText}</div>
+        </a>
+        <a href={previewUrl} target="_blank" className="w-full px-4 leading-4 hover:underline">
+          {description ? description : previewText}
+        </a>
       </div>
       <div className="w-full px-4 flex items-center justify-between space-x-1 text-gray-500 dark:text-gray-300 text-xs">
-        <div className="w-max flex items-center justify-start space-x-1">
-          <Link size={18} style={{ transform: "translateY(-0.03rem)" }} /> <span>{publisher ? publisher : previewPub}</span>
-        </div>
+        <a
+          href={previewUrl}
+          target="_blank"
+          className="w-max flex items-center justify-start space-x-1 cursor-pointer hover:underline"
+        >
+          <LinkIcon size={18} style={{ transform: "translateY(-0.03rem)" }} /> <span>{publisher ? publisher : previewPub}</span>
+        </a>
         {logo ? <img src={logo} width="25" /> : previewPubLogo !== "null" && <img src={previewPubLogo} width="25" />}
       </div>
     </div>
