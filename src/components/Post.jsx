@@ -82,13 +82,18 @@ const Post = ({ post, aside }) => {
       ) : (
         <>
           <div className="text w-full text-left px-3 py-2 text-sm">{text}</div>
-          <div
-            className={
-              // `${imgUrl !== "" ? "h-96" : "h-full"}
-              "w-full flex items-center justify-center pb-4"
-            }
-          >
-            {imgUrl !== "" ? <img src={imgUrl} className="w-full h-max" /> : null}
+          <div className={"w-full flex items-center justify-center px-2 pb-4"}>
+            {imgUrl !== "" ? (
+              <img
+                src={imgUrl}
+                className="rounded"
+                style={{
+                  width: imgUrl.includes(".gif") ? "100%" : "auto",
+                  height: imgUrl.includes(".gif") ? "auto" : "100%",
+                  maxHeight: "500px",
+                }}
+              />
+            ) : null}
           </div>
         </>
       )}

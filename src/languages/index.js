@@ -140,7 +140,7 @@ const language = {
       usernameBtn: "Change username",
       deleteBtn: "Delete my profile",
       modDeleteBtn: "Delete profile",
-      posts: "my posts",
+      posts: "My posts",
       userPosts: "'s posts",
     },
     editModal: {
@@ -354,7 +354,7 @@ const language = {
       usernameBtn: "Modifier mon pseudo",
       deleteBtn: "Supprimer mon profil",
       modDeleteBtn: "Supprimer le profil",
-      posts: "mes posts",
+      posts: "Mes posts",
       userPosts: "Posts de",
     },
     editModal: {

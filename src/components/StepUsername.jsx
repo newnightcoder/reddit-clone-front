@@ -38,6 +38,7 @@ const StepUsername = () => {
 
   const handleSubmit = useCallback((e) => {
     e.preventDefault();
+    console.log("working babe");
     dispatch(saveUserName(userId, userName, date));
     if (!usernameAdded) return;
   }, []);

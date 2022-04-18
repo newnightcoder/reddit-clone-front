@@ -57,7 +57,7 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
           pathname === "/"
             ? "translateX(0)"
             : width > 1024
-            ? "translateX(14rem)"
+            ? "translateX(11rem)"
             : width < 768
             ? "translateX(0)"
             : settingsOpen
@@ -72,8 +72,8 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
             ? "-265%"
             : width < 1024
             ? "10rem"
-            : "8.75rem",
-        left: pathname === "/" ? "auto" : width < 768 ? "45%" : "0.25rem",
+            : "7rem",
+        left: pathname === "/" ? "auto" : width < 768 ? "45%" : width < 1024 ? "25%" : width < 1280 ? "15%" : "0.25rem",
         right: pathname === "/" ? "1rem" : null,
       }}
     >

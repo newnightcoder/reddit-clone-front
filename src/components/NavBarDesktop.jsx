@@ -16,17 +16,12 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
 
   return (
     <div
-      // style={{
-      //   marginTop: width > 768 ? "10rem" : "4rem",
-      //   position: width < 768 ? "fixed" : "sticky",
-      // }}
       style={{
         minWidth: width > 1280 ? "14rem" : width > 768 ? "max-content" : width < 768 ? "100%" : null,
-        marginTop: width > 768 ? "12rem" : "4rem",
-        top: width > 768 ? "12rem" : "",
+        marginTop: width > 768 ? "6rem" : "4rem",
+        top: width > 768 ? "6rem" : "",
       }}
-      className="w-max flex h-16 md:h-min z-30 fixed md:sticky bottom-0 items-center justify-center border-t border-gray-200 dark:border-gray-600 md:border-none md:dark:border-none md:justify-start md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent shadow-xl md:shadow-none"
-      // xl:bg-white xl:dark:bg-gray-500 xl:shadow-sm
+      className="w-max flex h-16 md:h-full z-30 fixed md:sticky bottom-0 items-center justify-center border-t md:border-none dark:border-gray-600 md:dark:border-none md:justify-start md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent shadow-xl md:shadow-none"
     >
       <div
         style={{ width: "100%", maxWidth: width < 768 ? "550px" : null }}

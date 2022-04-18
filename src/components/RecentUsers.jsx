@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { Skeleton, UserCard } from ".";
 import { useLanguage } from "../utils/hooks";
 
@@ -10,6 +11,8 @@ const RecentUsers = () => {
     if (a.id > b.id) return -1;
     if (a.id < b.id) return 1;
   });
+
+  const { pathname } = useLocation();
   const userLanguage = useLanguage();
 
   useEffect(() => {
@@ -26,7 +29,9 @@ const RecentUsers = () => {
       <div className="list w-full h-max flex flex-col items-center justify-center rounded-bl rounded-br bg-white dark:bg-gray-900  border-b border-l border-r dark:border-gray-600 pb-12">
         <>
           {lastFiveUsers.length === 0 || lastFiveUsers === undefined ? (
-            <Skeleton element="user" number={5} />
+            <Skeleton element="user" number={pathname.includes("profile") ? 3 : 5} />
+          ) : pathname.includes("profile") ? (
+            lastFiveUsers.splice(0, 2).map((user) => <UserCard user={user} key={user.id} />)
           ) : (
             lastFiveUsers?.map((user) => <UserCard user={user} key={user.id} />)
           )}

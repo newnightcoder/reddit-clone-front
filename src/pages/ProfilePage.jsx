@@ -100,7 +100,7 @@ const Profile = () => {
                     />
                   )}
                   <div
-                    className="w-36 h-36 rounded-full border-4 border-white absolute left-4 -bottom-20"
+                    className="w-36 h-36 rounded-full border-4 border-white dark:border-gray-900 absolute left-4 -bottom-20"
                     style={
                       userData?.username === username && picUrl !== null
                         ? { background: `url(${picUrl}) no-repeat center/cover` }

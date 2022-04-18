@@ -30,7 +30,7 @@ const PopularPosts = () => {
       </div>
       <div className="w-full flex flex-col space-y-2 bg-gray-300 dark:bg-gray-600 p-4 border-l border-b border-r border-gray-300 dark:border-gray-600 rounded-bl rounded-br">
         {top3.length === 0 ? (
-          <Skeleton element="post" number={3} />
+          <Skeleton element="post" number={3} aside={true} />
         ) : (
           top3.map((post, i) => <Post post={post} key={i + 1} aside={true} />)
         )}

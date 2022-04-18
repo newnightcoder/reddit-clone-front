@@ -24,8 +24,8 @@ const DeletedProfile = () => {
       {/* {!isAuthenticated ? (
         <Redirect to={{ pathname: "/" }} />
       ) : ( */}
-      <Div100vh className="page-container min-h-screen w-screen flex flex-col items-center justify-center relative pb-8 overflow-x-hidden">
-        <div className="h-1/4 w-10/12 flex flex-col items-center justify-center rounded-sm bg-red-400 text-black py-2 px-2">
+      <Div100vh className="page-container bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-100 min-h-screen w-screen flex flex-col items-center justify-center relative pb-8 overflow-x-hidden">
+        <div className="h-1/4 w-10/12 md:w-max flex flex-col items-center justify-center text-center text-black py-2 px-2">
           {!isAdmin ? (
             <>
               {userLanguage.deletePage.confirmation}
@@ -36,7 +36,10 @@ const DeletedProfile = () => {
             <>{userLanguage.deletePage.modMsg}</>
           )}
         </div>
-        <button className="hover:cursor-pointer hover:underline" onClick={() => history.push(!isAdmin ? "/" : "/feed")}>
+        <button
+          className="rounded-full px-6 py-1 bg-blue-400 hover:cursor-pointer hover:underline"
+          onClick={() => history.push(!isAdmin ? "/" : "/feed")}
+        >
           {userLanguage.deletePage.backBtn}
         </button>
       </Div100vh>

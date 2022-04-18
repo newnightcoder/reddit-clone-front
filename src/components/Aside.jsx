@@ -26,10 +26,9 @@ const Aside = () => {
       ref={element}
       style={{
         marginTop: pathname === "/feed" ? "6rem" : "4rem",
-        position: "sticky",
-        top: pathname === "/feed" ? `calc(100vh - ${size?.height}px - 10px)` : "4rem",
+        top: pathname === "/feed" ? `calc(100vh - ${size?.height}px - 10px)` : "6rem",
       }}
-      className="hidden w-72 h-max lg:flex flex-col items-center justify-start gap-2"
+      className="hidden sticky w-72 h-max lg:flex flex-col items-center justify-start gap-2"
     >
       {pathname === "/feed" ? (
         <>

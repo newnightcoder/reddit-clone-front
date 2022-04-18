@@ -37,11 +37,11 @@ const PostForm = ({
   }, []);
 
   const imgDom = currentPostImgUrl ? (
-    <img id="postImg" src={currentPostImgUrl} alt="" className="w-full" />
+    <img id="postImg" src={currentPostImgUrl} alt="" className="h-max" style={{ maxHeight: "500px" }} />
   ) : !isObjectEmpty(scrapedPost) ? (
     <LinkPreview />
   ) : postToEdit && postToEdit.imgUrl ? (
-    <img id="postImg" src={postToEdit.imgUrl || postToEdit.previewImg} alt="" className="w-full" />
+    <img id="postImg" src={postToEdit.imgUrl || postToEdit.previewImg} alt="" className="h-max" />
   ) : postToEdit && postToEdit.isPreview === 1 ? (
     <LinkPreview
       previewTitle={postToEdit.previewTitle}
