@@ -219,7 +219,7 @@ export const likePost = (origin, userId, id, like) => async (dispatch) => {
 };
 
 export const toComment = (postId) => (dispatch) => {
-  dispatch({ type: CLEAR_ERROR_USER });
+  // dispatch({ type: CLEAR_ERROR_USER });
   dispatch({
     type: TO_COMMENT,
     payload: postId,

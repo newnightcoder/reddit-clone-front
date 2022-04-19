@@ -64,7 +64,7 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
         <ul className="h-max w-11/12 flex flex-col items-start justify-center gap-3 pl-6 text-sm text-gray-900 dark:text-gray-200">
           <li>
             <button
-              className="flex items-center justify-center space-x-2"
+              className="flex items-center justify-center space-x-2 px-3 py-1 border-2 border-transparent transition-color duration-100 hover:border-blue-400 rounded-full"
               onClick={() => {
                 handleLink("profile", id, username);
                 isAuthenticated && toggleMenu();
@@ -76,7 +76,7 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
           </li>
           <li>
             <button
-              className="flex items-center justify-center space-x-2"
+              className="flex items-center justify-center space-x-2 px-3 py-1 border-2 border-transparent transition-color duration-100 hover:border-blue-400 rounded-full"
               onClick={() => {
                 handleLink("post");
                 isAuthenticated && toggleMenu();
@@ -86,21 +86,20 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
               <span>Créer un nouveau post</span>
             </button>
           </li>
-          {/* <li>
-            <button className="flex items-center justify-center space-x-2">
-              <HeartIcon className="h-6 text-gray-500 dark:text-gray-200" />
-              Posts que j'ai aimé
-            </button>
-          </li> */}
           <li>
-            <button className="flex items-center justify-center space-x-2" onClick={toggleSettings}>
+            <button
+              className={`flex items-center justify-center space-x-2 px-3 py-1 border-2 transition-color duration-100 hover:border-blue-400 rounded-full ${
+                settingsOpen ? "border-blue-400" : "border-transparent"
+              }`}
+              onClick={toggleSettings}
+            >
               <CogIcon className="h-6 text-gray-500 dark:text-gray-200" />
               <span className="inline-block">{userLanguage.navbarDesktop.settings}</span>
             </button>
           </li>
           <li>
             <button
-              className="flex items-center justify-center space-x-2 text-sm"
+              className="flex items-center justify-center space-x-2 px-3 py-1 border-2 border-transparent transition-color duration-100 hover:border-blue-400 rounded-full"
               onClick={() => (isAuthenticated ? setOpenModal(true) : handleLink("delete"))}
             >
               <TrashIcon className="h-6 text-gray-500 dark:text-gray-200" />

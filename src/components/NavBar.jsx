@@ -61,7 +61,7 @@ const NavBar = ({ toggleMenu }) => {
         </form>
         <button
           tabIndex="0"
-          className="flex flex-col items-center justify-center -space-y-0.5 outline-none bg-transparent transform translate-y-px md:transform-none lg:hidden"
+          className="md:hidden w-max flex flex-col items-center justify-center -space-y-0.5 outline-none bg-transparent transform translate-y-px md:transform-none"
           onClick={() => toggleMenu()}
         >
           <div
@@ -81,7 +81,7 @@ const NavBar = ({ toggleMenu }) => {
           )}
         </button>
 
-        <div className="hidden w-max lg:flex items-center justify-evenly space-x-6 text-black dark:text-gray-100">
+        <div className="hidden w-max md:flex items-center justify-evenly space-x-6 text-black dark:text-gray-100">
           <button
             tabIndex="0"
             className="hidden md:flex items-center justify-center gap-2 outline-none bg-transparent "
@@ -102,7 +102,7 @@ const NavBar = ({ toggleMenu }) => {
               <span className="capitalize font-bold whitespace-nowrap">{username ? username : userLanguage.navbar.visitor}</span>
             </div>
           </button>
-          <div className="flex items-center justify-center space-x-4">
+          <div className="hidden lg:flex items-center justify-center space-x-4">
             {isAuthenticated ? (
               <button
                 tabIndex="0"

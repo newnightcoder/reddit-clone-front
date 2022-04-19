@@ -145,7 +145,7 @@ const Comment = ({ comment, postId }) => {
           </div>
         </div>
         <div className="text w-full text-left px-3 py-2 text-sm">{text}</div>
-        <div className="bottom w-full flex items-center justify-end px-2 py-2 border-t">
+        <div className="bottom w-full flex items-center justify-end px-2 py-2">
           <div className="icons-container w-max flex items-center justify-end gap-4 text-xs">
             <button className="outline-none w-max flex items-center justify-center gap-2" onClick={toggleReply}>
               <ChatRight size={14} />

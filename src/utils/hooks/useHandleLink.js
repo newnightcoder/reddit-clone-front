@@ -52,7 +52,6 @@ const useHandleLink = () => {
       switch (link) {
         case "post":
           if (!isAuthenticated) return handleVisitorModal("post");
-          return history.push("/create");
         case "profile":
           if (!isAuthenticated) return handleVisitorModal("profile");
           return linkToProfile(userId, username);

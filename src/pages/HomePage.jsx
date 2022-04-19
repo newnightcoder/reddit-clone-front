@@ -29,12 +29,12 @@ const Homepage = () => {
       <div className="h-full flex flex-col items-center justify-center">
         <div className="h-max w-full flex items-center justify-center">
           <div
-            style={{ minWidth: "300px", background: `url(${phonesImg}) no-repeat center/125%` }}
-            className="hidden w-1/2 transform translate-x-14 z-50 h-full border-yellow-500  md:flex items-center justify-center lg:justify-end pl-4"
+            style={{ minWidth: "300px", background: `url(${phonesImg}) no-repeat center/130%` }}
+            className="hidden w-1/2 transform translate-x-14 translate-y-4 z-50 h-full border-yellow-500 md:flex items-center justify-center lg:justify-end pl-4"
           >
             {/* <img src={phonesImg} alt="mobile phones" width="1000" className="border-black transform translate-y-6" /> */}
           </div>
-          <div className="h-full w-full md:w-1/2 flex flex-col items-start justify-center border-red-500  space-y-10">
+          <div className="h-full w-full md:w-1/2 flex flex-col items-start justify-center border-red-500 space-y-10">
             <div className="w-full flex flex-col items-center justify-center space-y-4">
               <header className="flex flex-col items-center justify-center space-y-2">
                 <svg

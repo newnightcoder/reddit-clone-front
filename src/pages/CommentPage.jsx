@@ -1,12 +1,13 @@
-import { ChatAltIcon } from "@heroicons/react/solid";
+import { ChatAltIcon, ChevronDoubleLeftIcon } from "@heroicons/react/solid";
 import "draft-js/dist/Draft.css";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Comment, CommentForm, Layout, Post } from "../components";
-import { getComments, getPosts, getReplies } from "../store/actions/posts.action";
+import { getComments, getReplies } from "../store/actions/posts.action";
 import { createComment } from "../store/actions/user.action";
+import { history } from "../utils/helpers";
 import { createDate } from "../utils/helpers/formatTime";
-import { useLanguage } from "../utils/hooks";
+import { useLanguage, useWindowSize } from "../utils/hooks";
 
 const CommentPage = ({ toggleDeleteModal, openModal }) => {
   const userLanguage = useLanguage();
@@ -20,6 +21,9 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
   const [emptyComError, setEmptyComError] = useState(false);
   const [commentText, setCommentText] = useState("");
   const dispatch = useDispatch();
+  const { height, width } = useWindowSize();
+  const container = useRef();
+  const containerSize = container?.current?.getBoundingClientRect();
 
   const getRelatedComments = useCallback((postId) => {
     const relatedComments = [];
@@ -37,7 +41,6 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
   }, []);
 
   useEffect(() => {
-    dispatch(getPosts());
     dispatch(getComments());
     dispatch(getReplies());
   }, [dispatch, postId]);
@@ -52,6 +55,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
 
   const handleChange = useCallback((e) => {
     setCommentText(e.target.value);
+    setEmptyComError(false);
   }, []);
 
   const handleCommentSubmit = useCallback(async (e) => {
@@ -72,15 +76,29 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
   return (
     <Layout>
       <div
-        className="page-container min-h-screen w-full flex items-start justify-center relative space-x-8 py-8 overflow-x-hidden"
-        // style={{ background: "#dae0e6" }}
+        ref={container}
+        className="min-h-screen w-full flex flex-col items-center justify-center relative pb-8 overflow-x-hidden"
       >
-        <div className="w-10/12 md:w-1/2 max-w-3xl flex flex-col items-center justify-center relative">
+        <div className="h-16 w-full relative z-50 flex items-center justify-center space-x-2">
+          <div
+            style={{ width: containerSize?.width }}
+            className="fixed bg-gray-200 dark:bg-black text-black dark:text-white h-16 w-full flex items-center justify-start pl-8 space-x-2"
+          >
+            <button
+              onClick={() => history.push("/feed")}
+              className="w-max flex items-center justify-center space-x-2 outline-none font-bold"
+            >
+              <ChevronDoubleLeftIcon className="h-4" />
+              <span>Back to feed</span>
+            </button>
+          </div>
+        </div>
+        <div className="w-full md:w-11/12 max-w-3xl flex flex-col items-center justify-center space-y-2 relative ">
           <div className="w-full flex items-center justify-center">
             <Post post={post} />
           </div>
           <div
-            className="error h-8 w-10/12 md:w-1/2 lg:w-1/3 whitespace-pre bg-black text-white text-sm text-center py-1 px-2 rounded overflow-hidden overflow-ellipsis"
+            className="error h-6 w-max px-3 flex items-center justify-center whitespace-pre bg-black text-white text-sm text-center py-1  transform translate-y-6 rounded overflow-hidden overflow-ellipsis"
             style={{ visibility: serverError || emptyComError ? "visible" : "hidden" }}
           >
             {commentText.length === 0 ? emptyComErrorMsg : serverErrorMsg}
@@ -90,24 +108,24 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
             {commentsToDisplay.length === 0 ? (
               <>
                 <span
-                  className="w-11/12 uppercase italic rounded-tl rounded-tr text-white text-center px-2 py-1 mt-3"
+                  className="w-full uppercase italic md:rounded-tl md:rounded-tr text-white text-center px-2 py-1 mt-2"
                   style={{ backgroundColor: "#ef5350" }}
                 >
-                  {userLanguage.commentPage.noComments}{" "}
+                  {userLanguage.commentPage.noComments}
                 </span>
-                <div className="w-11/12 bg-gray-100 flex flex-col items-center justify-center gap-2 rounded-bl rounded-br border border-red-300">
+                <div className="w-full bg-gray-100 flex flex-col items-center justify-center gap-2 md:rounded-bl md:rounded-br border border-red-300">
                   <ChatAltIcon className="h-20 text-gray-200" />
                 </div>
               </>
             ) : (
-              <div className="w-full flex flex-col items-center justify-center mt-3 border border-red-300 rounded">
+              <div className="w-full flex flex-col items-center justify-center mt-3 md:border border-red-300 md:rounded">
                 <span
-                  className="w-full uppercase italic rounded-tl rounded-tr text-white px-2 py-1"
+                  className="w-full uppercase italic md:rounded-tl md:rounded-tr text-white px-2 py-1"
                   style={{ backgroundColor: "#ef5350" }}
                 >
                   {userLanguage.commentPage.comments}
                 </span>
-                <div className="w-full bg-gray-100 flex flex-col items-center justify-center  rounded-bl rounded-br  border-red-300 py-2">
+                <div className="w-full bg-gray-100 flex flex-col items-center justify-center  md:rounded-bl md:rounded-br  py-2">
                   {commentsToDisplay.map((comment) => {
                     return (
                       <Comment

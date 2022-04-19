@@ -18,10 +18,8 @@ const PostFooter = ({ post, toggleOptions }) => {
   const sameUser = [];
 
   const toCommentPage = () => {
+    history.push(`/comments/${title}`);
     dispatch(toComment(postId));
-    setTimeout(() => {
-      history.push(`/comments/${title}`);
-    }, 100);
   };
 
   const updateLikesNumber = () => {

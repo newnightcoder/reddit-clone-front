@@ -112,7 +112,7 @@ const ImgUploader = ({ profile, imgType, toggleImgUploadModal }) => {
           }
         >
           {profile && !pathname.includes("profile") ? (
-            <span>
+            <span className="flex items-center justify-center text-xs">
               {userLanguage.imgUploader.ok}
               <ChevronDoubleRightIcon className="h-4 w-4 text-black font-bold" style={{ transform: "translateY(1px)" }} />
             </span>

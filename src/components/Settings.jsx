@@ -11,7 +11,6 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
   const [isActive, setIsActive] = useState("");
   const [optionTitle, setOptionTitle] = useState("");
   const [langOptions, setLangOptions] = useState([]);
-  // const [allModeOptions, setAllModeOptions] = useState([]);
   const { height, width } = useWindowSize();
   const { pathname } = useLocation();
   const userLanguage = useLanguage();
@@ -28,18 +27,8 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
     setLangOptions(options);
   }, []);
 
-  // const getAllAppearanceOptions = () => {
-  //   let array = [];
-  //   for (const appearance of Object.entries(language)) {
-  //     array.push(appearance[1].appearance.dark);
-  //     array.push(appearance[1].appearance.light);
-  //   }
-  //   setAllModeOptions(array);
-  // };
-
   useEffect(() => {
     getLangOptions();
-    // getAllAppearanceOptions();
   }, []);
 
   const toggleOption = (option) => {
@@ -50,7 +39,7 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
 
   return (
     <div
-      className="w-52 h-max absolute bg-white py-3 rounded-lg shadow-xl z-30 transform  dark:bg-gray-500"
+      className="w-52 h-max absolute bg-white py-3 rounded-lg shadow-xl z-30 transform  dark:bg-gray-700"
       style={{
         display: settingsOpen ? "inline-block" : "none",
         transform:

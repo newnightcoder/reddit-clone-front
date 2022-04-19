@@ -4,6 +4,7 @@ import { GearFill, Power } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { Link, NavLink } from "react-router-dom";
+import { history } from "../utils/helpers";
 import { useHandleLink, useLanguage, useWindowSize } from "../utils/hooks";
 import Settings from "./Settings";
 
@@ -36,7 +37,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
           <span className="capitalize hidden xl:inline-block">forum</span>
         </NavLink>
         <button
-          onClick={() => handleLink("post")}
+          onClick={() => history.push("/create")}
           style={pathname === "/create" ? { backgroundColor: "rgb(96 165 250)", color: "white" } : null}
           className="h-10 w-10 md:w-16 md:h-16 xl:w-full xl:h-10 outline-none ring-none flex items-center justify-center xl:justify-start xl:pl-1 xl:pr-4 rounded-full transition duration-300 text-gray-500 md:bg-white md:dark:bg-transparent md:text-black dark:text-white bg-transparent md:dark:bg-gray-500 xl:bg-transparent xl:dark:bg-transparent hover:bg-blue-400 dark:hover:bg-blue-400 hover:text-black md:hover:text-white"
         >

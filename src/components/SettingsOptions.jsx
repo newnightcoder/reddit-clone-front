@@ -17,7 +17,7 @@ const SettingsOptions = ({ isSettingsOpen, isActive, langOptions, toggleOption, 
 
   return (
     <div
-      className="z-40 w-52 px-2 pb-2 absolute left-0 flex-col items-start justify-start bg-white rounded-lg shadow-xl dark:bg-gray-500"
+      className="z-40 w-52 px-2 pb-2 absolute left-0 flex-col items-start justify-start bg-white rounded-lg shadow-xl dark:bg-gray-700"
       style={{
         display: isSettingsOpen ? "flex" : "none",
         top: width < 768 && pathname === "/" ? 0 : width < 768 ? "auto" : "0",
@@ -50,7 +50,7 @@ const SettingsOptions = ({ isSettingsOpen, isActive, langOptions, toggleOption, 
               onClick={() => {
                 dispatch(setLanguage(langOpt.slice(0, 2)));
               }}
-              className="w-full rounded flex items-center justify-between py-2 px-2 space-x-1 capitalize outline-none transition duration-300 hover:bg-gray-100 dark:hover:text-black"
+              className="w-full rounded flex items-center justify-between py-2 px-2 space-x-1 capitalize outline-none rounded transition duration-300 hover:bg-gray-100 dark:hover:text-black"
               style={
                 language === langOpt.slice(0, 2)
                   ? { color: "white", fontWeight: "bold", backgroundColor: "rgb(96 165 250)" }
@@ -82,7 +82,7 @@ const SettingsOptions = ({ isSettingsOpen, isActive, langOptions, toggleOption, 
               onClick={(e) => {
                 toggleMode();
               }}
-              className="w-full flex items-center justify-between py-2 px-2 space-x-1 capitalize transition duration-300 hover:bg-gray-100 dark:hover:text-black outline-none"
+              className="w-full flex items-center justify-between py-2 px-2 space-x-1 outline-none rounded capitalize transition duration-300 hover:bg-gray-100 dark:hover:text-black outline-none"
               style={
                 (!isDarkMode && mode === userLanguage.appearance.light) || (isDarkMode && mode === userLanguage.appearance.dark)
                   ? { color: "white", fontWeight: "bold", backgroundColor: "rgb(96 165 250)" }

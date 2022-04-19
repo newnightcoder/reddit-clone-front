@@ -40,3 +40,7 @@
   display: block;
   height: 100%;
 }
+
+.commentpage-container {
+  contain: content;
+}

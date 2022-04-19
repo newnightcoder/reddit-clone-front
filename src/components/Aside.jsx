@@ -18,7 +18,9 @@ const Aside = () => {
   }, [posts]);
 
   useEffect(() => {
-    dispatch(getUsers());
+    if (pathname === "/feed" || pathname.includes("/profile")) {
+      dispatch(getUsers());
+    }
   }, [dispatch]);
 
   return (
