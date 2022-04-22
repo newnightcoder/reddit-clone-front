@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router";
-import { getPosts } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
 import { useLanguage } from "../utils/hooks";
 
@@ -13,11 +12,11 @@ const DeletedProfile = () => {
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
 
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(getPosts());
-    }, 2000);
-  }, [dispatch]);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     dispatch(getPosts());
+  //   }, 2000);
+  // }, [dispatch]);
 
   return (
     <>

@@ -25,20 +25,23 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
   const container = useRef();
   const containerSize = container?.current?.getBoundingClientRect();
 
-  const getRelatedComments = useCallback((postId) => {
-    const relatedComments = [];
-    comments
-      .sort((a, b) => {
-        if (a.commentId > b.commentId) return -1;
-        else return 1;
-      })
-      .map((comment) => {
-        if (comment.fk_postId_comment === postId) {
-          return relatedComments.push(comment);
-        }
-      });
-    return relatedComments;
-  }, []);
+  const getRelatedComments = useCallback(
+    (postId) => {
+      const relatedComments = [];
+      comments
+        .sort((a, b) => {
+          if (a.commentId > b.commentId) return -1;
+          else return 1;
+        })
+        .map((comment) => {
+          if (comment.fk_postId_comment === postId) {
+            return relatedComments.push(comment);
+          }
+        });
+      return relatedComments;
+    },
+    [postId]
+  );
 
   useEffect(() => {
     dispatch(getComments());
@@ -79,7 +82,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
         ref={container}
         className="min-h-screen w-full flex flex-col items-center justify-center relative pb-8 overflow-x-hidden"
       >
-        <div className="h-16 w-full relative z-50 flex items-center justify-center space-x-2">
+        <div className=" back-container h-16 w-full relative z-50 flex items-center justify-center space-x-2">
           <div
             style={{ width: containerSize?.width }}
             className="fixed bg-gray-200 dark:bg-black text-black dark:text-white h-16 w-full flex items-center justify-start pl-8 space-x-2"

@@ -47,8 +47,13 @@ export const postsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_POSTS: {
       const { posts, likes } = action.payload;
+      const postsInOrder = posts?.sort((a, b) => {
+        if (a.postId < b.postId) return 1;
+        if (a.postId > b.postId) return -1;
+        return 0;
+      });
 
-      return { ...state, posts, likes };
+      return { ...state, posts: postsInOrder, likes };
     }
     case GET_LIKES: {
       const { likes } = action.payload;

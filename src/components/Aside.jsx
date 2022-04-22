@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { FooterAside, ModsContainer, PopularPosts, RecentUsers, Rules } from ".";
-import { getUsers } from "../store/actions/posts.action";
 
 const Aside = () => {
   const { pathname } = useLocation();
@@ -16,12 +15,6 @@ const Aside = () => {
       setSize(element?.current?.getBoundingClientRect());
     }, 1000);
   }, [posts]);
-
-  useEffect(() => {
-    if (pathname === "/feed" || pathname.includes("/profile")) {
-      dispatch(getUsers());
-    }
-  }, [dispatch]);
 
   return (
     <div

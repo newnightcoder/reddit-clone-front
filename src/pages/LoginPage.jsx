@@ -3,7 +3,6 @@ import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
-// import bg from "../assets/logo2.svg";
 import { clearUserError, logUserAction } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
 import { useLanguage } from "../utils/hooks";
@@ -71,7 +70,7 @@ const Login = () => {
             fill={darkMode ? "white" : "black"}
             className="transition-colors duration-300"
           />
-          <g clip-path="url(#clip0_147_24)">
+          <g clipPath="url(#clip0_147_24)">
             <path
               d="M264.761 0.956388C263.094 -0.709116 243.053 7.97217 233.643 17.3827C225.273 25.7529 220.931 35.3018 222.925 40.1691C218.213 46.6541 214.856 53.0099 213.033 60.75C218.093 53.946 220.636 47.457 243.786 22.0434C242.276 24.0785 235.223 32.2471 229.181 43.2306C234.378 42.7776 241.723 38.6853 248.334 32.0751C257.745 22.6644 266.426 2.62287 264.761 0.956388Z"
               fill="#60A5FA"
