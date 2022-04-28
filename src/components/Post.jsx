@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteModal, Options, PostFooter, PostHeader } from ".";
 import "../index.css";
 import { deletePost } from "../store/actions/posts.action";
+import { likePost, toComment } from "../store/actions/user.action";
+import { history } from "../utils/helpers";
+import { useHandleLink, useLanguage } from "../utils/hooks";
 import LinkPreview from "./LinkPreview";
 
 const Post = ({ post, aside }) => {
@@ -36,6 +39,10 @@ const Post = ({ post, aside }) => {
   const [postIsGone, setpostIsGone] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const allLikes = useSelector((state) => state.posts.likes);
+  const handleLink = useHandleLink();
+  const userLanguage = useLanguage();
+  const sameUser = [];
   const dispatch = useDispatch();
 
   const toggleOptions = () => {
@@ -43,7 +50,7 @@ const Post = ({ post, aside }) => {
   };
 
   const toggleDeleteModal = () => {
-    setOpenModal((openModal) => !openModal);
+    return setOpenModal((openModal) => !openModal);
   };
 
   const handleDeletePost = () => {
@@ -53,6 +60,49 @@ const Post = ({ post, aside }) => {
       setpostIsGone(true);
     }, 500);
   };
+
+  const toCommentPage = () => {
+    history.push(`/comments/${title}`);
+    dispatch(toComment(postId));
+  };
+
+  const updateLikesNumber = () => {
+    switch (like) {
+      case false:
+        setLikesNumber(likesNumber + 1);
+        break;
+      case true:
+        setLikesNumber(likesNumber - 1);
+        break;
+      default:
+        setLikesNumber(likesNumber);
+    }
+  };
+
+  const handleLike = useCallback((postId) => {
+    setLike((prevState) => !prevState);
+    updateLikesNumber();
+    dispatch(likePost("post", userId, postId, like));
+  });
+
+  useEffect(() => {
+    allLikes.map((like) => {
+      if (like.fk_userId_like === userId && like.fk_postId_like === postId) {
+        return sameUser.push(like.fk_postId_like);
+      }
+      return sameUser;
+    });
+    sameUser.forEach((id) => {
+      if (id === postId) {
+        setLike(true);
+      }
+    });
+  }, [postId, allLikes, userId]);
+
+  useEffect(() => {
+    setLikesNumber(likesCount);
+    setcommentsNumber(commentCount);
+  }, [likesCount, commentCount]);
 
   return (
     <div
@@ -97,7 +147,15 @@ const Post = ({ post, aside }) => {
           </div>
         </>
       )}
-      <PostFooter post={post} toggleOptions={toggleOptions} />
+      <PostFooter
+        postId={postId}
+        like={like}
+        likesNumber={likesNumber}
+        commentsNumber={commentsNumber}
+        toggleOptions={toggleOptions}
+        handleLike={handleLike}
+        toCommentPage={toCommentPage}
+      />
       <Options
         postUserId={fk_userId_post}
         postId={postId}

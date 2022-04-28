@@ -189,7 +189,7 @@ export const saveUserPic = (blob, id, imgType) => async (dispatch) => {
 };
 
 export const likePost = (origin, userId, id, like) => async (dispatch) => {
-  dispatch({ type: CLEAR_ERROR_USER });
+  // dispatch({ type: CLEAR_ERROR_USER });
   const accessToken = localStorage.getItem("jwt");
   const request = {
     headers: {

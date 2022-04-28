@@ -59,6 +59,7 @@ export const userReducer = (state = initialState, action) => {
       const toggle = !state.isVisitor;
       return { ...state, isVisitor: toggle, visitorMessage: action.payload };
     }
+
     case TOGGLE_DARK_MODE: {
       const toggle = !state.darkMode;
       return {
@@ -157,6 +158,7 @@ export const userReducer = (state = initialState, action) => {
         picUrl: imgType === "pic" ? picUrl : state.picUrl,
         bannerUrl: imgType === "banner" ? picUrl : state.bannerUrl,
       };
+
     case LIKE_POST: {
       const { liked } = action.payload;
       return {

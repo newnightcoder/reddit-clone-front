@@ -10,7 +10,6 @@ const Feed = () => {
   const user = useSelector((state) => state.user);
   const { isAuthenticated, isNewUser } = useSelector((state) => state.user);
   const posts = useSelector((state) => state?.posts?.posts);
-
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
 
@@ -27,7 +26,7 @@ const Feed = () => {
     dispatch(clearTempPreview());
     dispatch(getPosts());
     dispatch(getUsers());
-  }, [dispatch]);
+  }, []);
 
   return (
     <Layout>
