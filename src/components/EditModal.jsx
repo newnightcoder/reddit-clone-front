@@ -16,7 +16,7 @@ const EditModal = ({ toggleEditModal, openEditModal }) => {
       if (error.length !== 0) return;
       toggleEditModal();
     },
-    [username, error]
+    [username, error, dispatch, toggleEditModal, userId]
   );
 
   const handleChange = useCallback(

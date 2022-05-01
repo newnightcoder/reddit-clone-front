@@ -26,7 +26,7 @@ const Profile = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(getUserPosts(profileId));
-  }, [profileId]);
+  }, [profileId, dispatch]);
 
   const profilePostsTitle = (
     <>
@@ -48,15 +48,18 @@ const Profile = () => {
     setOpenProfileOptions((prevState) => !prevState);
   }, [setOpenProfileOptions]);
 
-  const handleDeleteProfile = useCallback((profileId) => {
-    if (profileId === id) {
-      dispatch(deleteUser(id));
-      history.push("/fin");
-    } else if (profileId === userData?.id) {
-      dispatch(deleteUser(userData?.id));
-      history.push({ pathname: "/fin", state: { admin: true } });
-    }
-  }, []);
+  const handleDeleteProfile = useCallback(
+    (profileId) => {
+      if (profileId === id) {
+        dispatch(deleteUser(id));
+        history.push("/fin");
+      } else if (profileId === userData?.id) {
+        dispatch(deleteUser(userData?.id));
+        history.push({ pathname: "/fin", state: { admin: true } });
+      }
+    },
+    [dispatch, id, userData]
+  );
 
   return (
     <>
@@ -114,7 +117,7 @@ const Profile = () => {
                 <div className="username-member relative h-max w-max self-start transform translate-x-44 flex flex-col items-start justify-start">
                   <span className="text-xl font-bold capitalize">{userData?.id === id ? username : userData.username}</span>
                   <span className="block italic text-sm flex items-center justify-center gap-1 transform -translate-x-2">
-                    <img src={logo_mobile_blue} className="h-6" />
+                    <img src={logo_mobile_blue} className="h-6" alt="forum logo" />
                     <span>{userLanguage.profile.member}</span>
                     {userData?.creationDate
                       ? formatTimestamp(userData?.creationDate, null, language)

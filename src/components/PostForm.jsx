@@ -28,7 +28,7 @@ const PostForm = ({
   const currentPostImgUrl = useSelector((state) => state.posts.currentPost.imgUrl);
   const scrapedPost = useSelector((state) => state.posts.scrapedPost);
   const { pathname } = useLocation();
-  const { height, width } = useWindowSize();
+  const { width } = useWindowSize();
   const isObjectEmpty = useCallback((obj) => {
     for (let prop in obj) {
       return false;
@@ -133,7 +133,8 @@ const PostForm = ({
               className="w-max  text-gray-500 dark:text-gray-100 text-xs rounded-full border border-gray-200 px-4 py-2 md:text-base bg-transparent ouline-none flex items-center justify-start space-x-1"
               onClick={(e) => toggleGifModal(e)}
             >
-              <img src={giphyDark} width="25" /> <span className="hidden md:inline-block">{userLanguage.createPost.gifBtn}</span>
+              <img src={giphyDark} width="25" alt="giphy logo" />{" "}
+              <span className="hidden md:inline-block">{userLanguage.createPost.gifBtn}</span>
             </button>
             <button
               className="w-max  text-gray-500 dark:text-gray-100 text-xs rounded-full border border-gray-200 px-4 py-2 md:text-base bg-transparent ouline-none flex items-center justify-start"

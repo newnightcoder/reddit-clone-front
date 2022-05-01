@@ -10,6 +10,7 @@ const RecentUsers = () => {
   const sortedUsers = users?.sort((a, b) => {
     if (a.id > b.id) return -1;
     if (a.id < b.id) return 1;
+    return 0;
   });
 
   const { pathname } = useLocation();
@@ -17,7 +18,7 @@ const RecentUsers = () => {
 
   useEffect(() => {
     setLastFiveUsers(sortedUsers?.splice(0, 5));
-  }, [users]);
+  }, [users, sortedUsers]);
 
   return (
     <div className="w-full h-max flex flex-col rounded">

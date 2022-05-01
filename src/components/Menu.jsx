@@ -51,7 +51,7 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
         <div className="username-member h-max w-full flex flex-col items-center justify-start">
           <span className="text-xl font-bold capitalize">{username?.length !== 0 && username}</span>
           <span className="block italic text-sm flex items-center justify-center gap-1">
-            <img src={logo_mobile_blue} className="h-6" />
+            <img src={logo_mobile_blue} className="h-6" alt="forum logo" />
             {isAuthenticated ? (
               <span>membre depuis {creationDate?.length !== 0 && formatTimestamp(creationDate)}</span>
             ) : (

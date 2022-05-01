@@ -6,7 +6,6 @@ import picPlaceholder from "../assets/pic_placeholder.svg";
 import { deletePost } from "../store/actions/posts.action";
 import { likePost } from "../store/actions/user.action";
 import { formatTimestamp } from "../utils/helpers/formatTime";
-import { useLanguage } from "../utils/hooks";
 
 const Reply = ({ reply }) => {
   const { replyId, fk_userId_reply, text, date, username, picUrl, likesCount } = reply;
@@ -21,7 +20,7 @@ const Reply = ({ reply }) => {
   const [postIsGone, setpostIsGone] = useState(false);
   const sameUserReply = [];
   const dispatch = useDispatch();
-  const userlanguage = useLanguage();
+  // const userlanguage = useLanguage();
 
   useEffect(() => {
     setLikesNumber(likesCount);
@@ -53,20 +52,23 @@ const Reply = ({ reply }) => {
     return setReplyOpen((replyOpen) => !replyOpen);
   }, []);
 
-  const handleLike = useCallback((replyId) => {
-    setLike((like) => !like);
-    switch (like) {
-      case false:
-        setLikesNumber(likesNumber + 1);
-        break;
-      case true:
-        setLikesNumber(likesNumber - 1);
-        break;
-      default:
-        break;
-    }
-    dispatch(likePost("reply", userId, replyId, like));
-  }, []);
+  const handleLike = useCallback(
+    (replyId) => {
+      setLike((like) => !like);
+      switch (like) {
+        case false:
+          setLikesNumber(likesNumber + 1);
+          break;
+        case true:
+          setLikesNumber(likesNumber - 1);
+          break;
+        default:
+          break;
+      }
+      dispatch(likePost("reply", userId, replyId, like));
+    },
+    [dispatch, like, likesNumber, userId]
+  );
 
   const handleDeletePost = useCallback(() => {
     dispatch(deletePost(replyId, "reply", null));
@@ -74,7 +76,7 @@ const Reply = ({ reply }) => {
     setTimeout(() => {
       setpostIsGone(true);
     }, 500);
-  }, []);
+  }, [dispatch, replyId]);
 
   return (
     <div

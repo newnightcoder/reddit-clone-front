@@ -10,7 +10,7 @@ import Settings from "./Settings";
 
 const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
   const { id, username } = useSelector((state) => state.user);
-  const { height, width } = useWindowSize();
+  const { width } = useWindowSize();
   const { pathname } = useLocation();
   const handleLink = useHandleLink();
   const userLanguage = useLanguage();

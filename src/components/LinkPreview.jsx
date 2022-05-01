@@ -15,11 +15,12 @@ const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previe
         <a
           href={previewUrl}
           target="_blank"
+          rel="noreferrer"
           className={`${aside && "whitespace-nowrap truncate"} w-full font-bold px-4 leading-4 hover:underline`}
         >
           {title ? title : previewTitle}
         </a>
-        <a href={previewUrl} target="_blank" className="w-full px-4 leading-4 hover:underline">
+        <a href={previewUrl} target="_blank" rel="noreferrer" className="w-full px-4 leading-4 hover:underline">
           {description ? description : previewText}
         </a>
       </div>
@@ -27,11 +28,16 @@ const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previe
         <a
           href={previewUrl}
           target="_blank"
+          rel="noreferrer"
           className="w-max flex items-center justify-start space-x-1 cursor-pointer hover:underline"
         >
           <LinkIcon size={18} style={{ transform: "translateY(-0.03rem)" }} /> <span>{publisher ? publisher : previewPub}</span>
         </a>
-        {logo ? <img src={logo} width="25" /> : previewPubLogo !== "null" && <img src={previewPubLogo} width="25" />}
+        {logo ? (
+          <img src={logo} width="25" alt="publication logo" />
+        ) : (
+          previewPubLogo !== "null" && <img src={previewPubLogo} width="25" alt="publication logo" />
+        )}
       </div>
     </div>
   );

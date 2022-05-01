@@ -5,7 +5,6 @@ import "../index.css";
 import { deletePost } from "../store/actions/posts.action";
 import { likePost, toComment } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
-import { useHandleLink, useLanguage } from "../utils/hooks";
 import LinkPreview from "./LinkPreview";
 
 const Post = ({ post, aside }) => {
@@ -14,9 +13,6 @@ const Post = ({ post, aside }) => {
     postId,
     text,
     imgUrl,
-    date,
-    username,
-    picUrl,
     likesCount,
     commentCount,
     fk_userId_post,
@@ -31,7 +27,6 @@ const Post = ({ post, aside }) => {
   const lastPostAdded = useSelector((state) => state.posts.lastPostAdded);
   const userId = useSelector((state) => state.user.id);
   const role = useSelector((state) => state?.user.role);
-  const likes = useSelector((state) => state.posts.likes);
   const [likesNumber, setLikesNumber] = useState(likesCount);
   const [commentsNumber, setcommentsNumber] = useState(commentCount);
   const [like, setLike] = useState(false);
@@ -40,33 +35,31 @@ const Post = ({ post, aside }) => {
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const allLikes = useSelector((state) => state.posts.likes);
-  const handleLink = useHandleLink();
-  const userLanguage = useLanguage();
   const sameUser = [];
   const dispatch = useDispatch();
 
-  const toggleOptions = () => {
+  const toggleOptions = useCallback(() => {
     return setOptionsOpen((optionsOpen) => !optionsOpen);
-  };
+  }, [optionsOpen]);
 
-  const toggleDeleteModal = () => {
+  const toggleDeleteModal = useCallback(() => {
     return setOpenModal((openModal) => !openModal);
-  };
+  }, [openModal]);
 
-  const handleDeletePost = () => {
+  const handleDeletePost = useCallback(() => {
     dispatch(deletePost(postId, "post", null));
     setIsDeleted(true);
     setTimeout(() => {
       setpostIsGone(true);
     }, 500);
-  };
+  }, [dispatch, postId]);
 
-  const toCommentPage = () => {
-    history.push(`/comments/${title}`);
+  const toCommentPage = useCallback(() => {
     dispatch(toComment(postId));
-  };
+    history.push(`/comments/${title}`);
+  }, [dispatch, postId, title]);
 
-  const updateLikesNumber = () => {
+  const updateLikesNumber = useCallback(() => {
     switch (like) {
       case false:
         setLikesNumber(likesNumber + 1);
@@ -77,13 +70,16 @@ const Post = ({ post, aside }) => {
       default:
         setLikesNumber(likesNumber);
     }
-  };
+  }, [like, likesNumber]);
 
-  const handleLike = useCallback((postId) => {
-    setLike((prevState) => !prevState);
-    updateLikesNumber();
-    dispatch(likePost("post", userId, postId, like));
-  });
+  const handleLike = useCallback(
+    (postId) => {
+      setLike((prevState) => !prevState);
+      updateLikesNumber();
+      dispatch(likePost("post", userId, postId, like));
+    },
+    [like, dispatch]
+  );
 
   useEffect(() => {
     allLikes.map((like) => {
@@ -106,6 +102,7 @@ const Post = ({ post, aside }) => {
 
   return (
     <div
+      onClick={() => console.log(post)}
       className="post-container scale-0 h-max w-full max-w-3xl relative md:rounded-md flex-col items-center justify-center bg-white dark:bg-gray-900 border-t border-b md:border border-gray-300 dark:border-gray-700 transition transition-border-color transition-transform duration-300 hover:border-gray-500 dark:hover:border-gray-500 pt-2"
       style={{
         transform: isDeleted && "scale(0)",
@@ -136,6 +133,7 @@ const Post = ({ post, aside }) => {
             {imgUrl !== "" ? (
               <img
                 src={imgUrl}
+                alt={imgUrl.includes(".gif") ? "gif" : "picture"}
                 className="rounded"
                 style={{
                   width: imgUrl.includes(".gif") ? "100%" : "auto",

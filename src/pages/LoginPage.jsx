@@ -26,7 +26,7 @@ const Login = () => {
       window.addEventListener("beforeunload", dispatch(clearUserError()));
     }
     return () => window.removeEventListener("beforeunload", dispatch(clearUserError()));
-  }, []);
+  }, [dispatch, error]);
 
   const handleEmail = useCallback((e) => {
     setEmail(e.target.value);
@@ -42,7 +42,7 @@ const Login = () => {
       setIsLoading(true);
       dispatch(logUserAction(email, password));
     },
-    [email, password]
+    [email, password, dispatch]
   );
 
   const toFeed = (() => {

@@ -4,7 +4,7 @@ import { Image, Youtube } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import { useLanguage } from "../utils/hooks";
 
-const CommentForm = ({ handleCommentSubmit, handleChange }) => {
+const CommentForm = ({ handleCommentSubmit, handleChange, commentTextRef }) => {
   const { username } = useSelector((state) => state.user);
   const userLanguage = useLanguage();
   return (
@@ -15,6 +15,7 @@ const CommentForm = ({ handleCommentSubmit, handleChange }) => {
       <div className="h-max w-full flex flex-col items-center justify-start border border-gray-300 hover:border-gray-500 rounded">
         <div className="editor-container w-full overflow-y-auto h-32 bg-gray-100 hover:bg-white active:bg-white focus:bg-white md:rounded-t">
           <textarea
+            ref={commentTextRef}
             className="w-full h-full p-3 focus:outline-none bg-gray-100 hover:bg-white active:bg-white focus:bg-white"
             onChange={handleChange}
             placeholder={userLanguage.commentPage.commentForm.placeholder}

@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useHandleLink, useLanguage } from "../utils/hooks";
 
 const PostFooter = ({ toggleOptions, toCommentPage, likesNumber, commentsNumber, handleLike, postId, like }) => {
-  const { isAuthenticated, id: userId } = useSelector((state) => state.user);
+  const { isAuthenticated } = useSelector((state) => state.user);
   const handleLink = useHandleLink();
   const userLanguage = useLanguage();
 

@@ -11,7 +11,7 @@ const ImgUploader = ({ profile, imgType, toggleImgUploadModal }) => {
   const [blob, setBlob] = useState(null);
   const [blobName, setBlobName] = useState(null);
   const file = useRef(null);
-  const { id, picUrl } = useSelector((state) => state.user);
+  const { id } = useSelector((state) => state.user);
   const { imgUrl } = useSelector((state) => state.posts.currentPost);
   const { pathname } = useLocation();
   const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const ImgUploader = ({ profile, imgType, toggleImgUploadModal }) => {
       console.log("re-render");
       toggleImgUploadModal(e);
     },
-    [file.current, blob]
+    [blob, dispatch, id, imgType, profile, toggleImgUploadModal]
   );
 
   useEffect(() => {

@@ -2,13 +2,13 @@ import { RefreshIcon } from "@heroicons/react/solid";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Layout, Post, Skeleton } from "../components";
-import { clearTempPostImg, clearTempPreview, getPosts, getUsers } from "../store/actions/posts.action";
+import { clearTempPostImg, clearTempPreview, getPosts } from "../store/actions/posts.action";
 import { useLanguage } from "../utils/hooks";
 
 const Feed = () => {
   const [newUser, setNewUser] = useState(false);
   const user = useSelector((state) => state.user);
-  const { isAuthenticated, isNewUser } = useSelector((state) => state.user);
+  const { isNewUser } = useSelector((state) => state.user);
   const posts = useSelector((state) => state?.posts?.posts);
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
@@ -25,8 +25,7 @@ const Feed = () => {
     dispatch(clearTempPostImg());
     dispatch(clearTempPreview());
     dispatch(getPosts());
-    dispatch(getUsers());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Layout>

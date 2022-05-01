@@ -1,19 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { Aside, Menu, NavBar, NavBarDesktop, Overlay, SessionExpiredModal, VisitorModal } from ".";
-import { useLinkToProfile, useToggleSettings } from "../utils/hooks";
+import { useToggleSettings } from "../utils/hooks";
 
 const Layout = ({ children }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isExpired, setIsExpired] = useState(false);
 
   const sessionExpired = useSelector((state) => state?.posts?.sessionExpired);
-  const { id, username, isAuthenticated } = useSelector((state) => state.user);
 
-  const { pathname } = useLocation();
-  const dispatch = useDispatch();
-  const linkToProfile = useLinkToProfile(id, username);
   const { settingsOpen, toggleSettings } = useToggleSettings();
 
   useEffect(() => {

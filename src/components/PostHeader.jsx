@@ -6,7 +6,7 @@ import { useHandleLink } from "../utils/hooks";
 
 const PostHeader = ({ post }) => {
   const { title, date, username: authorName, picUrl, fk_userId_post } = post;
-  const { id, username: myName, isAuthenticated } = useSelector((state) => state.user);
+  const { id, username: myName } = useSelector((state) => state.user);
   const handleLink = useHandleLink();
 
   return (

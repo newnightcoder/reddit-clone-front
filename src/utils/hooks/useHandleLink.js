@@ -7,7 +7,7 @@ import useLinkToProfile from "./useLinkToProfile";
 
 const useHandleLink = () => {
   const visitorMessage = useRef("");
-  const { id, username, isAuthenticated } = useSelector((state) => state.user);
+  const { isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const linkToProfile = useLinkToProfile();
   const userLanguage = useLanguage();
@@ -52,6 +52,7 @@ const useHandleLink = () => {
       switch (link) {
         case "post":
           if (!isAuthenticated) return handleVisitorModal("post");
+          break;
         case "profile":
           if (!isAuthenticated) return handleVisitorModal("profile");
           return linkToProfile(userId, username);
@@ -64,6 +65,7 @@ const useHandleLink = () => {
         case "post-profile":
           if (!isAuthenticated) return handleVisitorModal("post-profile");
           linkToProfile(userId, username);
+          break;
         case "new-members":
           if (!isAuthenticated) return handleVisitorModal("new-members");
           return linkToProfile(userId, username);
@@ -72,14 +74,17 @@ const useHandleLink = () => {
           return linkToProfile(userId, username);
         case "like":
           if (!isAuthenticated) return handleVisitorModal("like");
+          break;
         case "comment":
           if (!isAuthenticated) return handleVisitorModal("comment");
+          break;
         case "delete":
           if (!isAuthenticated) return handleVisitorModal("delete");
+          break;
         default:
       }
     },
-    [visitorMessage.current, userLanguage]
+    [isAuthenticated, linkToProfile]
   );
 
   return handleLink;

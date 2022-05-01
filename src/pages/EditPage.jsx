@@ -31,55 +31,58 @@ const EditPage = () => {
     if (postToEdit.imgUrl) {
       dispatch(saveImageToEdit(postImgUrl));
     }
-  }, [postImgUrl]);
+  }, [postImgUrl, dispatch, postToEdit]);
 
   const handleEditTitleInput = useCallback((e) => {
     setPostTitle(e.currentTarget.value);
     setEmptyTitle(false);
-  });
+  }, []);
 
   const handleEditText = useCallback((e) => {
     setPostText(e.currentTarget.textContent);
     setEmptyTitle(false);
-  });
+  }, []);
 
-  const handleEditSubmit = useCallback((e) => {
-    e.preventDefault();
-    if (postTitle && postTitle.length === 0) return setEmptyTitle(true);
-    if (error.length !== 0) return setServerErrorMsg(error);
-    setServerErrorMsg("");
+  const handleEditSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (postTitle && postTitle.length === 0) return setEmptyTitle(true);
+      if (error.length !== 0) return setServerErrorMsg(error);
+      setServerErrorMsg("");
 
-    if (postToEdit !== undefined) {
-      dispatch(editPost("post", postId, postTitle, postText, currentPostImg));
-      history.push({ pathname: "/feed" });
-    }
-    if (commentToEdit !== undefined) {
-      dispatch(editPost("comment", commentId, postTitle, postText));
-      history.push({ pathname: `/comments/${postTitle}` });
-    }
-    if (replyToEdit !== undefined) {
-      dispatch(editPost("reply", replyId, postTitle, postText));
-      history.push({ pathname: `/comments/${postTitle}` });
-    }
-    console.log(postText);
-  });
+      if (postToEdit !== undefined) {
+        dispatch(editPost("post", postId, postTitle, postText, currentPostImg));
+        history.push({ pathname: "/feed" });
+      }
+      if (commentToEdit !== undefined) {
+        dispatch(editPost("comment", commentId, postTitle, postText));
+        history.push({ pathname: `/comments/${postTitle}` });
+      }
+      if (replyToEdit !== undefined) {
+        dispatch(editPost("reply", replyId, postTitle, postText));
+        history.push({ pathname: `/comments/${postTitle}` });
+      }
+      console.log(postText);
+    },
+    [postToEdit]
+  );
 
   const toggleImgUploadModal = useCallback((e) => {
     e.preventDefault();
     setGifModalOpen(false);
     setImgInputModalOpen((prev) => !prev);
-  });
+  }, []);
 
   const toggleGifModal = useCallback((e) => {
     e.preventDefault();
     setImgInputModalOpen(false);
     setGifModalOpen((prev) => !prev);
-  });
+  }, []);
 
   const toggleLinkModal = useCallback((e) => {
     e.preventDefault();
     setLinkModalOpen((prevState) => !prevState);
-  });
+  }, []);
 
   return (
     <>

@@ -45,19 +45,22 @@ const CreatePost = () => {
     setPostText(e.currentTarget.textContent);
   });
 
-  const handlePostSubmit = useCallback((e) => {
-    e.preventDefault();
-    if (title.length === 0) return setEmptyTitle(true);
-    if (serverError.length !== 0) return setServerErrorMsg(serverError);
-    setServerErrorMsg("");
-    if (!isAuthenticated) return handleLink("post");
-    dispatch(createPost(id, title, postText, createDate(), postImg && postImg, isPreview, preview));
-    dispatch(clearTempPostImg());
-    dispatch(clearTempPreview());
-    history.push({
-      pathname: "/feed",
-    });
-  });
+  const handlePostSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (title.length === 0) return setEmptyTitle(true);
+      if (serverError.length !== 0) return setServerErrorMsg(serverError);
+      setServerErrorMsg("");
+      if (!isAuthenticated) return handleLink("post");
+      dispatch(createPost(id, title, postText, createDate(), postImg && postImg, isPreview, preview));
+      dispatch(clearTempPostImg());
+      dispatch(clearTempPreview());
+      history.push({
+        pathname: "/feed",
+      });
+    },
+    [dispatch, title, postText, id, postImg, isPreview, preview]
+  );
 
   const toggleImgUploadModal = useCallback((e) => {
     e.preventDefault();

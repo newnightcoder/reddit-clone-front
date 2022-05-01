@@ -1,5 +1,5 @@
 import "draft-js/dist/Draft.css";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { ChatRight, HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteModal, Options, Reply, ReplyForm } from ".";
@@ -24,12 +24,12 @@ const Comment = ({ comment, postId }) => {
   const [emptyComError, setEmptyComError] = useState(false);
   const [serverErrorMsg, setServerErrorMsg] = useState("");
   const sameUserComment = [];
+  const replyTextRef = useRef();
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
 
   useEffect(() => {
     dispatch(getReplies());
-    dispatch(getReplies(commentId));
   }, [dispatch]);
 
   useEffect(() => {
@@ -52,50 +52,57 @@ const Comment = ({ comment, postId }) => {
 
   const toggleOptions = useCallback(() => {
     return setOptionsOpen((optionsOpen) => !optionsOpen);
-  }, []);
+  }, [optionsOpen]);
 
   const toggleDeleteModal = useCallback(() => {
     setOpenModal((openModal) => !openModal);
-  }, []);
+  }, [openModal]);
 
   const toggleReply = useCallback(() => {
     return setReplyOpen((replyOpen) => !replyOpen);
-  }, []);
+  }, [replyOpen]);
 
-  const handleLike = useCallback((commentId) => {
-    setLike((like) => !like);
-    switch (like) {
-      case false:
-        setLikesNumber(likesNumber + 1);
-        break;
-      case true:
-        setLikesNumber(likesNumber - 1);
-        break;
-      default:
-        break;
-    }
-    dispatch(likePost("comment", userId, commentId, like));
-  }, []);
+  const handleLike = useCallback(
+    (commentId) => {
+      setLike((like) => !like);
+      switch (like) {
+        case false:
+          setLikesNumber(likesNumber + 1);
+          break;
+        case true:
+          setLikesNumber(likesNumber - 1);
+          break;
+        default:
+          break;
+      }
+      dispatch(likePost("comment", userId, commentId, like));
+    },
+    [dispatch, like, likesNumber, userId]
+  );
 
   const handleChange = useCallback((e) => {
     setReplyText(e.target.value);
   }, []);
 
-  const handleReplySubmit = useCallback(async (e) => {
-    e.preventDefault();
-    if (replyText.length === 0) {
-      setEmptyComError(true);
-      return;
-    }
-    if (serverError.length !== 0) {
-      setServerErrorMsg(serverError);
-    }
-    dispatch(createReply(userId, commentId, replyText, createDate()));
-    setReplyOpen(false);
-    setTimeout(() => {
-      dispatch(getReplies(commentId));
-    }, 1000);
-  }, []);
+  const handleReplySubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      if (replyText.length === 0) {
+        setEmptyComError(true);
+        return;
+      }
+      if (serverError.length !== 0) {
+        setServerErrorMsg(serverError);
+      }
+      dispatch(createReply(userId, commentId, replyText, createDate()));
+      setReplyOpen(false);
+      replyTextRef.current.value = "";
+      setTimeout(() => {
+        dispatch(getReplies());
+      }, 1000);
+    },
+    [commentId, dispatch, replyText, serverError, userId]
+  );
 
   const handleDeletePost = useCallback(() => {
     dispatch(deletePost(commentId, "comment", postId));
@@ -103,7 +110,7 @@ const Comment = ({ comment, postId }) => {
     setTimeout(() => {
       setpostIsGone(true);
     }, 500);
-  }, []);
+  }, [commentId, dispatch, postId]);
 
   return (
     <>
@@ -176,14 +183,21 @@ const Comment = ({ comment, postId }) => {
         setReplyOpen={setReplyOpen}
         replyText={replyText}
         handleChange={handleChange}
+        replyTextRef={replyTextRef}
       />
       <div className="w-full bg-gray-100 flex flex-col items-end justify-center gap-2 py-2">
         {replies &&
-          replies.map((reply) => {
-            if (reply.fk_commentId === commentId) {
-              return <Reply key={reply.replyId} reply={reply} toggleOptions={toggleOptions} optionsOpen={optionsOpen} />;
-            }
-          })}
+          replies
+            .sort((a, b) => {
+              if (a.replyId > b.replyId) {
+                return -1;
+              } else return 1;
+            })
+            .map((reply) => {
+              if (reply.fk_commentId === commentId) {
+                return <Reply key={reply.replyId} reply={reply} toggleOptions={toggleOptions} optionsOpen={optionsOpen} />;
+              } else return null;
+            })}
       </div>
     </>
   );

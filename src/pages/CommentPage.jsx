@@ -23,6 +23,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
   const dispatch = useDispatch();
   const { height, width } = useWindowSize();
   const container = useRef();
+  const commentTextRef = useRef();
   const containerSize = container?.current?.getBoundingClientRect();
 
   const getRelatedComments = useCallback(
@@ -40,13 +41,16 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
         });
       return relatedComments;
     },
-    [postId]
+    [comments, postId]
   );
 
   useEffect(() => {
     dispatch(getComments());
-    dispatch(getReplies());
   }, [dispatch, postId]);
+
+  useEffect(() => {
+    dispatch(getReplies());
+  }, []);
 
   useEffect(() => {
     setCommentsToDisplay(getRelatedComments(postId));
@@ -57,24 +61,30 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
   }, [serverError]);
 
   const handleChange = useCallback((e) => {
+    console.log();
     setCommentText(e.target.value);
     setEmptyComError(false);
   }, []);
 
-  const handleCommentSubmit = useCallback(async (e) => {
-    e.preventDefault();
-    if (commentText.length === 0) {
-      setEmptyComError(true);
-      return;
-    }
-    if (serverError.length !== 0) {
-      setServerErrorMsg(serverError);
-    }
-    dispatch(createComment(userId, postId, commentText, createDate()));
-    setTimeout(() => {
-      dispatch(getComments());
-    }, 1000);
-  }, []);
+  const handleCommentSubmit = useCallback(
+    async (e) => {
+      e.preventDefault();
+      if (commentText.length === 0) {
+        setEmptyComError(true);
+        return;
+      }
+      if (serverError.length !== 0) {
+        setServerErrorMsg(serverError);
+      }
+      dispatch(createComment(userId, postId, commentText, createDate()));
+      commentTextRef.current.value = "";
+      setTimeout(() => {
+        dispatch(getComments());
+        console.log("commentText", commentText);
+      }, 1000);
+    },
+    [dispatch, commentText, serverError]
+  );
 
   return (
     <Layout>
@@ -106,7 +116,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
           >
             {commentText.length === 0 ? emptyComErrorMsg : serverErrorMsg}
           </div>
-          <CommentForm handleChange={handleChange} handleCommentSubmit={handleCommentSubmit} />
+          <CommentForm handleChange={handleChange} handleCommentSubmit={handleCommentSubmit} commentTextRef={commentTextRef} />
           <div className="comments-container w-full flex flex-col items-center justify-center ">
             {commentsToDisplay.length === 0 ? (
               <>

@@ -201,7 +201,7 @@ export const likePost = (origin, userId, id, like) => async (dispatch) => {
     body: JSON.stringify({ origin, userId, id, like }),
   };
   try {
-    const response = await fetch(`${API_POST}/like`, request);
+    const response = await fetch(`${API_AUTH}/like`, request);
     const data = await response.json();
     console.log(data);
     const { liked, sessionExpired } = data;
@@ -209,10 +209,7 @@ export const likePost = (origin, userId, id, like) => async (dispatch) => {
       dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
       return;
     }
-    dispatch({
-      type: LIKE_POST,
-      payload: { liked },
-    });
+    dispatch({ type: LIKE_POST, payload: liked });
   } catch (error) {
     dispatch({ type: SET_ERROR_USER, payload: error.message });
   }

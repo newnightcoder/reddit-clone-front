@@ -8,7 +8,7 @@ import { history } from "../utils/helpers";
 import { useHandleLink, useLanguage, useWindowSize } from "../utils/hooks";
 
 const NavBar = ({ toggleMenu }) => {
-  const { height, width } = useWindowSize();
+  const { width } = useWindowSize();
   const { isAuthenticated, picUrl, username, id, darkMode } = useSelector((state) => state.user);
   const handleLink = useHandleLink();
   const userLanguage = useLanguage();
@@ -98,7 +98,7 @@ const NavBar = ({ toggleMenu }) => {
               }
             ></div>
             <div className="flex flex-col items-start">
-              <span className="text-xs underline">{userLanguage.navbar.connected}</span>
+              <span className="text-xs underline whitespace-nowrap">{userLanguage.navbar.connected}</span>
               <span className="capitalize font-bold whitespace-nowrap">{username ? username : userLanguage.navbar.visitor}</span>
             </div>
           </button>

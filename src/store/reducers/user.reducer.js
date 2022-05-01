@@ -1,7 +1,7 @@
 import { PURGE } from "redux-persist";
 import { actionType } from "../constants.js";
 
-const initialState = {
+const userState = {
   id: null,
   email: "",
   username: "",
@@ -21,7 +21,7 @@ const initialState = {
   currentComment: {
     postId: null,
   },
-  liked: null,
+  liked: false,
   currentCommentsCount: null,
   currentProfileVisit: {},
   sessionExpired: false,
@@ -53,7 +53,7 @@ const {
   SESSION_EXPIRED,
 } = actionType;
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = userState, action) => {
   switch (action.type) {
     case TOGGLE_VISITOR: {
       const toggle = !state.isVisitor;
@@ -68,9 +68,9 @@ export const userReducer = (state = initialState, action) => {
       };
     }
 
-    case SET_LANGUAGE: {
+    case SET_LANGUAGE:
       return { ...state, language: action.payload };
-    }
+
     case LOG_USER: {
       const { id, email, username, picUrl, creationDate, role } = action.payload.user;
       const { isNewUser, accessToken } = action.payload;
@@ -86,37 +86,35 @@ export const userReducer = (state = initialState, action) => {
         accessToken,
       };
     }
-    case LOGIN_SUCCESS: {
+    case LOGIN_SUCCESS:
       return {
         ...state,
         isAuthenticated: true,
       };
-    }
-    case LOGIN_FAIL: {
+
+    case LOGIN_FAIL:
       return {
         ...state,
         isAuthenticated: false,
       };
-    }
+
     case CREATE_USER:
       return {
         ...state,
         id: action.payload,
       };
 
-    case USER_CREATED: {
+    case USER_CREATED:
       return {
         ...state,
         userCreated: true,
       };
-    }
 
-    case USER_FAIL: {
+    case USER_FAIL:
       return {
         ...state,
         userCreated: false,
       };
-    }
 
     case ADD_USERNAME: {
       const { username, email, creationDate, isNewUser, role } = action.payload;
@@ -139,33 +137,33 @@ export const userReducer = (state = initialState, action) => {
         },
       };
     }
-    case USERNAME_ADDED: {
+    case USERNAME_ADDED:
       return {
         ...state,
         usernameAdded: true,
       };
-    }
-    case USERNAME_FAIL: {
+
+    case USERNAME_FAIL:
       return {
         ...state,
         usernameAdded: false,
       };
-    }
-    case SAVE_USERPIC:
+
+    case SAVE_USERPIC: {
       const { picUrl, imgType } = action.payload;
       return {
         ...state,
         picUrl: imgType === "pic" ? picUrl : state.picUrl,
         bannerUrl: imgType === "banner" ? picUrl : state.bannerUrl,
       };
+    }
 
-    case LIKE_POST: {
-      const { liked } = action.payload;
+    case LIKE_POST:
+      // return state;
       return {
         ...state,
-        liked,
+        liked: action.payload,
       };
-    }
 
     case TO_COMMENT:
       return {
@@ -174,13 +172,13 @@ export const userReducer = (state = initialState, action) => {
           postId: action.payload,
         },
       };
-    case CREATE_COMMENT:
+    case CREATE_COMMENT: {
       const { count } = action.payload;
       return {
         ...state,
         currentCommentsCount: count,
       };
-
+    }
     case GET_USER_PROFILE:
       return {
         ...state,
@@ -195,7 +193,7 @@ export const userReducer = (state = initialState, action) => {
     case DELETE_USER:
       return {
         ...state,
-        state: initialState,
+        state: userState,
       };
     case CLEAR_ERROR_USER:
       return {
@@ -207,11 +205,11 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         error: action.payload,
       };
-    case SESSION_EXPIRED: {
-      return { ...state, sessionExpired: action.payload };
-    }
+    // case SESSION_EXPIRED:
+    //   return { ...state, sessionExpired: action.payload };
+
     case PURGE:
-      return initialState;
+      return userState;
     default:
       return state;
   }

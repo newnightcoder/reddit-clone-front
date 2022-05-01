@@ -3,7 +3,7 @@ import React from "react";
 import { Image, Youtube } from "react-bootstrap-icons";
 import { useLanguage } from "../utils/hooks";
 
-const ReplyForm = ({ handleReplySubmit, replyOpen, setReplyOpen, replyText, handleChange }) => {
+const ReplyForm = ({ handleReplySubmit, replyOpen, setReplyOpen, replyTextRef, handleChange }) => {
   const userLanguage = useLanguage();
 
   return (
@@ -16,6 +16,7 @@ const ReplyForm = ({ handleReplySubmit, replyOpen, setReplyOpen, replyText, hand
         <div className="h-max w-full flex flex-col items-center justify-start border border-gray-300 hover:border-gray-500 rounded">
           <div className="editor-container w-full overflow-y-auto h-32  rounded-t">
             <textarea
+              ref={replyTextRef}
               className="w-full h-full p-3 focus:outline-none bg-gray-100 hover:bg-white active:bg-white focus:bg-white"
               onChange={handleChange}
               placeholder={userLanguage.commentPage.replyForm.placeholder}
