@@ -33,15 +33,18 @@ const StepUsername = () => {
         setIsLong(true);
       } else setIsLong(false);
     },
-    [setUserName]
+    [setUserName, userName]
   );
 
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
-    console.log("working babe");
-    dispatch(saveUserName(userId, userName, date));
-    if (!usernameAdded) return;
-  }, []);
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      console.log("working babe");
+      dispatch(saveUserName(userId, userName, date));
+      // if (!usernameAdded) return;
+    },
+    [userName]
+  );
 
   return (
     <Div100vh

@@ -1,5 +1,6 @@
 export { default as apple } from "./Apple-store-icon.png";
 export { default as bannerPlaceholder } from "./banner-placeholder.svg";
+export { default as bye } from "./bye.gif";
 export { default as logo_mobile_blue } from "./feather-blue.svg";
 export { default as logo_mobile } from "./feather.svg";
 export { default as logo_blue } from "./forum-logo-blue.svg";

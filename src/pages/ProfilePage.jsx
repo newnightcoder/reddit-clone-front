@@ -68,7 +68,7 @@ const Profile = () => {
       ) : (
         <Layout>
           <div
-            className="page-container h-full w-full md:w-2/3 flex items-start md:items-center justify-center rounded-md"
+            className="page-container h-full w-full  flex items-start md:items-center justify-center md:rounded-md"
             style={{ minHeight: "calc(100vh - 4rem)" }}
           >
             {userData === undefined || !userData ? (
@@ -84,7 +84,7 @@ const Profile = () => {
                       bannerUrl ? bannerUrl : userData.bannerUrl ? userData.bannerUrl : bannerPlaceholder
                     }) no-repeat center/cover`,
                   }}
-                  className="top-section relative h-48 w-full pb-2 flex flex-col items-center justify-center gap-2 rounded-tl-md rounded-tr-md"
+                  className="top-section relative h-48 w-full pb-2 flex flex-col items-center justify-center gap-2 md:rounded-tl-md md:rounded-tr-md"
                 >
                   {profileId === id && (
                     <button

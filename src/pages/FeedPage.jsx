@@ -30,7 +30,7 @@ const Feed = () => {
   return (
     <Layout>
       <div className="feed-container h-full w-full shrink flex flex-col items-center justify-start gap-2 transition duration-500 relative">
-        <div className="h-16 flex items-center justify-center border border-red-500 bienvenueMsg-newcomer text-center whitespace-pre mb-2">
+        <div className="bienvenueMsg-newcomer h-16 flex items-center justify-center text-center whitespace-pre mb-2">
           {newUser ? (
             <span className="font-bold">
               {userLanguage?.feed.greetingVisitor1} <span className="capitalize">{user.username}!</span>

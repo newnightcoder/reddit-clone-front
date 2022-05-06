@@ -100,6 +100,7 @@ export const createUser = (email, password) => async (dispatch) => {
 
 export const saveUserName = (id, username, creationDate) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_USER });
+  console.log("i'm here");
   const request = {
     headers: {
       "Access-Control-Allow-Origin": "*",
