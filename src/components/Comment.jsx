@@ -28,16 +28,16 @@ const Comment = ({ comment, postId }) => {
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
 
-  useEffect(() => {
-    dispatch(getReplies());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getReplies());
+  // }, [dispatch]);
 
   useEffect(() => {
     setLikesNumber(likesCount);
   }, [likesCount]);
 
   useEffect(() => {
-    likes.map((like) => {
+    likes?.map((like) => {
       if (like.fk_userId_like === userId && like.fk_commentId_like === commentId) {
         return sameUserComment.push(like.fk_commentId_like);
       }
@@ -48,7 +48,7 @@ const Comment = ({ comment, postId }) => {
         setLike(true);
       }
     });
-  }, [commentId, likes, userId]);
+  }, [commentId, likes, userId, sameUserComment]);
 
   const toggleOptions = useCallback(() => {
     return setOptionsOpen((optionsOpen) => !optionsOpen);
@@ -158,12 +158,12 @@ const Comment = ({ comment, postId }) => {
               <ChatRight size={14} />
               <span className="capitalize">{userLanguage.commentPage.comment.reply}</span>
             </button>
-            <div className="w-max flex items-center justify-center">
-              <button className="outline-none" onClick={() => handleLike(commentId)}>
+            <button className="outline-none w-max flex items-center justify-center" onClick={() => handleLike(commentId)}>
+              <span className="">
                 {like ? <HandThumbsUpFill size={14} /> : <HandThumbsUp size={14} className="font-weight-bold" />}
-              </button>
+              </span>
               <span className="w-4 text-center">{likesNumber}</span>
-            </div>
+            </button>
             <button className="w-max flex items-center justify-center gap-1" onClick={toggleOptions}>
               <ThreeDotsVertical />
             </button>

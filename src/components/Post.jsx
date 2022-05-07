@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { DeleteModal, Options, PostFooter, PostHeader } from ".";
 import "../index.css";
 import { deletePost } from "../store/actions/posts.action";
@@ -24,9 +25,8 @@ const Post = ({ post, aside }) => {
     previewPubLogo,
     previewUrl,
   } = post;
-  const lastPostAdded = useSelector((state) => state.posts.lastPostAdded);
-  const userId = useSelector((state) => state.user.id);
-  const role = useSelector((state) => state?.user.role);
+  const { lastPostAdded, likes: allLikes } = useSelector((state) => state.posts);
+  const { id: userId, role, liked } = useSelector((state) => state.user);
   const [likesNumber, setLikesNumber] = useState(likesCount);
   const [commentsNumber, setcommentsNumber] = useState(commentCount);
   const [like, setLike] = useState(false);
@@ -34,9 +34,9 @@ const Post = ({ post, aside }) => {
   const [postIsGone, setpostIsGone] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const allLikes = useSelector((state) => state.posts.likes);
-  const sameUser = [];
+  const [sameUser, setSameUser] = useState([]);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const toggleOptions = useCallback(() => {
     return setOptionsOpen((optionsOpen) => !optionsOpen);
@@ -73,32 +73,45 @@ const Post = ({ post, aside }) => {
   }, [like, likesNumber]);
 
   const handleLike = useCallback(
-    (postId) => {
+    async (postId) => {
       setLike((prevState) => !prevState);
       updateLikesNumber();
       dispatch(likePost("post", userId, postId, like));
     },
-    [like, dispatch]
+    [setLike, like, dispatch, updateLikesNumber]
   );
-
-  useEffect(() => {
-    allLikes.map((like) => {
-      if (like.fk_userId_like === userId && like.fk_postId_like === postId) {
-        return sameUser.push(like.fk_postId_like);
-      }
-      return sameUser;
-    });
-    sameUser.forEach((id) => {
-      if (id === postId) {
-        setLike(true);
-      }
-    });
-  }, [postId, allLikes, userId]);
 
   useEffect(() => {
     setLikesNumber(likesCount);
     setcommentsNumber(commentCount);
   }, [likesCount, commentCount]);
+
+  useEffect(() => {
+    const sameUserLikes = [];
+    allLikes?.map((like) => {
+      if (like.fk_userId_like === userId && like.fk_postId_like === postId) {
+        sameUserLikes.push(like.fk_postId_like);
+      }
+      return setSameUser(sameUserLikes);
+    });
+    if (sameUser.length !== 0) {
+      sameUser.forEach((id) => {
+        if (id === postId) {
+          return setLike(true);
+        }
+      });
+    }
+  }, [allLikes, location.pathname]);
+
+  // useEffect(() => {
+  //   if (sameUser.length !== 0) {
+  //     sameUser.forEach((id) => {
+  //       if (id === postId) {
+  //         return setLike(true);
+  //       }
+  //     });
+  //   }
+  // }, [allLikes, sameUser]);
 
   return (
     <div

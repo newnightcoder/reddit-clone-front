@@ -27,7 +27,7 @@ const Reply = ({ reply }) => {
   }, [likesCount]);
 
   useEffect(() => {
-    likes.map((like) => {
+    likes?.map((like) => {
       if (like.fk_userId_like === userId && like.fk_replyId_like === replyId) {
         return sameUserReply.push(like.fk_replyId_like);
       }

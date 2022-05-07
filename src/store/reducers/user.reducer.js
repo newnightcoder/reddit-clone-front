@@ -159,7 +159,6 @@ export const userReducer = (state = userState, action) => {
     }
 
     case LIKE_POST:
-      // return state;
       return {
         ...state,
         liked: action.payload,
@@ -205,8 +204,8 @@ export const userReducer = (state = userState, action) => {
         ...state,
         error: action.payload,
       };
-    // case SESSION_EXPIRED:
-    //   return { ...state, sessionExpired: action.payload };
+    case SESSION_EXPIRED:
+      return { ...state, sessionExpired: action.payload };
 
     case PURGE:
       return userState;

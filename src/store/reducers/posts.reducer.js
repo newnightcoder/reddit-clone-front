@@ -55,10 +55,10 @@ export const postsReducer = (state = initialState, action) => {
 
       return { ...state, posts: postsInOrder, likes };
     }
-    // case GET_LIKES: {
-    //   const { likes } = action.payload;
-    //   return { ...state, likes };
-    // }
+    case GET_LIKES: {
+      const { likes } = action.payload;
+      return { ...state, likes };
+    }
     case GET_USERS: {
       const { users } = action.payload;
       return { ...state, users };
@@ -106,8 +106,8 @@ export const postsReducer = (state = initialState, action) => {
     case CLEAN_PROFILE_POSTS:
       return { ...state, userPosts: [] };
 
-    // case SESSION_EXPIRED:
-    //   return { ...state, sessionExpired: action.payload };
+    case SESSION_EXPIRED:
+      return { ...state, sessionExpired: action.payload };
 
     case PURGE:
       return initialState;

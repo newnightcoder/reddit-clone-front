@@ -3,11 +3,11 @@ import "draft-js/dist/Draft.css";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Comment, CommentForm, Layout, Post } from "../components";
-import { getComments, getReplies } from "../store/actions/posts.action";
+import { getComments, getLikes, getReplies } from "../store/actions/posts.action";
 import { createComment } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
 import { createDate } from "../utils/helpers/formatTime";
-import { useLanguage, useWindowSize } from "../utils/hooks";
+import { useLanguage } from "../utils/hooks";
 
 const CommentPage = ({ toggleDeleteModal, openModal }) => {
   const userLanguage = useLanguage();
@@ -21,7 +21,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
   const [emptyComError, setEmptyComError] = useState(false);
   const [commentText, setCommentText] = useState("");
   const dispatch = useDispatch();
-  const { height, width } = useWindowSize();
+  // const { height, width } = useWindowSize();
   const container = useRef();
   const commentTextRef = useRef();
   const containerSize = container?.current?.getBoundingClientRect();
@@ -50,6 +50,10 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
 
   useEffect(() => {
     dispatch(getReplies());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getLikes());
   }, []);
 
   useEffect(() => {
@@ -90,7 +94,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
     <Layout>
       <div
         ref={container}
-        className="min-h-screen w-full flex flex-col items-center justify-center relative pb-8 overflow-x-hidden"
+        className="min-h-screen w-full flex flex-col items-center justify-start relative pb-8 overflow-x-hidden"
       >
         <div className=" back-container h-16 w-full relative z-50 flex items-center justify-center space-x-2">
           <div

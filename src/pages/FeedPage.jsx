@@ -8,7 +8,7 @@ import { useLanguage } from "../utils/hooks";
 const Feed = () => {
   const [newUser, setNewUser] = useState(false);
   const user = useSelector((state) => state.user);
-  const { isNewUser } = useSelector((state) => state.user);
+  const { isNewUser, liked } = useSelector((state) => state.user);
   const posts = useSelector((state) => state?.posts?.posts);
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
@@ -26,6 +26,10 @@ const Feed = () => {
     dispatch(clearTempPreview());
     dispatch(getPosts());
   }, [dispatch]);
+
+  // useEffect(() => {
+  //   dispatch(getLikes());
+  // }, [liked]);
 
   return (
     <Layout>
