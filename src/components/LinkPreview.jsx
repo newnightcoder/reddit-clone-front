@@ -21,7 +21,7 @@ const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previe
           {title ? title : previewTitle}
         </a>
         <a href={previewUrl} target="_blank" rel="noreferrer" className="w-full px-4 leading-4 hover:underline">
-          {description ? description : previewText}
+          {description ? `${description.substr(0, 100)}...` : `${previewText.substr(0, 100)}...`}
         </a>
       </div>
       <div className="w-full px-4 flex items-center justify-between space-x-1 text-gray-500 dark:text-gray-300 text-xs">
@@ -31,12 +31,13 @@ const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previe
           rel="noreferrer"
           className="w-max flex items-center justify-start space-x-1 cursor-pointer hover:underline"
         >
-          <LinkIcon size={18} style={{ transform: "translateY(-0.03rem)" }} /> <span>{publisher ? publisher : previewPub}</span>
+          <LinkIcon size={18} style={{ transform: "translateY(-0.03rem)" }} />{" "}
+          <span>{publisher ? publisher : previewPub ? previewPub : "Go to article"}</span>
         </a>
         {logo ? (
           <img src={logo} width="25" alt="publication logo" />
         ) : (
-          previewPubLogo !== "null" && <img src={previewPubLogo} width="25" alt="publication logo" />
+          previewPubLogo && <img src={previewPubLogo} width="25" alt="publication logo" />
         )}
       </div>
     </div>

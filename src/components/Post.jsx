@@ -147,9 +147,8 @@ const Post = ({ post, aside }) => {
               <img
                 src={imgUrl}
                 alt={imgUrl.includes(".gif") ? "gif" : "picture"}
-                className="rounded"
+                className="rounded w-auto"
                 style={{
-                  width: imgUrl.includes(".gif") ? "100%" : "auto",
                   height: imgUrl.includes(".gif") ? "auto" : "100%",
                   maxHeight: "500px",
                 }}

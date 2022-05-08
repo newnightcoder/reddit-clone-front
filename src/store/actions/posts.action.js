@@ -226,7 +226,7 @@ export const createPost = (userId, title, text, date, imgUrl, isPreview, preview
   }
 };
 
-export const editPost = (origin, id, title, text, imgUrl) => async (dispatch) => {
+export const editPost = (origin, id, title, text, imgUrl, isPreview, preview) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
   const accessToken = localStorage.getItem("jwt");
   console.log("token", accessToken);
@@ -237,7 +237,7 @@ export const editPost = (origin, id, title, text, imgUrl) => async (dispatch) =>
       Authorization: `Bearer ${accessToken}`,
     },
     method: "POST",
-    body: JSON.stringify({ origin, id, title, text, imgUrl }),
+    body: JSON.stringify({ origin, id, title, text, imgUrl, isPreview, preview }),
   };
   try {
     const response = await fetch(`${API_POST}/edit`, request);

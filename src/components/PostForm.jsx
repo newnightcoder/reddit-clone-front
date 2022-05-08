@@ -1,9 +1,9 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Image, Link45deg, XLg } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
+// import { useLocation } from "react-router";
+import { Link, useLocation } from "react-router-dom";
 import { giphyDark } from "../assets";
 import { clearTempPostImg } from "../store/actions/posts.action";
 import { useLanguage, useWindowSize } from "../utils/hooks";
@@ -20,15 +20,19 @@ const PostForm = ({
   postToEdit,
   postTitle,
   postText,
-  postImgUrl,
+  setIsPreview,
   handleEditSubmit,
   handleEditTitleInput,
   handleEditText,
 }) => {
   const currentPostImgUrl = useSelector((state) => state.posts.currentPost.imgUrl);
   const scrapedPost = useSelector((state) => state.posts.scrapedPost);
+  const [imgDom, setImgDom] = useState(null);
   const { pathname } = useLocation();
   const { width } = useWindowSize();
+  const dispatch = useDispatch();
+  const userLanguage = useLanguage();
+
   const isObjectEmpty = useCallback((obj) => {
     for (let prop in obj) {
       return false;
@@ -36,24 +40,28 @@ const PostForm = ({
     return true;
   }, []);
 
-  const imgDom = currentPostImgUrl ? (
-    <img id="postImg" src={currentPostImgUrl} alt="" className="h-max rounded" style={{ maxHeight: "500px" }} />
-  ) : !isObjectEmpty(scrapedPost) ? (
-    <LinkPreview />
-  ) : postToEdit && postToEdit.imgUrl ? (
-    <img id="postImg" src={postToEdit.imgUrl || postToEdit.previewImg} alt="" className="h-max rounded" />
-  ) : postToEdit && postToEdit.isPreview === 1 ? (
-    <LinkPreview
-      previewTitle={postToEdit.previewTitle}
-      previewText={postToEdit.previewText}
-      previewImg={postToEdit.previewImg}
-      previewPub={postToEdit.previewPub}
-      previewPubLogo={postToEdit.previewPubLogo}
-    />
-  ) : null;
+  const deletePreview = () => {
+    setImgDom(null);
+    setIsPreview(0);
+  };
 
-  const dispatch = useDispatch();
-  const userLanguage = useLanguage();
+  useEffect(() => {
+    if (currentPostImgUrl.length !== 0) {
+      setImgDom(<img id="postImg" src={currentPostImgUrl} alt="" className="h-max rounded" style={{ maxHeight: "500px" }} />);
+    } else if (!isObjectEmpty(scrapedPost)) {
+      setImgDom(<LinkPreview />);
+    } else if (postToEdit && postToEdit.isPreview === 1) {
+      setImgDom(
+        <LinkPreview
+          previewTitle={postToEdit.previewTitle}
+          previewText={postToEdit.previewText}
+          previewImg={postToEdit.previewImg}
+          previewPub={postToEdit.previewPub}
+          previewPubLogo={postToEdit.previewPubLogo}
+        />
+      );
+    } else setImgDom(null);
+  }, [currentPostImgUrl, postToEdit, scrapedPost]);
 
   return (
     <form
@@ -70,11 +78,11 @@ const PostForm = ({
         >
           <span className="hidden md:inline-block text-xs capitalize">{userLanguage.createPost.cancelBtn}</span> <XLg size={12} />
         </Link>
-        {currentPostImgUrl ? (
+        {currentPostImgUrl || postToEdit?.isPreview === 1 ? (
           <button
             onClick={(e) => {
               e.preventDefault();
-              currentPostImgUrl && dispatch(clearTempPostImg());
+              currentPostImgUrl ? dispatch(clearTempPostImg()) : postToEdit?.isPreview === 1 && deletePreview();
             }}
             className="h-8 w-max rounded-full px-2  border whitespace-wrap text-xs text-gray-500 flex items-center justify-end text-right"
           >

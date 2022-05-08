@@ -19,6 +19,8 @@ const EditPage = () => {
   const [postText, setPostText] = useState(postToEdit && postToEdit.text);
   const [postImgUrl, setPostImgUrl] = useState(postToEdit && postToEdit.imgUrl);
   const [emptyTitle, setEmptyTitle] = useState(false);
+  const [isPreview, setIsPreview] = useState(0);
+  const preview = useSelector((state) => state.posts.scrapedPost);
   const [imgInputModalOpen, setImgInputModalOpen] = useState(false);
   const [gifModalOpen, setGifModalOpen] = useState(false);
   const [linkModalOpen, setLinkModalOpen] = useState(false);
@@ -26,12 +28,22 @@ const EditPage = () => {
   const currentPostImg = useSelector((state) => state.posts.currentPost.imgUrl);
   const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
   const dispatch = useDispatch();
+  const isObjectEmpty = useCallback((obj) => {
+    for (let prop in obj) {
+      return false;
+    }
+    return true;
+  }, []);
 
   useEffect(() => {
     if (postToEdit.imgUrl) {
       dispatch(saveImageToEdit(postImgUrl));
     }
   }, [postImgUrl, dispatch, postToEdit]);
+
+  useEffect(() => {
+    if (!isObjectEmpty(preview)) setIsPreview(1);
+  }, [preview]);
 
   const handleEditTitleInput = useCallback((e) => {
     setPostTitle(e.currentTarget.value);
@@ -51,7 +63,7 @@ const EditPage = () => {
       setServerErrorMsg("");
 
       if (postToEdit !== undefined) {
-        dispatch(editPost("post", postId, postTitle, postText, currentPostImg));
+        dispatch(editPost("post", postId, postTitle, postText, currentPostImg, isPreview, preview));
         history.push({ pathname: "/feed" });
       }
       if (commentToEdit !== undefined) {
@@ -64,7 +76,7 @@ const EditPage = () => {
       }
       console.log(postText);
     },
-    [postToEdit]
+    [dispatch, postToEdit, postId, postTitle, postText, currentPostImg]
   );
 
   const toggleImgUploadModal = useCallback((e) => {
@@ -106,11 +118,13 @@ const EditPage = () => {
                 postToEdit={postToEdit}
                 postTitle={postTitle}
                 postText={postText}
-                postImgUrl={postImgUrl}
                 handleEditTitleInput={handleEditTitleInput}
                 handleEditText={handleEditText}
                 handleEditSubmit={handleEditSubmit}
+                toggleGifModal={toggleGifModal}
+                toggleLinkModal={toggleLinkModal}
                 toggleImgUploadModal={toggleImgUploadModal}
+                setIsPreview={setIsPreview}
               />
             </div>
             <ImgUploadModal imgInputModalOpen={imgInputModalOpen} toggleImgUploadModal={toggleImgUploadModal} />
