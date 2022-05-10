@@ -33,6 +33,11 @@ const CreatePost = () => {
   }, []);
 
   useEffect(() => {
+    dispatch(clearTempPostImg());
+    dispatch(clearTempPreview());
+  }, []);
+
+  useEffect(() => {
     if (!isObjectEmpty(preview)) setIsPreview(1);
   }, [preview]);
 
@@ -91,8 +96,8 @@ const CreatePost = () => {
           <div className="w-full h-full flex items-start justify-center space-x-8">
             <div className="h-max w-full md:max-w-2xl flex flex-col items-center justify-center">
               <div
-                className="error h-12 w-10/12 md:w-1/2 xl:w-1/3 whitespace-pre bg-black text-white text-sm text-center py-1 rounded"
-                style={{ display: emptyTitle ? "block" : "none" }}
+                className="error md:absolute md:top-0 h-12 w-full md:w-1/2 xl:w-1/3 items-center justify-center bg-black text-white text-sm py-1 rounded mb-4"
+                style={{ display: emptyTitle || serverError ? "flex" : "none" }}
               >
                 {emptyTitle && emptyTitleError}
                 {serverError.length !== 0 && serverErrorMsg}

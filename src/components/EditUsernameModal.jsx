@@ -3,33 +3,35 @@ import { useDispatch, useSelector } from "react-redux";
 import { editUsername } from "../store/actions/user.action";
 import { useLanguage } from "../utils/hooks";
 
-const EditModal = ({ toggleEditModal, openEditModal }) => {
-  const { id: userId, error } = useSelector((state) => state.user);
-  const [username, setUsername] = useState("");
+const EditUsernameModal = ({ toggleEditModal, openEditModal }) => {
+  const { id: userId, error, usernameAdded } = useSelector((state) => state.user);
+  const [newUsername, setNewUsername] = useState("");
+  const [errorDuplicate, setErrorDuplicate] = useState("");
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
 
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      dispatch(editUsername(userId, username));
-      if (error.length !== 0) return;
-      toggleEditModal();
+      if (newUsername === "") return;
+      dispatch(editUsername(userId, newUsername));
+      // if (error.length !== 0) return;
+      if (usernameAdded) toggleEditModal();
     },
-    [username, error, dispatch, toggleEditModal, userId]
+    [newUsername, error, dispatch, usernameAdded, toggleEditModal, userId]
   );
 
   const handleChange = useCallback(
     (e) => {
-      console.log(e.currentTarget.value);
-      setUsername(e.currentTarget.value);
+      if (error.length !== 0) setErrorDuplicate("");
+      setNewUsername(e.currentTarget.value);
     },
-    [setUsername]
+    [setNewUsername, setErrorDuplicate, errorDuplicate]
   );
 
   return (
     <div
-      className="w-full h-full flex items-center justify-center absolute top-0 inset-0 items-center justify-center rounded-tl rounded-tr bg-gray-800 opacity-90 text-gray-100 text-sm"
+      className="w-full h-full flex items-center justify-center absolute top-0 inset-0 items-center justify-center rounded-tl rounded-tr bg-gray-800 text-gray-100 text-sm"
       style={{ zIndex: 100 }}
     >
       <form className="w-10/12 md:w-1/2 flex flex-col items-center justify-center space-y-2" onSubmit={handleSubmit}>
@@ -37,7 +39,7 @@ const EditModal = ({ toggleEditModal, openEditModal }) => {
           {userLanguage.editModal.newUsername}:
         </label>
         <span
-          className="whitespace-wrap w-10/12 md:text-center h-max py-2 px-3 bg-black text-white border border-red-700 rounded"
+          className="whitespace-pre w-10/12 md:text-center h-max py-2 px-3 bg-black text-white text-center border border-red-700 rounded"
           style={error.length !== 0 ? { visibility: "visible" } : { visibility: "hidden" }}
         >
           {error}
@@ -67,4 +69,4 @@ const EditModal = ({ toggleEditModal, openEditModal }) => {
   );
 };
 
-export default EditModal;
+export default EditUsernameModal;

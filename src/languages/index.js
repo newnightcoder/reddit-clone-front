@@ -184,7 +184,7 @@ const language = {
     },
     previewLinkModal: {
       label:
-        "Paste the link to any article: stackoverflow, huffington post, guardian, nytimes, a blog, or article you want to share...",
+        "Paste the link to any article: Stackoverflow, Huffington Post, The Guardian, NYTtimes, a blog, or any article you want to share...",
       placeholder: "Paste link",
       ok: "ok",
     },
@@ -398,7 +398,7 @@ const language = {
     },
     previewLinkModal: {
       label:
-        "Ajouter un lien vers un article: stackoverflow, huffingtonpost, le figaro, le monde, un blog, ou tout ce que vous voulez...",
+        "Ajouter un lien vers un article: Stackoverflow, Le Monde, Le Figaro, Mediapart, un blog, ou tout ce que vous voulez...",
       placeholder: "Coller le lien",
       ok: "valider",
     },

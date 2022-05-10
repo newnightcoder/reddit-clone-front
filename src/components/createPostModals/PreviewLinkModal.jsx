@@ -21,7 +21,7 @@ const PreviewLinkModal = ({ linkModalOpen, toggleLinkModal }) => {
       style={{ opacity: linkModalOpen ? 1 : 0, zIndex: linkModalOpen ? 1500 : -1 }}
       className="fixed w-full md:w-2/3 inset-0 m-auto h-full flex flex-col items-center justify-center space-y-4 bg-black text-white transition-opacity duration-300 overflow-y-auto"
     >
-      <span className="inline-block text-sm w-2/3">{userLanguage.previewLinkModal.label}</span>
+      <span className="inline-block md:text-sm w-2/3">{userLanguage.previewLinkModal.label}</span>
       <form
         action=""
         method="post"
@@ -38,8 +38,8 @@ const PreviewLinkModal = ({ linkModalOpen, toggleLinkModal }) => {
           {userLanguage.previewLinkModal.ok}
         </button>
       </form>
-      <button className="absolute top-4 right-4 text-white" onClick={toggleLinkModal}>
-        <XCircle />
+      <button className="absolute top-0 right-4 text-white" onClick={toggleLinkModal}>
+        <XCircle size={25} />
       </button>
     </div>
   );

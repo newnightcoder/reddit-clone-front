@@ -66,7 +66,7 @@ const PostForm = ({
   return (
     <form
       style={{ minHeight: width < 768 ? "calc(100vh - 8rem)" : "max-content" }}
-      className="h-full w-full flex flex-col items-center justify-start md:justify-center space-y-4 bg-white dark:bg-gray-900 border dark:border-gray-700 md:rounded pt-4 pb-6 md:pt-6 px-4"
+      className="h-full w-full flex flex-col items-center justify-start md:justify-center space-y-4 bg-white dark:bg-gray-900 border dark:border-gray-700 md:rounded pt-4 pb-24 md:pt-6 md:pb-6 px-4"
       method="post"
       onSubmit={pathname === "/edit" ? handleEditSubmit : handlePostSubmit}
     >

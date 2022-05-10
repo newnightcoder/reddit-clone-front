@@ -153,7 +153,8 @@ export const editUsername = (userId, username) => async (dispatch) => {
       dispatch({ type: SET_ERROR_USER, payload: error });
       return;
     }
-    dispatch({ type: EDIT_USERNAME, payload: newName });
+    dispatch({ type: EDIT_USERNAME, payload: { newName } });
+    dispatch({ type: USERNAME_ADDED });
   } catch (error) {
     dispatch({ type: SET_ERROR_USER, payload: error.message });
   }

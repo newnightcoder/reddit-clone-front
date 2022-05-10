@@ -10,3 +10,4 @@ export { default as giphy } from "./giphy-icon.png";
 export { default as google } from "./Google-Play-Icon.png";
 export { default as phonesImg } from "./mockup-ok.png";
 export { default as picPlaceholder } from "./pic_placeholder.svg";
+export { default as articlePlaceholder } from "./placeholder-news.jpg";

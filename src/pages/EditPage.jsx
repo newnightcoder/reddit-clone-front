@@ -62,6 +62,7 @@ const EditPage = () => {
       if (error.length !== 0) return setServerErrorMsg(error);
       setServerErrorMsg("");
 
+      console.log(isPreview);
       if (postToEdit !== undefined) {
         dispatch(editPost("post", postId, postTitle, postText, currentPostImg, isPreview, preview));
         history.push({ pathname: "/feed" });
@@ -76,7 +77,7 @@ const EditPage = () => {
       }
       console.log(postText);
     },
-    [dispatch, postToEdit, postId, postTitle, postText, currentPostImg]
+    [dispatch, postToEdit, postId, postTitle, postText, currentPostImg, isPreview, preview]
   );
 
   const toggleImgUploadModal = useCallback((e) => {
@@ -103,17 +104,17 @@ const EditPage = () => {
       ) : (
         <Layout>
           <div
-            className="w-10/12 bg-gray-200 dark:bg-black flex flex-col items-center justify-start pt-16"
+            className="w-full md:w-10/12 bg-gray-200 dark:bg-black flex flex-col items-center justify-start md:pt-16"
             style={{ height: "calc(100vh - 4rem)" }}
           >
             <div
               className="error h-12 w-10/12 md:w-1/2 xl:w-1/3 whitespace-pre bg-black text-white text-sm text-center py-1 rounded"
-              style={{ display: emptyTitle ? "block" : "none" }}
+              style={{ display: emptyTitle || error ? "block" : "none" }}
             >
               {emptyTitle && emptyTitleError}
               {error.length !== 0 && serverErrorMsg}
             </div>
-            <div className="w-10/12">
+            <div className="w-full md:max-w-2xl">
               <PostForm
                 postToEdit={postToEdit}
                 postTitle={postTitle}

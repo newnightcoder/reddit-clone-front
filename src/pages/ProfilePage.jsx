@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import { useLocation } from "react-router-dom";
 import { bannerPlaceholder, logo_mobile_blue, picPlaceholder } from "../assets";
-import { DeleteModal, EditModal, Layout, Post, ProfileOptions, Skeleton } from "../components";
+import { DeleteModal, EditUsernameModal, Layout, Post, ProfileOptions, Skeleton } from "../components";
 import { getUserPosts } from "../store/actions/posts.action";
 import { deleteUser } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
@@ -112,10 +112,10 @@ const Profile = () => {
                         : { background: `url(${picPlaceholder}) no-repeat center/cover` }
                     }
                   ></div>
-                  {openEditModal && <EditModal toggleEditModal={toggleEditModal} openEditModal={openEditModal} />}
+                  {openEditModal && <EditUsernameModal toggleEditModal={toggleEditModal} openEditModal={openEditModal} />}
                 </div>
                 <div className="username-member relative h-max w-max self-start transform translate-x-44 flex flex-col items-start justify-start">
-                  <span className="text-xl font-bold capitalize">{userData?.id === id ? username : userData.username}</span>
+                  <span className="text-xl font-bold capitalize">{id === profileId ? username : userData.username}</span>
                   <span className="block italic text-sm flex items-center justify-center gap-1 transform -translate-x-2">
                     <img src={logo_mobile_blue} className="h-6" alt="forum logo" />
                     <span>{userLanguage.profile.member}</span>

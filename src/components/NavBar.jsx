@@ -17,7 +17,7 @@ const NavBar = ({ toggleMenu }) => {
     <div style={{ zIndex: 1000 }} className="h-16 w-full fixed top-0 overflow-hidden shadow-sm">
       <div className=" h-full w-full  pl-2 pr-4 flex items-center justify-between md:justify-evenly  gap-1 md:gap-2 dark:text-white shadow-md bg-gray-100 dark:bg-gray-900">
         <Link
-          to="/"
+          to="/feed"
           className=" h-5/6 w-36 flex items-center justify-center ml-3 mr-2"
           style={{ transform: width < 768 ? "translateY(-3px)" : "translateY(-6px)" }}
         >
@@ -46,7 +46,6 @@ const NavBar = ({ toggleMenu }) => {
               </clipPath>
             </defs>
           </svg>
-          {/* <img src={logo} className="h-5/6 md:h-full" /> */}
         </Link>
 
         <form className="hidden w-2/3  max-w-xl 2xl:max-w-5xl md:flex items-center justify-center rounded-l-full" action="">
