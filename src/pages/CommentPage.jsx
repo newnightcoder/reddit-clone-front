@@ -12,10 +12,10 @@ import { useLanguage } from "../utils/hooks";
 const CommentPage = ({ toggleDeleteModal, openModal }) => {
   const userLanguage = useLanguage();
   const { posts, comments } = useSelector((state) => state.posts);
-  const [commentsToDisplay, setCommentsToDisplay] = useState([]);
-  const postId = useSelector((state) => state.user.currentComment.postId);
-  const post = posts.find((post) => post.postId === postId);
   const { id: userId, error: serverError } = useSelector((state) => state.user);
+  const postId = useSelector((state) => state.user.currentComment.postId);
+  const [post, setPost] = useState(null);
+  const [commentsToDisplay, setCommentsToDisplay] = useState([]);
   const emptyComErrorMsg = userLanguage?.commentPage.error;
   const [serverErrorMsg, setServerErrorMsg] = useState("");
   const [emptyComError, setEmptyComError] = useState(false);
@@ -46,6 +46,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
 
   useEffect(() => {
     dispatch(getComments());
+    setPost(posts?.find((post) => post.postId === postId));
   }, [dispatch, postId]);
 
   useEffect(() => {
@@ -111,9 +112,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
           </div>
         </div>
         <div className="w-full md:w-11/12 max-w-3xl flex flex-col items-center justify-center space-y-2 relative ">
-          <div className="w-full flex items-center justify-center">
-            <Post post={post} />
-          </div>
+          <div className="w-full flex items-center justify-center">{post && <Post post={post} />}</div>
           <div
             className="error h-6 w-max px-3 flex items-center justify-center whitespace-pre bg-black text-white text-sm text-center py-1  transform translate-y-6 rounded overflow-hidden overflow-ellipsis"
             style={{ visibility: serverError || emptyComError ? "visible" : "hidden" }}
