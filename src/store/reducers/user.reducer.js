@@ -16,6 +16,7 @@ const userState = {
   darkMode: false,
   userCreated: false,
   usernameAdded: false,
+  usernameEdited: false,
   isNewUser: null,
   role: null,
   currentComment: {
@@ -42,6 +43,7 @@ const {
   ADD_USERNAME,
   EDIT_USERNAME,
   USERNAME_ADDED,
+  USERNAME_EDITED,
   USERNAME_FAIL,
   SAVE_USERPIC,
   LIKE_POST,
@@ -141,6 +143,11 @@ export const userReducer = (state = userState, action) => {
       return {
         ...state,
         usernameAdded: true,
+      };
+    case USERNAME_EDITED:
+      return {
+        ...state,
+        usernameEdited: !state.usernameEdited,
       };
 
     case USERNAME_FAIL:

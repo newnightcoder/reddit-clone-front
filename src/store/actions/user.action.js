@@ -20,6 +20,7 @@ const {
   ADD_USERNAME,
   EDIT_USERNAME,
   USERNAME_ADDED,
+  USERNAME_EDITED,
   USER_CREATED,
   LIKE_POST,
   TO_COMMENT,
@@ -154,10 +155,14 @@ export const editUsername = (userId, username) => async (dispatch) => {
       return;
     }
     dispatch({ type: EDIT_USERNAME, payload: { newName } });
-    dispatch({ type: USERNAME_ADDED });
+    dispatch({ type: USERNAME_EDITED });
   } catch (error) {
     dispatch({ type: SET_ERROR_USER, payload: error.message });
   }
+};
+
+export const resetUsernameEdited = () => (dispatch) => {
+  dispatch({ type: USERNAME_EDITED });
 };
 
 export const saveUserPic = (blob, id, imgType) => async (dispatch) => {

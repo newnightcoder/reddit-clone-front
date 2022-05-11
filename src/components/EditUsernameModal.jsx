@@ -1,32 +1,36 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { editUsername } from "../store/actions/user.action";
+import { clearUserError, editUsername, resetUsernameEdited } from "../store/actions/user.action";
 import { useLanguage } from "../utils/hooks";
 
 const EditUsernameModal = ({ toggleEditModal, openEditModal }) => {
-  const { id: userId, error, usernameAdded } = useSelector((state) => state.user);
+  const { id: userId, error, username, usernameEdited } = useSelector((state) => state.user);
   const [newUsername, setNewUsername] = useState("");
-  const [errorDuplicate, setErrorDuplicate] = useState("");
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
 
+  useEffect(() => {
+    if (usernameEdited) {
+      toggleEditModal();
+      dispatch(resetUsernameEdited());
+    }
+  }, [usernameEdited, dispatch]);
+
   const handleSubmit = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
-      if (newUsername === "") return;
+      if (newUsername === "" || newUsername === username) return;
       dispatch(editUsername(userId, newUsername));
-      // if (error.length !== 0) return;
-      if (usernameAdded) toggleEditModal();
     },
-    [newUsername, error, dispatch, usernameAdded, toggleEditModal, userId]
+    [dispatch, userId, newUsername]
   );
 
   const handleChange = useCallback(
     (e) => {
-      if (error.length !== 0) setErrorDuplicate("");
+      dispatch(clearUserError());
       setNewUsername(e.currentTarget.value);
     },
-    [setNewUsername, setErrorDuplicate, errorDuplicate]
+    [dispatch, setNewUsername]
   );
 
   return (
@@ -53,7 +57,10 @@ const EditUsernameModal = ({ toggleEditModal, openEditModal }) => {
         <div className="w-10/12 flex items-center justify-center space-x-4">
           <button
             className="w-full md:w-max py-2 px-3 flex items-center justify-center text-white text-xs rounded-full shadow-xl cursor-pointer bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none uppercase"
-            onClick={toggleEditModal}
+            onClick={() => {
+              toggleEditModal();
+              dispatch(clearUserError());
+            }}
           >
             {userLanguage.editModal.cancel}
           </button>

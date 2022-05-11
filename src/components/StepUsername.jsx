@@ -33,7 +33,7 @@ const StepUsername = () => {
         setIsLong(true);
       } else setIsLong(false);
     },
-    [setUserName, userName]
+    [setUserName, setIsLong]
   );
 
   const handleSubmit = useCallback(
@@ -41,9 +41,8 @@ const StepUsername = () => {
       e.preventDefault();
       console.log("working babe");
       dispatch(saveUserName(userId, userName, date));
-      // if (!usernameAdded) return;
     },
-    [userName]
+    [dispatch, userId, userName, date]
   );
 
   return (

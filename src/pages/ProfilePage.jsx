@@ -42,7 +42,7 @@ const Profile = () => {
 
   const toggleEditModal = useCallback(() => {
     setOpenEditModal((openEditModal) => !openEditModal);
-  }, []);
+  }, [setOpenEditModal]);
 
   const toggleProfileOptions = useCallback(() => {
     setOpenProfileOptions((prevState) => !prevState);
