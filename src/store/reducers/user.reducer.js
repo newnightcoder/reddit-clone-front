@@ -25,6 +25,8 @@ const userState = {
   liked: false,
   currentCommentsCount: null,
   currentProfileVisit: {},
+  recentUsers: [],
+  mods: [],
   sessionExpired: false,
 };
 
@@ -51,6 +53,8 @@ const {
   CREATE_COMMENT,
   GET_USER_PROFILE,
   CLEAN_PROFILE_VISIT,
+  GET_USERS,
+  GET_MODS,
   DELETE_USER,
   SESSION_EXPIRED,
 } = actionType;
@@ -139,11 +143,13 @@ export const userReducer = (state = userState, action) => {
         },
       };
     }
+
     case USERNAME_ADDED:
       return {
         ...state,
         usernameAdded: true,
       };
+
     case USERNAME_EDITED:
       return {
         ...state,
@@ -195,6 +201,15 @@ export const userReducer = (state = userState, action) => {
         ...state,
         currentProfileVisit: {},
       };
+
+    case GET_USERS: {
+      const { recentUsers } = action.payload;
+      return { ...state, recentUsers };
+    }
+    case GET_MODS: {
+      const { mods } = action.payload;
+      return { ...state, mods };
+    }
 
     case DELETE_USER:
       return {

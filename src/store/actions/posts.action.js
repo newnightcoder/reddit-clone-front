@@ -68,30 +68,6 @@ export const getLikes = () => async (dispatch) => {
   }
 };
 
-export const getUsers = () => async (dispatch) => {
-  // dispatch({ type: CLEAR_ERROR_POST });
-  const accessToken = localStorage.getItem("jwt");
-  const request = {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      Authorization: `Bearer ${accessToken}`,
-    },
-    method: "get",
-  };
-  try {
-    const response = await fetch(`${API_POST}/user`, request);
-    const data = await response.json();
-    const { users, sessionExpired } = data;
-    if (sessionExpired) {
-      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
-      return;
-    }
-    dispatch({ type: GET_USERS, payload: { users } });
-  } catch (error) {
-    dispatch({ type: SET_ERROR_POST, payload: error.message });
-  }
-};
-
 export const getUserPosts = (userId) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
   const accessToken = localStorage.getItem("jwt");

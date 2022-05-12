@@ -27,6 +27,8 @@ const {
   CREATE_COMMENT,
   GET_USER_PROFILE,
   CLEAN_PROFILE_VISIT,
+  GET_USERS,
+  GET_MODS,
   SESSION_EXPIRED,
 } = actionType;
 
@@ -282,6 +284,51 @@ export const getUserProfile = (id) => async (dispatch) => {
 
 export const cleanCurrentProfileVisit = () => (dispatch) => {
   dispatch({ type: CLEAN_PROFILE_VISIT });
+};
+
+export const getRecentUsers = () => async (dispatch) => {
+  // dispatch({ type: CLEAR_ERROR_POST });
+  const accessToken = localStorage.getItem("jwt");
+  const request = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    method: "get",
+  };
+  try {
+    const response = await fetch(`${API_POST}/user`, request);
+    const data = await response.json();
+    const { recentUsers, sessionExpired } = data;
+    if (sessionExpired) {
+      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+      return;
+    }
+    dispatch({ type: GET_USERS, payload: { recentUsers } });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_USER, payload: error.message });
+  }
+};
+
+export const getMods = () => async (dispatch) => {
+  const request = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+    },
+    method: "get",
+  };
+  try {
+    const response = await fetch(`${API_POST}/mods`, request);
+    const data = await response.json();
+    const { mods, sessionExpired } = data;
+    if (sessionExpired) {
+      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+      return;
+    }
+    dispatch({ type: GET_MODS, payload: { mods } });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_USER, payload: error.message });
+  }
 };
 
 export const deleteUser = (id) => async (dispatch) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLanguage } from "../utils/hooks";
 import Post from "./Post";
@@ -9,17 +9,18 @@ const PopularPosts = () => {
   const [top3, setTop3] = useState([]);
   const userLanguage = useLanguage();
 
-  // useEffect(() => {
-  //   setTop3(
-  //     posts
-  //       .sort((a, b) => {
-  //         if (a.likesCount < b.likesCount) return 1;
-  //         if (a.likesCount > b.likesCount) return -1;
-  //         return 0;
-  //       })
-  //       .splice(0, 3)
-  //   );
-  // }, [posts]);
+  useEffect(() => {
+    const postsCopy = [...posts];
+    setTop3(
+      postsCopy
+        .sort((a, b) => {
+          if (a.likesCount < b.likesCount) return 1;
+          if (a.likesCount > b.likesCount) return -1;
+          return 0;
+        })
+        .splice(0, 3)
+    );
+  }, [posts]);
 
   return (
     <div className="w-full flex flex-col">

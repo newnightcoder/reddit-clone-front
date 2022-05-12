@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getMods } from "../store/actions/user.action";
 import { useLanguage } from "../utils/hooks";
 import Skeleton from "./Skeleton";
 import UserCard from "./UserCard";
 
 const ModsContainer = () => {
-  const users = useSelector((state) => state?.posts.users);
-  const admin = users?.filter((user) => user.role === "admin" && user);
-  const [adminUsers, setAdminUsers] = useState([]);
+  const { mods } = useSelector((state) => state?.user);
+  const dispatch = useDispatch();
   const userLanguage = useLanguage();
 
   useEffect(() => {
-    setAdminUsers(admin);
-  }, [users]);
+    dispatch(getMods());
+  }, [dispatch]);
 
   return (
     <div className="w-full h-max flex flex-col rounded dark:bg-gray-900 ">
@@ -21,10 +21,10 @@ const ModsContainer = () => {
       </div>
       <div className="list w-full h-max flex flex-col items-center justify-center rounded-bl rounded-br bg-white dark:bg-gray-900 border-b border-l border-r dark:border-gray-600 pb-12">
         <>
-          {adminUsers.length === 0 || adminUsers === undefined ? (
+          {mods.length === 0 || mods === undefined ? (
             <Skeleton element="user" number={2} mod={true} />
           ) : (
-            adminUsers?.map((user) => <UserCard user={user} key={user.id} mod={true} />)
+            mods?.map((user) => <UserCard user={user} key={user.id} mod={true} />)
           )}
           <button className="bg-gray-500 shadow flex items-center justify-center rounded-2xl w-3/4 py-1 px-2 text-white transform translate-y-6">
             {userLanguage.aside.modsContactBtn}
