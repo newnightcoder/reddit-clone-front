@@ -33,6 +33,7 @@ const {
   SAVE_GIF_URL,
   CLEAR_TEMP_POST_PIC,
   CLEAR_TEMP_PREVIEW,
+  CLEAR_PREVIEW_IMG,
   CREATE_POST,
   CREATE_REPLY,
   EDIT_POST,
@@ -82,6 +83,14 @@ export const postsReducer = (state = initialState, action) => {
       return { ...state, currentPost: { ...state.currentPost, imgUrl: "" } };
     case CLEAR_TEMP_PREVIEW:
       return { ...state, scrapedPost: {} };
+    case CLEAR_PREVIEW_IMG:
+      return {
+        ...state,
+        scrapedPost: {
+          ...state.scrapedPost,
+          image: "",
+        },
+      };
     case CREATE_POST:
       return { ...state, lastPostAdded: action.payload };
     case CREATE_REPLY:

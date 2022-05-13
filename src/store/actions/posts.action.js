@@ -10,6 +10,7 @@ const {
   GET_PREVIEW_DATA,
   CLEAR_TEMP_POST_PIC,
   CLEAR_TEMP_PREVIEW,
+  CLEAR_PREVIEW_IMG,
   CREATE_POST,
   CREATE_REPLY,
   EDIT_POST,
@@ -18,6 +19,7 @@ const {
   GET_REPLIES,
   SET_ERROR_POST,
   CLEAR_ERROR_POST,
+  CLEAR_ERROR_USER,
   CLEAN_PROFILE_POSTS,
   SESSION_EXPIRED,
   SAVE_GIF_URL,
@@ -225,6 +227,10 @@ export const editPost = (origin, id, title, text, imgUrl, isPreview, preview) =>
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
   }
+};
+
+export const clearPreviewImg = () => (dispatch) => {
+  dispatch({ type: CLEAR_PREVIEW_IMG });
 };
 
 export const deletePost = (postId, origin, postIdComment) => async (dispatch) => {
