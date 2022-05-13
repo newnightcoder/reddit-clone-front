@@ -27,7 +27,7 @@ const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previe
     console.log("no image baby");
     if (!isObjectEmpty(preview)) dispatch(clearPreviewImg());
     setImgUrl(articlePlaceholder);
-  }, [dispatch, setImgUrl]);
+  }, [dispatch, setImgUrl, isObjectEmpty]);
 
   return (
     <div className="h-max w-11/12 rounded border border-gray-400 dark:border-gray-700 pb-4 mt-1 flex flex-col items-center justify-start space-y-3 border rounded-md ">
