@@ -3,7 +3,7 @@ import { Link as LinkIcon } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { articlePlaceholder } from "../assets";
-import { clearPreviewImg } from "../store/actions/posts.action";
+import { clearErrorPost, clearPreviewImg } from "../store/actions/posts.action";
 
 const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previewPub, previewPubLogo, aside }) => {
   const { title, image, description, publisher, logo } = useSelector((state) => state.posts.scrapedPost);
@@ -25,6 +25,7 @@ const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previe
 
   const handleImgError = useCallback(() => {
     console.log("no image baby");
+    dispatch(clearErrorPost());
     if (!isObjectEmpty(preview)) dispatch(clearPreviewImg());
     setImgUrl(articlePlaceholder);
   }, [dispatch, setImgUrl, isObjectEmpty]);

@@ -232,6 +232,9 @@ export const editPost = (origin, id, title, text, imgUrl, isPreview, preview) =>
 export const clearPreviewImg = () => (dispatch) => {
   dispatch({ type: CLEAR_PREVIEW_IMG });
 };
+export const clearErrorPost = () => (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_POST });
+};
 
 export const deletePost = (postId, origin, postIdComment) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
