@@ -210,7 +210,8 @@ export const editPost = (origin, id, title, text, imgUrl, isPreview, preview) =>
   // console.log("token", accessToken);
   const request = {
     headers: {
-      // "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Origin":
+        process.env.NODE_ENV === "production" ? "https://forum-network.netlify.app" : "http://localhost:3000",
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },

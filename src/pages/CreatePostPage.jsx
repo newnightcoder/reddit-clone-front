@@ -54,7 +54,6 @@ const CreatePost = () => {
   const handlePostSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      console.log("yay");
       if (title.length === 0) return setEmptyTitle(true);
       if (serverError.length !== 0) return setServerErrorMsg(serverError);
       setServerErrorMsg("");
