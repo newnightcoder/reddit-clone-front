@@ -57,7 +57,7 @@ const StepUsername = () => {
         className="whitespace-pre w-10/12 md:w-1/2 lg:w-1/3 md:text-center h-max py-2 px-3 bg-black text-white text-center border border-red-700 rounded"
         style={error.length !== 0 ? { visibility: "visible" } : { visibility: "hidden" }}
       >
-        {error}
+        {error === "duplicate" ? userLanguage.signup.stepUsername.errorDuplicate : userLanguage.signup.stepUsername.errorBackend}
       </span>
       <div className="h-1/2">
         <p className="font-bold">{userLanguage.signup.stepUsername.choose}</p>

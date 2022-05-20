@@ -31,6 +31,9 @@ const language = {
       enter: "log in",
       first: "First time on FORUM",
       registerBtn: "sign up",
+      errorBackend: "Oops! something went wrong...",
+      errorNotFound: "No user found with this email address",
+      errorPassword: "Your password is incorrect",
     },
     signup: {
       join: "Join the community",
@@ -41,10 +44,14 @@ const language = {
       checkDigit: "contains at least 1 digit",
       check8: "contains at least 8 characters",
       submit: "create my account",
+      errorDuplicate: "There's already an account with this email address",
+      errorBackend: "Oops! something went wrong...",
       already: "I already have an account!",
       alreadyBtn: "Log in",
       stepUsername: {
         choose: "Choose your username:",
+        errorDuplicate: "This username is already taken.\nPlease choose another one",
+        errorBackend: "Oops! something went wrong...",
         ok: "ok",
       },
       stepImage: {
@@ -168,12 +175,16 @@ const language = {
     },
     postFooter: {
       comments: "Comments",
+      error: "Oops! something went wrong...",
     },
     postOptions: {
       modify: "Edit",
       share: "Share",
       delete: "Delete",
       report: "Report",
+    },
+    preview: {
+      linkArticle: "Go to article",
     },
     imgUploadModal: {
       label: "Add a picture",
@@ -245,6 +256,9 @@ const language = {
       enter: "valider",
       first: "Première fois sur FORUM",
       registerBtn: "s'inscrire",
+      errorBackend: "Oops! petit problème de notre part désolé",
+      errorNotFound: "Aucun compte trouvé avec cet email",
+      errorPassword: "Votre mot de passe est incorrect",
     },
     signup: {
       join: "Rejoignez la communauté",
@@ -255,10 +269,14 @@ const language = {
       checkDigit: "contient au moins 1 chiffre",
       check8: "contient au moins 8 caractères",
       submit: "valider",
+      errorDuplicate: "Un compte associé à cet email existe déjà.",
+      errorBackend: "Oops! petit problème de notre part désolé",
       already: "J'ai déjà un compte!",
       alreadyBtn: "Se connecter",
       stepUsername: {
         choose: "Choisissez votre pseudo:",
+        errorDuplicate: "Ce nom d'utilisateur est déjà pris!\nVeuillez en choisir un autre.",
+        errorBackend: "Oops! petit problème de notre part désolé",
         ok: "valider",
       },
       stepImage: {
@@ -389,6 +407,9 @@ const language = {
       delete: "Supprimer",
       report: "Signaler",
     },
+    preview: {
+      linkArticle: "Aller voir l'article",
+    },
     imgUploadModal: {
       label: "Ajouter une image",
     },
@@ -459,6 +480,9 @@ const language = {
       enter: "bestätigen",
       first: "Zum ersten Mal auf FORUM",
       registerBtn: "registrieren",
+      errorBackend: "Oops! sieht aus, wie etwas shiefgegangen  ist, sorry",
+      errorNotFound: "Kein Konto mit dieser Emailadresse gefunden",
+      errorPassword: "Falsches Passwort",
     },
     signup: {
       join: "Tritt der Community bei",
@@ -469,10 +493,14 @@ const language = {
       checkDigit: "enthält mindestens 1 Ziffer",
       check8: "enthält mindestens 8 Zeichen",
       submit: "Konto erstellen",
+      errorDuplicate: "Ein Konto mit dieser Emailadresse existiert schon.",
+      errorBackend: "Oops! sieht aus, wie etwas shiefgegangen  ist, sorry",
       already: "Ich habe schon ein Konto!",
       alreadyBtn: "Sich anmelden",
       stepUsername: {
         choose: "Benutzername erstellen",
+        errorDuplicate: "Dieser Benutzername ist schon vergeben!\nGib bitte einen anderen Benutzernamen ein.",
+        errorBackend: "Oops! sieht aus, wie etwas shiefgegangen  ist, sorry",
         ok: "ok",
       },
       stepImage: {
@@ -602,6 +630,9 @@ const language = {
       share: "Teilen",
       delete: "Löschen",
       report: "Melden",
+    },
+    preview: {
+      linkArticle: "Zum artikel",
     },
     imgUploadModal: {
       label: "Bild hinfügen",

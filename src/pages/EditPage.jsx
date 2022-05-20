@@ -109,7 +109,7 @@ const EditPage = () => {
           >
             <div
               className="error h-12 w-10/12 md:w-1/2 xl:w-1/3 whitespace-pre bg-black text-white text-sm text-center py-1 rounded"
-              style={{ display: emptyTitle || error ? "block" : "none" }}
+              style={{ display: emptyTitle || error.length !== 0 ? "block" : "none" }}
             >
               {emptyTitle && emptyTitleError}
               {error.length !== 0 && serverErrorMsg}

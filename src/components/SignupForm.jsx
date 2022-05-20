@@ -41,7 +41,9 @@ const SignupForm = ({
         style={{ display: error.length !== 0 ? "flex" : "none" }}
         className="error h-max w-full  items-center justify-center py-2"
       >
-        <span className="block w-max h-max py-2 px-3 border-2 border-red-500 bg-black text-white rounded">{error}</span>
+        <span className="block w-max h-max py-2 px-3 border-2 border-red-500 bg-black text-white rounded">
+          {error === "duplicate" ? userLanguage.signup.errorDuplicate : userLanguage.signup.errorBackend}
+        </span>
       </div>
       <form method="post" className="h-max w-64 flex flex-col items-center justify-center gap-4" onSubmit={handleNewUserSubmit}>
         <div className="flex flex-col items-start gap-4">

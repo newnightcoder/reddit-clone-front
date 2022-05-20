@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { articlePlaceholder } from "../assets";
 import { clearErrorPost, clearPreviewImg } from "../store/actions/posts.action";
+import useLanguage from "../utils/hooks/useLanguage";
 
 const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previewPub, previewPubLogo, aside }) => {
   const { title, image, description, publisher, logo } = useSelector((state) => state.posts.scrapedPost);
@@ -11,6 +12,7 @@ const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previe
   const [imgUrl, setImgUrl] = useState(image ? image : previewImg);
   const { pathname } = useLocation();
   const dispatch = useDispatch();
+  const userLanguage = useLanguage();
 
   useEffect(() => {
     setImgUrl(image ? image : previewImg ? previewImg : articlePlaceholder);
@@ -68,7 +70,7 @@ const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previe
           <span>
             {publisher && publisher.includes("logo") ? publisher.replace(/logo/gi, "") : publisher}
             {previewPub && previewPub.includes("logo") ? previewPub.replace(/logo/gi, "") : previewPub}
-            {!publisher && !previewPub && "Go to article"}
+            {!publisher && !previewPub && userLanguage.preview.linkArticle}
           </span>
         </a>
         {logo ? (

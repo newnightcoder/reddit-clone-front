@@ -46,7 +46,7 @@ const EditUsernameModal = ({ toggleEditModal, openEditModal }) => {
           className="whitespace-pre w-10/12 md:text-center h-max py-2 px-3 bg-black text-white text-center border border-red-700 rounded"
           style={error.length !== 0 ? { visibility: "visible" } : { visibility: "hidden" }}
         >
-          {error}
+          {error === "duplicate" ? userLanguage.signup.stepUsername.errorDuplicate : userLanguage.signup.errorBackend}
         </span>
         <input
           type="text"
