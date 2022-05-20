@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import { useLocation } from "react-router-dom";
 import { GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
-import { editPost, saveImageToEdit, setPreviewData } from "../store/actions/posts.action";
+import { clearTempPreview, editPost, saveImageToEdit, setPreviewData } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
 
 const EditPage = () => {
@@ -20,6 +20,7 @@ const EditPage = () => {
   const [postImgUrl, setPostImgUrl] = useState(postToEdit && postToEdit.imgUrl);
   const [emptyTitle, setEmptyTitle] = useState(false);
   const [isPreview, setIsPreview] = useState(0);
+  const [imgDom, setImgDom] = useState(null);
   const preview = useSelector((state) => state.posts.scrapedPost);
   const [imgInputModalOpen, setImgInputModalOpen] = useState(false);
   const [gifModalOpen, setGifModalOpen] = useState(false);
@@ -28,6 +29,7 @@ const EditPage = () => {
   const currentPostImg = useSelector((state) => state.posts.currentPost.imgUrl);
   const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
   const dispatch = useDispatch();
+
   const isObjectEmpty = useCallback((obj) => {
     for (let prop in obj) {
       return false;
@@ -35,11 +37,16 @@ const EditPage = () => {
     return true;
   }, []);
 
+  const deletePreview = useCallback(() => {
+    setImgDom(null);
+    setIsPreview(0);
+    dispatch(clearTempPreview());
+  }, [dispatch, setImgDom, setIsPreview]);
+
   useEffect(() => {
     if (postToEdit.imgUrl) {
       dispatch(saveImageToEdit(postImgUrl));
-    }
-    if (postToEdit.isPreview === 1) {
+    } else if (postToEdit.isPreview === 1) {
       const postToEditPreview = {
         title: postToEdit.previewTitle,
         image: postToEdit.previewImg,
@@ -136,10 +143,18 @@ const EditPage = () => {
                 toggleLinkModal={toggleLinkModal}
                 toggleImgUploadModal={toggleImgUploadModal}
                 setIsPreview={setIsPreview}
+                isObjectEmpty={isObjectEmpty}
+                imgDom={imgDom}
+                setImgDom={setImgDom}
+                deletePreview={deletePreview}
               />
             </div>
-            <ImgUploadModal imgInputModalOpen={imgInputModalOpen} toggleImgUploadModal={toggleImgUploadModal} />
-            <GifModal gifModalOpen={gifModalOpen} toggleGifModal={toggleGifModal} />
+            <ImgUploadModal
+              imgInputModalOpen={imgInputModalOpen}
+              toggleImgUploadModal={toggleImgUploadModal}
+              deletePreview={deletePreview}
+            />
+            <GifModal gifModalOpen={gifModalOpen} toggleGifModal={toggleGifModal} deletePreview={deletePreview} />
             <PreviewLinkModal linkModalOpen={linkModalOpen} toggleLinkModal={toggleLinkModal} />
           </div>
         </Layout>

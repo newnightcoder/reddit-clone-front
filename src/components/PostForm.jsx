@@ -1,5 +1,5 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Image, Link45deg, XLg } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 // import { useLocation } from "react-router";
@@ -17,50 +17,42 @@ const PostForm = ({
   toggleGifModal,
   toggleLinkModal,
   handlePostInput,
+  isObjectEmpty,
   postToEdit,
   postTitle,
   postText,
-  setIsPreview,
+  imgDom,
+  setImgDom,
+  deletePreview,
   handleEditSubmit,
   handleEditTitleInput,
   handleEditText,
 }) => {
   const currentPostImgUrl = useSelector((state) => state.posts.currentPost.imgUrl);
   const scrapedPost = useSelector((state) => state.posts.scrapedPost);
-  const [imgDom, setImgDom] = useState(null);
   const { pathname } = useLocation();
   const { width } = useWindowSize();
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
-
-  const isObjectEmpty = useCallback((obj) => {
-    for (let prop in obj) {
-      return false;
-    }
-    return true;
-  }, []);
-
-  const deletePreview = () => {
-    setImgDom(null);
-    setIsPreview(0);
-  };
 
   useEffect(() => {
     if (currentPostImgUrl.length !== 0) {
       setImgDom(<img id="postImg" src={currentPostImgUrl} alt="" className="h-max rounded" style={{ maxHeight: "500px" }} />);
     } else if (!isObjectEmpty(scrapedPost)) {
       setImgDom(<LinkPreview />);
-    } else if (postToEdit && postToEdit.isPreview === 1) {
-      setImgDom(
-        <LinkPreview
-          previewTitle={postToEdit.previewTitle}
-          previewText={postToEdit.previewText}
-          previewImg={postToEdit.previewImg}
-          previewPub={postToEdit.previewPub}
-          previewPubLogo={postToEdit.previewPubLogo}
-        />
-      );
-    } else setImgDom(null);
+    }
+    // else if (postToEdit?.isPreview === 1) {
+    //   setImgDom(
+    //     <LinkPreview
+    //       previewTitle={postToEdit.previewTitle}
+    //       previewText={postToEdit.previewText}
+    //       previewImg={postToEdit.previewImg}
+    //       previewPub={postToEdit.previewPub}
+    //       previewPubLogo={postToEdit.previewPubLogo}
+    //     />
+    //   );
+    // }
+    else setImgDom(null);
   }, [currentPostImgUrl, postToEdit, scrapedPost]);
 
   return (

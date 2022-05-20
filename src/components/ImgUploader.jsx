@@ -7,7 +7,7 @@ import { saveUserPic } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
 import { useLanguage } from "../utils/hooks";
 
-const ImgUploader = ({ profile, imgType, toggleImgUploadModal }) => {
+const ImgUploader = ({ profile, imgType, toggleImgUploadModal, deletePreview }) => {
   const [blob, setBlob] = useState(null);
   const [blobName, setBlobName] = useState(null);
   const file = useRef(null);
@@ -20,11 +20,13 @@ const ImgUploader = ({ profile, imgType, toggleImgUploadModal }) => {
   const handleImgSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      // console.log("FILE!!!", file.current.files[0]);
       if (profile) return dispatch(saveUserPic(blob, id, imgType));
-      // console.log(`ready to add file ${blobName}`);
       dispatch(savePostImage(blob));
-      console.log("re-render");
+      if (pathname === "/edit") {
+        deletePreview();
+      }
+      setBlob(null);
+      setBlobName(null);
       toggleImgUploadModal(e);
     },
     [blob, dispatch, id, imgType, profile, toggleImgUploadModal]
