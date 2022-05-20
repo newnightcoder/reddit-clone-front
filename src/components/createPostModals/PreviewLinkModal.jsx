@@ -11,7 +11,6 @@ const PreviewLinkModal = ({ linkModalOpen, toggleLinkModal }) => {
 
   const handleTargetUrl = useCallback((e) => {
     e.preventDefault();
-    console.log(targetUrl);
     dispatch(getPreviewData(targetUrl));
     toggleLinkModal(e);
   });

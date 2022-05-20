@@ -115,7 +115,6 @@ const Post = ({ post, aside }) => {
 
   return (
     <div
-      onClick={() => console.log(post)}
       className="post-container scale-0 h-max w-full max-w-3xl relative md:rounded-md flex-col items-center justify-center bg-white dark:bg-gray-900 border-t border-b md:border border-gray-300 dark:border-gray-700 transition transition-border-color transition-transform duration-300 hover:border-gray-500 dark:hover:border-gray-500 pt-2"
       style={{
         transform: isDeleted && "scale(0)",
@@ -127,6 +126,8 @@ const Post = ({ post, aside }) => {
         <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"post"} postId={postId} />
       ) : null}
       <PostHeader post={post} />
+      {text && <div className="text w-full text-left px-3 pt-2 text-sm">{text}</div>}
+
       {isPreview === 1 ? (
         <div className="w-full flex items-center justify-center py-4">
           <LinkPreview
@@ -141,7 +142,6 @@ const Post = ({ post, aside }) => {
         </div>
       ) : (
         <>
-          <div className="text w-full text-left px-3 py-2 text-sm">{text}</div>
           <div className={"w-full flex items-center justify-center px-2 pb-4"}>
             {imgUrl !== "" ? (
               <img

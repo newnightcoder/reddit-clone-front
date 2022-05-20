@@ -25,6 +25,7 @@ const {
   GET_LIKES,
   GET_USER_POSTS,
   GET_PREVIEW_DATA,
+  SET_PREVIEW_DATA,
   GET_COMMENTS,
   GET_REPLIES,
   SET_ERROR_POST,
@@ -64,6 +65,9 @@ export const postsReducer = (state = initialState, action) => {
       return { ...state, userPosts: posts, likes };
     }
     case GET_PREVIEW_DATA:
+      return { ...state, scrapedPost: action.payload };
+
+    case SET_PREVIEW_DATA:
       return { ...state, scrapedPost: action.payload };
 
     case GET_COMMENTS: {

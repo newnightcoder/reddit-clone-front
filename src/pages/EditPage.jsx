@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import { useLocation } from "react-router-dom";
 import { GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
-import { editPost, saveImageToEdit } from "../store/actions/posts.action";
+import { editPost, saveImageToEdit, setPreviewData } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
 
 const EditPage = () => {
@@ -39,6 +39,17 @@ const EditPage = () => {
     if (postToEdit.imgUrl) {
       dispatch(saveImageToEdit(postImgUrl));
     }
+    if (postToEdit.isPreview === 1) {
+      const postToEditPreview = {
+        title: postToEdit.previewTitle,
+        image: postToEdit.previewImg,
+        description: postToEdit.previewText,
+        publisher: postToEdit.previewPub,
+        logo: postToEdit.previewPubLogo,
+        url: postToEdit.previewUrl,
+      };
+      dispatch(setPreviewData(postToEditPreview));
+    }
   }, [postImgUrl, dispatch, postToEdit]);
 
   useEffect(() => {
@@ -61,7 +72,6 @@ const EditPage = () => {
       if (postTitle && postTitle.length === 0) return setEmptyTitle(true);
       if (error.length !== 0) return setServerErrorMsg(error);
       setServerErrorMsg("");
-
       console.log(isPreview);
       if (postToEdit !== undefined) {
         dispatch(editPost("post", postId, postTitle, postText, currentPostImg, isPreview, preview));

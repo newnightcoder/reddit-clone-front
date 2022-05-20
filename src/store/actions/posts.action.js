@@ -8,6 +8,7 @@ const {
   GET_USER_POSTS,
   SAVE_POST_PIC,
   GET_PREVIEW_DATA,
+  SET_PREVIEW_DATA,
   CLEAR_TEMP_POST_PIC,
   CLEAR_TEMP_PREVIEW,
   CLEAR_PREVIEW_IMG,
@@ -151,11 +152,15 @@ export const getPreviewData = (targetUrl) => async (dispatch) => {
     const response = await fetch(`${API_POST}/post-link`, request);
     const data = await response.json();
     const { result } = data;
-    console.log(data);
+    // console.log(data);
     dispatch({ type: GET_PREVIEW_DATA, payload: result });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
   }
+};
+
+export const setPreviewData = (preview) => (dispatch) => {
+  dispatch({ type: SET_PREVIEW_DATA, payload: preview });
 };
 
 export const clearTempPostImg = () => (dispatch) => {
@@ -202,14 +207,14 @@ export const createPost = (userId, title, text, date, imgUrl, isPreview, preview
 export const editPost = (origin, id, title, text, imgUrl, isPreview, preview) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
   const accessToken = localStorage.getItem("jwt");
-  console.log("token", accessToken);
+  // console.log("token", accessToken);
   const request = {
     headers: {
-      "Access-Control-Allow-Origin": "*",
+      // "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
-    method: "POST",
+    method: "post",
     body: JSON.stringify({ origin, id, title, text, imgUrl, isPreview, preview }),
   };
   try {

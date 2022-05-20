@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 // import ContentEditable from "react-contenteditable";
 import { useDispatch, useSelector } from "react-redux";
 import { GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
-import { clearTempPostImg, clearTempPreview, createPost } from "../store/actions/posts.action";
+import { clearErrorPost, clearTempPostImg, clearTempPreview, createPost } from "../store/actions/posts.action";
 import { createDate } from "../utils/helpers/formatTime";
 import history from "../utils/helpers/history";
 import { useHandleLink } from "../utils/hooks";
@@ -35,6 +35,7 @@ const CreatePost = () => {
   useEffect(() => {
     dispatch(clearTempPostImg());
     dispatch(clearTempPreview());
+    dispatch(clearErrorPost());
   }, []);
 
   useEffect(() => {

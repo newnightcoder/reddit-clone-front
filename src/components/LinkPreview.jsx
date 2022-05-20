@@ -26,7 +26,7 @@ const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previe
   }, []);
 
   const handleImgError = useCallback(() => {
-    console.log("no image baby");
+    // console.log("no image baby");
     dispatch(clearErrorPost());
     if (!isObjectEmpty(preview)) dispatch(clearPreviewImg());
     setImgUrl(articlePlaceholder);
