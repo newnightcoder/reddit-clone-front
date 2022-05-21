@@ -30,6 +30,7 @@ const useDarkMode = () => {
 
   useEffect(() => {
     handleClassList(darkMode);
+    setIsDarkMode(darkMode);
   }, [darkMode]);
 
   return [isDarkMode, toggleMode];
