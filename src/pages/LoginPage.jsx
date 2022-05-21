@@ -1,3 +1,4 @@
+import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
 import React, { useCallback, useState } from "react";
 import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,6 +11,7 @@ import { useLanguage } from "../utils/hooks";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordType, setPasswordType] = useState("password");
   const [isLoading, setIsLoading] = useState(false);
   const { error, isAuthenticated, darkMode } = useSelector((state) => state.user);
   const dispatch = useDispatch();
@@ -106,13 +108,28 @@ const Login = () => {
           ></input>
         </div>
         <div className="flex flex-col items-start">
-          <label htmlFor="password">{userLanguage.login.pass}</label>
-          <input
-            className="w-64 rounded p-1 border border-blue-400 dark:bg-gray-600 dark:text-gray-100 outline-none"
-            type="password"
-            id="password"
-            onChange={handlePass}
-          ></input>
+          <label htmlFor="password" className="transform translate-x-4">
+            {userLanguage.login.pass}
+          </label>
+          <div className="w-72 h-max flex items-center justify-start">
+            <input
+              className="w-full relative rounded py-1 pl-2 pr-10 border border-blue-400 dark:bg-gray-600 dark:text-gray-100 outline-none transform translate-x-4"
+              type={passwordType}
+              id="password"
+              onChange={handlePass}
+            ></input>
+            {passwordType === "password" ? (
+              <EyeOffIcon
+                onClick={() => setPasswordType("text")}
+                className="h-4 w-8 text-black dark:text-white cursor-pointer transform -translate-x-2/3"
+              />
+            ) : (
+              <EyeIcon
+                onClick={() => setPasswordType("password")}
+                className="h-4 w-8 text-black dark:text-white cursor-pointer transform -translate-x-2/3"
+              />
+            )}
+          </div>
         </div>
         <button
           className="w-48 text-white p-2 rounded transform translate-y-2 disabled:opacity-50 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none uppercase"
