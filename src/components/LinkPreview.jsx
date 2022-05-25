@@ -35,16 +35,16 @@ const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previe
   return (
     <div className="h-max w-11/12 rounded border border-gray-400 dark:border-gray-700 pb-4 mt-1 flex flex-col items-center justify-start space-y-3 border rounded-md ">
       <div
-        // style={{
-        //   backgroundColor: "white",
-        //   backgroundImage: `url("${imgUrl}")`,
-        //   backgroundRepeat: "no-repeat",
-        //   backgroundPosition: "center",
-        //   backgroundSize: "cover",
-        // }}
+        style={{
+          backgroundColor: "white",
+          backgroundImage: `url("${imgUrl}")`,
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+        }}
         className={`${aside ? "h-32" : "h-44 md:h-64"}  w-full rounded-tl rounded-tr`}
       >
-        <img src={imgUrl} onError={handleImgError} alt="article image" className="w-full h-full" />
+        <img src={imgUrl} onError={handleImgError} alt="article image" className="hidden w-full h-full" />
       </div>
       <div className="w-full flex flex-col space-y-1.5 text-gray-700 dark:text-gray-200 text-sm cursor-pointer">
         <a

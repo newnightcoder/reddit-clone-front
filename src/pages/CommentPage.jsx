@@ -3,7 +3,7 @@ import "draft-js/dist/Draft.css";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Comment, CommentForm, Layout, Post } from "../components";
-import { getComments, getLikes, getReplies } from "../store/actions/posts.action";
+import { getComments, getLikes, getPostById, getReplies } from "../store/actions/posts.action";
 import { createComment } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
 import { createDate } from "../utils/helpers/formatTime";
@@ -12,7 +12,7 @@ import { useLanguage } from "../utils/hooks";
 const CommentPage = ({ toggleDeleteModal, openModal }) => {
   const userLanguage = useLanguage();
   const { posts, comments } = useSelector((state) => state.posts);
-  const { id: userId, error: serverError } = useSelector((state) => state.user);
+  const { id: userId, error: serverError, liked } = useSelector((state) => state.user);
   const postId = useSelector((state) => state.user.currentComment.postId);
   const [post, setPost] = useState(null);
   const [commentsToDisplay, setCommentsToDisplay] = useState([]);
@@ -25,6 +25,10 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
   const container = useRef();
   const commentTextRef = useRef();
   const containerSize = container?.current?.getBoundingClientRect();
+
+  useEffect(() => {
+    dispatch(getPostById(postId));
+  }, [dispatch, postId]);
 
   const getRelatedComments = useCallback(
     (postId) => {
@@ -55,7 +59,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
 
   useEffect(() => {
     dispatch(getLikes());
-  }, []);
+  }, [liked]);
 
   useEffect(() => {
     setCommentsToDisplay(getRelatedComments(postId));

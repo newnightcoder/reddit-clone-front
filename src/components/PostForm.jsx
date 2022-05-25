@@ -36,23 +36,13 @@ const PostForm = ({
   const userLanguage = useLanguage();
 
   useEffect(() => {
+    // if (pathname === "/edit") {
     if (currentPostImgUrl.length !== 0) {
       setImgDom(<img id="postImg" src={currentPostImgUrl} alt="" className="h-max rounded" style={{ maxHeight: "500px" }} />);
     } else if (!isObjectEmpty(scrapedPost)) {
       setImgDom(<LinkPreview />);
-    }
-    // else if (postToEdit?.isPreview === 1) {
-    //   setImgDom(
-    //     <LinkPreview
-    //       previewTitle={postToEdit.previewTitle}
-    //       previewText={postToEdit.previewText}
-    //       previewImg={postToEdit.previewImg}
-    //       previewPub={postToEdit.previewPub}
-    //       previewPubLogo={postToEdit.previewPubLogo}
-    //     />
-    //   );
+    } else setImgDom(null);
     // }
-    else setImgDom(null);
   }, [currentPostImgUrl, postToEdit, scrapedPost]);
 
   return (

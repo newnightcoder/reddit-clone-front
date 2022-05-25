@@ -13,6 +13,7 @@ const CreatePost = () => {
   const [postText, setPostText] = useState("");
   const postImg = useSelector((state) => state.posts.currentPost.imgUrl);
   const [imgAdded, setImgAdded] = useState(false);
+  const [imgDom, setImgDom] = useState(null);
   const [emptyTitle, setEmptyTitle] = useState(false);
   const [imgInputModalOpen, setImgInputModalOpen] = useState(false);
   const [gifModalOpen, setGifModalOpen] = useState(false);
@@ -25,12 +26,18 @@ const CreatePost = () => {
   const preview = useSelector((state) => state.posts.scrapedPost);
   const dispatch = useDispatch();
   const handleLink = useHandleLink();
+
   const isObjectEmpty = useCallback((obj) => {
     for (let prop in obj) {
       return false;
     }
     return true;
   }, []);
+
+  const deletePreview = useCallback(() => {
+    setIsPreview(0);
+    dispatch(clearTempPreview());
+  }, [dispatch, setIsPreview]);
 
   useEffect(() => {
     dispatch(clearTempPostImg());
@@ -110,6 +117,10 @@ const CreatePost = () => {
                 toggleGifModal={toggleGifModal}
                 toggleLinkModal={toggleLinkModal}
                 handlePostInput={handlePostInput}
+                isObjectEmpty={isObjectEmpty}
+                imgDom={imgDom}
+                setImgDom={setImgDom}
+                setIsPreview={setIsPreview}
               />
             </div>
           </div>
@@ -117,8 +128,9 @@ const CreatePost = () => {
             imgInputModalOpen={imgInputModalOpen}
             toggleImgUploadModal={toggleImgUploadModal}
             setImgAdded={setImgAdded}
+            deletePreview={deletePreview}
           />
-          <GifModal gifModalOpen={gifModalOpen} toggleGifModal={toggleGifModal} />
+          <GifModal gifModalOpen={gifModalOpen} toggleGifModal={toggleGifModal} deletePreview={deletePreview} />
           <PreviewLinkModal linkModalOpen={linkModalOpen} toggleLinkModal={toggleLinkModal} />
         </div>
       </Layout>

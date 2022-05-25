@@ -22,7 +22,7 @@ const AppContainer = () => {
         <Route path="/feed" component={FeedPage} />
         <Route path="/create" component={CreatePostPage} />
         <Route path="/edit" component={EditPage} />
-        <Route path="/comments" component={CommentPage} />
+        <Route path="/comments/:id" component={CommentPage} />
         <Route path="/profile" component={ProfilePage} />
         <Route path="/fin" component={DeletedProfilePage} />
       </Switch>

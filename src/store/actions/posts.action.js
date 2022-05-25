@@ -3,8 +3,8 @@ import { actionType } from "../constants";
 
 const {
   GET_POSTS,
+  GET_POST_BY_ID,
   GET_LIKES,
-  GET_USERS,
   GET_USER_POSTS,
   SAVE_POST_PIC,
   GET_PREVIEW_DATA,
@@ -20,7 +20,7 @@ const {
   GET_REPLIES,
   SET_ERROR_POST,
   CLEAR_ERROR_POST,
-  CLEAR_ERROR_USER,
+  CLEAR_LAST_ADDED,
   CLEAN_PROFILE_POSTS,
   SESSION_EXPIRED,
   SAVE_GIF_URL,
@@ -45,7 +45,30 @@ export const getPosts = () => async (dispatch) => {
       dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
       return;
     }
+    dispatch({ type: CLEAR_LAST_ADDED });
     dispatch({ type: GET_POSTS, payload: { posts, likes } });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_POST, payload: error.message });
+  }
+};
+
+export const getPostById = (postId) => async (dispatch) => {
+  const accessToken = localStorage.getItem("jwt");
+  const params = new URLSearchParams({
+    id: postId,
+  });
+  const request = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    method: "get",
+  };
+
+  try {
+    const response = await fetch(`${API_POST}/${params.toString()}`, request);
+    const post = await response.json();
+    dispatch({ type: GET_POST_BY_ID, payload: post });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
   }
@@ -186,7 +209,7 @@ export const createPost = (userId, title, text, date, imgUrl, isPreview, preview
   try {
     const response = await fetch(API_POST, request);
     const data = await response.json();
-    const { postId, message, error, sessionExpired } = data;
+    const { newPost, message, error, sessionExpired } = data;
     if (sessionExpired) {
       dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
       return;
@@ -198,7 +221,7 @@ export const createPost = (userId, title, text, date, imgUrl, isPreview, preview
     if (response.status !== 201) {
       dispatch({ type: SET_ERROR_POST, payload: error.message });
     }
-    dispatch({ type: CREATE_POST, payload: postId });
+    dispatch({ type: CREATE_POST, payload: newPost });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
   }
@@ -358,4 +381,7 @@ export const getReplies = () => async (dispatch) => {
 
 export const cleanCurrentProfilePosts = () => (dispatch) => {
   dispatch({ type: CLEAN_PROFILE_POSTS });
+};
+export const clearLastAdded = () => (dispatch) => {
+  dispatch({ type: CLEAR_LAST_ADDED });
 };

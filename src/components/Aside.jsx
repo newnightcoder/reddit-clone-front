@@ -11,8 +11,8 @@ const Aside = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(getUsers());
-
+    // dispatch(getRecentUsers());
+    // dispatch(getMods());
     setTimeout(() => {
       setSize(element?.current?.getBoundingClientRect());
     }, 1000);

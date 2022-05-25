@@ -40,6 +40,7 @@ const {
   EDIT_POST,
   DELETE_POST,
   CLEAN_PROFILE_POSTS,
+  CLEAR_LAST_ADDED,
   SESSION_EXPIRED,
 } = actionType;
 
@@ -56,7 +57,7 @@ export const postsReducer = (state = initialState, action) => {
       return { ...state, posts: postsInOrder, likes };
     }
     case GET_LIKES: {
-      const { likes } = action.payload;
+      const likes = action.payload;
       return { ...state, likes };
     }
 
@@ -95,15 +96,22 @@ export const postsReducer = (state = initialState, action) => {
           image: "",
         },
       };
-    case CREATE_POST:
-      return { ...state, lastPostAdded: action.payload };
+    case CREATE_POST: {
+      const post = action.payload;
+      return {
+        ...state,
+        posts: [post, ...state.posts],
+        lastPostAdded: post.postId,
+      };
+    }
+
     case CREATE_REPLY:
       return { ...state, lastReplyAdded: action.payload };
     case EDIT_POST:
       return { ...state };
 
     case DELETE_POST: {
-      const { postId } = action.payload;
+      const postId = action.payload;
       return { ...state, posts: state.posts.filter((post) => post.postId !== postId), lastDeleted: true };
     }
     case SET_ERROR_POST:
@@ -113,6 +121,8 @@ export const postsReducer = (state = initialState, action) => {
       return { ...state, error: "" };
     case CLEAN_PROFILE_POSTS:
       return { ...state, userPosts: [] };
+    case CLEAR_LAST_ADDED:
+      return { ...state, lastPostAdded: null };
 
     case SESSION_EXPIRED:
       return { ...state, sessionExpired: action.payload };

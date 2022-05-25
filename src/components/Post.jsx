@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
 import { DeleteModal, Options, PostFooter, PostHeader } from ".";
 import "../index.css";
 import { deletePost } from "../store/actions/posts.action";
@@ -34,9 +33,7 @@ const Post = ({ post, aside }) => {
   const [postIsGone, setpostIsGone] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [sameUser, setSameUser] = useState([]);
   const dispatch = useDispatch();
-  const location = useLocation();
 
   const toggleOptions = useCallback(() => {
     return setOptionsOpen((optionsOpen) => !optionsOpen);
@@ -56,7 +53,8 @@ const Post = ({ post, aside }) => {
 
   const toCommentPage = useCallback(() => {
     dispatch(toComment(postId));
-    history.push(`/comments/${title}`);
+    const formattedTitle = title.replace(/[^a-zA-ZÀ-ÿ0-9\s-]/gi, "").replace(/\s|-/g, "_");
+    history.push(`/comments/${formattedTitle}`);
   }, [dispatch, postId, title]);
 
   const updateLikesNumber = useCallback(() => {
@@ -70,15 +68,15 @@ const Post = ({ post, aside }) => {
       default:
         setLikesNumber(likesNumber);
     }
-  }, [like, likesNumber]);
+  }, [like, setLikesNumber, likesNumber]);
 
   const handleLike = useCallback(
-    async (postId) => {
+    (postId) => {
       setLike((prevState) => !prevState);
       updateLikesNumber();
       dispatch(likePost("post", userId, postId, like));
     },
-    [setLike, like, dispatch, updateLikesNumber]
+    [postId, setLike, like, dispatch, updateLikesNumber]
   );
 
   useEffect(() => {
@@ -86,32 +84,17 @@ const Post = ({ post, aside }) => {
     setcommentsNumber(commentCount);
   }, [likesCount, commentCount]);
 
-  useEffect(() => {
-    const sameUserLikes = [];
+  const setCurrentUserLikes = useCallback(() => {
     allLikes?.map((like) => {
       if (like.fk_userId_like === userId && like.fk_postId_like === postId) {
-        sameUserLikes.push(like.fk_postId_like);
+        return setLike(true);
       }
-      return setSameUser(sameUserLikes);
     });
-    if (sameUser.length !== 0) {
-      sameUser.forEach((id) => {
-        if (id === postId) {
-          return setLike(true);
-        }
-      });
-    }
-  }, [allLikes, location.pathname]);
+  }, [allLikes, userId, postId]);
 
-  // useEffect(() => {
-  //   if (sameUser.length !== 0) {
-  //     sameUser.forEach((id) => {
-  //       if (id === postId) {
-  //         return setLike(true);
-  //       }
-  //     });
-  //   }
-  // }, [allLikes, sameUser]);
+  useEffect(() => {
+    setCurrentUserLikes();
+  }, [allLikes]);
 
   return (
     <div
