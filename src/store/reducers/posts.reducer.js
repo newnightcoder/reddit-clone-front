@@ -11,6 +11,7 @@ const initialState = {
   },
   scrapedPost: {},
   comments: [],
+  currentPostComments: {},
   replies: [],
   likes: [],
   error: "",
@@ -22,6 +23,7 @@ const initialState = {
 
 const {
   GET_POSTS,
+  GET_POST_BY_ID,
   GET_LIKES,
   GET_USER_POSTS,
   GET_PREVIEW_DATA,
@@ -56,6 +58,12 @@ export const postsReducer = (state = initialState, action) => {
 
       return { ...state, posts: postsInOrder, likes };
     }
+
+    case GET_POST_BY_ID: {
+      const currentPost = action.payload;
+      return { ...state, currentPostComments: currentPost };
+    }
+
     case GET_LIKES: {
       const likes = action.payload;
       return { ...state, likes };

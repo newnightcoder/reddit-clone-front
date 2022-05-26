@@ -52,11 +52,10 @@ export const getPosts = () => async (dispatch) => {
   }
 };
 
-export const getPostById = (postId) => async (dispatch) => {
+export const getPostById = (id) => async (dispatch) => {
   const accessToken = localStorage.getItem("jwt");
-  const params = new URLSearchParams({
-    id: postId,
-  });
+  // const params = new URLSearchParams({ id }).toString();
+  // console.log("front params", params);
   const request = {
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -66,11 +65,13 @@ export const getPostById = (postId) => async (dispatch) => {
   };
 
   try {
-    const response = await fetch(`${API_POST}/${params.toString()}`, request);
-    const post = await response.json();
-    dispatch({ type: GET_POST_BY_ID, payload: post });
-  } catch (error) {
-    dispatch({ type: SET_ERROR_POST, payload: error.message });
+    const response = await fetch(`${API_POST}/id/${id}`, request);
+    const { currentPost, error } = await response.json();
+    if (response.status !== 200) return dispatch({ type: SET_ERROR_POST, payload: error });
+    console.log("current post", currentPost);
+    dispatch({ type: GET_POST_BY_ID, payload: currentPost });
+  } catch (err) {
+    dispatch({ type: SET_ERROR_POST, payload: err.message });
   }
 };
 
@@ -315,7 +316,7 @@ export const getComments = () => async (dispatch) => {
       dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
       return;
     }
-    console.log(comments);
+    // console.log(comments);
     dispatch({ type: GET_COMMENTS, payload: { comments } });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });
@@ -372,7 +373,7 @@ export const getReplies = () => async (dispatch) => {
       dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
       return;
     }
-    console.log(replies);
+    // console.log(replies);
     dispatch({ type: GET_REPLIES, payload: { replies } });
   } catch (error) {
     dispatch({ type: SET_ERROR_POST, payload: error.message });

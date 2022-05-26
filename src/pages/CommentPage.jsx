@@ -14,7 +14,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
   const { posts, comments } = useSelector((state) => state.posts);
   const { id: userId, error: serverError, liked } = useSelector((state) => state.user);
   const postId = useSelector((state) => state.user.currentComment.postId);
-  const [post, setPost] = useState(null);
+  const { currentPostComments: post } = useSelector((state) => state.posts);
   const [commentsToDisplay, setCommentsToDisplay] = useState([]);
   const emptyComErrorMsg = userLanguage?.commentPage.error;
   const [serverErrorMsg, setServerErrorMsg] = useState("");
@@ -28,7 +28,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
 
   useEffect(() => {
     dispatch(getPostById(postId));
-  }, [dispatch, postId]);
+  }, []);
 
   const getRelatedComments = useCallback(
     (postId) => {
@@ -50,10 +50,6 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
 
   useEffect(() => {
     dispatch(getComments());
-    setPost(posts?.find((post) => post.postId === postId));
-  }, [dispatch, postId]);
-
-  useEffect(() => {
     dispatch(getReplies());
   }, [dispatch]);
 
