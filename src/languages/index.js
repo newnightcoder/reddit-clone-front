@@ -116,6 +116,7 @@ const language = {
       refreshBtn: "refresh",
     },
     createPost: {
+      emptyTitleError: "Your post has no title!\n Put a word or two...",
       titlePlaceholder: "Title of your post",
       textPlaceholder: "Text (optional)",
       imgBtn: "Picture",
@@ -341,6 +342,7 @@ const language = {
       refreshBtn: "rafraîchir",
     },
     createPost: {
+      emptyTitleError: "Votre titre est vide!\n Mettez un mot ou deux...",
       titlePlaceholder: "Titre de votre post",
       textPlaceholder: "Texte (facultatif)",
       imgBtn: "Image",
@@ -565,6 +567,7 @@ const language = {
       refreshBtn: "aktualisieren",
     },
     createPost: {
+      emptyTitleError: "Der Beitrag hat keine Überschrift!\n Schreib ein paar Wörter...",
       titlePlaceholder: "Überschrift",
       textPlaceholder: "Text (optional)",
       imgBtn: "Bild",

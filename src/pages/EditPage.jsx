@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import { GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
 import { clearTempPreview, editPost, saveImageToEdit, setPreviewData } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
+import { useLanguage } from "../utils/hooks";
 
 const EditPage = () => {
   const { error, posts, comments, replies } = useSelector((state) => state.posts);
@@ -29,6 +30,7 @@ const EditPage = () => {
   const currentPostImg = useSelector((state) => state.posts.currentPost.imgUrl);
   const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
   const dispatch = useDispatch();
+  const userLanguage = useLanguage();
 
   const isObjectEmpty = useCallback((obj) => {
     for (let prop in obj) {
@@ -128,7 +130,7 @@ const EditPage = () => {
               className="error h-12 w-10/12 md:w-1/2 xl:w-1/3 whitespace-pre bg-black text-white text-sm text-center py-1 rounded"
               style={{ display: emptyTitle || error.length !== 0 ? "block" : "none" }}
             >
-              {emptyTitle && emptyTitleError}
+              {emptyTitle && userLanguage.createPost.emptyTitleError}
               {error.length !== 0 && serverErrorMsg}
             </div>
             <div className="w-full md:max-w-2xl">
