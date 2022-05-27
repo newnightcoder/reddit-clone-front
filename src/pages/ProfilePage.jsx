@@ -15,17 +15,61 @@ const Profile = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openProfileOptions, setOpenProfileOptions] = useState(false);
+  const [postTabOpen, setPostTabOpen] = useState(true);
+  const [likedPostArray, setLikedPostArray] = useState([]);
+  const [likedPosts, setLikedPosts] = useState([]);
   const { id, picUrl, bannerUrl, username, creationDate, role, isAuthenticated, language } = useSelector((state) => state?.user);
-  const posts = useSelector((state) => state?.posts.userPosts);
+  const { userPosts, posts, likes } = useSelector((state) => state?.posts);
   const dispatch = useDispatch();
   const location = useLocation();
   const { profileId } = location?.state;
   const userData = useGetProfile(profileId);
   const userLanguage = useLanguage();
 
+  const getLikedPostArray = useCallback(() => {
+    const postsArr = [];
+    const likedPostArr = [];
+    likes.forEach((like) => {
+      if (like.fk_userId_like === id && like.fk_postId_like !== null) {
+        postsArr.push(like.fk_postId_like);
+      }
+    });
+    for (let post of posts) {
+      for (let id of postsArr) {
+        if (post.postId === id) {
+          likedPostArr.push(post);
+        }
+      }
+    }
+    console.log("POSTS LIKED", postsArr);
+    return setLikedPosts(likedPostArr);
+    // return setLikedPostArray(
+    //   posts.sort((a, b) => {
+    //     if (a > b) return 1;
+    //     if (a < b) return -1;
+    //   })
+    // );
+  }, [likes, posts, setLikedPosts]);
+
+  const findLikedPosts = useCallback(() => {
+    const postsArr = [];
+    console.log(likedPostArray);
+    // for (let post of posts) {
+    //   for (let like of likedPostArray) {
+    //     if (post.postId === like) {
+    //       postsArr.push(post);
+    //     }
+    //   }
+    // }
+    // console.log("POSTS LIKED", postsArr);
+    // return setLikedPosts(postsArr);
+  }, [posts, likedPostArray, setLikedPosts]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(getUserPosts(profileId));
+    getLikedPostArray();
+    // findLikedPosts();
   }, [profileId, dispatch]);
 
   const profilePostsTitle = (
@@ -35,6 +79,12 @@ const Profile = () => {
       <span>{language === "en" && userLanguage.profile.userPosts}</span>
     </>
   );
+
+  const toggleTabs = useCallback(() => {
+    if (postTabOpen) {
+      return setPostTabOpen(false);
+    } else setPostTabOpen(true);
+  }, [postTabOpen, setPostTabOpen]);
 
   const toggleDeleteModal = useCallback(() => {
     setOpenModal((openModal) => !openModal);
@@ -68,7 +118,7 @@ const Profile = () => {
       ) : (
         <Layout>
           <div
-            className="page-container h-full w-full  flex items-start md:items-center justify-center md:rounded-md"
+            className="page-container h-max w-full flex items-start justify-center md:rounded-md"
             style={{ minHeight: "calc(100vh - 4rem)" }}
           >
             {userData === undefined || !userData ? (
@@ -76,7 +126,7 @@ const Profile = () => {
             ) : (
               <div
                 style={{ minHeight: "calc(100vh - 7rem)" }}
-                className="bg-white dark:bg-gray-900 w-full md:w-5/6 rounded-md md:mt-8 flex flex-col items-center justify-start gap-2 pb-24 md:pb-12"
+                className="bg-white dark:bg-gray-900 w-full h-max md:w-5/6 rounded-md md:mt-8 flex flex-col items-center justify-start space-y-2 pb-24 md:pb-12"
               >
                 <div
                   style={{
@@ -146,21 +196,49 @@ const Profile = () => {
                     origin={role === "admin" && userData?.id !== id ? "profile-admin" : "profile"}
                   />
                 )}
-                <div className="w-10/12 flex flex-col items-center justify-center">
-                  <h2 className="font-bold">
-                    {userData?.id !== id ? (
-                      <>
-                        {profilePostsTitle}&nbsp;
-                        {`(${posts.length})`}
-                      </>
+                <div className="w-full h-full md:w-10/12 flex flex-col items-center justify-center">
+                  <div className="w-full h-min px-4">
+                    <div className="relative w-full h-full flex items-center justify-evenly">
+                      <button
+                        onClick={!postTabOpen ? toggleTabs : undefined}
+                        className="h-12 w-1/2 flex items-center justify-center outline-none font-bold hover:bg-gray-200 dark:hover:bg-gray-700"
+                      >
+                        {userData?.id !== id ? (
+                          <>
+                            {profilePostsTitle}&nbsp;
+                            {`(${posts.length})`}
+                          </>
+                        ) : (
+                          `${userLanguage.profile.posts} (${posts.length})`
+                        )}
+                      </button>
+                      <button
+                        onClick={postTabOpen ? toggleTabs : undefined}
+                        className="h-12 w-1/2 flex items-center justify-center outline-none font-bold hover:bg-gray-200 dark:hover:bg-gray-700"
+                      >
+                        {`Likes (${likedPosts.length})`}
+                      </button>
+                      <div
+                        className={`absolute left-0 bottom-0 w-1/2 h-1 bg-blue-500 transform transition duration-100 ${
+                          postTabOpen ? "translate-x-0" : "translate-x-full"
+                        }`}
+                      ></div>
+                    </div>
+                  </div>
+                  <div className="w-full max-w-3xl h-full flex items-center justify-center pt-4">
+                    {postTabOpen ? (
+                      <div className="w-full h-max flex flex-col items-center justify-center space-y-3">
+                        {userPosts.map((post) => (
+                          <Post key={post.postId} post={post} />
+                        ))}
+                      </div>
                     ) : (
-                      `${userLanguage.profile.posts} (${posts.length})`
+                      <div className="w-full max-w-3xl h-max flex flex-col items-center justify-center space-y-3">
+                        {likedPosts?.map((post) => (
+                          <Post key={post.postId} post={post} />
+                        ))}
+                      </div>
                     )}
-                  </h2>
-                  <div className="w-full max-w-3xl flex flex-col items-center justify-center gap-3 pt-4">
-                    {posts.map((post) => (
-                      <Post key={post.postId} post={post} />
-                    ))}
                   </div>
                 </div>
               </div>
