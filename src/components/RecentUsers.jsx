@@ -28,7 +28,7 @@ const RecentUsers = () => {
           {recentUsers.length === 0 || recentUsers === undefined ? (
             <Skeleton element="user" number={pathname.includes("profile") ? 3 : 5} />
           ) : pathname.includes("/profile") ? (
-            recentUsers?.splice(0, 2).map((user) => <UserCard user={user} key={user.id} />)
+            recentUsers?.splice(0, 3).map((user) => <UserCard user={user} key={user.id} />)
           ) : (
             recentUsers?.map((user) => <UserCard user={user} key={user.id} />)
           )}

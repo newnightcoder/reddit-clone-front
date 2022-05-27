@@ -30,7 +30,7 @@ const Profile = () => {
     const postsArr = [];
     const likedPostArr = [];
     likes.forEach((like) => {
-      if (like.fk_userId_like === id && like.fk_postId_like !== null) {
+      if (like.fk_userId_like === profileId && like.fk_postId_like !== null) {
         postsArr.push(like.fk_postId_like);
       }
     });
@@ -41,35 +41,13 @@ const Profile = () => {
         }
       }
     }
-    console.log("POSTS LIKED", postsArr);
     return setLikedPosts(likedPostArr);
-    // return setLikedPostArray(
-    //   posts.sort((a, b) => {
-    //     if (a > b) return 1;
-    //     if (a < b) return -1;
-    //   })
-    // );
-  }, [likes, posts, setLikedPosts]);
-
-  const findLikedPosts = useCallback(() => {
-    const postsArr = [];
-    console.log(likedPostArray);
-    // for (let post of posts) {
-    //   for (let like of likedPostArray) {
-    //     if (post.postId === like) {
-    //       postsArr.push(post);
-    //     }
-    //   }
-    // }
-    // console.log("POSTS LIKED", postsArr);
-    // return setLikedPosts(postsArr);
-  }, [posts, likedPostArray, setLikedPosts]);
+  }, [likes, posts, setLikedPosts, profileId]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     dispatch(getUserPosts(profileId));
     getLikedPostArray();
-    // findLikedPosts();
   }, [profileId, dispatch]);
 
   const profilePostsTitle = (
@@ -206,10 +184,10 @@ const Profile = () => {
                         {userData?.id !== id ? (
                           <>
                             {profilePostsTitle}&nbsp;
-                            {`(${posts.length})`}
+                            {`(${userPosts.length})`}
                           </>
                         ) : (
-                          `${userLanguage.profile.posts} (${posts.length})`
+                          `${userLanguage.profile.posts} (${userPosts.length})`
                         )}
                       </button>
                       <button
@@ -225,7 +203,7 @@ const Profile = () => {
                       ></div>
                     </div>
                   </div>
-                  <div className="w-full max-w-3xl h-full flex items-center justify-center pt-4">
+                  <div className="w-full max-w-3xl h-full flex items-center justify-center pt-4 border-t border-gray-200">
                     {postTabOpen ? (
                       <div className="w-full h-max flex flex-col items-center justify-center space-y-3">
                         {userPosts.map((post) => (

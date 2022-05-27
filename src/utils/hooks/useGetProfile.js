@@ -24,8 +24,8 @@ const useGetProfile = (id) => {
 
   useEffect(() => {
     getProfile(id);
-    // console.log("userData", userData);
-  }, []);
+    console.log("userData", userData);
+  }, [id]);
 
   return userData;
 };
