@@ -71,6 +71,10 @@ const language = {
       profile: "My profile",
       settings: "Settings",
       logout: "Logout",
+      member: "Member for",
+      visitor: "Visitor mode",
+      status: "Status : online",
+      delete: "Delete my profile",
     },
     aside: {
       recentMembers: "New members",
@@ -297,6 +301,10 @@ const language = {
       profile: "Mon profil",
       settings: "Paramètres",
       logout: "Déconnexion",
+      member: "Membre depuis",
+      visitor: "Mode visiteur",
+      status: "Statut : en ligne",
+      delete: "Supprimer mon profil",
     },
     aside: {
       recentMembers: "Nouveaux membres",
@@ -522,6 +530,10 @@ const language = {
       profile: "Mein Profil",
       settings: "Einstellungen",
       logout: "Abmelden",
+      member: "Mitglied seit",
+      visitor: "Besuchermodus",
+      status: "Status : online",
+      delete: "Mein Profil löschen",
     },
     aside: {
       recentMembers: "Neue Mitglieder",
@@ -595,7 +607,6 @@ const language = {
       },
     },
     profile: {
-      member: "Mitglied seit",
       usernameBtn: "Benutzername ändern",
       deleteBtn: "Mein Profil löschen",
       modDeleteBtn: "Profil löschen",

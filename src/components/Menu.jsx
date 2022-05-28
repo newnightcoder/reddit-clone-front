@@ -53,9 +53,11 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
           <span className="block italic text-sm flex items-center justify-center gap-1">
             <img src={logo_mobile_blue} className="h-6" alt="forum logo" />
             {isAuthenticated ? (
-              <span>membre depuis {creationDate?.length !== 0 && formatTimestamp(creationDate)}</span>
+              <span>
+                {userLanguage.navbarDesktop.member} {creationDate?.length !== 0 && formatTimestamp(creationDate)}
+              </span>
             ) : (
-              <span>Visitor Mode</span>
+              <span>{userLanguage.navbarDesktop.visitor}</span>
             )}
           </span>
         </div>
@@ -71,7 +73,7 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
               }}
             >
               <UserIcon className="h-6 text-gray-500 dark:text-gray-200" />
-              <span>Mon profil</span>
+              <span>{userLanguage.navbarDesktop.profile}</span>
             </button>
           </li>
           <li>
@@ -83,7 +85,7 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
               }}
             >
               <PencilIcon className="h-6 text-gray-500 dark:text-gray-200" />
-              <span>Créer un nouveau post</span>
+              <span>{userLanguage.navbarDesktop.publish}</span>
             </button>
           </li>
           <li>
@@ -103,7 +105,7 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
               onClick={() => (isAuthenticated ? setOpenModal(true) : handleLink("delete"))}
             >
               <TrashIcon className="h-6 text-gray-500 dark:text-gray-200" />
-              <span>Supprimer mon profil</span>
+              <span>{userLanguage.navbarDesktop.delete}</span>
             </button>
           </li>
         </ul>
@@ -112,7 +114,7 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
         style={{ minWidth: "50%" }}
         className="h-12 w-max flex items-center justify-center space-x-1 border border-green-500 text-green-500 text-sm rounded-full"
       >
-        <span className="w-3 h-3 rounded-full bg-green-500 "></span> <span>Statut : en ligne</span>
+        <span className="w-3 h-3 rounded-full bg-green-500 "></span> <span>{userLanguage.navbarDesktop.status}</span>
       </div>
       {openModal && (
         <DeleteModal

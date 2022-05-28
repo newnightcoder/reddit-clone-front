@@ -54,8 +54,6 @@ export const getPosts = () => async (dispatch) => {
 
 export const getPostById = (id) => async (dispatch) => {
   const accessToken = localStorage.getItem("jwt");
-  // const params = new URLSearchParams({ id }).toString();
-  // console.log("front params", params);
   const request = {
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -76,7 +74,7 @@ export const getPostById = (id) => async (dispatch) => {
 };
 
 export const getLikes = () => async (dispatch) => {
-  // dispatch({ type: CLEAR_ERROR_POST });
+  dispatch({ type: CLEAR_ERROR_POST });
   const accessToken = localStorage.getItem("jwt");
   const request = {
     headers: {
@@ -122,8 +120,8 @@ export const getUserPosts = (userId) => async (dispatch) => {
 };
 
 export const savePostImage = (blob) => async (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_POST });
   dispatch({ type: CLEAR_TEMP_PREVIEW });
-
   const formData = new FormData();
   formData.append("image", blob);
   const request = {
@@ -152,6 +150,7 @@ export const savePostImage = (blob) => async (dispatch) => {
 };
 
 export const saveImageToEdit = (imgUrl) => (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_POST });
   dispatch({ type: CLEAR_TEMP_PREVIEW });
   dispatch({ type: SAVE_POST_PIC, payload: imgUrl });
 };
@@ -162,8 +161,8 @@ export const saveGifUrl = (url) => (dispatch) => {
 };
 
 export const getPreviewData = (targetUrl) => async (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_POST });
   dispatch({ type: CLEAR_TEMP_POST_PIC });
-
   const request = {
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -231,11 +230,10 @@ export const createPost = (userId, title, text, date, imgUrl, isPreview, preview
 export const editPost = (origin, id, title, text, imgUrl, isPreview, preview) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
   const accessToken = localStorage.getItem("jwt");
-  // console.log("token", accessToken);
   const request = {
     headers: {
-      "Access-Control-Allow-Origin":
-        process.env.NODE_ENV === "production" ? "https://forum-network.netlify.app" : "http://localhost:3000",
+      "Access-Control-Allow-Origin": "*",
+      // process.env.NODE_ENV === "production" ? "https://forum-network.netlify.app" : "http://localhost:3000",
       "Content-Type": "application/json",
       Authorization: `Bearer ${accessToken}`,
     },
