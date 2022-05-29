@@ -6,10 +6,10 @@ import { useLocation } from "react-router-dom";
 import { GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
 import { clearTempPreview, editPost, saveImageToEdit, setPreviewData } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
-import { useLanguage } from "../utils/hooks";
+import { useError, useLanguage } from "../utils/hooks";
 
 const EditPage = () => {
-  const { error, posts, comments, replies } = useSelector((state) => state.posts);
+  const { posts, comments, replies } = useSelector((state) => state.posts);
   const isAuthenticated = useSelector((state) => state?.user.isAuthenticated);
   const location = useLocation();
   const { postId, commentId, replyId } = location?.state;
@@ -31,7 +31,7 @@ const EditPage = () => {
   const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
-
+  const error = useError();
   const isObjectEmpty = useCallback((obj) => {
     for (let prop in obj) {
       return false;
@@ -130,8 +130,8 @@ const EditPage = () => {
               className="error h-12 w-10/12 md:w-1/2 xl:w-1/3 whitespace-pre bg-black text-white text-sm text-center py-1 rounded"
               style={{ display: emptyTitle || error.length !== 0 ? "block" : "none" }}
             >
-              {emptyTitle && userLanguage.createPost.emptyTitleError}
-              {error.length !== 0 && serverErrorMsg}
+              {emptyTitle && userLanguage.error.emptyTitle}
+              {error}
             </div>
             <div className="w-full md:max-w-2xl">
               <PostForm

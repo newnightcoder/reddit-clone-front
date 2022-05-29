@@ -7,7 +7,7 @@ import { clearErrorPost, clearPreviewImg } from "../store/actions/posts.action";
 import useLanguage from "../utils/hooks/useLanguage";
 
 const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previewPub, previewPubLogo, aside }) => {
-  const { title, image, description, publisher, logo } = useSelector((state) => state.posts.scrapedPost);
+  const { title, image, description, publisher, logo, url } = useSelector((state) => state.posts.scrapedPost);
   const { preview } = useSelector((state) => state.posts.scrapedPost);
   const [imgUrl, setImgUrl] = useState(image ? image : previewImg);
   const { pathname } = useLocation();
@@ -48,20 +48,25 @@ const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previe
       </div>
       <div className="w-full flex flex-col space-y-1.5 text-gray-700 dark:text-gray-200 text-sm cursor-pointer">
         <a
-          href={previewUrl}
+          href={url ? url : previewUrl && previewUrl}
           target="_blank"
           rel="noreferrer"
           className={`${aside && "whitespace-nowrap truncate"} w-full font-bold px-4 leading-4 hover:underline`}
         >
           {title ? title : previewTitle}
         </a>
-        <a href={previewUrl} target="_blank" rel="noreferrer" className="w-full px-4 leading-4 hover:underline">
-          {description ? `${description.substr(0, 100)}...` : `${previewText?.substr(0, 100)}...`}
+        <a
+          href={url ? url : previewUrl && previewUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="w-full px-4 leading-4 hover:underline"
+        >
+          {description ? `${description.substr(0, 100)}...` : previewText ? `${previewText.substr(0, 100)}...` : null}
         </a>
       </div>
       <div className="w-full px-4 flex items-center justify-between space-x-1 text-gray-500 dark:text-gray-300 text-xs">
         <a
-          href={previewUrl}
+          href={url ? url : previewUrl && previewUrl}
           target="_blank"
           rel="noreferrer"
           className="w-3/4 flex items-center justify-start space-x-1 cursor-pointer hover:underline"
@@ -74,12 +79,12 @@ const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previe
           </span>
         </a>
         {logo ? (
-          <a href={previewUrl} target="_blank" rel="noreferrer" className="w-1/4 cursor-pointer">
+          <a href={url ? url : previewUrl && previewUrl} target="_blank" rel="noreferrer" className="w-1/4 cursor-pointer">
             <img src={logo} width="50" alt="publication logo" className="w-full h-full" />
           </a>
         ) : (
           previewPubLogo && (
-            <a href={previewUrl} target="_blank" rel="noreferrer">
+            <a href={url ? url : previewUrl && previewUrl} target="_blank" rel="noreferrer">
               <img src={previewPubLogo} width="50" alt="publication logo" />
             </a>
           )
