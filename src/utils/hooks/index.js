@@ -1,5 +1,6 @@
 export { default as useDarkMode } from "./useDarkMode";
 export { default as useDelete } from "./useDelete";
+export { default as useError } from "./useError";
 export { default as useGetProfile } from "./useGetProfile";
 export { default as useHandleLink } from "./useHandleLink";
 export { default as useLanguage } from "./useLanguage";

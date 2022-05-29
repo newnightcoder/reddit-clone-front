@@ -12,7 +12,7 @@ import { useHandleLink, useLanguage, useToggleSettings } from "../utils/hooks";
 import Settings from "./Settings";
 
 const Menu = ({ isMenuOpen, toggleMenu }) => {
-  const { id, picUrl, username, creationDate, isAuthenticated } = useSelector((state) => state?.user);
+  const { id, picUrl, username, creationDate, isAuthenticated, language } = useSelector((state) => state?.user);
   const [openModal, setOpenModal] = useState(false);
   const history = useHistory();
   const handleLink = useHandleLink();
@@ -54,7 +54,7 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
             <img src={logo_mobile_blue} className="h-6" alt="forum logo" />
             {isAuthenticated ? (
               <span>
-                {userLanguage.navbarDesktop.member} {creationDate?.length !== 0 && formatTimestamp(creationDate)}
+                {userLanguage.navbarDesktop.member} {creationDate?.length !== 0 && formatTimestamp(creationDate, null, language)}
               </span>
             ) : (
               <span>{userLanguage.navbarDesktop.visitor}</span>

@@ -28,7 +28,9 @@ const UserCard = ({ user, mod }) => {
         <span className="capitalize">{username}</span>
       </button>
       {!mod && (
-        <span className="w-full flex justify-center text-xs italic">{formatTimestamp(creationDate, "card", language)}</span>
+        <span className="w-full flex justify-center text-xs italic">
+          {userLanguage.navbarDesktop.member} {formatTimestamp(creationDate, "card", language)}
+        </span>
       )}
     </div>
   );

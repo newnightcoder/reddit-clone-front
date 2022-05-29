@@ -25,15 +25,28 @@ const language = {
       exploreBtn: "explore forum",
       download: "Download the app",
     },
+    error: {
+      duplicateEmail: "There's already an account with this email address",
+      duplicateUsername: "This username is already taken.\nPlease choose another one",
+      emptyTitle: "Your post has no title!\n Put a word or two...",
+      emptyComment: "Your comment is empty...",
+      emptyReply: "Your reply is empty...",
+      backend: "Oops! something went wrong...",
+      notFound: "No user found with this email address",
+      password: "Your password is incorrect",
+      database: "Sorry! Looks like our server just sneezed...\nPlease refresh the page",
+      scrape:
+        "Weird... Something funny happened while getting this article.\nPlease refresh and try again or choose another article.",
+      noAuthToken: "Looks like you're not authenticated...\nPlease log in again.",
+      verifyAuthToken: "Sorry we're not able to authenticate you for some reason.\nPlease log in again.",
+      authToken: "Sorry but your authentication went wrong for some reason.Please log in again.",
+    },
     login: {
       greeting: "happy to see you again on",
       pass: "Password",
       enter: "log in",
       first: "First time on FORUM",
       registerBtn: "sign up",
-      errorBackend: "Oops! something went wrong...",
-      errorNotFound: "No user found with this email address",
-      errorPassword: "Your password is incorrect",
     },
     signup: {
       join: "Join the community",
@@ -44,14 +57,10 @@ const language = {
       checkDigit: "contains at least 1 digit",
       check8: "contains at least 8 characters",
       submit: "create my account",
-      errorDuplicate: "There's already an account with this email address",
-      errorBackend: "Oops! something went wrong...",
       already: "I already have an account!",
       alreadyBtn: "Log in",
       stepUsername: {
         choose: "Choose your username:",
-        errorDuplicate: "This username is already taken.\nPlease choose another one",
-        errorBackend: "Oops! something went wrong...",
         ok: "ok",
       },
       stepImage: {
@@ -120,7 +129,6 @@ const language = {
       refreshBtn: "refresh",
     },
     createPost: {
-      emptyTitleError: "Your post has no title!\n Put a word or two...",
       titlePlaceholder: "Title of your post",
       textPlaceholder: "Text (optional)",
       imgBtn: "Picture",
@@ -134,7 +142,6 @@ const language = {
     commentPage: {
       noComments: "no comment yet",
       comments: "comments",
-      error: "Your comment is empty...",
       commentForm: {
         placeholder: "Your comment...",
         commentBtn: "comment",
@@ -153,7 +160,7 @@ const language = {
       deleteBtn: "Delete my profile",
       modDeleteBtn: "Delete profile",
       posts: "My posts",
-      userPosts: "'s posts",
+      userPosts: "Posts",
     },
     editModal: {
       newUsername: "Enter your new username",
@@ -180,7 +187,6 @@ const language = {
     },
     postFooter: {
       comments: "Comments",
-      error: "Oops! something went wrong...",
     },
     postOptions: {
       modify: "Edit",
@@ -255,15 +261,28 @@ const language = {
       exploreBtn: "explorer forum",
       download: "Téléchargez cette application",
     },
+    error: {
+      duplicateEmail: "Un compte associé à cet email existe déjà.",
+      duplicateUsername: "Ce nom d'utilisateur est déjà pris!\nVeuillez en choisir un autre.",
+      emptyTitle: "Votre titre est vide!\n Mettez un mot ou deux...",
+      emptyComment: "Votre commentaire est vide!",
+      emptyReply: "Votre réponse est vide!",
+      backend: "Oups! petit problème de notre part, désolé...",
+      notFound: "Aucun compte trouvé avec cet email",
+      password: "Votre mot de passe est incorrect",
+      database: "On dirait que notre serveur vient d'éternuer...\nVeuillez rafraîchir la page",
+      scrape:
+        "Bizarre... Une erreur s'est produite en allant chercher votre article.\nVeuillez rafraîchir et réessayer ou utilisez un autre lien.",
+      noAuthToken: "On dirait que vous n'êtes pas authentifié(e)...\nVeuillez vous reconnecter.",
+      verifyAuthToken: "Désolé on a un petit problème avec votre authentification.\nVeuillez vous reconnecter.",
+      authToken: "Oups! Votre authentification a échoué...\nVeuillez vous reconnecter.",
+    },
     login: {
       greeting: "content de vous revoir sur",
       pass: "Mot de passe",
       enter: "valider",
       first: "Première fois sur FORUM",
       registerBtn: "s'inscrire",
-      errorBackend: "Oops! petit problème de notre part désolé",
-      errorNotFound: "Aucun compte trouvé avec cet email",
-      errorPassword: "Votre mot de passe est incorrect",
     },
     signup: {
       join: "Rejoignez la communauté",
@@ -274,14 +293,10 @@ const language = {
       checkDigit: "contient au moins 1 chiffre",
       check8: "contient au moins 8 caractères",
       submit: "valider",
-      errorDuplicate: "Un compte associé à cet email existe déjà.",
-      errorBackend: "Oops! petit problème de notre part désolé",
       already: "J'ai déjà un compte!",
       alreadyBtn: "Se connecter",
       stepUsername: {
         choose: "Choisissez votre pseudo:",
-        errorDuplicate: "Ce nom d'utilisateur est déjà pris!\nVeuillez en choisir un autre.",
-        errorBackend: "Oops! petit problème de notre part désolé",
         ok: "valider",
       },
       stepImage: {
@@ -350,7 +365,6 @@ const language = {
       refreshBtn: "rafraîchir",
     },
     createPost: {
-      emptyTitleError: "Votre titre est vide!\n Mettez un mot ou deux...",
       titlePlaceholder: "Titre de votre post",
       textPlaceholder: "Texte (facultatif)",
       imgBtn: "Image",
@@ -364,7 +378,6 @@ const language = {
     commentPage: {
       noComments: "pas encore de commentaire",
       comments: "commentaires",
-      error: "Votre commentaire est vide!",
       commentForm: {
         placeholder: "Votre commentaire...",
         commentBtn: "commenter",
@@ -383,7 +396,7 @@ const language = {
       deleteBtn: "Supprimer mon profil",
       modDeleteBtn: "Supprimer le profil",
       posts: "Mes posts",
-      userPosts: "Posts de",
+      userPosts: "Publications",
     },
     editModal: {
       newUsername: "Entrez votre nouveau pseudo",
@@ -484,15 +497,28 @@ const language = {
       exploreBtn: "forum erforschen",
       download: "Hole Sie sich die App",
     },
+    error: {
+      duplicateEmail: "Ein Konto mit dieser Emailadresse existiert schon.",
+      duplicateUsername: "Dieser Benutzername ist schon vergeben!\nGeben Sie bitte einen anderen Benutzernamen ein.",
+      emptyTitle: "Der Beitrag hat keine Überschrift!\n Schreiben Sie ein paar Wörter...",
+      emptyComment: "Ihr Kommentar ist doch leer...",
+      emptyReply: "Ihre Antwort ist doch leer...",
+      backend: "Oops! sieht aus, wie etwas shiefgegangen ist, sorry",
+      notFound: "Kein Konto mit dieser Emailadresse gefunden",
+      password: "Falsches Passwort eingegeben",
+      database: "On dirait que notre serveur vient d'éternuer...\nVeuillez rafraîchir la page",
+      scrape:
+        "Bizarre... Une erreur s'est produite en allant chercher votre article.\nVeuillez rafraîchir et réessayer ou utilisez un autre lien.",
+      noAuthToken: "On dirait que vous n'êtes pas authentifié(e)...\nVeuillez vous reconnecter.",
+      verifyAuthToken: "Désolé on a un petit problème avec votre authentification.\nVeuillez vous reconnecter.",
+      authToken: "Oups! Votre authentification a échoué...\nVeuillez vous reconnecter.",
+    },
     login: {
       greeting: "Schön dich wieder zu sehen auf",
       pass: "Passwort",
       enter: "bestätigen",
       first: "Zum ersten Mal auf FORUM",
       registerBtn: "registrieren",
-      errorBackend: "Oops! sieht aus, wie etwas shiefgegangen  ist, sorry",
-      errorNotFound: "Kein Konto mit dieser Emailadresse gefunden",
-      errorPassword: "Falsches Passwort",
     },
     signup: {
       join: "Tritt der Community bei",
@@ -503,14 +529,10 @@ const language = {
       checkDigit: "enthält mindestens 1 Ziffer",
       check8: "enthält mindestens 8 Zeichen",
       submit: "Konto erstellen",
-      errorDuplicate: "Ein Konto mit dieser Emailadresse existiert schon.",
-      errorBackend: "Oops! sieht aus, wie etwas shiefgegangen  ist, sorry",
       already: "Ich habe schon ein Konto!",
       alreadyBtn: "Sich anmelden",
       stepUsername: {
         choose: "Benutzername erstellen",
-        errorDuplicate: "Dieser Benutzername ist schon vergeben!\nGib bitte einen anderen Benutzernamen ein.",
-        errorBackend: "Oops! sieht aus, wie etwas shiefgegangen  ist, sorry",
         ok: "ok",
       },
       stepImage: {
@@ -575,11 +597,10 @@ const language = {
     feed: {
       greetingVisitor1: "Wilkommen im Forum",
       greetingVisitor2: "Teile und diskutiere mit der Community",
-      greetingUser: "Schön dich wiederzusehen",
+      greetingUser: "Schön Sie wiederzusehen",
       refreshBtn: "aktualisieren",
     },
     createPost: {
-      emptyTitleError: "Der Beitrag hat keine Überschrift!\n Schreib ein paar Wörter...",
       titlePlaceholder: "Überschrift",
       textPlaceholder: "Text (optional)",
       imgBtn: "Bild",
@@ -593,7 +614,6 @@ const language = {
     commentPage: {
       noComments: "noch kein kommentar",
       comments: "kommentare",
-      error: "Dein Kommentar ist doch leer...",
       commentForm: {
         placeholder: "Was denkst du dazu?",
         commentBtn: "kommentieren",
@@ -611,7 +631,7 @@ const language = {
       deleteBtn: "Mein Profil löschen",
       modDeleteBtn: "Profil löschen",
       posts: "Meine Posts",
-      userPosts: "Beiträge von",
+      userPosts: "Beiträge",
     },
     editModal: {
       newUsername: "Geben Sie Ihre neue Benutzername ein",

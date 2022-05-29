@@ -6,16 +6,17 @@ import { Link } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import { logUserAction } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
-import { useLanguage } from "../utils/hooks";
+import { useError, useLanguage } from "../utils/hooks";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordType, setPasswordType] = useState("password");
   const [isLoading, setIsLoading] = useState(false);
-  const { error, isAuthenticated, darkMode } = useSelector((state) => state.user);
+  const { isAuthenticated, darkMode } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
+  const error = useError();
 
   /* eslint no-control-regex: 0 */
   const emailRegex =
@@ -89,13 +90,7 @@ const Login = () => {
         style={error.length === 0 ? { display: "none" } : { display: "flex" }}
         className="error h-max w-full  items-center justify-center py-2"
       >
-        <span className="w-max h-max whitespace-wrap py-2 px-3 text-center text-white bg-black rounded">
-          {error === "404"
-            ? userLanguage.login.errorNotFound
-            : error === "password"
-            ? userLanguage.login.errorPassword
-            : userLanguage.login.errorBackend}
-        </span>
+        <span className="w-max h-max whitespace-wrap py-2 px-3 text-center text-white bg-black rounded">{error}</span>
       </div>
       <form method="post" className="h-max flex flex-col items-center justify-center gap-4" onSubmit={handleUserSubmit}>
         <div className="flex flex-col items-start">

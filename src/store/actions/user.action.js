@@ -68,6 +68,7 @@ export const logUserAction = (email, password) => async (dispatch) => {
     dispatch({ type: LOGIN_SUCCESS });
   } catch (err) {
     console.log(err.message);
+    dispatch({ type: SET_ERROR_USER, payload: "backend" });
   }
 };
 
@@ -97,7 +98,7 @@ export const createUser = (email, password) => async (dispatch) => {
     dispatch({ type: CREATE_USER, payload: userId });
     dispatch({ type: USER_CREATED });
   } catch (err) {
-    console.log(err);
+    dispatch({ type: SET_ERROR_USER, payload: "backend" });
   }
 };
 
@@ -130,7 +131,7 @@ export const saveUserName = (id, username, creationDate) => async (dispatch) => 
     dispatch({ type: USERNAME_ADDED });
     dispatch({ type: LOGIN_SUCCESS });
   } catch (err) {
-    console.log(err);
+    dispatch({ type: SET_ERROR_USER, payload: "backend" });
   }
 };
 
@@ -159,7 +160,7 @@ export const editUsername = (userId, username) => async (dispatch) => {
     dispatch({ type: EDIT_USERNAME, payload: { newName } });
     dispatch({ type: USERNAME_EDITED });
   } catch (error) {
-    dispatch({ type: SET_ERROR_USER, payload: error.message });
+    dispatch({ type: SET_ERROR_USER, payload: "backend" });
   }
 };
 
@@ -193,12 +194,12 @@ export const saveUserPic = (blob, id, imgType) => async (dispatch) => {
       payload: { picUrl, imgType },
     });
   } catch (err) {
-    console.log(err);
+    dispatch({ type: SET_ERROR_USER, payload: "backend" });
   }
 };
 
 export const likePost = (origin, userId, id, like) => async (dispatch) => {
-  // dispatch({ type: CLEAR_ERROR_USER });
+  dispatch({ type: CLEAR_ERROR_USER });
   const accessToken = localStorage.getItem("jwt");
   const request = {
     headers: {
@@ -220,12 +221,12 @@ export const likePost = (origin, userId, id, like) => async (dispatch) => {
     }
     dispatch({ type: LIKE_POST, payload: liked });
   } catch (error) {
-    dispatch({ type: SET_ERROR_USER, payload: error.message });
+    dispatch({ type: SET_ERROR_USER, payload: "backend" });
   }
 };
 
 export const toComment = (postId) => (dispatch) => {
-  // dispatch({ type: CLEAR_ERROR_USER });
+  dispatch({ type: CLEAR_ERROR_USER });
   dispatch({
     type: TO_COMMENT,
     payload: postId,
@@ -258,7 +259,7 @@ export const createComment = (userId, postId, text, date) => async (dispatch) =>
     }
     dispatch({ type: CREATE_COMMENT, payload: count });
   } catch (error) {
-    dispatch({ type: SET_ERROR_USER, payload: error.message });
+    dispatch({ type: SET_ERROR_USER, payload: "backend" });
   }
 };
 
@@ -278,7 +279,7 @@ export const getUserProfile = (id) => async (dispatch) => {
     console.log("user reçu pour le profil", user);
     dispatch({ type: GET_USER_PROFILE, payload: user });
   } catch (error) {
-    dispatch({ type: SET_ERROR_USER, payload: error.message });
+    dispatch({ type: SET_ERROR_USER, payload: "backend" });
   }
 };
 
@@ -287,7 +288,7 @@ export const cleanCurrentProfileVisit = () => (dispatch) => {
 };
 
 export const getRecentUsers = () => async (dispatch) => {
-  // dispatch({ type: CLEAR_ERROR_POST });
+  dispatch({ type: CLEAR_ERROR_USER });
   const accessToken = localStorage.getItem("jwt");
   const request = {
     headers: {
@@ -306,7 +307,7 @@ export const getRecentUsers = () => async (dispatch) => {
     }
     dispatch({ type: GET_USERS, payload: { recentUsers } });
   } catch (error) {
-    dispatch({ type: SET_ERROR_USER, payload: error.message });
+    dispatch({ type: SET_ERROR_USER, payload: "backend" });
   }
 };
 
@@ -327,7 +328,7 @@ export const getMods = () => async (dispatch) => {
     }
     dispatch({ type: GET_MODS, payload: { mods } });
   } catch (error) {
-    dispatch({ type: SET_ERROR_USER, payload: error.message });
+    dispatch({ type: SET_ERROR_USER, payload: "backend" });
   }
 };
 
@@ -356,7 +357,7 @@ export const deleteUser = (id) => async (dispatch) => {
     }
     dispatch({ type: DELETE_USER });
   } catch (error) {
-    dispatch({ type: SET_ERROR_USER, payload: error.message });
+    dispatch({ type: SET_ERROR_USER, payload: "backend" });
   }
 };
 

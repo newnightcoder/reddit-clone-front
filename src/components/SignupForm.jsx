@@ -3,7 +3,7 @@ import React, { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { StepUsername } from ".";
-import { useLanguage } from "../utils/hooks";
+import { useError, useLanguage } from "../utils/hooks";
 
 const SignupForm = ({
   handleNewEmail,
@@ -16,8 +16,9 @@ const SignupForm = ({
   isNumber,
   userId,
 }) => {
-  const { error, userCreated, darkMode } = useSelector((state) => state.user);
+  const { userCreated, darkMode } = useSelector((state) => state.user);
   const userLanguage = useLanguage();
+  const error = useError();
   const [passwordType, setPasswordType] = useState("password");
 
   const displayCheck = useCallback((bool) => {
@@ -65,9 +66,7 @@ const SignupForm = ({
         style={{ display: error.length !== 0 ? "flex" : "none" }}
         className="error h-max w-full  items-center justify-center py-2"
       >
-        <span className="block w-max h-max py-2 px-3 border-2 border-red-500 bg-black text-white rounded">
-          {error === "duplicate" ? userLanguage.signup.errorDuplicate : userLanguage.signup.errorBackend}
-        </span>
+        <span className="block w-max h-max py-2 px-3 border-2 border-red-500 bg-black text-white rounded">{error}</span>
       </div>
       <form method="post" className="h-max w-72 flex flex-col items-center justify-center gap-4" onSubmit={handleNewUserSubmit}>
         <div className="flex flex-col items-center gap-4">

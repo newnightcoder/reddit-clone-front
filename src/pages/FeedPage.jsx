@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Layout, Post, Skeleton } from "../components";
 import { clearTempPostImg, clearTempPreview, getLikes, getPosts } from "../store/actions/posts.action";
-import { useLanguage } from "../utils/hooks";
+import { useError, useLanguage } from "../utils/hooks";
 
 const Feed = () => {
   const [newUser, setNewUser] = useState(false);
@@ -12,6 +12,7 @@ const Feed = () => {
   const posts = useSelector((state) => state?.posts?.posts);
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
+  const error = useError();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -35,6 +36,7 @@ const Feed = () => {
   return (
     <Layout>
       <div className="feed-container h-full w-full shrink flex flex-col items-center justify-start gap-2 transition duration-500 relative">
+        {error && <span>{error}</span>}
         <div className="bienvenueMsg-newcomer h-16 flex items-center justify-center text-center whitespace-pre mb-2">
           {newUser ? (
             <span className="font-bold">

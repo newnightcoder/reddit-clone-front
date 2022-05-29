@@ -6,7 +6,7 @@ import { useHandleLink } from "../utils/hooks";
 
 const PostHeader = ({ post }) => {
   const { title, date, username: authorName, picUrl, fk_userId_post } = post;
-  const { id, username: myName } = useSelector((state) => state.user);
+  const { id, username: myName, language } = useSelector((state) => state.user);
   const handleLink = useHandleLink();
 
   return (
@@ -42,7 +42,7 @@ const PostHeader = ({ post }) => {
               <span className="text-xs">@</span>
               {authorName}
             </button>
-            <div className="text-xs italic">{formatTimestamp(date, "post")}</div>
+            <div className="text-xs italic">{formatTimestamp(date, "post", language)}</div>
           </div>
           <div className="title font-bold h-max">{title}</div>
         </div>

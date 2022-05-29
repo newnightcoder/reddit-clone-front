@@ -25,7 +25,7 @@ export const formatTimestamp = (date, origin, language) => {
   return formatDistanceToNowStrict(
     new Date(convertedDate.year, convertedDate.month, convertedDate.day, convertedDate.minute, convertedDate.seconds),
     {
-      addSuffix: origin === "post" || origin === "card" ? true : false,
+      addSuffix: origin === "post" ? true : false,
       locale: language === "fr" ? fr : language === "en" ? en : language === "de" && de,
     }
   );

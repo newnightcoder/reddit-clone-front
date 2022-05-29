@@ -50,14 +50,6 @@ const Profile = () => {
     getLikedPostArray();
   }, [profileId, dispatch]);
 
-  const profilePostsTitle = (
-    <>
-      <span style={{ display: language === "en" ? "none" : "inline-block" }}>{userLanguage.profile.userPosts}</span>&nbsp;
-      <span className="capitalize">{userData?.username}</span>
-      <span>{language === "en" && userLanguage.profile.userPosts}</span>
-    </>
-  );
-
   const toggleTabs = useCallback(() => {
     if (postTabOpen) {
       return setPostTabOpen(false);
@@ -104,7 +96,7 @@ const Profile = () => {
             ) : (
               <div
                 style={{ minHeight: "calc(100vh - 7rem)" }}
-                className="bg-white dark:bg-gray-900 w-full h-max md:w-5/6 rounded-md md:mt-8 flex flex-col items-center justify-start space-y-2 pb-24 md:pb-12"
+                className="bg-white dark:bg-gray-900 w-full h-max md:w-5/6 rounded-md md:mt-8 flex flex-col items-center justify-start space-y-3 pb-24 md:pb-12"
               >
                 <div
                   style={{
@@ -183,7 +175,7 @@ const Profile = () => {
                       >
                         {userData?.id !== id ? (
                           <>
-                            {profilePostsTitle}&nbsp;
+                            {userLanguage.profile.userPosts}&nbsp;
                             {`(${userPosts.length})`}
                           </>
                         ) : (
