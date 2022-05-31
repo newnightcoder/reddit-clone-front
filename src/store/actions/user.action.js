@@ -1,4 +1,4 @@
-import { API_AUTH, API_POST } from "../../API/index";
+import { API_USER } from "../../API/index";
 import { actionType } from "../constants.js";
 
 /////////////////////////////////////
@@ -24,7 +24,6 @@ const {
   USER_CREATED,
   LIKE_POST,
   TO_COMMENT,
-  CREATE_COMMENT,
   GET_USER_PROFILE,
   CLEAN_PROFILE_VISIT,
   GET_USERS,
@@ -51,7 +50,7 @@ export const logUserAction = (email, password) => async (dispatch) => {
     body: JSON.stringify({ email, password }),
   };
   try {
-    const response = await fetch(`${API_AUTH}/login`, request);
+    const response = await fetch(`${API_USER}/login`, request);
     const data = await response.json();
     const { error, user, isNewUser, accessToken } = data;
     if (response.status !== 200) {
@@ -86,7 +85,7 @@ export const createUser = (email, password) => async (dispatch) => {
     }),
   };
   try {
-    const response = await fetch(`${API_AUTH}/signup`, request);
+    const response = await fetch(`${API_USER}/signup`, request);
     const data = await response.json();
     const { error, userId } = data;
     console.log("data", response);
@@ -114,7 +113,7 @@ export const saveUserName = (id, username, creationDate) => async (dispatch) => 
     body: JSON.stringify({ id, username, creationDate }),
   };
   try {
-    const response = await fetch(`${API_AUTH}/username`, request);
+    const response = await fetch(`${API_USER}/username`, request);
     const data = await response.json();
     const { result, error, isNewUser, accessToken } = data;
     if (error) {
@@ -149,7 +148,7 @@ export const editUsername = (userId, username) => async (dispatch) => {
   };
 
   try {
-    const response = await fetch(`${API_AUTH}/edit`, request);
+    const response = await fetch(`${API_USER}/edit`, request);
     const data = await response.json();
     const { newName, error } = data;
     console.log("new name", newName);
@@ -182,7 +181,7 @@ export const saveUserPic = (blob, id, imgType) => async (dispatch) => {
   };
   try {
     console.log("imgType sent to backend", imgType);
-    const response = await fetch(`${API_AUTH}/userpic`, request);
+    const response = await fetch(`${API_USER}/userpic`, request);
     const data = await response.json();
     const { error, picUrl } = data;
     if (response.status !== 200) {
@@ -211,7 +210,7 @@ export const likePost = (origin, userId, id, like) => async (dispatch) => {
     body: JSON.stringify({ origin, userId, id, like }),
   };
   try {
-    const response = await fetch(`${API_AUTH}/like`, request);
+    const response = await fetch(`${API_USER}/like`, request);
     const data = await response.json();
     console.log(data);
     const { liked, sessionExpired } = data;
@@ -233,36 +232,6 @@ export const toComment = (postId) => (dispatch) => {
   });
 };
 
-export const createComment = (userId, postId, text, date) => async (dispatch) => {
-  dispatch({ type: CLEAR_ERROR_USER });
-  const accessToken = localStorage.getItem("jwt");
-  const request = {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-    method: "post",
-    body: JSON.stringify({ userId, postId, text, date }),
-  };
-  try {
-    const response = await fetch(`${API_POST}/comment`, request);
-    const data = await response.json();
-    const { error, count, sessionExpired } = data;
-    if (response.status !== 201) {
-      dispatch({ type: SET_ERROR_USER, payload: error.message });
-      return;
-    }
-    if (sessionExpired) {
-      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
-      return;
-    }
-    dispatch({ type: CREATE_COMMENT, payload: count });
-  } catch (error) {
-    dispatch({ type: SET_ERROR_USER, payload: "backend" });
-  }
-};
-
 export const getUserProfile = (id) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_USER });
   const request = {
@@ -274,7 +243,7 @@ export const getUserProfile = (id) => async (dispatch) => {
     body: JSON.stringify({ id }),
   };
   try {
-    const response = await fetch(API_AUTH, request);
+    const response = await fetch(API_USER, request);
     const { user } = await response.json();
     console.log("user reçu pour le profil", user);
     dispatch({ type: GET_USER_PROFILE, payload: user });
@@ -298,7 +267,7 @@ export const getRecentUsers = () => async (dispatch) => {
     method: "get",
   };
   try {
-    const response = await fetch(`${API_POST}/user`, request);
+    const response = await fetch(`${API_USER}/user`, request);
     const data = await response.json();
     const { recentUsers, sessionExpired } = data;
     if (sessionExpired) {
@@ -319,7 +288,7 @@ export const getMods = () => async (dispatch) => {
     method: "get",
   };
   try {
-    const response = await fetch(`${API_POST}/mods`, request);
+    const response = await fetch(`${API_USER}/mods`, request);
     const data = await response.json();
     const { mods, sessionExpired } = data;
     if (sessionExpired) {
@@ -344,7 +313,7 @@ export const deleteUser = (id) => async (dispatch) => {
     body: JSON.stringify({ id }),
   };
   try {
-    const response = await fetch(`${API_AUTH}/delete`, request);
+    const response = await fetch(`${API_USER}/delete`, request);
     const data = response.json();
     const { error, sessionExpired } = data;
     if (response.status !== 200) {

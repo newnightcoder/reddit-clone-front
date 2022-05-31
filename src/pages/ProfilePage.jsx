@@ -12,17 +12,16 @@ import { formatTimestamp } from "../utils/helpers/formatTime";
 import { useGetProfile, useLanguage } from "../utils/hooks";
 
 const Profile = () => {
+  const { id, picUrl, bannerUrl, username, creationDate, role, isAuthenticated, language } = useSelector((state) => state?.user);
+  const { userPosts, posts, likes } = useSelector((state) => state?.posts);
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openProfileOptions, setOpenProfileOptions] = useState(false);
   const [postTabOpen, setPostTabOpen] = useState(true);
-  const [likedPostArray, setLikedPostArray] = useState([]);
   const [likedPosts, setLikedPosts] = useState([]);
-  const { id, picUrl, bannerUrl, username, creationDate, role, isAuthenticated, language } = useSelector((state) => state?.user);
-  const { userPosts, posts, likes } = useSelector((state) => state?.posts);
-  const dispatch = useDispatch();
   const location = useLocation();
-  const { profileId } = location?.state;
+  const { profileId } = isAuthenticated && location?.state;
+  const dispatch = useDispatch();
   const userData = useGetProfile(profileId);
   const userLanguage = useLanguage();
 
@@ -84,7 +83,7 @@ const Profile = () => {
   return (
     <>
       {!isAuthenticated ? (
-        <Redirect to={{ pathname: "/" }} />
+        <Redirect to="/" />
       ) : (
         <Layout>
           <div

@@ -3,30 +3,29 @@ import React, { useCallback, useEffect, useState } from "react";
 // import ContentEditable from "react-contenteditable";
 import { useDispatch, useSelector } from "react-redux";
 import { GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
-import { clearErrorPost, clearTempPostImg, clearTempPreview, createPost } from "../store/actions/posts.action";
+import { clearErrorPost, clearTempPostImg, clearTempPreview, createPost, setErrorPost } from "../store/actions/posts.action";
 import { createDate } from "../utils/helpers/formatTime";
 import history from "../utils/helpers/history";
-import { useHandleLink } from "../utils/hooks";
+import { useError, useHandleLink } from "../utils/hooks";
 import useLanguage from "../utils/hooks/useLanguage";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
   const [postText, setPostText] = useState("");
   const postImg = useSelector((state) => state.posts.currentPost.imgUrl);
+  const { scrapedPost: preview } = useSelector((state) => state.posts);
+  const { isAuthenticated, id } = useSelector((state) => state.user);
   const [imgAdded, setImgAdded] = useState(false);
   const [imgDom, setImgDom] = useState(null);
   const [emptyTitle, setEmptyTitle] = useState(false);
   const [imgInputModalOpen, setImgInputModalOpen] = useState(false);
   const [gifModalOpen, setGifModalOpen] = useState(false);
   const [linkModalOpen, setLinkModalOpen] = useState(false);
-  const [serverErrorMsg, setServerErrorMsg] = useState("");
-  const serverError = useSelector((state) => state.posts.error);
-  const { isAuthenticated, id } = useSelector((state) => state.user);
   const [isPreview, setIsPreview] = useState(0);
-  const preview = useSelector((state) => state.posts.scrapedPost);
   const dispatch = useDispatch();
   const handleLink = useHandleLink();
   const userLanguage = useLanguage();
+  const error = useError();
 
   const isObjectEmpty = useCallback((obj) => {
     for (let prop in obj) {
@@ -51,8 +50,10 @@ const CreatePost = () => {
   }, [preview]);
 
   const handleTitleInput = useCallback((e) => {
+    if (error) {
+      dispatch(clearErrorPost());
+    }
     setTitle(e.currentTarget.value);
-    setEmptyTitle(false);
   });
 
   const handlePostInput = useCallback((e) => {
@@ -62,9 +63,7 @@ const CreatePost = () => {
   const handlePostSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      if (title.length === 0) return setEmptyTitle(true);
-      if (serverError.length !== 0) return setServerErrorMsg(serverError);
-      setServerErrorMsg("");
+      if (title.length === 0) return dispatch(setErrorPost("emptyTitle"));
       if (!isAuthenticated) return handleLink("post");
       dispatch(createPost(id, title, postText, createDate(), postImg && postImg, isPreview, preview));
       dispatch(clearTempPostImg());
@@ -104,10 +103,9 @@ const CreatePost = () => {
             <div className="h-max w-full md:max-w-2xl flex flex-col items-center justify-center">
               <div
                 className="error md:absolute md:top-0 h-12 w-full md:w-1/2 xl:w-1/3 items-center justify-center bg-black text-white text-sm py-1 rounded mb-4 text-center whitespace-pre"
-                style={{ display: emptyTitle || serverError ? "flex" : "none" }}
+                style={{ display: error ? "flex" : "none" }}
               >
-                {emptyTitle && userLanguage.createPost.emptyTitleError}
-                {serverError.length !== 0 && serverErrorMsg}
+                {error}
               </div>
               <PostForm
                 title={title}

@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { LifePreserver, ToggleOn } from "react-bootstrap-icons";
 import { useLocation } from "react-router-dom";
 import language from "../languages";
+import { breakpoint } from "../utils/breakpoints";
 import { useLanguage, useWindowSize } from "../utils/hooks";
 import SettingsOptions from "./SettingsOptions";
 
@@ -18,7 +19,7 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
   const options = [lang, appearance, help];
   const { dark, light } = userLanguage.appearance;
   const modeOptions = [dark, light];
-
+  const landingPage = pathname === "/";
   const getLangOptions = useCallback(() => {
     const options = [];
     for (const lang of Object.entries(language)) {
@@ -39,32 +40,19 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
 
   return (
     <div
-      className="w-52 h-max absolute bg-white py-3 rounded-lg shadow-xl z-30 transform  dark:bg-gray-700"
-      style={{
-        display: settingsOpen ? "inline-block" : "none",
-        transform:
-          pathname === "/"
-            ? "translateX(0)"
-            : width > 1024
-            ? "translateX(11rem)"
-            : width < 768
-            ? "translateX(0)"
-            : settingsOpen
-            ? "translateX(4.5rem)"
-            : null,
-        top:
-          pathname === "/"
-            ? "3.5rem"
-            : width < 768 && isMenuOpen
-            ? "45%"
-            : width < 768
-            ? "-265%"
-            : width < 1024
-            ? "10rem"
-            : "7rem",
-        left: pathname === "/" ? "auto" : width < 768 ? "45%" : width < 1024 ? "25%" : width < 1280 ? "15%" : "0.25rem",
-        right: pathname === "/" ? "1rem" : null,
-      }}
+      className={`${settingsOpen ? "block" : "hidden"} ${
+        landingPage
+          ? "translate-x-0"
+          : width > breakpoint.xl
+          ? "translate-x-[11rem]"
+          : width < breakpoint.md
+          ? "translate-x-0"
+          : settingsOpen
+          ? "translate-x-[4.5rem]"
+          : null
+      } ${landingPage ? "top-16" : width < breakpoint.md ? "-top-36" : width < breakpoint.xl ? "top-40" : "top-28"} ${
+        landingPage ? "left-auto" : width < breakpoint.md ? "left-1/2" : width < breakpoint.xl ? "left-20" : "left-56"
+      } ${landingPage && "right-4"} w-52 h-max absolute bg-white dark:bg-gray-700 transform py-3 rounded-lg shadow-xl z-30`}
     >
       <div>
         <button

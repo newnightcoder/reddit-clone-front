@@ -1,5 +1,5 @@
+import { DotsHorizontalIcon, XIcon } from "@heroicons/react/solid";
 import React, { useEffect } from "react";
-import { ThreeDots } from "react-bootstrap-icons";
 import Div100vh from "react-div-100vh";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -21,10 +21,13 @@ const Homepage = () => {
   return (
     <Div100vh className="w-full relative bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-100 flex flex-col items-center justify-center">
       <button
-        className="h-8 w-8 absolute top-5 right-10 flex items-center justify-center rounded-full tracking-widest font-bold text-2xl transition duration-300 hover:bg-gray-300"
+        className="h-10 w-10 absolute top-5 right-10 flex items-center justify-center rounded-full tracking-widest font-bold text-2xl transition duration-300 hover:bg-gray-300 dark:hover:bg-gray-700"
         onClick={toggleSettings}
       >
-        <ThreeDots />
+        <DotsHorizontalIcon
+          className={`h-7 absolute m-auto z-10 text-black ${settingsOpen ? "animate-iconOff" : "animate-iconOn"}`}
+        />
+        <XIcon className={`h-7 absolute m-auto text-black ${settingsOpen ? "animate-iconOn" : "animate-iconOff"}`} />
       </button>
       <div className="h-full flex flex-col items-center justify-center">
         <div className="h-max w-full flex items-center justify-center">

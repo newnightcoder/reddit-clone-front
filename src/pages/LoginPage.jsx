@@ -86,10 +86,7 @@ const Login = () => {
           </defs>
         </svg>
       </header>
-      <div
-        style={error.length === 0 ? { display: "none" } : { display: "flex" }}
-        className="error h-max w-full  items-center justify-center py-2"
-      >
+      <div style={{ display: error ? "flex" : "none" }} className="error h-max w-full  items-center justify-center py-2">
         <span className="w-max h-max whitespace-wrap py-2 px-3 text-center text-white bg-black rounded">{error}</span>
       </div>
       <form method="post" className="h-max flex flex-col items-center justify-center gap-4" onSubmit={handleUserSubmit}>

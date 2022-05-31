@@ -8,7 +8,7 @@ import { useError, useLanguage } from "../utils/hooks";
 const Feed = () => {
   const [newUser, setNewUser] = useState(false);
   const user = useSelector((state) => state.user);
-  const { isNewUser, liked } = useSelector((state) => state.user);
+  const { isAuthenticated, isNewUser, liked } = useSelector((state) => state.user);
   const posts = useSelector((state) => state?.posts?.posts);
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
@@ -20,7 +20,7 @@ const Feed = () => {
     return function cleanup() {
       setNewUser(null);
     };
-  }, [isNewUser]);
+  }, []);
 
   useEffect(() => {
     dispatch(clearTempPostImg());
@@ -38,7 +38,9 @@ const Feed = () => {
       <div className="feed-container h-full w-full shrink flex flex-col items-center justify-start gap-2 transition duration-500 relative">
         {error && <span>{error}</span>}
         <div className="bienvenueMsg-newcomer h-16 flex items-center justify-center text-center whitespace-pre mb-2">
-          {newUser ? (
+          {!isAuthenticated ? (
+            <span className="font-bold">{userLanguage?.feed.greetingVisitorMode}&nbsp;</span>
+          ) : newUser ? (
             <span className="font-bold">
               {userLanguage?.feed.greetingVisitor1} <span className="capitalize">{user.username}!</span>
               <br />

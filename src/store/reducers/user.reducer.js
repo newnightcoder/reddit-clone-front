@@ -23,7 +23,6 @@ const userState = {
     postId: null,
   },
   liked: false,
-  currentCommentsCount: null,
   currentProfileVisit: {},
   recentUsers: [],
   mods: [],
@@ -184,13 +183,7 @@ export const userReducer = (state = userState, action) => {
           postId: action.payload,
         },
       };
-    case CREATE_COMMENT: {
-      const { count } = action.payload;
-      return {
-        ...state,
-        currentCommentsCount: count,
-      };
-    }
+
     case GET_USER_PROFILE:
       return {
         ...state,

@@ -97,8 +97,10 @@ const NavBar = ({ toggleMenu }) => {
               }
             ></div>
             <div className="flex flex-col items-start">
-              <span className="text-xs underline whitespace-nowrap">{userLanguage.navbar.connected}</span>
-              <span className="capitalize font-bold whitespace-nowrap">{username ? username : userLanguage.navbar.visitor}</span>
+              {isAuthenticated && <span className="text-xs underline whitespace-nowrap">{userLanguage.navbar.connected}</span>}
+              <span className="capitalize font-bold whitespace-nowrap underline">
+                {username ? username : userLanguage.navbar.visitor}
+              </span>
             </div>
           </button>
           <div className="hidden lg:flex items-center justify-center space-x-4">

@@ -98,12 +98,9 @@ const Post = ({ post, aside }) => {
 
   return (
     <div
-      className="post-container scale-0 h-max w-full max-w-3xl relative md:rounded-md flex-col items-center justify-center bg-white dark:bg-gray-900 border-t border-b md:border border-gray-300 dark:border-gray-700 transition transition-border-color transition-transform duration-300 hover:border-gray-500 dark:hover:border-gray-500 pt-2"
-      style={{
-        transform: isDeleted && "scale(0)",
-        display: postIsGone && "none",
-        animation: postId === lastPostAdded && "postAppear 500ms forwards",
-      }}
+      className={`post-container ${postId === lastPostAdded && "animate-post"} ${isDeleted && "scale-0"} ${
+        postIsGone && "hidden"
+      } h-max w-full max-w-3xl relative md:rounded-md flex-col items-center justify-center bg-white dark:bg-gray-900 border-t border-b md:border border-gray-300 dark:border-gray-700 transform transition-border-color transition-transform duration-300 hover:border-gray-500 dark:hover:border-gray-500 pt-2`}
     >
       {(openModal && userId === fk_userId_post) || (openModal && role === "admin") ? (
         <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"post"} postId={postId} />
@@ -132,7 +129,7 @@ const Post = ({ post, aside }) => {
                 alt={imgUrl.includes(".gif") ? "gif" : "picture"}
                 className="rounded w-auto"
                 style={{
-                  height: imgUrl.includes(".gif") ? "auto" : "100%",
+                  height: imgUrl?.includes(".gif") ? "auto" : "100%",
                   maxHeight: "500px",
                 }}
               />

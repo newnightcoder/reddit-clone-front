@@ -5,15 +5,15 @@ import useLanguage from "./useLanguage";
 const useError = () => {
   const { error: userError } = useSelector((state) => state.user);
   const { error: postError } = useSelector((state) => state.posts);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
   const userLanguage = useLanguage();
 
   const errorType = {
     duplicateEmail: "duplicateEmail",
     duplicateUsername: "duplicateUsername",
-    emptyTitle: "Der Beitrag hat keine Überschrift!\n Schreiben Sie ein paar Wörter...",
-    emptyComment: "Ihr Kommentar ist doch leer...",
-    emptyReply: "Ihre Antwort ist doch leer...",
+    emptyTitle: "emptyTitle",
+    emptyComment: "emptyComment",
+    emptyReply: "emptyReply",
     backend: "backend",
     notFound: "404",
     password: "password",
@@ -25,47 +25,32 @@ const useError = () => {
   };
 
   const setMatchingError = (error) => {
-    const {
-      duplicateEmail,
-      duplicateUsername,
-      emptyTitle,
-      emptyComment,
-      emptyReply,
-      backend,
-      notFound,
-      password,
-      database,
-      scrape,
-      noAuthToken,
-      verifyToken,
-      authToken,
-    } = errorType;
     switch (error) {
-      case duplicateEmail:
+      case errorType.duplicateEmail:
         return setError(userLanguage.error.duplicateEmail);
-      case duplicateUsername:
+      case errorType.duplicateUsername:
         return setError(userLanguage.error.duplicateUsername);
-      case emptyTitle:
+      case errorType.emptyTitle:
         return setError(userLanguage.error.emptyTitle);
-      case emptyComment:
+      case errorType.emptyComment:
         return setError(userLanguage.error.emptyComment);
-      case emptyReply:
+      case errorType.emptyReply:
         return setError(userLanguage.error.emptyReply);
-      case backend:
+      case errorType.backend:
         return setError(userLanguage.error.backend);
-      case notFound:
+      case errorType.notFound:
         return setError(userLanguage.error.notFound);
-      case password:
+      case errorType.password:
         return setError(userLanguage.error.password);
-      case database:
+      case errorType.database:
         return setError(userLanguage.error.database);
-      case scrape:
+      case errorType.scrape:
         return setError(userLanguage.error.scrape);
-      case noAuthToken:
+      case errorType.noAuthToken:
         return setError(userLanguage.error.noAuthToken);
-      case verifyToken:
+      case errorType.verifyToken:
         return setError(userLanguage.error.verifyToken);
-      case authToken:
+      case errorType.authToken:
         return setError(userLanguage.error.authToken);
       default:
         return setError(userError.length > 0 ? userError : postError.length > 0 ? postError : null);
@@ -73,6 +58,8 @@ const useError = () => {
   };
 
   useEffect(() => {
+    if (userError.length === 0 && postError.length === 0) return setError(null);
+
     if (userError.length > 0) {
       return setMatchingError(userError);
     } else if (postError.length > 0) {

@@ -11,6 +11,7 @@ const initialState = {
   },
   scrapedPost: {},
   comments: [],
+  currentCommentsCount: null,
   currentPostComments: {},
   replies: [],
   likes: [],
@@ -38,6 +39,7 @@ const {
   CLEAR_TEMP_PREVIEW,
   CLEAR_PREVIEW_IMG,
   CREATE_POST,
+  CREATE_COMMENT,
   CREATE_REPLY,
   EDIT_POST,
   DELETE_POST,
@@ -110,6 +112,14 @@ export const postsReducer = (state = initialState, action) => {
         ...state,
         posts: [post, ...state.posts],
         lastPostAdded: post.postId,
+      };
+    }
+
+    case CREATE_COMMENT: {
+      const { count } = action.payload;
+      return {
+        ...state,
+        currentCommentsCount: count,
       };
     }
 

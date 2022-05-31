@@ -123,6 +123,7 @@ const language = {
       },
     },
     feed: {
+      greetingVisitorMode: "Welcome to Forum - Take a look around",
       greetingVisitor1: "Welcome to Forum",
       greetingVisitor2: "Share and discuss with the community.",
       greetingUser: "Happy to see you again",
@@ -359,6 +360,7 @@ const language = {
       },
     },
     feed: {
+      greetingVisitorMode: "Bienvenue sur le fil du Forum, visiteur!",
       greetingVisitor1: "Bienvenue sur Forum",
       greetingVisitor2: "Echangez et discutez avec la communauté.",
       greetingUser: "Content de vous revoir",
@@ -595,7 +597,8 @@ const language = {
       },
     },
     feed: {
-      greetingVisitor1: "Wilkommen im Forum",
+      greetingVisitorMode: "Wilkommen auf Forum!\nViel spass bei den Rundgang",
+      greetingVisitor1: "Wilkommen auf Forum",
       greetingVisitor2: "Teile und diskutiere mit der Community",
       greetingUser: "Schön Sie wiederzusehen",
       refreshBtn: "aktualisieren",

@@ -13,6 +13,7 @@ const {
   CLEAR_TEMP_PREVIEW,
   CLEAR_PREVIEW_IMG,
   CREATE_POST,
+  CREATE_COMMENT,
   CREATE_REPLY,
   EDIT_POST,
   DELETE_POST,
@@ -70,6 +71,7 @@ export const getPostById = (id) => async (dispatch) => {
     // console.log("current post", currentPost);
     dispatch({ type: GET_POST_BY_ID, payload: currentPost });
   } catch (err) {
+    console.log(err);
     dispatch({ type: SET_ERROR_POST, payload: "backend" });
   }
 };
@@ -282,6 +284,36 @@ export const deletePost = (postId, origin, postIdComment) => async (dispatch) =>
   }
 };
 
+export const createComment = (userId, postId, text, date) => async (dispatch) => {
+  dispatch({ type: CLEAR_ERROR_POST });
+  const accessToken = localStorage.getItem("jwt");
+  const request = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    method: "post",
+    body: JSON.stringify({ userId, postId, text, date }),
+  };
+  try {
+    const response = await fetch(`${API_POST}/comment`, request);
+    const data = await response.json();
+    const { error, count, sessionExpired } = data;
+    if (response.status !== 201) {
+      dispatch({ type: SET_ERROR_POST, payload: error.message });
+      return;
+    }
+    if (sessionExpired) {
+      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+      return;
+    }
+    dispatch({ type: CREATE_COMMENT, payload: count });
+  } catch (error) {
+    dispatch({ type: SET_ERROR_POST, payload: "backend" });
+  }
+};
+
 export const getComments = () => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
   const accessToken = localStorage.getItem("jwt");
@@ -366,4 +398,8 @@ export const cleanCurrentProfilePosts = () => (dispatch) => {
 };
 export const clearLastAdded = () => (dispatch) => {
   dispatch({ type: CLEAR_LAST_ADDED });
+};
+
+export const setErrorPost = (error) => (dispatch) => {
+  dispatch({ type: SET_ERROR_POST, payload: error });
 };

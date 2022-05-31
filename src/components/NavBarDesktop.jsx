@@ -1,9 +1,10 @@
-import { HomeIcon, PencilIcon, UserIcon } from "@heroicons/react/solid";
+import { HomeIcon, PencilIcon, UserIcon, XIcon } from "@heroicons/react/solid";
 import React from "react";
 import { GearFill, Power } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { Link, NavLink } from "react-router-dom";
+import { breakpoint } from "../utils/breakpoints";
 import { history } from "../utils/helpers";
 import { useHandleLink, useLanguage, useWindowSize } from "../utils/hooks";
 import Settings from "./Settings";
@@ -68,16 +69,18 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
         </button>
         <button
           style={settingsOpen ? { border: "2px solid rgb(96 165 250)" } : null}
-          className="xl:w-full outline-none ring-none flex items-center justify-center rounded-full xl:justify-start space-x-2 xl:pl-2 xl:pr-4 bg-transparent md:bg-white md:dark:bg-transparent xl:bg-transparent xl:dark:bg-transparent md:dark:bg-gray-500 transition duration-300 text-gray-500 md:text-black dark:text-white border-2 border-transparent hover:border-blue-400 hover:text-black"
+          className="xl:w-full relative outline-none ring-none flex items-center justify-center rounded-full xl:justify-start xl:space-x-2 xl:pl-2 xl:pr-4 bg-transparent md:bg-white md:dark:bg-transparent xl:bg-transparent xl:dark:bg-transparent md:dark:bg-gray-500 transition duration-300 text-gray-500 md:text-black dark:text-white border-2 border-transparent hover:bg-blue-400 dark:hover:bg-blue-400 hover:text-black md:hover:text-white xl:hover:bg-transparent xl:dark:hover:bg-transparent xl:hover:border-blue-400 xl:hover:text-black xl:dark:hover:text-white"
           onClick={toggleSettings}
         >
           <div className="w-10 h-10 xl:w-max  xl:border-0 rounded-full relative flex items-center justify-center">
-            <GearFill size={22} className="w-8" />
+            <GearFill size={22} className={`w-8 ${settingsOpen && width < breakpoint.xl && "animate-iconOff"}`} />
           </div>
           <span className="hidden xl:inline-block font-bold">{userLanguage.navbarDesktop.settings}</span>
+          {settingsOpen && (
+            <XIcon className="h-7 xl:h-4 absolute animate-iconOn z-10 my-auto ml-0  xl:right-2 xl:hover:bg-gray-300 xl:dark:hover:bg-gray-700 rounded-full" />
+          )}
         </button>
         <Link
-          // style={{ color: width > 768 ? "white" : "black" }}
           className="xl:w-full flex items-center justify-center rounded-full xl:justify-start space-x-1 xl:pl-2 xl:pr-4 bg-transparent md:bg-white md:dark:bg-transparent xl:bg-transparent xl:dark:bg-transparent md:dark:bg-gray-500 transition duration-300 text-gray-500 md:text-black dark:text-white hover:bg-blue-400 dark:hover:bg-blue-400 hover:text-black md:hover:text-white"
           to="/"
         >

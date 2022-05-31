@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { API_AUTH } from "../../API";
+import { useSelector } from "react-redux";
+import { API_USER } from "../../API";
 
 const useGetProfile = (id) => {
+  const { isAuthenticated } = useSelector((state) => state.user);
   const [userData, setUserData] = useState(null);
 
   const getProfile = async (id) => {
@@ -13,7 +15,7 @@ const useGetProfile = (id) => {
       body: JSON.stringify({ id }),
     };
     try {
-      const response = await fetch(`${API_AUTH}/`, request);
+      const response = await fetch(`${API_USER}/`, request);
       const { user } = await response.json();
       console.log("user reçu pour le profil", user);
       setUserData(user);
@@ -23,9 +25,11 @@ const useGetProfile = (id) => {
   };
 
   useEffect(() => {
-    getProfile(id);
-    console.log("userData", userData);
-  }, [id]);
+    if (isAuthenticated) {
+      getProfile(id);
+      console.log("userData", userData);
+    }
+  }, [id, isAuthenticated]);
 
   return userData;
 };

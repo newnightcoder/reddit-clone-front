@@ -2,15 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@keyframes postAppear {
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
 .dark input:-webkit-autofill,
 .dark input:-webkit-autofill:hover,
 .dark input:-webkit-autofill:focus,

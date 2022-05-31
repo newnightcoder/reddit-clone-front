@@ -9,10 +9,11 @@ import { history } from "../utils/helpers";
 import { useError, useLanguage } from "../utils/hooks";
 
 const EditPage = () => {
-  const { posts, comments, replies } = useSelector((state) => state.posts);
-  const isAuthenticated = useSelector((state) => state?.user.isAuthenticated);
+  const { posts, comments, replies, scrapedPost: preview } = useSelector((state) => state.posts);
+  const currentPostImg = useSelector((state) => state.posts.currentPost.imgUrl);
+  const { isAuthenticated } = useSelector((state) => state?.user);
   const location = useLocation();
-  const { postId, commentId, replyId } = location?.state;
+  const { postId, commentId, replyId } = isAuthenticated && location?.state;
   const [postToEdit] = posts.filter((post) => post.postId === postId);
   const [commentToEdit] = comments.filter((comment) => comment.commentId === commentId);
   const [replyToEdit] = replies.filter((reply) => reply.replyId === replyId);
@@ -22,13 +23,10 @@ const EditPage = () => {
   const [emptyTitle, setEmptyTitle] = useState(false);
   const [isPreview, setIsPreview] = useState(0);
   const [imgDom, setImgDom] = useState(null);
-  const preview = useSelector((state) => state.posts.scrapedPost);
   const [imgInputModalOpen, setImgInputModalOpen] = useState(false);
   const [gifModalOpen, setGifModalOpen] = useState(false);
   const [linkModalOpen, setLinkModalOpen] = useState(false);
   const [serverErrorMsg, setServerErrorMsg] = useState("");
-  const currentPostImg = useSelector((state) => state.posts.currentPost.imgUrl);
-  const emptyTitleError = "Votre titre est vide!\n Mettez un mot ou deux...";
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
   const error = useError();
@@ -46,20 +44,22 @@ const EditPage = () => {
   }, [dispatch, setImgDom, setIsPreview]);
 
   useEffect(() => {
-    if (postToEdit.imgUrl) {
-      dispatch(saveImageToEdit(postImgUrl));
-    } else if (postToEdit.isPreview === 1) {
-      const postToEditPreview = {
-        title: postToEdit.previewTitle,
-        image: postToEdit.previewImg,
-        description: postToEdit.previewText,
-        publisher: postToEdit.previewPub,
-        logo: postToEdit.previewPubLogo,
-        url: postToEdit.previewUrl,
-      };
-      dispatch(setPreviewData(postToEditPreview));
+    if (isAuthenticated) {
+      if (postToEdit.imgUrl) {
+        dispatch(saveImageToEdit(postImgUrl));
+      } else if (postToEdit.isPreview === 1) {
+        const postToEditPreview = {
+          title: postToEdit.previewTitle,
+          image: postToEdit.previewImg,
+          description: postToEdit.previewText,
+          publisher: postToEdit.previewPub,
+          logo: postToEdit.previewPubLogo,
+          url: postToEdit.previewUrl,
+        };
+        dispatch(setPreviewData(postToEditPreview));
+      }
     }
-  }, [postImgUrl, dispatch, postToEdit]);
+  }, [postImgUrl, dispatch, postToEdit, isAuthenticated]);
 
   useEffect(() => {
     if (!isObjectEmpty(preview)) setIsPreview(1);
