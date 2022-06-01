@@ -1,6 +1,7 @@
 import { FlagIcon, PencilIcon, ShareIcon, TrashIcon, XIcon } from "@heroicons/react/solid";
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setEditId, toggleEditModal } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
 import { useLanguage } from "../utils/hooks";
 
@@ -16,7 +17,20 @@ const Options = ({
   optionsOpen,
 }) => {
   const { id: user, role } = useSelector((state) => state?.user);
+  const dispatch = useDispatch();
   const userLanguage = useLanguage();
+
+  const dispatchEditInfo = useCallback(() => {
+    dispatch(
+      setEditId(
+        postId !== undefined
+          ? { id: postId, type: "post" }
+          : commentId !== undefined
+          ? { id: commentId, type: "comment" }
+          : replyId !== undefined && { id: replyId, type: "reply" }
+      )
+    );
+  }, [dispatch, setEditId, postId, commentId, replyId]);
 
   return (
     <div
@@ -32,18 +46,13 @@ const Options = ({
         (replyUserId !== undefined && user === replyUserId)) && (
         <button
           className="h-max w-11/12 border border-gray-500 rounded-full px-2 py-px flex items-center justify-center space-x-2 hover:text-white hover:underline hover:font-bold group"
-          onClick={() =>
-            setTimeout(() => {
-              history.push({
-                pathname: "/edit",
-                state: {
-                  postId: postUserId !== undefined && postId,
-                  commentId: commentUserId !== undefined && commentId,
-                  replyId: replyUserId !== undefined && replyId,
-                },
-              });
-            }, 250)
-          }
+          onClick={() => {
+            dispatchEditInfo();
+            if (postId === undefined) {
+              dispatch(toggleEditModal());
+              toggleOptions();
+            } else history.push("/edit");
+          }}
         >
           <PencilIcon className="h-4 text-gray-300 group-hover:text-white" />
           <span>{userLanguage.postOptions.modify}</span>

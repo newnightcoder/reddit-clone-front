@@ -8,6 +8,6 @@ export { default as logo } from "./forum-logo.svg";
 export { default as giphyDark } from "./gif-circle-dark.png";
 export { default as giphy } from "./giphy-icon.png";
 export { default as google } from "./Google-Play-Icon.png";
-export { default as phonesImg } from "./mockup-ok.png";
+export { default as heroImg } from "./mockup-1000.png";
 export { default as picPlaceholder } from "./pic_placeholder.svg";
 export { default as articlePlaceholder } from "./placeholder-news.jpg";

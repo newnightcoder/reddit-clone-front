@@ -16,6 +16,8 @@ const {
   CREATE_COMMENT,
   CREATE_REPLY,
   EDIT_POST,
+  SET_EDIT_ID,
+  TOGGLE_EDIT_MODAL,
   DELETE_POST,
   GET_COMMENTS,
   GET_REPLIES,
@@ -66,8 +68,12 @@ export const getPostById = (id) => async (dispatch) => {
 
   try {
     const response = await fetch(`${API_POST}/id/${id}`, request);
-    const { currentPost, error } = await response.json();
-    if (error) return dispatch({ type: SET_ERROR_POST, payload: error });
+    const { currentPost, error, sessionExpired } = await response.json();
+    if (sessionExpired) {
+      return dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+    } else if (error) {
+      return dispatch({ type: SET_ERROR_POST, payload: error });
+    }
     // console.log("current post", currentPost);
     dispatch({ type: GET_POST_BY_ID, payload: currentPost });
   } catch (err) {
@@ -90,7 +96,7 @@ export const getLikes = () => async (dispatch) => {
     const response = await fetch(`${API_POST}/like`, request);
     const data = await response.json();
     const { likes, error } = data;
-    if (error) return dispatch({ type: SET_ERROR_POST, error });
+    if (error) return dispatch({ type: SET_ERROR_POST, payload: error });
     dispatch({ type: GET_LIKES, payload: likes });
   } catch (err) {
     dispatch({ type: SET_ERROR_POST, payload: "backend" });
@@ -116,9 +122,8 @@ export const getUserPosts = (userId) => async (dispatch) => {
     if (sessionExpired) {
       return dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
     } else if (error) {
-      return dispatch({ type: SET_ERROR_POST, error });
+      return dispatch({ type: SET_ERROR_POST, payload: error });
     }
-
     dispatch({ type: GET_USER_POSTS, payload: { posts, likes } });
   } catch (err) {
     dispatch({ type: SET_ERROR_POST, payload: "backend" });
@@ -175,7 +180,6 @@ export const getPreviewData = (targetUrl) => async (dispatch) => {
     const response = await fetch(`${API_POST}/post-link`, request);
     const data = await response.json();
     const { article, error } = data;
-    // console.log(data);
     if (error) return dispatch({ type: SET_ERROR_POST, payload: error });
     dispatch({ type: GET_PREVIEW_DATA, payload: article });
   } catch (err) {
@@ -249,6 +253,16 @@ export const editPost = (origin, id, title, text, imgUrl, isPreview, preview) =>
   }
 };
 
+export const setEditId =
+  ({ id, type }) =>
+  (dispatch) => {
+    dispatch({ type: SET_EDIT_ID, payload: { id, type } });
+  };
+
+export const toggleEditModal = () => (dispatch) => {
+  dispatch({ type: TOGGLE_EDIT_MODAL });
+};
+
 export const clearPreviewImg = () => (dispatch) => {
   dispatch({ type: CLEAR_PREVIEW_IMG });
 };
@@ -300,13 +314,10 @@ export const createComment = (userId, postId, text, date) => async (dispatch) =>
     const response = await fetch(`${API_POST}/comment`, request);
     const data = await response.json();
     const { error, count, sessionExpired } = data;
-    if (response.status !== 201) {
-      dispatch({ type: SET_ERROR_POST, payload: error.message });
-      return;
-    }
     if (sessionExpired) {
-      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
-      return;
+      return dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+    } else if (error) {
+      return dispatch({ type: SET_ERROR_POST, payload: error });
     }
     dispatch({ type: CREATE_COMMENT, payload: count });
   } catch (error) {
@@ -361,7 +372,6 @@ export const createReply = (userId, commentId, text, date) => async (dispatch) =
     } else if (sessionExpired) {
       return dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
     }
-    console.log("last reply posted:", replyId);
     dispatch({ type: CREATE_REPLY, payload: { replyId } });
   } catch (err) {
     dispatch({ type: SET_ERROR_POST, payload: "backend" });
@@ -387,7 +397,7 @@ export const getReplies = () => async (dispatch) => {
     } else if (error) {
       return dispatch({ type: SET_ERROR_POST, payload: error });
     }
-    dispatch({ type: GET_REPLIES, payload: { replies } });
+    dispatch({ type: GET_REPLIES, payload: replies });
   } catch (err) {
     dispatch({ type: SET_ERROR_POST, payload: "backend" });
   }

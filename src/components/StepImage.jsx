@@ -39,15 +39,7 @@ const StepImage = () => {
         ></div>
         <ImgUploader profile={true} imgType={"pic"} />
       </div>
-      <button
-        className="underline font-bold"
-        onClick={() => {
-          history.push({
-            pathname: "/feed",
-            state: { isNewUser: true },
-          });
-        }}
-      >
+      <button className="underline font-bold" onClick={() => history.push("/feed")}>
         <span className="flex items-center gap-1">
           {userLanguage.signup.stepImage.later}
           <ChevronDoubleRightIcon className="h-4 w-4 text-black" style={{ transform: "translateY(1px)" }} />

@@ -1,5 +1,6 @@
 module.exports = {
-  purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
+  mode: "jit",
+  purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/**/*.html"],
   darkMode: "class", // or 'media' or 'class'
   theme: {
     extend: {
@@ -23,9 +24,12 @@ module.exports = {
         iconOn: "iconAppear 300ms forwards",
         iconOff: "iconDisappear 150ms forwards",
       },
-      // backgroundImage: {
-      //   hero: "url('/src/assets/bg.webp')",
-      // },
+      backgroundImage: {
+        hero: "url('/src/assets/mockup-1000.png')",
+      },
+      backgroundSize: {
+        90: "110%",
+      },
     },
   },
   variants: {

@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { Skeleton, UserCard } from ".";
 import { getRecentUsers } from "../store/actions/user.action";
-import { useLanguage } from "../utils/hooks";
+import { breakpoint } from "../utils/breakpoints";
+import { useLanguage, useWindowSize } from "../utils/hooks";
 
 const RecentUsers = () => {
   const { recentUsers: users } = useSelector((state) => state?.user);
@@ -11,10 +12,13 @@ const RecentUsers = () => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const userLanguage = useLanguage();
+  const { width } = useWindowSize();
 
   useEffect(() => {
-    dispatch(getRecentUsers());
-  }, [dispatch]);
+    if (width > breakpoint.lg) {
+      dispatch(getRecentUsers());
+    }
+  }, [dispatch, width]);
 
   return (
     <div className="w-72 h-max flex flex-col rounded">

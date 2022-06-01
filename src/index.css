@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* @tailwind variants; */
 
 .dark input:-webkit-autofill,
 .dark input:-webkit-autofill:hover,

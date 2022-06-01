@@ -15,6 +15,7 @@ const Comment = ({ comment, postId }) => {
   const { id: userId, role, error: serverError } = useSelector((state) => state?.user);
   const [like, setLike] = useState(false);
   const [likesNumber, setLikesNumber] = useState(likesCount);
+  const [replyNumber, setReplyNumber] = useState(0);
   const [replyOpen, setReplyOpen] = useState(false);
   const [replyText, setReplyText] = useState("");
   const [optionsOpen, setOptionsOpen] = useState(false);
@@ -28,9 +29,17 @@ const Comment = ({ comment, postId }) => {
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
 
-  // useEffect(() => {
-  //   dispatch(getReplies());
-  // }, [dispatch]);
+  useEffect(() => {
+    const replyCount = replies
+      .map((reply) => {
+        if (reply.fk_commentId === commentId) {
+          return reply.replyId;
+        }
+      })
+      .filter((value) => value !== undefined);
+    console.log("replyCount", replyCount);
+    setReplyNumber(replyCount.length);
+  }, [replies]);
 
   useEffect(() => {
     setLikesNumber(likesCount);
@@ -156,7 +165,9 @@ const Comment = ({ comment, postId }) => {
           <div className="icons-container w-max flex items-center justify-end gap-4 text-xs">
             <button className="outline-none w-max flex items-center justify-center gap-2" onClick={toggleReply}>
               <ChatRight size={14} />
-              <span className="capitalize">{userLanguage.commentPage.comment.reply}</span>
+              <span className="capitalize">
+                {replyNumber} {userLanguage.commentPage.comment.reply}
+              </span>
             </button>
             <button className="outline-none w-max flex items-center justify-center" onClick={() => handleLike(commentId)}>
               <span className="">

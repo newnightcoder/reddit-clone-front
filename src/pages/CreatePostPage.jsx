@@ -6,6 +6,7 @@ import { GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "..
 import { clearErrorPost, clearTempPostImg, clearTempPreview, createPost, setErrorPost } from "../store/actions/posts.action";
 import { createDate } from "../utils/helpers/formatTime";
 import history from "../utils/helpers/history";
+import { isObjectEmpty } from "../utils/helpers/isObjectEmpty";
 import { useError, useHandleLink } from "../utils/hooks";
 import useLanguage from "../utils/hooks/useLanguage";
 
@@ -27,13 +28,6 @@ const CreatePost = () => {
   const userLanguage = useLanguage();
   const error = useError();
 
-  const isObjectEmpty = useCallback((obj) => {
-    for (let prop in obj) {
-      return false;
-    }
-    return true;
-  }, []);
-
   const deletePreview = useCallback(() => {
     setIsPreview(0);
     dispatch(clearTempPreview());
@@ -50,9 +44,7 @@ const CreatePost = () => {
   }, [preview]);
 
   const handleTitleInput = useCallback((e) => {
-    if (error) {
-      dispatch(clearErrorPost());
-    }
+    if (error) dispatch(clearErrorPost());
     setTitle(e.currentTarget.value);
   });
 
@@ -65,6 +57,7 @@ const CreatePost = () => {
       e.preventDefault();
       if (title.length === 0) return dispatch(setErrorPost("emptyTitle"));
       if (!isAuthenticated) return handleLink("post");
+      if (error) return;
       dispatch(createPost(id, title, postText, createDate(), postImg && postImg, isPreview, preview));
       dispatch(clearTempPostImg());
       dispatch(clearTempPreview());
@@ -115,7 +108,6 @@ const CreatePost = () => {
                 toggleGifModal={toggleGifModal}
                 toggleLinkModal={toggleLinkModal}
                 handlePostInput={handlePostInput}
-                isObjectEmpty={isObjectEmpty}
                 imgDom={imgDom}
                 setImgDom={setImgDom}
                 setIsPreview={setIsPreview}

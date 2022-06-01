@@ -9,6 +9,8 @@ const initialState = {
     text: "",
     imgUrl: "",
   },
+  editId: { id: null, type: null },
+  editModalOpen: false,
   scrapedPost: {},
   comments: [],
   currentCommentsCount: null,
@@ -42,6 +44,8 @@ const {
   CREATE_COMMENT,
   CREATE_REPLY,
   EDIT_POST,
+  SET_EDIT_ID,
+  TOGGLE_EDIT_MODAL,
   DELETE_POST,
   CLEAN_PROFILE_POSTS,
   CLEAR_LAST_ADDED,
@@ -87,17 +91,22 @@ export const postsReducer = (state = initialState, action) => {
     }
 
     case GET_REPLIES: {
-      const { replies } = action.payload;
+      const replies = action.payload;
       return { ...state, replies };
     }
+
     case SAVE_POST_PIC:
       return { ...state, currentPost: { ...state.currentPost, imgUrl: action.payload } };
+
     case SAVE_GIF_URL:
       return { ...state, currentPost: { ...state.currentPost, imgUrl: action.payload } };
+
     case CLEAR_TEMP_POST_PIC:
       return { ...state, currentPost: { ...state.currentPost, imgUrl: "" } };
+
     case CLEAR_TEMP_PREVIEW:
       return { ...state, scrapedPost: {} };
+
     case CLEAR_PREVIEW_IMG:
       return {
         ...state,
@@ -106,6 +115,7 @@ export const postsReducer = (state = initialState, action) => {
           image: "",
         },
       };
+
     case CREATE_POST: {
       const post = action.payload;
       return {
@@ -116,7 +126,7 @@ export const postsReducer = (state = initialState, action) => {
     }
 
     case CREATE_COMMENT: {
-      const { count } = action.payload;
+      const count = action.payload;
       return {
         ...state,
         currentCommentsCount: count,
@@ -125,8 +135,16 @@ export const postsReducer = (state = initialState, action) => {
 
     case CREATE_REPLY:
       return { ...state, lastReplyAdded: action.payload };
+
     case EDIT_POST:
       return { ...state };
+
+    case SET_EDIT_ID:
+      return { ...state, editId: action.payload };
+
+    case TOGGLE_EDIT_MODAL:
+      const toggle = !state.editModalOpen;
+      return { ...state, editModalOpen: toggle };
 
     case DELETE_POST: {
       const postId = action.payload;
@@ -137,8 +155,10 @@ export const postsReducer = (state = initialState, action) => {
 
     case CLEAR_ERROR_POST:
       return { ...state, error: "" };
+
     case CLEAN_PROFILE_POSTS:
       return { ...state, userPosts: [] };
+
     case CLEAR_LAST_ADDED:
       return { ...state, lastPostAdded: null };
 

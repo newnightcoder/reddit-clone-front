@@ -4,7 +4,7 @@ import {
   CommentPage,
   CreatePostPage,
   DeletedProfilePage,
-  EditPage,
+  EditPostPage,
   FeedPage,
   HomePage,
   LoginPage,
@@ -21,7 +21,7 @@ const AppContainer = () => {
         <Route path="/signup" component={SignupPage} />
         <Route path="/feed" component={FeedPage} />
         <Route path="/create" component={CreatePostPage} />
-        <Route path="/edit" component={EditPage} />
+        <Route path="/edit" component={EditPostPage} />
         <Route path="/comments" component={CommentPage} />
         <Route path="/profile" component={ProfilePage} />
         <Route path="/fin" component={DeletedProfilePage} />

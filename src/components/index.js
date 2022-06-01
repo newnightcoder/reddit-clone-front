@@ -6,6 +6,7 @@ export { default as GifModal } from "./createPostModals/GifModal";
 export { default as ImgUploadModal } from "./createPostModals/ImgUploadModal";
 export { default as PreviewLinkModal } from "./createPostModals/PreviewLinkModal";
 export { default as DeleteModal } from "./DeleteModal";
+export { default as EditCommentModal } from "./EditCommentModal";
 export { default as EditUsernameModal } from "./EditUsernameModal";
 export { default as FooterAside } from "./FooterAside";
 export { default as ImgUploader } from "./ImgUploader";

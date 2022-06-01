@@ -3,6 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { setLanguage } from "../store/actions/user.action";
+import { breakpoint } from "../utils/breakpoints";
 import { useLanguage, useWindowSize } from "../utils/hooks";
 import useDarkMode from "../utils/hooks/useDarkMode";
 
@@ -17,12 +18,9 @@ const SettingsOptions = ({ isSettingsOpen, isActive, langOptions, toggleOption, 
 
   return (
     <div
-      className="z-40 w-52 px-2 pb-2 absolute left-0 flex-col items-start justify-start bg-white rounded-lg shadow-xl dark:bg-gray-700"
-      style={{
-        display: isSettingsOpen ? "flex" : "none",
-        top: width < 768 && pathname === "/" ? 0 : width < 768 ? "auto" : "0",
-        bottom: width < 768 && pathname === "/" ? "auto" : width < 768 ? "0" : "auto",
-      }}
+      className={`${isSettingsOpen ? "flex" : "hidden"} ${
+        width < breakpoint.md ? "bottom-0" : "top-0"
+      } z-40 w-52 px-2 pb-2 absolute left-0 flex-col items-start justify-start bg-white dark:bg-gray-700 rounded-lg shadow-xl `}
     >
       <button
         className="w-full pt-4 pb-3 flex items-center justify-start space-x-2 border-b border-gray-100"

@@ -54,7 +54,6 @@ export const logUserAction = (email, password) => async (dispatch) => {
     const data = await response.json();
     const { error, user, isNewUser, accessToken } = data;
     if (response.status !== 200) {
-      console.log(response);
       dispatch({ type: SET_ERROR_USER, payload: error });
       dispatch({ type: LOGIN_FAIL });
       return;
@@ -153,12 +152,11 @@ export const editUsername = (userId, username) => async (dispatch) => {
     const { newName, error } = data;
     console.log("new name", newName);
     if (response.status !== 200) {
-      dispatch({ type: SET_ERROR_USER, payload: error });
-      return;
+      return dispatch({ type: SET_ERROR_USER, payload: error });
     }
     dispatch({ type: EDIT_USERNAME, payload: { newName } });
     dispatch({ type: USERNAME_EDITED });
-  } catch (error) {
+  } catch (err) {
     dispatch({ type: SET_ERROR_USER, payload: "backend" });
   }
 };
@@ -185,8 +183,7 @@ export const saveUserPic = (blob, id, imgType) => async (dispatch) => {
     const data = await response.json();
     const { error, picUrl } = data;
     if (response.status !== 200) {
-      console.log(error);
-      return;
+      return dispatch({ type: SET_ERROR_USER, payload: error });
     }
     dispatch({
       type: actionType.SAVE_USERPIC,
@@ -213,13 +210,14 @@ export const likePost = (origin, userId, id, like) => async (dispatch) => {
     const response = await fetch(`${API_USER}/like`, request);
     const data = await response.json();
     console.log(data);
-    const { liked, sessionExpired } = data;
+    const { liked, sessionExpired, error } = data;
     if (sessionExpired) {
-      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
-      return;
+      return dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+    } else if (error) {
+      return dispatch({ type: SET_ERROR_USER, payload: error });
     }
     dispatch({ type: LIKE_POST, payload: liked });
-  } catch (error) {
+  } catch (err) {
     dispatch({ type: SET_ERROR_USER, payload: "backend" });
   }
 };
@@ -244,10 +242,14 @@ export const getUserProfile = (id) => async (dispatch) => {
   };
   try {
     const response = await fetch(API_USER, request);
-    const { user } = await response.json();
-    console.log("user reçu pour le profil", user);
+    const { user, sessionExpired, error } = await response.json();
+    if (sessionExpired) {
+      return dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+    } else if (error) {
+      return dispatch({ type: SET_ERROR_USER, payload: error });
+    }
     dispatch({ type: GET_USER_PROFILE, payload: user });
-  } catch (error) {
+  } catch (err) {
     dispatch({ type: SET_ERROR_USER, payload: "backend" });
   }
 };
@@ -269,13 +271,14 @@ export const getRecentUsers = () => async (dispatch) => {
   try {
     const response = await fetch(`${API_USER}/user`, request);
     const data = await response.json();
-    const { recentUsers, sessionExpired } = data;
+    const { recentUsers, sessionExpired, error } = data;
     if (sessionExpired) {
-      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
-      return;
+      return dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+    } else if (error) {
+      return dispatch({ type: SET_ERROR_USER, payload: error });
     }
     dispatch({ type: GET_USERS, payload: { recentUsers } });
-  } catch (error) {
+  } catch (err) {
     dispatch({ type: SET_ERROR_USER, payload: "backend" });
   }
 };
@@ -290,13 +293,15 @@ export const getMods = () => async (dispatch) => {
   try {
     const response = await fetch(`${API_USER}/mods`, request);
     const data = await response.json();
-    const { mods, sessionExpired } = data;
+    const { mods, error, sessionExpired } = data;
     if (sessionExpired) {
       dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
       return;
+    } else if (error) {
+      return dispatch({ type: SET_ERROR_USER, payload: error });
     }
     dispatch({ type: GET_MODS, payload: { mods } });
-  } catch (error) {
+  } catch (err) {
     dispatch({ type: SET_ERROR_USER, payload: "backend" });
   }
 };
@@ -316,16 +321,13 @@ export const deleteUser = (id) => async (dispatch) => {
     const response = await fetch(`${API_USER}/delete`, request);
     const data = response.json();
     const { error, sessionExpired } = data;
-    if (response.status !== 200) {
-      dispatch({ type: SET_ERROR_USER, payload: error });
-      return;
-    }
     if (sessionExpired) {
-      dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
-      return;
+      return dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+    } else if (error) {
+      return dispatch({ type: SET_ERROR_USER, payload: error });
     }
     dispatch({ type: DELETE_USER });
-  } catch (error) {
+  } catch (err) {
     dispatch({ type: SET_ERROR_USER, payload: "backend" });
   }
 };

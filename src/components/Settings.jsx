@@ -40,19 +40,27 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
 
   return (
     <div
-      className={`${settingsOpen ? "block" : "hidden"} ${
+      className={`${settingsOpen ? "inline-block" : "hidden"} ${
         landingPage
-          ? "translate-x-0"
-          : width > breakpoint.xl
-          ? "translate-x-[11rem]"
+          ? "top-16"
           : width < breakpoint.md
-          ? "translate-x-0"
-          : settingsOpen
-          ? "translate-x-[4.5rem]"
-          : null
-      } ${landingPage ? "top-16" : width < breakpoint.md ? "-top-36" : width < breakpoint.xl ? "top-40" : "top-28"} ${
-        landingPage ? "left-auto" : width < breakpoint.md ? "left-1/2" : width < breakpoint.xl ? "left-20" : "left-56"
-      } ${landingPage && "right-4"} w-52 h-max absolute bg-white dark:bg-gray-700 transform py-3 rounded-lg shadow-xl z-30`}
+          ? "-top-36"
+          : width < breakpoint.xl
+          ? "top-40"
+          : width > breakpoint.xl
+          ? "top-28"
+          : ""
+      } ${
+        landingPage
+          ? "left-auto"
+          : width < breakpoint.md
+          ? "left-1/2"
+          : width < breakpoint.xl
+          ? "left-20"
+          : width > breakpoint.xl
+          ? "left-56"
+          : ""
+      } ${landingPage ? "right-4" : ""} w-52 h-max absolute bg-white dark:bg-gray-700 py-3 rounded-lg shadow-xl z-30`}
     >
       <div>
         <button

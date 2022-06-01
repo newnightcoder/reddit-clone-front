@@ -2,33 +2,34 @@ import "draft-js/dist/Draft.css";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
-import { useLocation } from "react-router-dom";
 import { GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
-import { clearTempPreview, editPost, saveImageToEdit, setPreviewData } from "../store/actions/posts.action";
+import {
+  clearErrorPost,
+  clearTempPreview,
+  editPost,
+  saveImageToEdit,
+  setErrorPost,
+  setPreviewData,
+} from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
-import { useError, useLanguage } from "../utils/hooks";
+import { useError } from "../utils/hooks";
 
-const EditPage = () => {
-  const { posts, comments, replies, scrapedPost: preview } = useSelector((state) => state.posts);
+const EditPostPage = () => {
+  const { posts, scrapedPost: preview, editId } = useSelector((state) => state.posts);
   const currentPostImg = useSelector((state) => state.posts.currentPost.imgUrl);
   const { isAuthenticated } = useSelector((state) => state?.user);
-  const location = useLocation();
-  const { postId, commentId, replyId } = isAuthenticated && location?.state;
-  const [postToEdit] = posts.filter((post) => post.postId === postId);
-  const [commentToEdit] = comments.filter((comment) => comment.commentId === commentId);
-  const [replyToEdit] = replies.filter((reply) => reply.replyId === replyId);
-  const [postTitle, setPostTitle] = useState(postToEdit && postToEdit.title);
-  const [postText, setPostText] = useState(postToEdit && postToEdit.text);
+  // const location = useLocation();
+  // const { postId, commentId, replyId } = isAuthenticated && location?.state;
+  const postToEdit = editId.type === "post" && posts.filter((post) => post.postId === editId.id);
+  const [postTitle, setPostTitle] = useState(postToEdit && postToEdit[0].title);
+  const [postText, setPostText] = useState(postToEdit && postToEdit[0].text);
   const [postImgUrl, setPostImgUrl] = useState(postToEdit && postToEdit.imgUrl);
-  const [emptyTitle, setEmptyTitle] = useState(false);
   const [isPreview, setIsPreview] = useState(0);
   const [imgDom, setImgDom] = useState(null);
   const [imgInputModalOpen, setImgInputModalOpen] = useState(false);
   const [gifModalOpen, setGifModalOpen] = useState(false);
   const [linkModalOpen, setLinkModalOpen] = useState(false);
-  const [serverErrorMsg, setServerErrorMsg] = useState("");
   const dispatch = useDispatch();
-  const userLanguage = useLanguage();
   const error = useError();
   const isObjectEmpty = useCallback((obj) => {
     for (let prop in obj) {
@@ -45,9 +46,9 @@ const EditPage = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      if (postToEdit.imgUrl) {
+      if (postToEdit?.imgUrl) {
         dispatch(saveImageToEdit(postImgUrl));
-      } else if (postToEdit.isPreview === 1) {
+      } else if (postToEdit?.isPreview === 1) {
         const postToEditPreview = {
           title: postToEdit.previewTitle,
           image: postToEdit.previewImg,
@@ -66,37 +67,27 @@ const EditPage = () => {
   }, [preview]);
 
   const handleEditTitleInput = useCallback((e) => {
+    if (error) dispatch(clearErrorPost());
     setPostTitle(e.currentTarget.value);
-    setEmptyTitle(false);
   }, []);
 
   const handleEditText = useCallback((e) => {
+    if (error) dispatch(clearErrorPost());
     setPostText(e.currentTarget.textContent);
-    setEmptyTitle(false);
   }, []);
 
   const handleEditSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      if (postTitle && postTitle.length === 0) return setEmptyTitle(true);
-      if (error.length !== 0) return setServerErrorMsg(error);
-      setServerErrorMsg("");
+      if (postTitle && postTitle.length === 0) return dispatch(setErrorPost("emptyTitle"));
+      if (error) return;
       console.log(isPreview);
-      if (postToEdit !== undefined) {
-        dispatch(editPost("post", postId, postTitle, postText, currentPostImg, isPreview, preview));
-        history.push({ pathname: "/feed" });
-      }
-      if (commentToEdit !== undefined) {
-        dispatch(editPost("comment", commentId, postTitle, postText));
-        history.push({ pathname: `/comments/${postTitle}` });
-      }
-      if (replyToEdit !== undefined) {
-        dispatch(editPost("reply", replyId, postTitle, postText));
-        history.push({ pathname: `/comments/${postTitle}` });
-      }
+      dispatch(editPost("post", editId.id, postTitle, postText, currentPostImg, isPreview, preview));
+      history.push("/feed");
+
       console.log(postText);
     },
-    [dispatch, postToEdit, postId, postTitle, postText, currentPostImg, isPreview, preview]
+    [dispatch, postToEdit, editId, postTitle, postText, currentPostImg, isPreview, preview]
   );
 
   const toggleImgUploadModal = useCallback((e) => {
@@ -128,9 +119,8 @@ const EditPage = () => {
           >
             <div
               className="error h-12 w-10/12 md:w-1/2 xl:w-1/3 whitespace-pre bg-black text-white text-sm text-center py-1 rounded"
-              style={{ display: emptyTitle || error.length !== 0 ? "block" : "none" }}
+              style={{ display: error ? "block" : "none" }}
             >
-              {emptyTitle && userLanguage.error.emptyTitle}
               {error}
             </div>
             <div className="w-full md:max-w-2xl">
@@ -165,4 +155,4 @@ const EditPage = () => {
   );
 };
 
-export default EditPage;
+export default EditPostPage;
