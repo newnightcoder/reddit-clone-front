@@ -19,7 +19,7 @@ const Homepage = () => {
   }, []);
 
   return (
-    <Div100vh className="w-full relative bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-100 flex flex-col items-center justify-start">
+    <Div100vh className="w-full transition-color duration-500 relative bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-100 flex flex-col items-center justify-start">
       <button
         className="h-10 w-10 absolute top-5 right-14 flex items-center justify-center rounded-full tracking-widest font-bold text-2xl transition duration-300 hover:bg-gray-300 dark:hover:bg-gray-700"
         onClick={toggleSettings}

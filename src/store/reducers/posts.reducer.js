@@ -12,7 +12,7 @@ const initialState = {
   editId: { id: null, type: null },
   editModalOpen: false,
   scrapedPost: {},
-  comments: [],
+  comments: null,
   currentCommentsCount: null,
   currentPostComments: {},
   replies: [],
@@ -86,7 +86,7 @@ export const postsReducer = (state = initialState, action) => {
       return { ...state, scrapedPost: action.payload };
 
     case GET_COMMENTS: {
-      const { comments } = action.payload;
+      const comments = action.payload;
       return { ...state, comments };
     }
 

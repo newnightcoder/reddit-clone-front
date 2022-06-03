@@ -1,9 +1,20 @@
+const colors = require("tailwindcss/colors");
+
 module.exports = {
   mode: "jit",
   purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/**/*.html"],
   darkMode: "class", // or 'media' or 'class'
   theme: {
     extend: {
+      colors: {
+        lime: colors.lime,
+        gray: colors.gray,
+        "gray-neutral": colors.neutral,
+        "gray-slate": colors.slate,
+        "gray-stone": colors.stone,
+        yellow: colors.yellow,
+        orange: colors.orange,
+      },
       keyframes: {
         postAppear: {
           "0%": { transform: "scale(0)" },

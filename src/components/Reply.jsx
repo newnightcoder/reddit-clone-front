@@ -80,16 +80,16 @@ const Reply = ({ reply }) => {
 
   return (
     <div
-      className="reply-container relative h-max w-11/12 flex-col items-center justify-center bg-white border border-gray-200 rounded-md transition-all duration-300 px-2 pt-2 "
+      className="reply-container relative h-max w-11/12 flex-col items-center justify-center text-gray-900 dark:text-gray-300 transition duration-500 bg-white dark:bg-gray-800 border border-transparent dark:border-transparent hover:border-gray-200 dark:hover:border-gray-400 rounded-md px-2 py-1 "
       style={{ marginBottom: replyOpen && "5px", transform: isDeleted && "scale(0)", display: postIsGone && "none" }}
     >
       {(openModal && userId === fk_userId_reply) || (openModal && role === "admin") ? (
         <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"reply"} />
       ) : null}
-      <div className="top w-full flex items-center justify-center pb-1 border-b">
-        <div className="left-column h-full w-2/12 flex justify-center">
+      <div className="top w-full flex items-center justify-center pl-1 py-1 transition-color duration-500 border-b dark:border-gray-700">
+        <div className="left-column h-full w-max flex justify-center">
           <div
-            className="avatar-container w-11 h-11 rounded-full border border-gray-300"
+            className="avatar-container w-11 h-11 rounded-full border transition-color duration-500 border-gray-300 dark:border-gray-600"
             style={
               picUrl
                 ? { background: `url(${picUrl}) no-repeat center/cover` }
@@ -99,9 +99,9 @@ const Reply = ({ reply }) => {
             }
           ></div>
         </div>
-        <div className="right-column  h-full w-10/12 flex flex-col items-center justify-center">
-          <div className="username-title-container h-12 w-full flex flex-col items-start justify-center pl-1 pr-3">
-            <div className="username-date w-full flex items-center justify-between gap-2">
+        <div className="right-column h-full w-full flex flex-col items-center justify-center pl-2 pr-4">
+          <div className="username-title-container h-12 w-full flex flex-col items-start justify-center">
+            <div className="username-date w-full flex items-center justify-between space-x-2">
               <div className="capitalize">
                 <span className="text-xs">@</span>
                 {username}
@@ -111,20 +111,16 @@ const Reply = ({ reply }) => {
           </div>
         </div>
       </div>
-      <div className="text w-full text-left px-3 py-2 text-sm">{text}</div>
-      <div className="bottom w-full flex items-center justify-end px-2 py-2 border-t">
-        <div className="icons-container w-max flex items-center justify-end gap-4 text-xs">
-          {/* <button className="outline-none w-max flex items-center justify-center gap-1" onClick={toggleReply}>
-            <ChatRight size={14} />
-            <span>{}</span> <span>Répondre</span>
-          </button> */}
+      <div className="text w-full text-left px-3 py-2 text-sm break-words">{text}</div>
+      <div className="bottom w-full flex items-center justify-end px-2 py-2">
+        <div className="icons-container w-max flex items-center justify-end space-x-4 text-xs">
           <div className="w-max flex items-center justify-center">
             <button className="outline-none" onClick={() => handleLike(replyId)}>
               {like ? <HandThumbsUpFill size={14} /> : <HandThumbsUp size={14} className="font-weight-bold" />}
             </button>
             <span className="w-4 text-center">{likesNumber}</span>
           </div>
-          <button className="w-max flex items-center justify-center gap-1" onClick={toggleOptions}>
+          <button className="w-max flex items-center justify-center space-x-1" onClick={toggleOptions}>
             <ThreeDotsVertical />
           </button>
         </div>

@@ -44,7 +44,9 @@ const CreatePost = () => {
   }, [preview]);
 
   const handleTitleInput = useCallback((e) => {
-    if (error) dispatch(clearErrorPost());
+    if (error) {
+      dispatch(clearErrorPost());
+    }
     setTitle(e.currentTarget.value);
   });
 

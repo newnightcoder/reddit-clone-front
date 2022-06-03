@@ -21,13 +21,13 @@ const RecentUsers = () => {
   }, [dispatch, width]);
 
   return (
-    <div className="w-72 h-max flex flex-col rounded">
+    <div className="w-72 h-max flex flex-col rounded transition-color duration-500 bg-white dark:bg-gray-900">
       <div className="header h-24 w-full bg-blue-400 rounded-tl rounded-tr relative border-t border-l border-r border-transparent">
         <span className="w-full text-center absolute bottom-0 mb-2 text-white text-lg font-bold">
           {userLanguage.aside.recentMembers}
         </span>
       </div>
-      <div className="list w-full h-max flex flex-col items-center justify-center rounded-bl rounded-br bg-white dark:bg-gray-900  border-b border-l border-r dark:border-gray-600 pb-12">
+      <div className="list w-full h-max flex flex-col items-center justify-center rounded-bl rounded-br  transition-color duration-500 border-b border-l border-r dark:border-gray-600 pb-12">
         <>
           {recentUsers.length === 0 || recentUsers === undefined ? (
             <Skeleton element="user" number={pathname.includes("profile") ? 3 : 5} />

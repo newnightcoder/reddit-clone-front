@@ -14,11 +14,11 @@ const NavBar = ({ toggleMenu }) => {
   const userLanguage = useLanguage();
 
   return (
-    <div style={{ zIndex: 1000 }} className="h-16 w-full fixed top-0 overflow-hidden shadow-sm">
-      <div className=" h-full w-full  pl-2 pr-4 flex items-center justify-between md:justify-evenly  gap-1 md:gap-2 dark:text-white shadow-md bg-gray-100 dark:bg-gray-900">
+    <div className="h-16 w-full fixed top-0 overflow-hidden z-[1000] shadow-md">
+      <div className=" h-full w-full pl-0 md:pl-2 pr-4 flex items-center justify-between md:justify-evenly space-x-1 md:space-x-2 transition duration-500 dark:text-white bg-gray-100 dark:bg-gray-900">
         <Link
           to="/feed"
-          className=" h-5/6 w-36 flex items-center justify-center ml-3 mr-2"
+          className=" h-5/6 w-36 flex items-center justify-center ml-0 md:ml-3 mr-2"
           style={{ transform: width < 768 ? "translateY(-3px)" : "translateY(-6px)" }}
         >
           <svg
@@ -48,13 +48,13 @@ const NavBar = ({ toggleMenu }) => {
           </svg>
         </Link>
 
-        <form className="hidden w-2/3  max-w-xl 2xl:max-w-5xl md:flex items-center justify-center rounded-l-full" action="">
+        <form className="hidden group w-2/3  max-w-xl 2xl:max-w-5xl md:flex items-center justify-center rounded-l-full" action="">
           <input
-            className="h-10 w-full rounded-l-full outline-none pl-3 pr-2 text-black dark:text-gray-100 dark:placeholder-gray-200 dark:bg-gray-500 text-sm lg:text-md border-t border-b border-l border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-400"
+            className="h-10 w-full rounded-l-full outline-none pl-3 pr-2 text-black dark:text-gray-100 dark:placeholder-gray-200 dark:bg-gray-600 text-sm lg:text-md transition-color duration-300 border-t border-b border-l border-gray-200 dark:border-gray-700 group-hover:border-gray-400 dark:group-hover:border-gray-400"
             type="search"
             placeholder={userLanguage.navbar.searchPlaceholder}
           />
-          <button className="w-10 h-10 outline-none rounded-r-full bg-black dark:bg-gray-700 flex items-center justify-center border border-transparent">
+          <button className="w-10 h-10 outline-none rounded-r-full bg-black dark:bg-gray-700 flex items-center justify-center border border-transparent group-hover:border-gray-400 dark:group-hover:border-gray-400">
             <SearchIcon className="h-5 w-5 text-white" />
           </button>
         </form>
@@ -80,7 +80,7 @@ const NavBar = ({ toggleMenu }) => {
           )}
         </button>
 
-        <div className="hidden w-max md:flex items-center justify-evenly space-x-6 text-black dark:text-gray-100">
+        <div className="hidden w-max md:flex items-center justify-evenly space-x-6 transition-color duration-500 text-black dark:text-gray-100">
           <button
             tabIndex="0"
             className="hidden md:flex items-center justify-center gap-2 outline-none bg-transparent "
@@ -116,14 +116,13 @@ const NavBar = ({ toggleMenu }) => {
               <>
                 <Link
                   to="/signup"
-                  className="w-max py-2 px-3 text-center text-sm text-white font-bold capitalize shadow rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
-                  style={{ backgroundColor: "#ff4500" }}
+                  className="w-max py-2 px-3 text-center text-sm text-white font-bold capitalize shadow rounded-full transition duration-300 hover:shadow-none bg-[#ff4500] hover:bg-blue-500"
                 >
                   {userLanguage.homepage.registerBtn}
                 </Link>
                 <button
                   onClick={() => handleLink("navbar-login")}
-                  className="w-max py-2 px-3 text-center text-sm text-white font-bold capitalize shadow bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
+                  className="w-max py-2 px-3 text-center text-sm text-white font-bold capitalize shadow bg-blue-400 rounded-full transition duration-300 hover:shadow-none hover:bg-blue-500"
                 >
                   {userLanguage.homepage.connectBtn}
                 </button>

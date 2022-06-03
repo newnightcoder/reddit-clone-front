@@ -1,22 +1,26 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { API_USER } from "../../API";
+import { setErrorPost } from "../../store/actions/posts.action";
 
 const useGetProfile = (id) => {
   const { isAuthenticated } = useSelector((state) => state.user);
   const [userData, setUserData] = useState(null);
-
+  const dispatch = useDispatch();
   const getProfile = async (id) => {
+    const token = localStorage.getItem("jwt");
     const request = {
       headers: {
         "Content-type": "application/json",
       },
+      // authorization:`Bearer ${token}`,
       method: "post",
       body: JSON.stringify({ id }),
     };
     try {
       const response = await fetch(`${API_USER}/`, request);
-      const { user } = await response.json();
+      const { user, error } = await response.json();
+      if (error) return dispatch(setErrorPost(error));
       console.log("user reçu pour le profil", user);
       setUserData(user);
     } catch (error) {

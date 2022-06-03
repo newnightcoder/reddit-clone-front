@@ -28,7 +28,13 @@
 }
 .dark #postInput:first-child:empty::before {
   content: attr(placeholder);
-  color: rgb(246, 246, 246);
+  color: rgb(150, 150, 150);
   display: block;
   height: 100%;
 }
+/* #commentInput::placeholder {
+  color: #999;
+}
+.dark #commentInput::placeholder {
+  color: rgb(150, 150, 150);
+} */

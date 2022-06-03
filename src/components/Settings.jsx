@@ -46,8 +46,8 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
           : width < breakpoint.md
           ? "-top-36"
           : width < breakpoint.xl
-          ? "top-40"
-          : width > breakpoint.xl
+          ? "top-[10.25rem]"
+          : width >= breakpoint.xl
           ? "top-28"
           : ""
       } ${
@@ -57,10 +57,14 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
           ? "left-1/2"
           : width < breakpoint.xl
           ? "left-20"
+          : width === breakpoint.xl
+          ? "left-44"
           : width > breakpoint.xl
-          ? "left-56"
+          ? "left-[13.25rem]"
           : ""
-      } ${landingPage ? "right-4" : ""} w-52 h-max absolute bg-white dark:bg-gray-700 py-3 rounded-lg shadow-xl z-30`}
+      } ${
+        landingPage ? "right-4" : ""
+      } w-52 h-max absolute transition duration-500 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-700 py-3 rounded-lg shadow-xl z-30`}
     >
       <div>
         <button

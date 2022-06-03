@@ -345,7 +345,7 @@ export const getComments = () => async (dispatch) => {
     } else if (error) {
       return dispatch({ type: SET_ERROR_POST, payload: error });
     }
-    dispatch({ type: GET_COMMENTS, payload: { comments } });
+    dispatch({ type: GET_COMMENTS, payload: comments });
   } catch (err) {
     dispatch({ type: SET_ERROR_POST, payload: "backend" });
   }

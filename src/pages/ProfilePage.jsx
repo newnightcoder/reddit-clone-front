@@ -9,7 +9,7 @@ import { getUserPosts } from "../store/actions/posts.action";
 import { deleteUser } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
 import { formatTimestamp } from "../utils/helpers/formatTime";
-import { useGetProfile, useLanguage } from "../utils/hooks";
+import { useError, useGetProfile, useLanguage } from "../utils/hooks";
 
 const Profile = () => {
   const { id, picUrl, bannerUrl, username, creationDate, role, isAuthenticated, language } = useSelector((state) => state?.user);
@@ -20,15 +20,16 @@ const Profile = () => {
   const [postTabOpen, setPostTabOpen] = useState(true);
   const [likedPosts, setLikedPosts] = useState([]);
   const location = useLocation();
-  const { profileId } = isAuthenticated && location?.state;
   const dispatch = useDispatch();
+  const profileId = isAuthenticated ? location?.state?.profileId : null;
   const userData = useGetProfile(profileId);
   const userLanguage = useLanguage();
+  const error = useError();
 
   const getLikedPostArray = useCallback(() => {
     const postsArr = [];
     const likedPostArr = [];
-    likes.forEach((like) => {
+    likes?.forEach((like) => {
       if (like.fk_userId_like === profileId && like.fk_postId_like !== null) {
         postsArr.push(like.fk_postId_like);
       }
@@ -45,9 +46,10 @@ const Profile = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (error) return;
     dispatch(getUserPosts(profileId));
     getLikedPostArray();
-  }, [profileId, dispatch]);
+  }, [profileId, error, userData, dispatch]);
 
   const toggleTabs = useCallback(() => {
     if (postTabOpen) {
@@ -87,9 +89,14 @@ const Profile = () => {
       ) : (
         <Layout>
           <div
-            className="page-container h-max w-full flex items-start justify-center md:rounded-md"
+            className="page-container relative h-max w-full flex items-start justify-center md:rounded-md"
             style={{ minHeight: "calc(100vh - 4rem)" }}
           >
+            {error && (
+              <div className="fixed top-16 inset-x-0 h-min w-full p-2 bg-black text-center text-white text-sm z-10 whitespace-pre rounded">
+                {error}
+              </div>
+            )}
             {userData === undefined || !userData ? (
               <Skeleton element="profile" number={1} />
             ) : (

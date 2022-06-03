@@ -35,7 +35,7 @@ const Feed = () => {
 
   return (
     <Layout>
-      <div className="feed-container h-full w-full shrink flex flex-col items-center justify-start gap-2 transition duration-500 relative">
+      <div className="feed-container h-full w-full shrink flex flex-col items-center justify-start gap-2 transition-color text-black dark:text-blue-500 duration-500 relative">
         {error && <span>{error}</span>}
         <div className="bienvenueMsg-newcomer h-16 flex items-center justify-center text-center whitespace-pre mb-2">
           {!isAuthenticated ? (
@@ -56,7 +56,7 @@ const Feed = () => {
         <div className="w-full h-full flex flex-col items-center justify-center gap-4">
           <div className="posts-aside-container w-full md:w-11/12 max-w-7xl flex items-start justify-center pt-2 md:gap-8 transform -translate-y-6">
             <div className="posts-section-container w-full flex flex-col items-center justify-center pb-20 relative">
-              <div className="w-11/12 md:w-full max-w-3xl h-6 flex items-center justify-end mb-2">
+              <div className="w-11/12 md:w-full max-w-2xl h-6 flex items-center justify-end mb-2">
                 <button
                   className="h-6 refreshBtn outline-none hover:cursor-pointer	bg-blue-500 text-white rounded-full gap-1 flex items-center justify-center pl-2 pr-3 py-1 shadow transition-all duration-300 hover:bg-black hover:shadow-none group"
                   onClick={() => dispatch(getPosts())}

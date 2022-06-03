@@ -29,11 +29,11 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <div>
+    <>
       <NavBar toggleMenu={toggleMenu} />
-      <div className="h-full w-full mt-16 relative flex items-start justify-center bg-gray-200 dark:bg-black dark:text-white">
+      <div className="h-full w-full mt-16 relative flex items-start justify-center transition-color duration-500 bg-gray-200 dark:bg-gray-800">
         <div
-          className={`w-full border dark:border-black 2xl:w-3/4 md:px-12 flex items-start justify-center md:space-x-4 relative`}
+          className={`w-full transition-color duration-500 border dark:border-gray-800 2xl:w-3/4 md:px-12 flex items-start justify-center md:space-x-4 relative`}
         >
           <NavBarDesktop toggleSettings={toggleSettings} settingsOpen={settingsOpen} />
           {children}
@@ -44,7 +44,7 @@ const Layout = ({ children }) => {
       <Menu isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
       <SessionExpiredModal isExpired={isExpired} close={closeExpirationModal} />
       <VisitorModal />
-    </div>
+    </>
   );
 };
 

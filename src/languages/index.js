@@ -141,9 +141,11 @@ const language = {
       publishBtn: "post",
     },
     commentPage: {
+      backLink: "Back to feed",
       noComments: "no comment yet",
       comments: "comments",
       commentForm: {
+        commentAs: "Comment as",
         placeholder: "Your comment...",
         commentBtn: "comment",
       },
@@ -378,9 +380,11 @@ const language = {
       publishBtn: "publier",
     },
     commentPage: {
+      backLink: "Retour",
       noComments: "pas encore de commentaire",
       comments: "commentaires",
       commentForm: {
+        commentAs: "Commenter en tant que",
         placeholder: "Votre commentaire...",
         commentBtn: "commenter",
       },
@@ -615,9 +619,11 @@ const language = {
       publishBtn: "posten",
     },
     commentPage: {
+      backLink: "Zurück",
       noComments: "noch kein kommentar",
       comments: "kommentare",
       commentForm: {
+        commentAs: "Kommentiere als",
         placeholder: "Was denkst du dazu?",
         commentBtn: "kommentieren",
       },

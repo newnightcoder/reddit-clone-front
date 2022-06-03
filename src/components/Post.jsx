@@ -36,6 +36,7 @@ const Post = ({ post, aside }) => {
   const dispatch = useDispatch();
 
   const toggleOptions = useCallback(() => {
+    console.log("clicked to close");
     return setOptionsOpen((optionsOpen) => !optionsOpen);
   }, [optionsOpen]);
 
@@ -98,18 +99,19 @@ const Post = ({ post, aside }) => {
 
   return (
     <div
+      onClick={optionsOpen ? toggleOptions : undefined}
       className={`post-container ${postId === lastPostAdded && "animate-post"} ${isDeleted && "scale-0"} ${
         postIsGone && "hidden"
-      } h-max w-full max-w-3xl relative md:rounded-md flex-col items-center justify-center bg-white dark:bg-gray-900 border-t border-b md:border border-gray-300 dark:border-gray-700 transform transition-border-color transition-transform duration-300 hover:border-gray-500 dark:hover:border-gray-500 pt-2`}
+      } h-max w-full max-w-2xl relative md:rounded-md flex-col items-center justify-center border-t border-b md:border text-gray-900 dark:text-gray-300 transition duration-500 bg-white dark:bg-gray-900 border-transparent dark:border-transparent hover:border-gray-500 dark:hover:border-gray-500 pt-2`}
     >
       {(openModal && userId === fk_userId_post) || (openModal && role === "admin") ? (
         <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"post"} postId={postId} />
       ) : null}
       <PostHeader post={post} />
-      {text && <div className="text w-full text-left px-3 pt-2 text-sm">{text}</div>}
+      {text && <div className="w-full text-left px-4 pt-2 text-sm break-words">{text}</div>}
 
       {isPreview === 1 ? (
-        <div className="w-full flex items-center justify-center py-4">
+        <div className="w-full flex items-center justify-center px-4 pt-2 pb-4">
           <LinkPreview
             previewTitle={previewTitle}
             previewText={previewText}
@@ -122,7 +124,7 @@ const Post = ({ post, aside }) => {
         </div>
       ) : (
         <>
-          <div className={"w-full flex items-center justify-center px-2 pb-4"}>
+          <div className={"w-full flex items-center justify-center px-2 pt-3 pb-4"}>
             {imgUrl !== "" ? (
               <img
                 src={imgUrl}

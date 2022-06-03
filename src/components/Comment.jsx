@@ -37,7 +37,6 @@ const Comment = ({ comment, postId }) => {
         }
       })
       .filter((value) => value !== undefined);
-    console.log("replyCount", replyCount);
     setReplyNumber(replyCount.length);
   }, [replies]);
 
@@ -122,9 +121,9 @@ const Comment = ({ comment, postId }) => {
   }, [commentId, dispatch, postId]);
 
   return (
-    <>
+    <div className="flex flex-col items-center justify-center space-y-1 w-full rounded">
       <div
-        className="comment-container relative h-max w-full flex-col items-center justify-center bg-white transition-all duration-300 px-2 pt-2 "
+        className="comment-container rounded relative h-max w-full flex-col items-center justify-center text-gray-900 dark:text-gray-300 transition duration-500 bg-white dark:bg-gray-800 px-2 py-1"
         style={{ marginBottom: replyOpen && "5px", transform: isDeleted && "scale(0)", display: postIsGone && "none" }}
       >
         {(openModal && userId === fk_userId_comment) || (openModal && role === "admin") ? (
@@ -135,10 +134,10 @@ const Comment = ({ comment, postId }) => {
             postIdComment={postId}
           />
         ) : null}
-        <div className="top w-full flex items-center justify-center pb-1 border-b">
-          <div className="left-column h-full w-2/12 flex justify-center">
+        <div className="top w-full flex items-center justify-center pl-1 py-1 transition-color duration-500 border-b dark:border-gray-700">
+          <div className="left-column h-full w-max flex justify-center">
             <div
-              className="avatar-container w-11 h-11 rounded-full border border-gray-300"
+              className="avatar-container w-11 h-11 rounded-full border transition-color duration-500 border-gray-300 dark:border-gray-600"
               style={
                 picUrl
                   ? { background: `url(${picUrl}) no-repeat center/cover` }
@@ -148,8 +147,8 @@ const Comment = ({ comment, postId }) => {
               }
             ></div>
           </div>
-          <div className="right-column  h-full w-10/12 flex flex-col items-center justify-center">
-            <div className="username-title-container h-12 w-full flex flex-col items-start justify-center pl-1 pr-3">
+          <div className="right-column h-full w-full flex flex-col items-center justify-center pl-2 pr-4">
+            <div className="username-title-container h-12 w-full flex flex-col items-start justify-center">
               <div className="username-date w-full flex items-center justify-between gap-2">
                 <div className="capitalize">
                   <span className="text-xs">@</span>
@@ -160,7 +159,7 @@ const Comment = ({ comment, postId }) => {
             </div>
           </div>
         </div>
-        <div className="text w-full text-left px-3 py-2 text-sm">{text}</div>
+        <div className="text w-full text-left px-3 py-2 text-sm break-words">{text}</div>
         <div className="bottom w-full flex items-center justify-end px-2 py-2">
           <div className="icons-container w-max flex items-center justify-end gap-4 text-xs">
             <button className="outline-none w-max flex items-center justify-center gap-2" onClick={toggleReply}>
@@ -196,7 +195,7 @@ const Comment = ({ comment, postId }) => {
         handleChange={handleChange}
         replyTextRef={replyTextRef}
       />
-      <div className="w-full bg-gray-100 flex flex-col items-end justify-center gap-2 py-2">
+      <div className="w-full transition-color duration-500 bg-gray-200 dark:bg-black flex flex-col items-end justify-center space-y-2">
         {replies &&
           replies
             .sort((a, b) => {
@@ -210,7 +209,7 @@ const Comment = ({ comment, postId }) => {
               } else return null;
             })}
       </div>
-    </>
+    </div>
   );
 };
 

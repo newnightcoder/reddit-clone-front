@@ -10,10 +10,10 @@ const PostHeader = ({ post }) => {
   const handleLink = useHandleLink();
 
   return (
-    <div className="top w-full flex items-center justify-center pl-2 pb-1 border-b dark:border-gray-700">
-      <div className="left-column h-full w-2/12 flex justify-center">
+    <div className="top w-full flex items-start justify-between border-b transition-color duration-500 border-gray-100 dark:border-gray-700 py-1 px-4">
+      <div className="left-column h-full w-max pr-1 flex justify-center">
         <button
-          className="avatar-container outline-none w-11 h-11 rounded-full border border-gray-300 hover:cursor-pointer"
+          className="avatar-container outline-none border-[1px] dark:border-gray-600 w-11 h-11 rounded-full hover:cursor-pointer"
           style={
             picUrl
               ? { background: `url(${picUrl}) no-repeat center/cover` }
@@ -26,8 +26,8 @@ const PostHeader = ({ post }) => {
           }
         ></button>
       </div>
-      <div className="right-column  h-full w-10/12 flex flex-col items-center justify-center">
-        <div className="username-title-container h-max w-full flex flex-col items-start justify-center pl-1 pr-3">
+      <div className="right-column  h-full w-full flex flex-col items-center justify-center">
+        <div className="username-title-container h-max w-full flex flex-col items-start justify-center">
           <div className="username-date w-full flex items-center justify-between gap-2">
             <button
               className="outline-none capitalize hover:cursor-pointer hover:underline"
@@ -42,9 +42,9 @@ const PostHeader = ({ post }) => {
               <span className="text-xs">@</span>
               {authorName}
             </button>
-            <div className="text-xs italic">{formatTimestamp(date, "post", language)}</div>
+            <div className="text-xs italic whitespace-nowrap">{formatTimestamp(date, "post", language)}</div>
           </div>
-          <div className="title font-bold h-max">{title}</div>
+          <div className="title text-lg font-bold h-max w-[97%] pl-1 break-all">{title}</div>
         </div>
       </div>
     </div>

@@ -34,11 +34,11 @@ const Options = ({
 
   return (
     <div
-      className="h-full w-1/2 flex flex-col items-center justify-center space-y-2 absolute right-0 bottom-0 bg-gray-800 text-sm transition origin-bottom-right	ease-in-out duration-300 text-gray-300 rounded-tl rounded-tr rounded-br px-2 py-4"
+      className="h-full w-1/2 flex flex-col items-center justify-center space-y-2 absolute right-0 bottom-0 bg-gray-800 text-sm transition origin-bottom-right z-10	ease-in-out duration-300 text-gray-300 rounded-tl rounded-tr rounded-br px-2 py-4"
       style={{ transform: optionsOpen ? "scale(1)" : "scale(0)", opacity: optionsOpen ? 1 : 0 }}
     >
-      <button className="absolute top-1 right-1 flex items-center justify-center" onClick={toggleOptions}>
-        <XIcon className="h-4 text-white" />
+      <button className="absolute top-1 right-1 flex items-center justify-center z-10" onClick={toggleOptions}>
+        <XIcon className="h-4 text-white pointer-events-none" />
       </button>
 
       {((postUserId !== undefined && user === postUserId) ||
