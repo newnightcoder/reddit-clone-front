@@ -1,25 +1,22 @@
 import { RefreshIcon } from "@heroicons/react/solid";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Layout, Post, Skeleton } from "../components";
 import { clearTempPostImg, clearTempPreview, getLikes, getPosts } from "../store/actions/posts.action";
-import { useError, useLanguage } from "../utils/hooks";
+import { useContainerSize, useError, useLanguage } from "../utils/hooks";
 
 const Feed = () => {
-  const [newUser, setNewUser] = useState(false);
   const user = useSelector((state) => state.user);
   const { isAuthenticated, isNewUser, liked } = useSelector((state) => state.user);
   const posts = useSelector((state) => state?.posts?.posts);
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
   const error = useError();
+  const postsContainer = useRef();
+  const size = useContainerSize(postsContainer);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    setNewUser(isNewUser);
-    return function cleanup() {
-      setNewUser(null);
-    };
   }, []);
 
   useEffect(() => {
@@ -35,12 +32,16 @@ const Feed = () => {
 
   return (
     <Layout>
-      <div className="feed-container h-full w-full shrink flex flex-col items-center justify-start gap-2 transition-color text-black dark:text-blue-500 duration-500 relative">
-        {error && <span>{error}</span>}
-        <div className="bienvenueMsg-newcomer h-16 flex items-center justify-center text-center whitespace-pre mb-2">
+      <div className="feed-container border border-yellow-500 h-full w-full md:w-11/12 max-w-2xl flex flex-col items-center justify-start space-y-2 transition-color text-black dark:text-blue-500 duration-500 relative">
+        {error && (
+          <span className="whitespace-pre w-full md:w-max h-max py-2 px-3 text-sm md:text-sm text-white transition duration-500 bg-black dark:bg-white dark:text-black text-center rounded">
+            {error}
+          </span>
+        )}
+        <div className="bienvenueMsg-newcomer w-full h-16 flex items-center justify-center text-center whitespace-pre mb-2">
           {!isAuthenticated ? (
             <span className="font-bold">{userLanguage?.feed.greetingVisitorMode}&nbsp;</span>
-          ) : newUser ? (
+          ) : isNewUser ? (
             <span className="font-bold">
               {userLanguage?.feed.greetingVisitor1} <span className="capitalize">{user.username}!</span>
               <br />
@@ -53,12 +54,12 @@ const Feed = () => {
             </span>
           )}
         </div>
-        <div className="w-full h-full flex flex-col items-center justify-center gap-4">
-          <div className="posts-aside-container w-full md:w-11/12 max-w-7xl flex items-start justify-center pt-2 md:gap-8 transform -translate-y-6">
+        <div className="w-full h-full flex flex-col items-center justify-center space-y-4">
+          <div className="posts-aside-container w-full md:w-11/12 max-w-7xl flex items-start justify-center pt-2 md:space-x-8 -translate-y-6">
             <div className="posts-section-container w-full flex flex-col items-center justify-center pb-20 relative">
-              <div className="w-11/12 md:w-full max-w-2xl h-6 flex items-center justify-end mb-2">
+              <div style={{ width: `${size}` }} className="h-6 flex items-center justify-end mb-2 pr-4 md:pr-0">
                 <button
-                  className="h-6 refreshBtn outline-none hover:cursor-pointer	bg-blue-500 text-white rounded-full gap-1 flex items-center justify-center pl-2 pr-3 py-1 shadow transition-all duration-300 hover:bg-black hover:shadow-none group"
+                  className="h-6 refreshBtn outline-none hover:cursor-pointer	bg-blue-500 text-white rounded-full flex items-center justify-center space-x-1 pl-2 pr-3 py-1 shadow transition duration-300 hover:bg-black hover:shadow-none group"
                   onClick={() => dispatch(getPosts())}
                   style={{ opacity: posts && posts.length !== 0 ? 1 : 0 }}
                 >
@@ -66,7 +67,10 @@ const Feed = () => {
                   <span className="text-xs pointer-events-auto capitalize">{userLanguage?.feed.refreshBtn}</span>
                 </button>
               </div>
-              <div className="posts-wrapper h-full w-full relative flex flex-col items-center justify-center gap-4 pb-6">
+              <div
+                ref={postsContainer}
+                className="posts-wrapper border border-black h-full w-full relative flex flex-col items-center justify-center space-y-4 pb-6"
+              >
                 {posts.length === 0 ? (
                   <Skeleton element="post" number={8} />
                 ) : (

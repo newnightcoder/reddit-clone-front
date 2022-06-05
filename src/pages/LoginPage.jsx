@@ -80,9 +80,11 @@ const Login = () => {
           </defs>
         </svg>
       </header>
-      <div style={{ display: error ? "flex" : "none" }} className="error h-max w-full  items-center justify-center py-2">
-        <span className="w-max h-max whitespace-wrap py-2 px-3 text-center text-white bg-black rounded">{error}</span>
-      </div>
+      {error && (
+        <span className="whitespace-pre w-full md:w-max h-max py-2 px-3 text-sm md:text-sm text-white transition duration-500 bg-black dark:bg-white dark:text-black text-center rounded">
+          {error}
+        </span>
+      )}
       <form method="post" className="h-max flex flex-col items-center justify-center gap-4" onSubmit={handleUserSubmit}>
         <div className="flex flex-col items-start">
           <label htmlFor="email">Email</label>

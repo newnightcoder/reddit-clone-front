@@ -22,7 +22,7 @@ const SignupForm = ({
   }, []);
 
   return (
-    <form method="post" className="h-max w-72 flex flex-col items-center justify-center gap-4" onSubmit={handleNewUserSubmit}>
+    <form method="post" className="h-min w-72 flex flex-col items-center justify-center space-y-2" onSubmit={handleNewUserSubmit}>
       <div className="flex flex-col items-center gap-4">
         <div className="w-64 flex flex-col items-start">
           <label htmlFor="email">{userLanguage.signup.email}</label>

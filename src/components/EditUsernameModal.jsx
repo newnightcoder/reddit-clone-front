@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearUserError, editUsername, resetUsernameEdited } from "../store/actions/user.action";
-import { useLanguage } from "../utils/hooks";
+import { clearErrorUser, editUsername, resetUsernameEdited } from "../store/actions/user.action";
+import { useError, useLanguage } from "../utils/hooks";
 
 const EditUsernameModal = ({ toggleEditModal, openEditModal }) => {
-  const { id: userId, error, username, usernameEdited } = useSelector((state) => state.user);
+  const { id: userId, username, usernameEdited } = useSelector((state) => state.user);
   const [newUsername, setNewUsername] = useState("");
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
+  const error = useError();
 
   useEffect(() => {
     if (usernameEdited) {
@@ -27,10 +28,12 @@ const EditUsernameModal = ({ toggleEditModal, openEditModal }) => {
 
   const handleChange = useCallback(
     (e) => {
-      dispatch(clearUserError());
+      if (error) {
+        dispatch(clearErrorUser());
+      }
       setNewUsername(e.currentTarget.value);
     },
-    [dispatch, setNewUsername]
+    [dispatch, setNewUsername, error]
   );
 
   return (
@@ -42,12 +45,11 @@ const EditUsernameModal = ({ toggleEditModal, openEditModal }) => {
         <label htmlFor="username" className="for">
           {userLanguage.editModal.newUsername}:
         </label>
-        <span
-          className="whitespace-pre w-10/12 md:text-center h-max py-2 px-3 bg-black text-white text-center border border-red-700 rounded"
-          style={error.length !== 0 ? { visibility: "visible" } : { visibility: "hidden" }}
-        >
-          {error === "duplicate" ? userLanguage.signup.stepUsername.errorDuplicate : userLanguage.signup.errorBackend}
-        </span>
+        {error && (
+          <span className="whitespace-pre w-full md:w-max h-max py-2 px-3 text-sm md:text-sm text-white transition duration-500 bg-black dark:bg-white dark:text-black text-center rounded">
+            {error}
+          </span>
+        )}
         <input
           type="text"
           id="username"
@@ -59,7 +61,7 @@ const EditUsernameModal = ({ toggleEditModal, openEditModal }) => {
             className="w-full md:w-max py-2 px-3 flex items-center justify-center text-white text-xs rounded-full shadow-xl cursor-pointer bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none uppercase"
             onClick={() => {
               toggleEditModal();
-              dispatch(clearUserError());
+              dispatch(clearErrorUser());
             }}
           >
             {userLanguage.editModal.cancel}

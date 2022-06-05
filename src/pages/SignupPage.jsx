@@ -68,7 +68,7 @@ const Signup = () => {
 
   return (
     <Div100vh
-      className="flex flex-col items-center justify-center space-y-16 relative transition duration-500 bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-200"
+      className="flex flex-col items-center justify-evenly relative transition duration-500 bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-200"
       style={toNextStep}
     >
       <header className="text-center uppercase text-black dark:text-white font-bold text-lg flex flex-col items-center justify-center">
@@ -99,12 +99,11 @@ const Signup = () => {
           </defs>
         </svg>{" "}
       </header>
-      <div
-        style={{ display: error.length !== 0 ? "flex" : "none" }}
-        className="error h-max w-full  items-center justify-center py-2"
-      >
-        <span className="block w-max h-max py-2 px-3 border-2 border-red-500 bg-black text-white rounded">{error}</span>
-      </div>
+      {error && (
+        <span className="whitespace-pre w-full md:w-max h-max py-2 px-3 text-sm md:text-sm text-white transition duration-500 bg-black dark:bg-white dark:text-black text-center rounded">
+          {error}
+        </span>
+      )}
       <SignupForm
         isEmail={isEmail}
         isUppercase={isUppercase}
@@ -115,7 +114,7 @@ const Signup = () => {
         handleNewPass={handleNewPass}
         handleNewUserSubmit={handleNewUserSubmit}
       />
-      <div className="w-4/5 md:w-96 border-t border-black text-black dark:text-white transform translate-y-6 md:translate-y-8 py-2 flex items-center justify-center gap-2">
+      <div className="h-min w-4/5 md:w-96 border-t border-black text-black dark:text-white transform translate-y-6 md:translate-y-8 py-2 flex items-center justify-center gap-2">
         {userLanguage.signup.already}
         <Link
           to="/login"

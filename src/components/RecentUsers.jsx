@@ -22,7 +22,7 @@ const RecentUsers = () => {
 
   return (
     <div className="w-72 h-max flex flex-col rounded transition-color duration-500 bg-white dark:bg-gray-900">
-      <div className="header h-24 w-full bg-blue-400 rounded-tl rounded-tr relative border-t border-l border-r border-transparent">
+      <div className="header h-24 w-full transition-color duration-500 bg-blue-400 dark:bg-[#3B82F6] rounded-tl rounded-tr relative border-t border-l border-r border-transparent">
         <span className="w-full text-center absolute bottom-0 mb-2 text-white text-lg font-bold">
           {userLanguage.aside.recentMembers}
         </span>

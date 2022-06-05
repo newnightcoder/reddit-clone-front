@@ -25,7 +25,8 @@ const Aside = () => {
     <div
       ref={element}
       style={{
-        marginTop: pathname === "/feed" ? "6rem" : "4rem",
+        // marginTop: pathname === "/feed" ? "6rem" : "4rem",
+        marginTop: "6rem",
         top: pathname === "/feed" ? `calc(100vh - ${size?.height}px - 10px)` : "6rem",
       }}
       className="hidden sticky w-72 h-max lg:flex flex-col items-center justify-start gap-2"

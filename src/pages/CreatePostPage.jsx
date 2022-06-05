@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
 import { clearErrorPost, clearTempPostImg, clearTempPreview, createPost, setErrorPost } from "../store/actions/posts.action";
+import { clearErrorUser } from "../store/actions/user.action";
 import { createDate } from "../utils/helpers/formatTime";
 import history from "../utils/helpers/history";
 import { isObjectEmpty } from "../utils/helpers/isObjectEmpty";
@@ -37,22 +38,26 @@ const CreatePost = () => {
     dispatch(clearTempPostImg());
     dispatch(clearTempPreview());
     dispatch(clearErrorPost());
+    dispatch(clearErrorUser());
   }, []);
 
   useEffect(() => {
     if (!isObjectEmpty(preview)) setIsPreview(1);
   }, [preview]);
 
-  const handleTitleInput = useCallback((e) => {
-    if (error) {
-      dispatch(clearErrorPost());
-    }
-    setTitle(e.currentTarget.value);
-  });
+  const handleTitleInput = useCallback(
+    (e) => {
+      if (error) {
+        dispatch(clearErrorPost());
+      }
+      setTitle(e.currentTarget.value);
+    },
+    [error]
+  );
 
   const handlePostInput = useCallback((e) => {
     setPostText(e.currentTarget.textContent);
-  });
+  }, []);
 
   const handlePostSubmit = useCallback(
     (e) => {
@@ -91,17 +96,16 @@ const CreatePost = () => {
     <>
       <Layout>
         <div
-          className="w-full flex flex-col items-center justify-start md:pt-16 md:pb-4"
+          className="w-full md:w-11/12 max-w-2xl border border-purple-400 flex flex-col items-center justify-start md:pt-16 md:pb-4"
           style={{ minHeight: "calc(100vh - 4rem)" }}
         >
           <div className="w-full h-full flex items-start justify-center space-x-8">
-            <div className="h-max w-full md:max-w-2xl flex flex-col items-center justify-center">
-              <div
-                className="error md:absolute md:top-0 h-12 w-full md:w-1/2 xl:w-1/3 items-center justify-center bg-black text-white text-sm py-1 rounded mb-4 text-center whitespace-pre"
-                style={{ display: error ? "flex" : "none" }}
-              >
-                {error}
-              </div>
+            <div className="h-max w-full  flex flex-col items-center justify-center">
+              {error && (
+                <div className="error md:absolute md:top-0 h-max w-full md:w-max mx-auto flex items-center justify-center bg-black dark:bg-white text-white dark:text-black text-center text-sm px-3 py-2 rounded mb-4  whitespace-pre">
+                  {error}
+                </div>
+              )}
               <PostForm
                 title={title}
                 handlePostSubmit={handlePostSubmit}

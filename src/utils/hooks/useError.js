@@ -5,7 +5,7 @@ import useLanguage from "./useLanguage";
 const useError = () => {
   const { error: userError } = useSelector((state) => state.user);
   const { error: postError } = useSelector((state) => state.posts);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
   const userLanguage = useLanguage();
 
   const errorType = {
@@ -65,7 +65,7 @@ const useError = () => {
     } else if (postError.length > 0) {
       return setMatchingError(postError);
     }
-  }, [userError, postError]);
+  }, [userError, postError, userLanguage]);
 
   return error;
 };

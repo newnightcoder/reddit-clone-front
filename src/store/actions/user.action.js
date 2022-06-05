@@ -332,7 +332,7 @@ export const deleteUser = (id) => async (dispatch) => {
   }
 };
 
-export const clearUserError = () => (dispatch) => {
+export const clearErrorUser = () => (dispatch) => {
   dispatch({ type: CLEAR_ERROR_USER });
 };
 

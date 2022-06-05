@@ -59,7 +59,7 @@ const ProfileSkeleton = () => {
         <span className="h-6 w-max  max-w-[12rem] min-w-[7.5rem] translate-x-[10.5rem] rounded bg-gray-300 dark:bg-gray-700 "></span>
         <span className="h-4 w-max  max-w-[12rem] min-w-[7.5rem] translate-x-[10.5rem] rounded bg-gray-300 dark:bg-gray-700 "></span>
       </div>
-      <div className="animate-pulse w-10/12 flex  items-center justify-center space-x-6 border border-red-500">
+      <div className="animate-pulse w-10/12 flex  items-center justify-center space-x-6">
         <h2 className="h-6 w-1/2 max-w-[12rem] bg-gray-300 dark:bg-gray-700 rounded mt-12"></h2>
         <h2 className="h-6 w-1/2 max-w-[12rem] bg-gray-300 dark:bg-gray-700 rounded mt-12"></h2>
       </div>

@@ -93,7 +93,7 @@ const Profile = () => {
             style={{ minHeight: "calc(100vh - 4rem)" }}
           >
             {error && (
-              <div className="fixed top-16 inset-x-0 h-min w-full p-2 bg-black text-center text-white text-sm z-10 whitespace-pre rounded">
+              <div className="fixed top-16  h-min w-max mx-auto w-full p-2 bg-black dark:bg-white text-center text-white dark:text-black text-sm z-10 whitespace-pre rounded">
                 {error}
               </div>
             )}

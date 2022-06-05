@@ -53,7 +53,7 @@ const PostForm = ({
     <form
       className={`${width < 768 && editPage ? "min-h-[calc(100vh-8rem)]" : editPage ? "min-h-[max-content]" : ""} ${
         pathname !== "/edit" ? "h-min" : "h-full"
-      } w-full max-w-2xl flex flex-col items-center justify-start md:justify-center space-y-4 bg-white dark:bg-gray-800 border dark:border-gray-700 md:rounded pt-4 ${
+      } w-full md:w-11/12 flex flex-col items-center justify-start md:justify-center space-y-4 transition-color duration-500 bg-white dark:bg-gray-900 border dark:border-gray-700 md:rounded pt-4 ${
         editPage ? "pb-24" : "pb-6"
       } md:pt-6 md:pb-6 px-4`}
       method="post"

@@ -31,12 +31,12 @@ const {
 
 export const getPosts = () => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
-  const accessToken = localStorage.getItem("jwt");
+  // const accessToken = localStorage.getItem("jwt2");
   const request = {
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
+      // Authorization: `Bearer ${accessToken}`,
     },
     method: "get",
   };
@@ -84,11 +84,11 @@ export const getPostById = (id) => async (dispatch) => {
 
 export const getLikes = () => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
-  const accessToken = localStorage.getItem("jwt");
+  // const accessToken = localStorage.getItem("jwt");
   const request = {
     headers: {
       "Access-Control-Allow-Origin": "*",
-      Authorization: `Bearer ${accessToken}`,
+      // Authorization: `Bearer ${accessToken}`,
     },
     method: "get",
   };

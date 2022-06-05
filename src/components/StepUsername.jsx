@@ -3,15 +3,16 @@ import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { logo } from "../assets";
 import { saveUserName } from "../store/actions/user.action";
-import { useLanguage } from "../utils/hooks";
+import { useError, useLanguage } from "../utils/hooks";
 import StepImage from "./StepImage";
 
 const StepUsername = () => {
   const [userName, setUserName] = useState("");
   const [isLong, setIsLong] = useState(false);
-  const { id: userId, error, usernameAdded } = useSelector((state) => state.user);
+  const { id: userId, usernameAdded } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
+  const error = useError();
 
   const time = {
     year: new Date().getFullYear(),
@@ -47,21 +48,20 @@ const StepUsername = () => {
 
   return (
     <Div100vh
-      className="w-screen bg-gray-200 flex flex-col items-center justify-center gap-2 transition-transform duration-500 absolute top-0 left-0"
+      className="w-screen bg-gray-200 flex flex-col items-center justify-center space-y-2 transition-transform duration-500 absolute top-0 left-0"
       style={toNextStep}
     >
       <header className="h-1/3 flex items-center justify-center">
         <img src={logo} alt="" />
       </header>
-      <span
-        className="whitespace-pre w-10/12 md:w-1/2 lg:w-1/3 h-max py-2 px-3 bg-black text-white text-center border border-red-700 rounded"
-        style={error.length !== 0 ? { visibility: "visible" } : { visibility: "hidden" }}
-      >
-        {error === "duplicate" ? userLanguage.signup.stepUsername.errorDuplicate : userLanguage.signup.stepUsername.errorBackend}
-      </span>
+      {error && (
+        <span className="whitespace-pre w-full md:w-max h-max py-2 px-3 text-sm md:text-sm text-white transition duration-500 bg-black dark:bg-white dark:text-black text-center rounded">
+          {error}
+        </span>
+      )}
       <div className="h-1/2">
         <p className="font-bold">{userLanguage.signup.stepUsername.choose}</p>
-        <form className="flex flex-col items-center justify-center gap-1" method="post" onSubmit={handleSubmit}>
+        <form className="flex flex-col items-center justify-center space-y-1" method="post" onSubmit={handleSubmit}>
           <label htmlFor="username"></label>
           <input
             className="w-48 rounded p-1 border border-blue-300 transition-color duration-300 hover:border-blue-400 outline-none"

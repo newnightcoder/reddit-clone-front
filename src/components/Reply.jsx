@@ -80,13 +80,13 @@ const Reply = ({ reply }) => {
 
   return (
     <div
-      className="reply-container relative h-max w-11/12 flex-col items-center justify-center text-gray-900 dark:text-gray-300 transition duration-500 bg-white dark:bg-gray-800 border border-transparent dark:border-transparent hover:border-gray-200 dark:hover:border-gray-400 rounded-md px-2 py-1 "
+      className="reply-container relative h-max w-11/12 flex-col items-center justify-center text-gray-900 dark:text-gray-300 transition duration-500 bg-white dark:bg-gray-900 border border-transparent dark:border-transparent hover:border-gray-200 dark:hover:border-gray-400 rounded-md px-2 py-1 "
       style={{ marginBottom: replyOpen && "5px", transform: isDeleted && "scale(0)", display: postIsGone && "none" }}
     >
       {(openModal && userId === fk_userId_reply) || (openModal && role === "admin") ? (
         <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"reply"} />
       ) : null}
-      <div className="top w-full flex items-center justify-center pl-1 py-1 transition-color duration-500 border-b dark:border-gray-700">
+      <div className="top w-full flex items-center justify-center pl-1 py-1 transition-color duration-500 border-b dark:border-gray-800">
         <div className="left-column h-full w-max flex justify-center">
           <div
             className="avatar-container w-11 h-11 rounded-full border transition-color duration-500 border-gray-300 dark:border-gray-600"

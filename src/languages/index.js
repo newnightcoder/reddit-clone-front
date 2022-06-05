@@ -273,7 +273,7 @@ const language = {
       backend: "Oups! petit problème de notre part, désolé...",
       notFound: "Aucun compte trouvé avec cet email",
       password: "Votre mot de passe est incorrect",
-      database: "On dirait que notre serveur vient d'éternuer...\nVeuillez rafraîchir la page",
+      database: "Oups! On dirait que notre serveur a éternué...\nVeuillez rafraîchir la page ou vous reconnecter",
       scrape:
         "Bizarre... Une erreur s'est produite en allant chercher votre article.\nVeuillez rafraîchir et réessayer ou utilisez un autre lien.",
       noAuthToken: "On dirait que vous n'êtes pas authentifié(e)...\nVeuillez vous reconnecter.",
@@ -509,10 +509,12 @@ const language = {
       emptyTitle: "Der Beitrag hat keine Überschrift!\n Schreiben Sie ein paar Wörter...",
       emptyComment: "Ihr Kommentar ist doch leer...",
       emptyReply: "Ihre Antwort ist doch leer...",
-      backend: "Oops! sieht aus, wie etwas shiefgegangen ist, sorry",
+      backend:
+        "Oops! Sieht aus wie etwas schiefgegangen ist, sorry...\nBitte aktualisieren Sie die Webseite oder melden Sie sich wieder an",
       notFound: "Kein Konto mit dieser Emailadresse gefunden",
       password: "Falsches Passwort eingegeben",
-      database: "On dirait que notre serveur vient d'éternuer...\nVeuillez rafraîchir la page",
+      database:
+        "Ach! Sieht aus wie unser Server geniest hat...\nBitte aktualisieren Sie die Webseite oder melden Sie sich wieder an",
       scrape:
         "Bizarre... Une erreur s'est produite en allant chercher votre article.\nVeuillez rafraîchir et réessayer ou utilisez un autre lien.",
       noAuthToken: "On dirait que vous n'êtes pas authentifié(e)...\nVeuillez vous reconnecter.",
@@ -554,7 +556,7 @@ const language = {
       logout: "abmelden",
     },
     navbarDesktop: {
-      publish: "Beitrag schreiben",
+      publish: "Beitrag erstellen",
       profile: "Mein Profil",
       settings: "Einstellungen",
       logout: "Abmelden",

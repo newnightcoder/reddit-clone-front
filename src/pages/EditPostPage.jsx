@@ -71,10 +71,15 @@ const EditPostPage = () => {
     setPostTitle(e.currentTarget.value);
   }, []);
 
-  const handleEditText = useCallback((e) => {
-    if (error) dispatch(clearErrorPost());
-    setPostText(e.currentTarget.textContent);
-  }, []);
+  const handleEditText = useCallback(
+    (e) => {
+      if (error) {
+        dispatch(clearErrorPost());
+      }
+      setPostText(e.currentTarget.textContent);
+    },
+    [error]
+  );
 
   const handleEditSubmit = useCallback(
     (e) => {
@@ -117,12 +122,11 @@ const EditPostPage = () => {
             className="w-full md:w-10/12 bg-gray-200 dark:bg-black flex flex-col items-center justify-start md:pt-16"
             style={{ height: "calc(100vh - 4rem)" }}
           >
-            <div
-              className="error h-12 w-10/12 md:w-1/2 xl:w-1/3 whitespace-pre bg-black text-white text-sm text-center py-1 rounded"
-              style={{ display: error ? "block" : "none" }}
-            >
-              {error}
-            </div>
+            {error && (
+              <span className="whitespace-pre w-full md:w-max h-max py-2 px-3 text-sm md:text-sm text-white transition duration-500 bg-black dark:bg-white dark:text-black text-center rounded">
+                {error}
+              </span>
+            )}
             <div className="w-full md:max-w-2xl">
               <PostForm
                 postToEdit={postToEdit}

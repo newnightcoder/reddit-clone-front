@@ -102,13 +102,13 @@ const Post = ({ post, aside }) => {
       onClick={optionsOpen ? toggleOptions : undefined}
       className={`post-container ${postId === lastPostAdded && "animate-post"} ${isDeleted && "scale-0"} ${
         postIsGone && "hidden"
-      } h-max w-full max-w-2xl relative md:rounded-md flex-col items-center justify-center border-t border-b md:border text-gray-900 dark:text-gray-300 transition duration-500 bg-white dark:bg-gray-900 border-transparent dark:border-transparent hover:border-gray-500 dark:hover:border-gray-500 pt-2`}
+      } h-max w-full relative md:rounded-md flex-col items-center justify-center text-gray-900 dark:text-gray-300 transition duration-500 bg-white dark:bg-gray-900  pt-2`}
     >
       {(openModal && userId === fk_userId_post) || (openModal && role === "admin") ? (
         <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"post"} postId={postId} />
       ) : null}
       <PostHeader post={post} />
-      {text && <div className="w-full text-left px-4 pt-2 text-sm break-words">{text}</div>}
+      {text && <div className="w-full text-left px-4 pt-2 transition duration-500 text-sm break-words">{text}</div>}
 
       {isPreview === 1 ? (
         <div className="w-full flex items-center justify-center px-4 pt-2 pb-4">

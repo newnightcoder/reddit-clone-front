@@ -4,10 +4,10 @@ import { ChatRight, HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "re
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteModal, Options, Reply, ReplyForm } from ".";
 import picPlaceholder from "../assets/pic_placeholder.svg";
-import { createReply, deletePost, getReplies } from "../store/actions/posts.action";
+import { clearErrorPost, createReply, deletePost, getReplies, setErrorPost } from "../store/actions/posts.action";
 import { likePost } from "../store/actions/user.action";
 import { createDate, formatTimestamp } from "../utils/helpers/formatTime";
-import { useLanguage } from "../utils/hooks";
+import { useError, useLanguage } from "../utils/hooks";
 
 const Comment = ({ comment, postId }) => {
   const { fk_userId_comment, picUrl, username, text, date, commentId, likesCount } = comment;
@@ -26,8 +26,11 @@ const Comment = ({ comment, postId }) => {
   const [serverErrorMsg, setServerErrorMsg] = useState("");
   const sameUserComment = [];
   const replyTextRef = useRef();
+  const commentRef = useRef();
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
+  const error = useError();
+  const [commentRefNumber, setcommentRefNumber] = useState(null);
 
   useEffect(() => {
     const replyCount = replies
@@ -88,20 +91,26 @@ const Comment = ({ comment, postId }) => {
     [dispatch, like, likesNumber, userId]
   );
 
-  const handleChange = useCallback((e) => {
-    setReplyText(e.target.value);
-  }, []);
+  const handleChange = useCallback(
+    (e) => {
+      if (error) {
+        dispatch(clearErrorPost());
+      }
+      setReplyText(e.target.value);
+    },
+    [error]
+  );
 
   const handleReplySubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      if (replyText.length === 0) {
-        setEmptyComError(true);
-        return;
+      console.log(`reply du comment ${commentId}`);
+      if (e.target.parentElement.id == commentId) {
+        console.log("ok");
+        setcommentRefNumber(commentId);
       }
-      if (serverError.length !== 0) {
-        setServerErrorMsg(serverError);
-      }
+      if (replyText.length === 0) return dispatch(setErrorPost("emptyReply"));
+      if (error) return;
       dispatch(createReply(userId, commentId, replyText, createDate()));
       setReplyOpen(false);
       replyTextRef.current.value = "";
@@ -109,7 +118,7 @@ const Comment = ({ comment, postId }) => {
         dispatch(getReplies());
       }, 1000);
     },
-    [commentId, dispatch, replyText, serverError, userId]
+    [commentId, commentRef, dispatch, replyText, serverError, userId]
   );
 
   const handleDeletePost = useCallback(() => {
@@ -121,9 +130,9 @@ const Comment = ({ comment, postId }) => {
   }, [commentId, dispatch, postId]);
 
   return (
-    <div className="flex flex-col items-center justify-center space-y-1 w-full rounded">
+    <div id={commentId} ref={commentRef} className="flex flex-col items-center justify-center space-y-1 w-full rounded">
       <div
-        className="comment-container rounded relative h-max w-full flex-col items-center justify-center text-gray-900 dark:text-gray-300 transition duration-500 bg-white dark:bg-gray-800 px-2 py-1"
+        className="comment-container rounded relative h-max w-full flex-col items-center justify-center text-gray-900 dark:text-gray-300 transition duration-500 bg-white dark:bg-gray-900 px-2 py-1"
         style={{ marginBottom: replyOpen && "5px", transform: isDeleted && "scale(0)", display: postIsGone && "none" }}
       >
         {(openModal && userId === fk_userId_comment) || (openModal && role === "admin") ? (
@@ -134,7 +143,7 @@ const Comment = ({ comment, postId }) => {
             postIdComment={postId}
           />
         ) : null}
-        <div className="top w-full flex items-center justify-center pl-1 py-1 transition-color duration-500 border-b dark:border-gray-700">
+        <div className="top w-full flex items-center justify-center pl-1 py-1 transition-color duration-500 border-b dark:border-gray-800">
           <div className="left-column h-full w-max flex justify-center">
             <div
               className="avatar-container w-11 h-11 rounded-full border transition-color duration-500 border-gray-300 dark:border-gray-600"
@@ -187,6 +196,7 @@ const Comment = ({ comment, postId }) => {
           toggleDeleteModal={toggleDeleteModal}
         />
       </div>
+
       <ReplyForm
         handleReplySubmit={handleReplySubmit}
         replyOpen={replyOpen}
@@ -194,8 +204,11 @@ const Comment = ({ comment, postId }) => {
         replyText={replyText}
         handleChange={handleChange}
         replyTextRef={replyTextRef}
+        commentId={commentId}
+        commentRef={commentRef}
+        commentRefNumber={commentRefNumber}
       />
-      <div className="w-full transition-color duration-500 bg-gray-200 dark:bg-black flex flex-col items-end justify-center space-y-2">
+      <div className="w-full transition-color duration-500 bg-gray-200 dark:bg-gray-800 flex flex-col items-end justify-center space-y-2">
         {replies &&
           replies
             .sort((a, b) => {
