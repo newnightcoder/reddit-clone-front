@@ -6,6 +6,6 @@ export { default as logo_blue } from "./forum-logo-blue.svg";
 export { default as logo } from "./forum-logo.svg";
 export { default as giphyDark } from "./gif-circle-dark.png";
 export { default as giphy } from "./giphy-icon.png";
-export { default as heroImg } from "./mockup-1000.png";
+export { default as heroImg } from "./mockup-1000-min.png";
 export { default as picPlaceholder } from "./pic_placeholder.svg";
 export { default as articlePlaceholder } from "./placeholder-news.jpg";
