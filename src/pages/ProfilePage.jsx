@@ -89,7 +89,7 @@ const Profile = () => {
       ) : (
         <Layout>
           <div
-            className="page-container relative h-max w-full flex items-start justify-center md:rounded-md"
+            className="page-container border border-red-500 relative h-max w-full flex items-start justify-center md:rounded-md"
             style={{ minHeight: "calc(100vh - 4rem)" }}
           >
             {error && (

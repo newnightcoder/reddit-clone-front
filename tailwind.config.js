@@ -15,6 +15,10 @@ module.exports = {
         yellow: colors.yellow,
         orange: colors.orange,
       },
+      gridTemplateColumns: {
+        // Complex site-specific column configuration
+        layout: "min-content minmax(200px, 700px) min-content",
+      },
       keyframes: {
         postAppear: {
           "0%": { transform: "scale(0)" },
@@ -50,7 +54,7 @@ module.exports = {
       cursor: ["hover"],
       fontWeight: ["hover"],
       borderWidth: ["hover", "dark"],
-      borderColor: ["hover", "dark"],
+      borderColor: ["focus", "active", "visited", "hover", "dark"],
       rotate: ["hover", "group-hover"],
       fill: ["dark"],
     },

@@ -20,6 +20,8 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
   const { dark, light } = userLanguage.appearance;
   const modeOptions = [dark, light];
   const landingPage = pathname === "/";
+  const profilePage = pathname === "/profile";
+
   const getLangOptions = useCallback(() => {
     const options = [];
     for (const lang of Object.entries(language)) {
@@ -43,28 +45,30 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
       className={`${settingsOpen ? "inline-block" : "hidden"} ${
         landingPage
           ? "top-16"
+          : isMenuOpen
+          ? "top-full"
           : width < breakpoint.md
           ? "-top-36"
           : width < breakpoint.xl
-          ? "top-[10.25rem]"
+          ? "top-[15.5rem]"
           : width >= breakpoint.xl
-          ? "top-28"
+          ? "top-[12.5rem]"
           : ""
       } ${
         landingPage
           ? "left-auto"
+          : isMenuOpen
+          ? "left-0"
           : width < breakpoint.md
           ? "left-1/2"
           : width < breakpoint.xl
-          ? "left-20"
-          : width === breakpoint.xl
-          ? "left-44"
-          : width > breakpoint.xl
-          ? "left-[13.25rem]"
+          ? "left-16"
+          : width >= breakpoint.xl
+          ? "left-56"
           : ""
-      } ${
-        landingPage ? "right-4" : ""
-      } w-52 h-max absolute transition duration-500 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-700 py-3 rounded-lg shadow-xl z-30`}
+      } ${landingPage ? "right-4" : ""} w-52 h-max ${
+        isMenuOpen ? "relative" : "absolute"
+      } transition duration-500 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-700 py-3 rounded-lg shadow-xl z-[1300]`}
     >
       <div>
         <button

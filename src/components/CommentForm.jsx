@@ -17,7 +17,7 @@ const CommentForm = ({ handleCommentSubmit, handleChange, commentTextRef }) => {
       onSubmit={handleCommentSubmit}
     >
       <div
-        className="error z-[1000] md:absolute md:top-0 h-max w-full md:w-max mx-auto items-center justify-center bg-black dark:bg-white text-white dark:text-black text-center text-sm px-3 py-2 rounded mb-4  whitespace-pre"
+        className="error md:absolute md:top-0 h-max w-full md:w-max mx-auto items-center justify-center bg-black dark:bg-white text-white dark:text-black text-center text-sm px-3 py-2 rounded mb-4  whitespace-pre"
         style={{ display: error && errorType === "emptyComment" ? "flex" : "none" }}
       >
         {error}

@@ -54,7 +54,10 @@ const NavBar = ({ toggleMenu }) => {
             type="search"
             placeholder={userLanguage.navbar.searchPlaceholder}
           />
-          <button className="w-10 h-10 outline-none rounded-r-full bg-black dark:bg-gray-700 flex items-center justify-center border border-transparent group-hover:border-gray-400 dark:group-hover:border-gray-400">
+          <button
+            type="button"
+            className="w-10 h-10 outline-none rounded-r-full bg-black dark:bg-gray-700 flex items-center justify-center border border-transparent group-hover:border-gray-400 dark:group-hover:border-gray-400"
+          >
             <SearchIcon className="h-5 w-5 text-white" />
           </button>
         </form>

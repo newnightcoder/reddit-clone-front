@@ -11,7 +11,7 @@ import { createDate } from "../utils/helpers/formatTime";
 import { useContainerSize, useError, useLanguage } from "../utils/hooks";
 
 const CommentPage = ({ toggleDeleteModal, openModal }) => {
-  const { comments } = useSelector((state) => state.posts);
+  const { comments } = useSelector((state) => state?.posts);
   const {
     currentComment: { postId },
     id: userId,
@@ -43,7 +43,8 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
 
   const getRelatedComments = useCallback(
     (postId) => {
-      const relatedComments = comments
+      const copy = comments && [...comments];
+      const relatedComments = copy
         ?.sort((a, b) => {
           if (a.commentId > b.commentId) return -1;
           else return 1;
@@ -94,7 +95,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
         <Layout>
           <div
             ref={commentContainer}
-            className="border border-green-500 w-full md:w-11/12 max-w-2xl flex flex-col items-center justify-start relative mb-16 md:mb-0 pb-8 overflow-x-hidden"
+            className="border border-green-500 w-full flex flex-col items-center justify-start relative mb-16 md:mb-0 pb-8 overflow-x-hidden"
           >
             <div
               style={{ width: `${size}` }}
@@ -111,7 +112,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
               </div>
             </div>
 
-            <div className="w-full md:w-11/12 max-w-3xl flex flex-col items-center justify-center space-y-2 relative mt-[4.25rem]">
+            <div className="w-full flex flex-col items-center justify-center space-y-2 relative mt-[4.25rem]">
               {error && errorType !== "emptyComment" && errorType !== "emptyReply" && (
                 <span className="whitespace-pre w-full md:w-max h-max py-2 px-3 text-sm md:text-sm text-white transition duration-500 bg-black dark:bg-white dark:text-black text-center rounded">
                   {error}

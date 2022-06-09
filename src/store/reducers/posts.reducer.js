@@ -79,6 +79,7 @@ export const postsReducer = (state = initialState, action) => {
       const { posts, likes } = action.payload;
       return { ...state, userPosts: posts, likes };
     }
+
     case GET_PREVIEW_DATA:
       return { ...state, scrapedPost: action.payload };
 

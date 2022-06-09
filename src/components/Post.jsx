@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteModal, Options, PostFooter, PostHeader } from ".";
 import "../index.css";
@@ -34,9 +34,11 @@ const Post = ({ post, aside }) => {
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
+  const postContainerRef = useRef();
+  const optionsRef = useRef();
+  const optionsBtnRef = useRef();
 
   const toggleOptions = useCallback(() => {
-    console.log("clicked to close");
     return setOptionsOpen((optionsOpen) => !optionsOpen);
   }, [optionsOpen]);
 
@@ -79,6 +81,27 @@ const Post = ({ post, aside }) => {
     },
     [postId, setLike, like, dispatch, updateLikesNumber]
   );
+  const closeOptions = useCallback(
+    (e) => {
+      if (
+        optionsOpen &&
+        // e.target.id !== optionsRef?.current.id &&
+        // e.target.id !== optionsBtnRef?.current.id &&
+        e.currentTarget.id === postContainerRef?.current?.id
+      ) {
+        console.log("click on post");
+        toggleOptions();
+      }
+    },
+    [postContainerRef, optionsRef, optionsBtnRef]
+  );
+
+  useEffect(() => {
+    postContainerRef?.current?.addEventListener("click", (e) => closeOptions(e));
+    return () => {
+      postContainerRef?.current?.removeEventListener("click", (e) => closeOptions(e));
+    };
+  }, []);
 
   useEffect(() => {
     setLikesNumber(likesCount);
@@ -99,7 +122,9 @@ const Post = ({ post, aside }) => {
 
   return (
     <div
-      onClick={optionsOpen ? toggleOptions : undefined}
+      id="postContainer"
+      ref={postContainerRef}
+      // onClick={optionsOpen ? toggleOptions : undefined}
       className={`post-container ${postId === lastPostAdded && "animate-post"} ${isDeleted && "scale-0"} ${
         postIsGone && "hidden"
       } h-max w-full relative md:rounded-md flex-col items-center justify-center text-gray-900 dark:text-gray-300 transition duration-500 bg-white dark:bg-gray-900  pt-2`}
@@ -147,6 +172,7 @@ const Post = ({ post, aside }) => {
         toggleOptions={toggleOptions}
         handleLike={handleLike}
         toCommentPage={toCommentPage}
+        optionsBtnRef={optionsBtnRef}
       />
       <Options
         postUserId={fk_userId_post}
@@ -154,6 +180,7 @@ const Post = ({ post, aside }) => {
         optionsOpen={optionsOpen}
         toggleOptions={toggleOptions}
         toggleDeleteModal={toggleDeleteModal}
+        optionsRef={optionsRef}
       />
     </div>
   );

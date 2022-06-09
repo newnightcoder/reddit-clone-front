@@ -32,7 +32,7 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
 
   return (
     <Div100vh
-      className="menu-container w-9/12 pt-5 pb-6 bg-white dark:bg-black dark:text-white flex flex-col items-center justify-between gap-2 fixed top-0 left-0 transition-transform duration-300"
+      className="menu-container overflow-y-auto h-full lg:hidden flex flex-col items-center justify-start gap-2 fixed top-0 left-0 w-9/12 pt-5 pb-6 bg-gray-100 dark:bg-gray-800 dark:text-white  transition-transform duration-300"
       style={{ transform: isMenuOpen ? "translateX(0)" : "translateX(-100%)", zIndex: 1100 }}
     >
       <div className="top-section h-max w-10/12 pb-2 flex flex-col items-center justify-center gap-2 border-b border-gray-300">
@@ -62,8 +62,8 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
           </span>
         </div>
       </div>
-      <div className="main-section h-full w-full flex flex-col items-center justify-start gap-2 pt-10">
-        <ul className="h-max w-11/12 flex flex-col items-start justify-center gap-3 pl-6 text-sm text-gray-900 dark:text-gray-200">
+      <div className="main-section relative h-full w-max self-start flex flex-col items-start justify-start pt-5">
+        <ul className="h-max w-48 pl-2 flex flex-col items-start justify-center gap-3 text-sm text-gray-900 dark:text-gray-200">
           <li>
             <button
               className="flex items-center justify-center space-x-2 px-3 py-1 border-2 border-transparent transition-color duration-100 hover:border-blue-400 rounded-full"
@@ -90,7 +90,7 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
           </li>
           <li>
             <button
-              className={`flex items-center justify-center space-x-2 px-3 py-1 border-2 transition-color duration-100 hover:border-blue-400 rounded-full ${
+              className={`flex items-center justify-center space-x-2 px-3 py-1 border-2 transition-color duration-100 active:border-blue-400 rounded-full ${
                 settingsOpen ? "border-blue-400" : "border-transparent"
               }`}
               onClick={toggleSettings}
@@ -98,6 +98,9 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
               <CogIcon className="h-6 text-gray-500 dark:text-gray-200" />
               <span className="inline-block">{userLanguage.navbarDesktop.settings}</span>
             </button>
+            <div className="w-full relative transition duration-300 h-max pt-1">
+              <Settings settingsOpen={settingsOpen} isMenuOpen={isMenuOpen} />
+            </div>
           </li>
           <li>
             <button
@@ -124,7 +127,6 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
           toggleMenu={toggleMenu}
         />
       )}
-      <Settings settingsOpen={settingsOpen} isMenuOpen={isMenuOpen} />
     </Div100vh>
   );
 };

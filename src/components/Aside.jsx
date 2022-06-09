@@ -12,6 +12,11 @@ const Aside = () => {
   const { posts } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
   const { width } = useWindowSize();
+  const feedPage = pathname === "/feed";
+  const createPostPage = pathname === "/create";
+  const commentPage = pathname.includes("comments");
+  const editPostPage = pathname === "/edit";
+  const profilePage = pathname.includes("profile");
 
   useEffect(() => {
     if (width > breakpoint.lg) {
@@ -24,24 +29,20 @@ const Aside = () => {
   return (
     <div
       ref={element}
-      style={{
-        // marginTop: pathname === "/feed" ? "6rem" : "4rem",
-        marginTop: "6rem",
-        top: pathname === "/feed" ? `calc(100vh - ${size?.height}px - 10px)` : "6rem",
-      }}
-      className="hidden sticky w-72 h-max lg:flex flex-col items-center justify-start gap-2"
+      style={{ top: feedPage ? `calc(100vh - ${size?.height}px - 10px)` : "6rem" }}
+      className="hidden sticky pathname w-72 h-max lg:flex flex-col items-center justify-start mt-[6rem] gap-2"
     >
-      {pathname === "/feed" ? (
+      {feedPage ? (
         <>
           <RecentUsers />
           <ModsContainer />
           <PopularPosts />
           <FooterAside />
         </>
-      ) : pathname.includes("profile") ? (
+      ) : profilePage ? (
         <RecentUsers />
       ) : (
-        (pathname === "/create" || pathname.includes("comments")) && <Rules />
+        (createPostPage || editPostPage || commentPage) && <Rules />
       )}
     </div>
   );

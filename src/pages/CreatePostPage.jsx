@@ -96,7 +96,7 @@ const CreatePost = () => {
     <>
       <Layout>
         <div
-          className="w-full md:w-11/12 max-w-2xl border border-purple-400 flex flex-col items-center justify-start md:pt-16 md:pb-4"
+          className="w-full border-2 border-red-400 flex flex-col items-center justify-start pb-32 md:pb-16 md:pt-16 md:pb-4"
           style={{ minHeight: "calc(100vh - 4rem)" }}
         >
           <div className="w-full h-full flex items-start justify-center space-x-8">

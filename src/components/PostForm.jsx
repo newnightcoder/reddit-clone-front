@@ -22,6 +22,7 @@ const PostForm = ({
   postToEdit,
   postTitle,
   postText,
+  editText,
   imgDom,
   setImgDom,
   deletePreview,
@@ -40,12 +41,14 @@ const PostForm = ({
   const commentPage = pathname.includes("comments");
 
   useEffect(() => {
-    if (editPage) {
+    if (!commentPage) {
       if (currentPostImgUrl.length !== 0) {
-        setImgDom(<img id="postImg" src={currentPostImgUrl} alt="" className="h-max rounded" style={{ maxHeight: "500px" }} />);
+        return setImgDom(
+          <img id="postImg" src={currentPostImgUrl} alt="" className="h-max rounded" style={{ maxHeight: "500px" }} />
+        );
       } else if (!isObjectEmpty(scrapedPost)) {
-        setImgDom(<LinkPreview />);
-      } else setImgDom(null);
+        return setImgDom(<LinkPreview />);
+      } else return setImgDom(null);
     }
   }, [currentPostImgUrl, postToEdit, scrapedPost]);
 
@@ -53,7 +56,7 @@ const PostForm = ({
     <form
       className={`${width < 768 && editPage ? "min-h-[calc(100vh-8rem)]" : editPage ? "min-h-[max-content]" : ""} ${
         pathname !== "/edit" ? "h-min" : "h-full"
-      } w-full md:w-11/12 flex flex-col items-center justify-start md:justify-center space-y-4 transition-color duration-500 bg-white dark:bg-gray-900 border dark:border-gray-700 md:rounded pt-4 ${
+      } w-full flex flex-col items-center justify-start md:justify-center space-y-4 transition-color duration-500 bg-white dark:bg-gray-900 border dark:border-gray-700 md:rounded pt-4 ${
         editPage ? "pb-24" : "pb-6"
       } md:pt-6 md:pb-6 px-4`}
       method="post"
@@ -98,7 +101,7 @@ const PostForm = ({
         <div className="h-max w-full border border-gray-400 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-200 transition-border-color duration-300 rounded">
           <div
             style={{ minHeight: "12rem" }}
-            className="container relative w-full max-w-2xl bg-gray-100 dark:bg-gray-700 hover:bg-white active:bg-white focus:bg-white rounded overflow-y-auto pb-6"
+            className="text-container relative w-full bg-gray-100 dark:bg-gray-700 hover:bg-white active:bg-white focus:bg-white rounded overflow-y-auto pb-6"
           >
             <span
               id="postInput"
@@ -114,7 +117,7 @@ const PostForm = ({
               placeholder={userLanguage.createPost.textPlaceholder}
               onBlur={editPage || commentPage ? handleEditText : handlePostInput}
             >
-              {postText && postText}
+              {postText ? postText : editText && editText}
             </span>
             <div id="imgContainer" className="px-2 flex items-start justify-center">
               {imgDom}

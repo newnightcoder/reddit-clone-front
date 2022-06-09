@@ -35,27 +35,21 @@ const SignupForm = ({
         </div>
         <div className="flex flex-col items-center gap-2">
           <div className="flex flex-col items-start">
-            <label htmlFor="password" className="transform translate-x-4">
-              {userLanguage.signup.pass}
-            </label>
-            <div className="w-72 h-max flex items-center justify-start">
+            <label htmlFor="password">{userLanguage.login.pass}</label>
+            <div className="w-64 h-max flex items-center justify-start relative">
               <input
-                className="w-full rounded py-1 pl-2 pr-10 border border-blue-400 outline-none text-black dark:text-white transform translate-x-4"
+                className="w-full rounded py-1 pl-1 pr-10 border border-blue-400 bg-gray-100 text-gray-900 dark:bg-gray-600 dark:text-gray-100 outline-none"
                 type={passwordType}
-                name="password"
+                id="password"
                 onChange={handleNewPass}
               ></input>
-              {passwordType === "password" ? (
-                <EyeOffIcon
-                  onClick={() => setPasswordType("text")}
-                  className="h-4 w-8 text-black dark:text-white cursor-pointer transform -translate-x-3/4"
-                />
-              ) : (
-                <EyeIcon
-                  onClick={() => setPasswordType("password")}
-                  className="h-4 w-8 text-black dark:text-white cursor-pointer transform -translate-x-3/4"
-                />
-              )}
+              <button type="button" className="h-max w-8 absolute right-0 pr-1 outline-none">
+                {passwordType === "password" ? (
+                  <EyeOffIcon className="h-5" onClick={() => setPasswordType("text")} />
+                ) : (
+                  <EyeIcon className="h-5" onClick={() => setPasswordType("password")} />
+                )}
+              </button>
             </div>
           </div>
           <div className="w-64 flex flex-col items-center gap-1">

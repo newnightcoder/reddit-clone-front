@@ -33,10 +33,11 @@ const Layout = ({ children }) => {
       <NavBar toggleMenu={toggleMenu} />
       <div className="h-full w-full mt-16 relative flex items-start justify-center transition-color duration-500 bg-gray-200 dark:bg-gray-800">
         <div
-          className={`w-full 2xl:w-3/4 transition-color duration-500 border dark:border-gray-800 flex items-start justify-center md:space-x-4 relative`}
+          className={`grid grid-cols-1 md:grid-cols-layout gap-x-4 lg:gap-x-8 md:px-4 justify-items-center w-full md:w-max  2xl:w-3/4 transition-color duration-500 dark:border-gray-800 relative`}
         >
+          {/* flex items-start justify-center md:space-x-4  */}
           <NavBarDesktop toggleSettings={toggleSettings} settingsOpen={settingsOpen} />
-          {children}
+          <div className="w-full">{children}</div>
           <Aside />
         </div>
       </div>

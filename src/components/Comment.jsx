@@ -22,8 +22,6 @@ const Comment = ({ comment, postId }) => {
   const [openModal, setOpenModal] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [postIsGone, setpostIsGone] = useState(false);
-  const [emptyComError, setEmptyComError] = useState(false);
-  const [serverErrorMsg, setServerErrorMsg] = useState("");
   const sameUserComment = [];
   const replyTextRef = useRef();
   const commentRef = useRef();
@@ -33,7 +31,8 @@ const Comment = ({ comment, postId }) => {
   const [commentRefNumber, setcommentRefNumber] = useState(null);
 
   useEffect(() => {
-    const replyCount = replies
+    const copy = replies && [...replies];
+    const replyCount = copy
       .map((reply) => {
         if (reply.fk_commentId === commentId) {
           return reply.replyId;
@@ -59,7 +58,7 @@ const Comment = ({ comment, postId }) => {
         setLike(true);
       }
     });
-  }, [commentId, likes, userId, sameUserComment]);
+  }, [commentId, likes, userId]);
 
   const toggleOptions = useCallback(() => {
     return setOptionsOpen((optionsOpen) => !optionsOpen);
@@ -114,6 +113,7 @@ const Comment = ({ comment, postId }) => {
       dispatch(createReply(userId, commentId, replyText, createDate()));
       setReplyOpen(false);
       replyTextRef.current.value = "";
+      setReplyText("");
       setTimeout(() => {
         dispatch(getReplies());
       }, 1000);
@@ -210,7 +210,7 @@ const Comment = ({ comment, postId }) => {
       />
       <div className="w-full transition-color duration-500 bg-gray-200 dark:bg-gray-800 flex flex-col items-end justify-center space-y-2">
         {replies &&
-          replies
+          [...replies]
             .sort((a, b) => {
               if (a.replyId > b.replyId) {
                 return -1;

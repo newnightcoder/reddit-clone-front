@@ -3,7 +3,7 @@ import { ChatRight, HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "re
 import { useSelector } from "react-redux";
 import { useHandleLink, useLanguage } from "../utils/hooks";
 
-const PostFooter = ({ toggleOptions, toCommentPage, likesNumber, commentsNumber, handleLike, postId, like }) => {
+const PostFooter = ({ toggleOptions, toCommentPage, likesNumber, commentsNumber, handleLike, postId, like, optionsBtnRef }) => {
   const { isAuthenticated } = useSelector((state) => state.user);
   const handleLink = useHandleLink();
   const userLanguage = useLanguage();
@@ -31,6 +31,8 @@ const PostFooter = ({ toggleOptions, toCommentPage, likesNumber, commentsNumber,
           <span className="w-4 text-center font-bold">{likesNumber}</span>
         </button>
         <button
+          ref={optionsBtnRef}
+          id="optionsBtn"
           className="h-full w-max flex items-center justify-center gap-1 transition-color duration-100 hover:bg-gray-200 dark:hover:bg-gray-700 px-2 rounded-full"
           onClick={toggleOptions}
         >

@@ -32,7 +32,7 @@ const Feed = () => {
 
   return (
     <Layout>
-      <div className="feed-container border border-yellow-500 h-full w-full md:w-11/12 max-w-2xl flex flex-col items-center justify-start space-y-2 transition-color text-black dark:text-blue-500 duration-500 relative">
+      <div className="feed-container h-full w-full flex flex-col items-center justify-start space-y-2 transition-color text-black dark:text-blue-500 duration-500 relative">
         {error && (
           <span className="whitespace-pre w-full md:w-max h-max py-2 px-3 text-sm md:text-sm text-white transition duration-500 bg-black dark:bg-white dark:text-black text-center rounded">
             {error}
@@ -55,7 +55,7 @@ const Feed = () => {
           )}
         </div>
         <div className="w-full h-full flex flex-col items-center justify-center space-y-4">
-          <div className="posts-aside-container w-full md:w-11/12 max-w-7xl flex items-start justify-center pt-2 md:space-x-8 -translate-y-6">
+          <div className="posts-aside-container w-full flex items-start justify-center pt-2 md:space-x-8 -translate-y-6">
             <div className="posts-section-container w-full flex flex-col items-center justify-center pb-20 relative">
               <div style={{ width: `${size}` }} className="h-6 flex items-center justify-end mb-2 pr-4 md:pr-0">
                 <button
@@ -69,7 +69,7 @@ const Feed = () => {
               </div>
               <div
                 ref={postsContainer}
-                className="posts-wrapper border border-black h-full w-full relative flex flex-col items-center justify-center space-y-4 pb-6"
+                className="posts-wrapper h-full w-full relative flex flex-col items-center justify-center space-y-4 pb-6"
               >
                 {posts.length === 0 ? (
                   <Skeleton element="post" number={8} />

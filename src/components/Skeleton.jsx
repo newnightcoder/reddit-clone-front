@@ -50,7 +50,7 @@ const ProfileSkeleton = () => {
   return (
     <div
       style={{ height: "calc(100vh - 7rem)" }}
-      className="bg-white dark:bg-gray-900 w-full md:w-5/6 rounded md:mt-8 flex flex-col items-center justify-start gap-2 pb-12"
+      className="bg-white dark:bg-gray-900 w-full rounded md:mt-8 flex flex-col items-center justify-start gap-2 pb-12"
     >
       <div className="animate-pulse banner h-48 relative bg-gray-300 dark:bg-gray-700 w-full flex flex-col rounded-tl rounded-tr items-center justify-start gap-2 pb-24 md:pb-12">
         <div className="w-36 h-36 rounded-full bg-gray-200 dark:bg-gray-700 border-4 border-white dark:border-gray-900 absolute left-4 -bottom-20"></div>

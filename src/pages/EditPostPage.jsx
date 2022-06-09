@@ -20,9 +20,9 @@ const EditPostPage = () => {
   const { isAuthenticated } = useSelector((state) => state?.user);
   // const location = useLocation();
   // const { postId, commentId, replyId } = isAuthenticated && location?.state;
-  const postToEdit = editId.type === "post" && posts.filter((post) => post.postId === editId.id);
-  const [postTitle, setPostTitle] = useState(postToEdit && postToEdit[0].title);
-  const [postText, setPostText] = useState(postToEdit && postToEdit[0].text);
+  const [postToEdit] = posts.filter((post) => post.postId === editId.id);
+  const [postTitle, setPostTitle] = useState(postToEdit && postToEdit.title);
+  const [postText, setPostText] = useState(postToEdit && postToEdit.text);
   const [postImgUrl, setPostImgUrl] = useState(postToEdit && postToEdit.imgUrl);
   const [isPreview, setIsPreview] = useState(0);
   const [imgDom, setImgDom] = useState(null);
@@ -45,21 +45,21 @@ const EditPostPage = () => {
   }, [dispatch, setImgDom, setIsPreview]);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      if (postToEdit?.imgUrl) {
-        dispatch(saveImageToEdit(postImgUrl));
-      } else if (postToEdit?.isPreview === 1) {
-        const postToEditPreview = {
-          title: postToEdit.previewTitle,
-          image: postToEdit.previewImg,
-          description: postToEdit.previewText,
-          publisher: postToEdit.previewPub,
-          logo: postToEdit.previewPubLogo,
-          url: postToEdit.previewUrl,
-        };
-        dispatch(setPreviewData(postToEditPreview));
-      }
+    // if (isAuthenticated) {
+    if (postToEdit?.imgUrl) {
+      return dispatch(saveImageToEdit(postImgUrl));
+    } else if (postToEdit?.isPreview === 1) {
+      const postToEditPreview = {
+        title: postToEdit.previewTitle,
+        image: postToEdit.previewImg,
+        description: postToEdit.previewText,
+        publisher: postToEdit.previewPub,
+        logo: postToEdit.previewPubLogo,
+        url: postToEdit.previewUrl,
+      };
+      return dispatch(setPreviewData(postToEditPreview));
     }
+    // }
   }, [postImgUrl, dispatch, postToEdit, isAuthenticated]);
 
   useEffect(() => {
@@ -119,8 +119,8 @@ const EditPostPage = () => {
       ) : (
         <Layout>
           <div
-            className="w-full md:w-10/12 bg-gray-200 dark:bg-black flex flex-col items-center justify-start md:pt-16"
-            style={{ height: "calc(100vh - 4rem)" }}
+            className="h-full w-full border border-green-500 bg-gray-200 dark:bg-black flex flex-col items-center justify-start md:pt-16 pb-16"
+            style={{ minHeight: "calc(100vh - 4rem)" }}
           >
             {error && (
               <span className="whitespace-pre w-full md:w-max h-max py-2 px-3 text-sm md:text-sm text-white transition duration-500 bg-black dark:bg-white dark:text-black text-center rounded">
