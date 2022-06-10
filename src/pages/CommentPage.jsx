@@ -97,6 +97,11 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
             ref={commentContainer}
             className="border border-green-500 w-full flex flex-col items-center justify-start relative mb-16 md:mb-0 pb-8 overflow-x-hidden"
           >
+            {error && errorType !== "emptyComment" && errorType !== "emptyReply" && (
+              <div className="fixed top-16  z-[100] h-min inset-x-0 w-full py-4 px-2 bg-black dark:bg-white text-center text-white dark:text-black text-sm z-10 whitespace-pre rounded">
+                {error}
+              </div>
+            )}
             <div
               style={{ width: `${size}` }}
               className={`backBtn-container h-16 fixed top-16 z-50 flex items-center justify-center space-x-2`}
@@ -113,11 +118,6 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
             </div>
 
             <div className="w-full flex flex-col items-center justify-center space-y-2 relative mt-[4.25rem]">
-              {error && errorType !== "emptyComment" && errorType !== "emptyReply" && (
-                <span className="whitespace-pre w-full md:w-max h-max py-2 px-3 text-sm md:text-sm text-white transition duration-500 bg-black dark:bg-white dark:text-black text-center rounded">
-                  {error}
-                </span>
-              )}
               <div className="w-full flex items-center justify-center">
                 <Post post={post[0]} />
               </div>

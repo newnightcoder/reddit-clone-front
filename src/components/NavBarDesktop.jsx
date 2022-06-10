@@ -24,12 +24,12 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
         marginTop: width > 768 ? "" : "4rem",
         // top: width > 768 ? "6rem" : "",
       }}
-      className="h-16 md:h-full w-full md:w-min flex items-start justify-center z-30 fixed bottom-0 md:relative border-t transition duration-500 dark:border-gray-600 md:dark:border-none md:justify-start md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent shadow-xl md:shadow-none"
+      className="navbar-mobile h-16 md:h-full w-full md:w-min flex items-start justify-center z-30 fixed bottom-0 md:relative border-t transition duration-500 dark:border-gray-600 md:dark:border-none md:justify-start md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent shadow-xl md:shadow-none"
     >
       {/* md:border-none */}
       <div
         style={{ width: "100%", maxWidth: width < 768 ? "550px" : "", top: width > 768 ? "6rem" : "" }}
-        className=" md:sticky  md:mt-20 overflow-x-auto flex h-min md:flex-col items-center justify-evenly md:justify-center md:space-y-4 py-2 md:py-0  md:pb-4 whitespace-nowrap md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent"
+        className=" md:sticky  md:mt-24 overflow-x-auto flex h-min md:flex-col items-center justify-evenly md:justify-center md:space-y-4 py-2 md:py-0  md:pb-4 whitespace-nowrap md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent"
       >
         <NavLink
           activeStyle={{

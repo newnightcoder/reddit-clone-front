@@ -50,9 +50,9 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
           : width < breakpoint.md
           ? "-top-36"
           : width < breakpoint.xl
-          ? "top-[15.5rem]"
+          ? "top-[16.5rem]"
           : width >= breakpoint.xl
-          ? "top-[12.5rem]"
+          ? "top-[13.5rem]"
           : ""
       } ${
         landingPage
@@ -64,7 +64,7 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
           : width < breakpoint.xl
           ? "left-16"
           : width >= breakpoint.xl
-          ? "left-56"
+          ? "left-[14.5rem]"
           : ""
       } ${landingPage ? "right-4" : ""} w-52 h-max ${
         isMenuOpen ? "relative" : "absolute"

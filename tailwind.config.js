@@ -45,6 +45,10 @@ module.exports = {
       backgroundSize: {
         90: "110%",
       },
+      // screens: {
+      //   landscape: { raw: "(max-height: 400px)" },
+      //   // => @media (min-height: 800px) { ... }
+      // },
     },
   },
   variants: {

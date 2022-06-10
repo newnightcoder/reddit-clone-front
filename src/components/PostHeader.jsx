@@ -10,7 +10,7 @@ const PostHeader = ({ post }) => {
   const handleLink = useHandleLink();
 
   return (
-    <div className="top w-full flex items-start justify-between border-b transition-color duration-500 border-gray-100 dark:border-gray-800 py-1 px-4">
+    <div className="top w-full flex items-start justify-start border-b transition-color duration-500 border-gray-100 dark:border-gray-800 pt-2 pb-1 px-4">
       <div className="left-column h-full w-max pr-1 flex justify-center">
         <button
           className="avatar-container outline-none border-[1px] dark:border-gray-600 w-11 h-11 rounded-full hover:cursor-pointer"
@@ -26,11 +26,11 @@ const PostHeader = ({ post }) => {
           }
         ></button>
       </div>
-      <div className="right-column  h-full w-full flex flex-col items-center justify-center">
+      <div className="right-column h-full w-[calc(100%-3rem)] flex flex-col items-center justify-start">
         <div className="username-title-container h-max w-full flex flex-col items-start justify-center">
-          <div className="username-date w-full flex items-center justify-between gap-2">
+          <div className="username-date w-full flex items-center justify-between">
             <button
-              className="outline-none capitalize hover:cursor-pointer hover:underline"
+              className="w-full md:w-[75%] overflow-x-hidden overflow-ellipsis pr-10 outline-none capitalize hover:cursor-pointer hover:underline"
               onClick={() =>
                 handleLink(
                   "post-profile",
@@ -39,12 +39,14 @@ const PostHeader = ({ post }) => {
                 )
               }
             >
-              <span className="text-xs">@</span>
-              {authorName}
+              <div className="w-full text-left overflow-hidden overflow-ellipsis">
+                <span className="text-xs">@</span>
+                <span className="w-full text-left">{authorName}</span>
+              </div>
             </button>
-            <div className="text-xs italic whitespace-nowrap">{formatTimestamp(date, "post", language)}</div>
+            <div className="w-min text-xs italic whitespace-nowrap">{formatTimestamp(date, "post", language)}</div>
           </div>
-          <div className="title text-lg font-bold h-max w-[97%] pl-1 break-all">{title}</div>
+          <div className="title text-lg font-bold h-max w-full pl-1 break-all">{title}</div>
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { API_USER } from "../../API";
-import { setErrorPost } from "../../store/actions/posts.action";
+import { clearErrorPost, setErrorPost } from "../../store/actions/posts.action";
 
 const useGetProfile = (id) => {
   const { isAuthenticated } = useSelector((state) => state.user);
@@ -12,8 +12,8 @@ const useGetProfile = (id) => {
     const request = {
       headers: {
         "Content-type": "application/json",
+        authorization: `Bearer ${token}`,
       },
-      // authorization:`Bearer ${token}`,
       method: "post",
       body: JSON.stringify({ id }),
     };
@@ -23,8 +23,9 @@ const useGetProfile = (id) => {
       if (error) return dispatch(setErrorPost(error));
       console.log("user reçu pour le profil", user);
       setUserData(user);
+      dispatch(clearErrorPost());
     } catch (error) {
-      throw error;
+      dispatch(setErrorPost("backend"));
     }
   };
 

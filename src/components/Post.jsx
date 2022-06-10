@@ -127,7 +127,7 @@ const Post = ({ post, aside }) => {
       // onClick={optionsOpen ? toggleOptions : undefined}
       className={`post-container ${postId === lastPostAdded && "animate-post"} ${isDeleted && "scale-0"} ${
         postIsGone && "hidden"
-      } h-max w-full relative md:rounded-md flex-col items-center justify-center text-gray-900 dark:text-gray-300 transition duration-500 bg-white dark:bg-gray-900  pt-2`}
+      } h-max w-full relative md:rounded-md flex-col items-center justify-center text-gray-900 dark:text-gray-300 border-t border-b md:border dark:border-gray-700 transition duration-500 bg-white dark:bg-gray-900 pt-2`}
     >
       {(openModal && userId === fk_userId_post) || (openModal && role === "admin") ? (
         <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"post"} postId={postId} />
@@ -149,7 +149,7 @@ const Post = ({ post, aside }) => {
         </div>
       ) : (
         <>
-          <div className={"w-full flex items-center justify-center px-2 pt-3 pb-4"}>
+          <div className={"w-full flex items-center justify-center px-4 pt-3 pb-4"}>
             {imgUrl !== "" ? (
               <img
                 src={imgUrl}

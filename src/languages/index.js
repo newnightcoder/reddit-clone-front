@@ -159,6 +159,7 @@ const language = {
     },
     profile: {
       member: "Member for",
+      editBtn: "Edit profile",
       usernameBtn: "Change username",
       deleteBtn: "Delete my profile",
       modDeleteBtn: "Delete profile",
@@ -398,6 +399,7 @@ const language = {
     },
     profile: {
       member: "Membre depuis",
+      editBtn: "Modifier mon profil",
       usernameBtn: "Modifier mon pseudo",
       deleteBtn: "Supprimer mon profil",
       modDeleteBtn: "Supprimer le profil",
@@ -638,6 +640,7 @@ const language = {
       },
     },
     profile: {
+      editBtn: "Profil bearbeiten",
       usernameBtn: "Benutzername ändern",
       deleteBtn: "Mein Profil löschen",
       modDeleteBtn: "Profil löschen",

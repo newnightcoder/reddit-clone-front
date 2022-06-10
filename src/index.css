@@ -38,3 +38,13 @@
 .dark #commentInput::placeholder {
   color: rgb(150, 150, 150);
 } */
+/* 
+@media (max-height: 400px) and (orientation: landscape) {
+  .navbar-mobile {
+    position: fixed !important;
+    bottom: 0 !important;
+    flex-direction: row !important;
+    width: 100%;
+    border: 1px solid lime;
+  }
+} */

@@ -21,7 +21,7 @@ const Homepage = () => {
   return (
     <Div100vh className="w-full transition-color duration-500 relative bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-100 flex flex-col items-center justify-start">
       <button
-        className="h-10 w-10 absolute top-5 right-14 flex items-center justify-center rounded-full tracking-widest font-bold text-2xl transition duration-300 hover:bg-gray-300 dark:hover:bg-gray-700"
+        className="h-10 w-10 absolute top-5 right-6 md:right-14 flex items-center justify-center rounded-full tracking-widest font-bold text-2xl transition duration-300 hover:bg-gray-300 dark:hover:bg-gray-700"
         onClick={toggleSettings}
       >
         <DotsHorizontalIcon
@@ -29,12 +29,12 @@ const Homepage = () => {
         />
         <XIcon className={`h-7 absolute m-auto text-black ${settingsOpen ? "animate-iconOn" : "animate-iconOff"}`} />
       </button>
-      <div className="h-full w-full min-h-[500px] max-w-[1300px]  flex items-center justify-center">
+      <div className="h-[calc(100vh-5rem)] md:h-max w-full md:min-h-[500px] max-w-[1300px] flex items-center justify-center md:px-12">
         <div className="hidden h-full w-[60%] z-50 md:flex items-center justify-center md:justify-end pt-8 2xl:pt-14">
           <img src={heroImg} alt="forum mockup on laptop and mobile phone" className="w-full max-w-[1200px]" />
         </div>
-        <div className="h-full w-full w-[40%] flex flex-col items-center justify-center md:space-y-6 2xl:space-y-10">
-          <div className="w-max h-max flex flex-col items-center justify-center space-y-4">
+        <div className="h-full w-full w-[40%] flex flex-col items-center justify-center space-y-12 md:space-y-6 2xl:space-y-10">
+          <div className="w-max h-max flex flex-col items-center justify-center space-y-8 md:space-y-4">
             <header className="h-max flex flex-col items-center justify-center space-y-2">
               <svg
                 className="h-24 transition duration-300"
@@ -66,7 +66,7 @@ const Homepage = () => {
           </div>
           <div className="w-full flex flex-col items-center justify-center space-y-5">
             <div className="w-full flex flex-col items-center">
-              <h2 className="uppercase">{userLanguage.homepage.connectLbl}?</h2>
+              <h2 className="uppercase whitespace-nowrap">{userLanguage.homepage.connectLbl}?</h2>
               <Link
                 to="/login"
                 className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
@@ -75,7 +75,7 @@ const Homepage = () => {
               </Link>
             </div>
             <div className="w-full flex flex-col items-center">
-              <h2 className="uppercase">{userLanguage?.homepage.registerLbl}?</h2>
+              <h2 className="uppercase whitespace-nowrap">{userLanguage?.homepage.registerLbl}?</h2>
               <Link
                 to="/signup"
                 className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
@@ -84,7 +84,7 @@ const Homepage = () => {
               </Link>
             </div>
             <div className="w-full flex flex-col items-center">
-              <h2 className="uppercase">{userLanguage?.homepage.exploreLbl}?</h2>
+              <h2 className="uppercase whitespace-nowrap">{userLanguage?.homepage.exploreLbl}?</h2>
               <Link
                 to="/feed"
                 className="w-60 py-2 text-center text-white font-bold uppercase shadow-xl bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none hover:bg-blue-500"
@@ -95,11 +95,9 @@ const Homepage = () => {
           </div>
         </div>
       </div>
-      <div className="w-full h-max flex flex-col items-center justify-center space-y-10 md:space-y-4 md:pt-4">
+      <div className="w-full h-max flex flex-col items-center justify-center md:space-y-4 md:pt-4">
         <div className="flex flex-col items-center justify-center md:space-y-2">
-          <button className="outline-none text-sm pb-2 md:pb-0 rounded-full border border-black dark:border-gray-100 px-2 transition-shadow shadow hover:shadow-none">
-            {userLanguage?.homepage.download}
-          </button>
+          <button className="outline-none text-xs pb-2 md:pb-0 underline px-2">{userLanguage?.homepage.download}</button>
           <div className="flex items-center justify-center space-x-2 h-10">
             <svg viewBox="0 0 151 51" fill="none" xmlns="http://www.w3.org/2000/svg" className="hover:cursor-pointer h-full ">
               <path

@@ -27,23 +27,25 @@ const Aside = () => {
   }, [dispatch, posts, element, width]);
 
   return (
-    <div
-      ref={element}
-      style={{ top: feedPage ? `calc(100vh - ${size?.height}px - 10px)` : "6rem" }}
-      className="hidden sticky pathname w-72 h-max lg:flex flex-col items-center justify-start mt-[6rem] gap-2"
-    >
-      {feedPage ? (
-        <>
+    <div className="hidden lg:block w-72 h-full">
+      <div
+        ref={element}
+        style={{ top: feedPage ? `calc(100vh - ${size?.height}px - 15px)` : "6rem" }}
+        className="sticky pathname w-full h-max flex flex-col items-center justify-start mt-[6rem] gap-2"
+      >
+        {feedPage ? (
+          <>
+            <RecentUsers />
+            <ModsContainer />
+            <PopularPosts />
+            <FooterAside />
+          </>
+        ) : profilePage ? (
           <RecentUsers />
-          <ModsContainer />
-          <PopularPosts />
-          <FooterAside />
-        </>
-      ) : profilePage ? (
-        <RecentUsers />
-      ) : (
-        (createPostPage || editPostPage || commentPage) && <Rules />
-      )}
+        ) : (
+          (createPostPage || editPostPage || commentPage) && <Rules />
+        )}
+      </div>
     </div>
   );
 };

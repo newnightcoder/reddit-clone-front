@@ -4,7 +4,9 @@ import language from "../../languages";
 
 const useLanguage = () => {
   const lang = useSelector((state) => state.user.language);
-  const [userLanguage, setUserLanguage] = useState(language.english);
+  const [userLanguage, setUserLanguage] = useState(
+    lang === "de" ? language.deutsch : lang === "fr" ? language.français : language.english
+  );
 
   useEffect(() => {
     switch (lang) {

@@ -127,32 +127,30 @@ const PostForm = ({
         <div
           className={`w-full h-max flex items-center ${
             !commentPage ? "justify-between" : "justify-end"
-          } px-3 overflow-y-auto space-x-8`}
+          } px-1 pb-4 overflow-y-auto space-x-6`}
         >
           {!commentPage && (
-            <div className="w-max h-full flex items-center justify-start space-x-4">
+            <div className="w-max h-full flex items-center justify-start space-x-2">
               <button
-                className="w-max text-gray-500 dark:text-gray-100 text-xs rounded-full transition-color duration-300 border border-gray-200 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-100 px-4 py-2 md:text-base bg-transparent ouline-none flex items-center justify-start space-x-1"
+                className="w-max text-gray-500 dark:text-gray-100 text-xs rounded-full transition-color duration-300 border border-gray-200 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-100 px-4 py-2 bg-transparent ouline-none flex items-center justify-start space-x-1"
                 onClick={(e) => toggleImgUploadModal(e)}
               >
                 <Image size={16} className="text-gray-900 dark:text-gray-100" />
-                <span className="hidden md:inline-block">
-                  {!currentPostImgUrl ? userLanguage.createPost.imgBtn : userLanguage.createPost.changeImgBtn}
-                </span>
+                <span className="hidden md:inline-block text-sm">{userLanguage.createPost.imgBtn}</span>
               </button>
               <button
-                className="w-max  text-gray-500 dark:text-gray-100 text-xs rounded-full transition-color duration-300 border border-gray-200 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-100 px-4 py-2 md:text-base bg-transparent ouline-none flex items-center justify-start space-x-1"
+                className="w-max  text-gray-500 dark:text-gray-100 text-xs rounded-full transition-color duration-300 border border-gray-200 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-100 px-4 py-2 bg-transparent ouline-none flex items-center justify-start space-x-1"
                 onClick={(e) => toggleGifModal(e)}
               >
                 <img src={giphyDark} width="25" alt="giphy logo" />{" "}
-                <span className="hidden md:inline-block">{userLanguage.createPost.gifBtn}</span>
+                <span className="hidden md:inline-block text-sm">{userLanguage.createPost.gifBtn}</span>
               </button>
               <button
-                className="w-max  text-gray-500 dark:text-gray-100 text-xs rounded-full transition-color duration-300 border border-gray-200 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-100 px-4 py-2 md:text-base bg-transparent ouline-none flex items-center justify-start"
+                className="w-max  text-gray-500 dark:text-gray-100 text-xs rounded-full transition-color duration-300 border border-gray-200 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-100 px-4 py-2 bg-transparent ouline-none flex items-center justify-start"
                 onClick={(e) => toggleLinkModal(e)}
               >
                 <Link45deg size={20} className="text-gray-900 dark:text-gray-100" />
-                <span className="hidden md:inline-block capitalize">{userLanguage.createPost.linkBtn}</span>
+                <span className="hidden md:inline-block text-sm capitalize">{userLanguage.createPost.linkBtn}</span>
               </button>
             </div>
           )}

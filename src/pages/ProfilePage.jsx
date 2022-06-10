@@ -89,11 +89,11 @@ const Profile = () => {
       ) : (
         <Layout>
           <div
-            className="page-container border border-red-500 relative h-max w-full flex items-start justify-center md:rounded-md"
+            className="page-container relative h-max w-full flex items-start justify-center md:rounded-md text-gray-900 dark:text-gray-100 transition duration-500"
             style={{ minHeight: "calc(100vh - 4rem)" }}
           >
             {error && (
-              <div className="fixed top-16  h-min w-max mx-auto w-full p-2 bg-black dark:bg-white text-center text-white dark:text-black text-sm z-10 whitespace-pre rounded">
+              <div className="fixed top-16  h-min inset-x-0 w-full py-4 px-2 bg-black dark:bg-white text-center text-white dark:text-black text-sm z-10 whitespace-pre rounded">
                 {error}
               </div>
             )}
@@ -102,7 +102,7 @@ const Profile = () => {
             ) : (
               <div
                 style={{ minHeight: "calc(100vh - 7rem)" }}
-                className="bg-white dark:bg-gray-900 w-full h-max md:w-5/6 rounded-md md:mt-8 flex flex-col items-center justify-start space-y-3 pb-24 md:pb-12"
+                className="bg-white dark:bg-gray-900 w-full h-max rounded-md md:mt-8 flex flex-col items-center justify-start space-y-3 pb-24 md:pb-12"
               >
                 <div
                   style={{
@@ -117,7 +117,7 @@ const Profile = () => {
                       className="absolute top-4 right-4 flex items-center justify-center space-x-1 text-xs italic text-white py-1 px-6 rounded-full shadow-xl bg-blue-400 dark:bg-black transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
                       onClick={toggleProfileOptions}
                     >
-                      Edit profile
+                      {userLanguage.profile.editBtn}
                     </button>
                   )}
                   {openProfileOptions && (
@@ -140,9 +140,11 @@ const Profile = () => {
                   ></div>
                   {openEditModal && <EditUsernameModal toggleEditModal={toggleEditModal} openEditModal={openEditModal} />}
                 </div>
-                <div className="username-member relative h-max w-max self-start transform translate-x-44 flex flex-col items-start justify-start">
-                  <span className="text-xl font-bold capitalize">{id === profileId ? username : userData.username}</span>
-                  <span className="block italic text-sm flex items-center justify-center gap-1 transform -translate-x-2">
+                <div className="username-member relative h-max w-full self-start transform flex flex-col items-start justify-start">
+                  <span className="translate-x-40 text-xl font-bold capitalize w-[calc(100vw-12rem)] md:w-[68%] overflow-x-hidden overflow-ellipsis pl-1 pr-4">
+                    {id === profileId ? username : userData.username}
+                  </span>
+                  <span className="block italic text-sm flex items-center justify-center space-x-1 transform translate-x-40">
                     <img src={logo_mobile_blue} className="h-6" alt="forum logo" />
                     <span>{userLanguage.profile.member}</span>
                     {userData?.creationDate
@@ -157,7 +159,7 @@ const Profile = () => {
                 <div className="w-10/12 pl-4">
                   {role === "admin" && userData?.id !== id && (
                     <button
-                      className="flex items-center justify-center gap-1 text-md rounded-full hover:drop-shadow"
+                      className="flex items-center justify-center space-x-1 text-md rounded-full hover:drop-shadow"
                       onClick={() => setOpenModal(true)}
                     >
                       <TrashIcon className="h-8 text-gray-700" />
@@ -172,7 +174,7 @@ const Profile = () => {
                     origin={role === "admin" && userData?.id !== id ? "profile-admin" : "profile"}
                   />
                 )}
-                <div className="w-full h-full md:w-10/12 flex flex-col items-center justify-center">
+                <div className="w-full h-full md:w-11/12 flex flex-col items-center justify-center">
                   <div className="w-full h-min px-4">
                     <div className="relative w-full h-full flex items-center justify-evenly">
                       <button
@@ -201,7 +203,7 @@ const Profile = () => {
                       ></div>
                     </div>
                   </div>
-                  <div className="w-full max-w-3xl h-full flex items-center justify-center pt-4 border-t border-gray-200">
+                  <div className="w-full h-full flex items-center justify-center pt-4 border-t border-gray-200 dark:border-gray-700 transition duration-500">
                     {postTabOpen ? (
                       <div className="w-full h-max flex flex-col items-center justify-center space-y-3">
                         {userPosts.map((post) => (
@@ -209,7 +211,7 @@ const Profile = () => {
                         ))}
                       </div>
                     ) : (
-                      <div className="w-full max-w-3xl h-max flex flex-col items-center justify-center space-y-3">
+                      <div className="w-full h-max flex flex-col items-center justify-center space-y-3">
                         {likedPosts?.map((post) => (
                           <Post key={post.postId} post={post} />
                         ))}

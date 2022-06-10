@@ -25,7 +25,7 @@ const UserCard = ({ user, mod }) => {
           alt="avatar"
           className="h-14 w-14 rounded-full border-2 border-blue-400 p-1 hover:border-red-400 transition duration-300"
         />
-        <span className="capitalize">{username}</span>
+        <span className="capitalize max-w-[20ch] overflow-x-hidden overflow-ellipsis pr-1">{username}</span>
       </button>
       {!mod && (
         <span className="w-full flex justify-center text-xs italic">

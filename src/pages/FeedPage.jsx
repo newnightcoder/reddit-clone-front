@@ -34,19 +34,21 @@ const Feed = () => {
     <Layout>
       <div className="feed-container h-full w-full flex flex-col items-center justify-start space-y-2 transition-color text-black dark:text-blue-500 duration-500 relative">
         {error && (
-          <span className="whitespace-pre w-full md:w-max h-max py-2 px-3 text-sm md:text-sm text-white transition duration-500 bg-black dark:bg-white dark:text-black text-center rounded">
+          <div className="fixed top-16  mb-2 h-min inset-x-0 w-full py-4 px-2 bg-black dark:bg-white text-center text-white dark:text-black text-sm z-10 whitespace-pre rounded">
             {error}
-          </span>
+          </div>
         )}
         <div className="bienvenueMsg-newcomer w-full h-16 flex items-center justify-center text-center whitespace-pre mb-2">
           {!isAuthenticated ? (
             <span className="font-bold">{userLanguage?.feed.greetingVisitorMode}&nbsp;</span>
           ) : isNewUser ? (
-            <span className="font-bold">
-              {userLanguage?.feed.greetingVisitor1} <span className="capitalize">{user.username}!</span>
-              <br />
-              {userLanguage?.feed.greetingVisitor2}
-            </span>
+            <div className="w-max font-bold flex flex-col items-center justify-center text-sm ">
+              <span className="w-full max-w-[100vw] flex items-center justify-center px-4">
+                <span className="">{userLanguage?.feed.greetingVisitor1}&nbsp;</span>
+                <span className="capitalize w-full md:w-[80%] overflow-x-hidden overflow-ellipsis">{user.username}!</span>
+              </span>
+              <span className="inline-block">{userLanguage?.feed.greetingVisitor2}</span>
+            </div>
           ) : (
             <span className="font-bold">
               {userLanguage?.feed.greetingUser}&nbsp;
