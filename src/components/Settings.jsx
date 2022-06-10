@@ -20,6 +20,8 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
   const { dark, light } = userLanguage.appearance;
   const modeOptions = [dark, light];
   const landingPage = pathname === "/";
+  const loginPage = pathname === "/login";
+  const signupPage = pathname === "/signup";
   const profilePage = pathname === "/profile";
 
   const getLangOptions = useCallback(() => {
@@ -43,7 +45,7 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
   return (
     <div
       className={`${settingsOpen ? "inline-block" : "hidden"} ${
-        landingPage
+        landingPage || loginPage || signupPage
           ? "top-16"
           : isMenuOpen
           ? "top-full"
@@ -55,7 +57,7 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
           ? "top-[13.5rem]"
           : ""
       } ${
-        landingPage
+        landingPage || loginPage || signupPage
           ? "left-auto"
           : isMenuOpen
           ? "left-0"
@@ -66,7 +68,7 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
           : width >= breakpoint.xl
           ? "left-[14.5rem]"
           : ""
-      } ${landingPage ? "right-4" : ""} w-52 h-max ${
+      } ${landingPage || loginPage || signupPage ? "right-4" : ""} w-52 h-max ${
         isMenuOpen ? "relative" : "absolute"
       } transition duration-500 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-700 py-3 rounded-lg shadow-xl z-[1300]`}
     >

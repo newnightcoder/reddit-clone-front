@@ -20,7 +20,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
   return (
     <div
       style={{
-        width: width >= 1280 ? "14rem" : width > 768 ? "min-content" : width < 768 ? "100%" : null,
+        width: width >= 1280 ? "14rem" : width > 768 ? "min-content" : width < 768 ? "100%" : "",
         marginTop: width > 768 ? "" : "4rem",
         // top: width > 768 ? "6rem" : "",
       }}

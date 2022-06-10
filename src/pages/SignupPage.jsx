@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { SignupForm, StepUsername } from "../components";
+import { BtnSettings, Settings, SignupForm, StepUsername } from "../components";
 import { createUser } from "../store/actions/user.action";
-import { useError, useLanguage } from "../utils/hooks";
+import { useError, useLanguage, useToggleSettings } from "../utils/hooks";
 
 const Signup = () => {
   const { userCreated, darkMode, id: userId } = useSelector((state) => state.user);
@@ -17,6 +17,7 @@ const Signup = () => {
   const [isLong, setIsLong] = useState(false);
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
+  const { settingsOpen, toggleSettings } = useToggleSettings();
   const error = useError();
   /* eslint no-control-regex: 0 */
   const emailRegex =
@@ -68,9 +69,10 @@ const Signup = () => {
 
   return (
     <Div100vh
-      className="flex flex-col items-center justify-evenly relative transition duration-500 bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-200"
+      className="flex flex-col items-center justify-between pt-24 pb-10 md:pt-24 relative transition duration-500 bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-200"
       style={toNextStep}
     >
+      <BtnSettings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
       <header className="text-center uppercase text-black dark:text-white font-bold text-lg flex flex-col items-center justify-center">
         <span>{userLanguage.signup.join}</span>
         <svg
@@ -114,7 +116,7 @@ const Signup = () => {
         handleNewPass={handleNewPass}
         handleNewUserSubmit={handleNewUserSubmit}
       />
-      <div className="h-min w-4/5 md:w-96 border-t border-black text-black dark:text-white transform translate-y-6 md:translate-y-8 py-2 flex items-center justify-center gap-2">
+      <div className="h-min w-4/5 md:w-96 border-t border-black dark:border-white transition duration-500 text-black dark:text-white py-2 flex items-center justify-center gap-2">
         {userLanguage.signup.already}
         <Link
           to="/login"
@@ -123,7 +125,8 @@ const Signup = () => {
           {userLanguage.signup.alreadyBtn}
         </Link>
       </div>
-      <StepUsername userId={userId}></StepUsername>
+      {userCreated && <StepUsername userId={userId}></StepUsername>}
+      <Settings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
     </Div100vh>
   );
 };

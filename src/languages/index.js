@@ -28,6 +28,7 @@ const language = {
     error: {
       duplicateEmail: "There's already an account with this email address",
       duplicateUsername: "This username is already taken.\nPlease choose another one",
+      nameTooLong: "This username is too long!\nPlease choose a shorter one.",
       emptyTitle: "Your post has no title!\n Put a word or two...",
       emptyComment: "Your comment is empty...",
       emptyReply: "Your reply is empty...",
@@ -268,6 +269,7 @@ const language = {
     error: {
       duplicateEmail: "Un compte associé à cet email existe déjà.",
       duplicateUsername: "Ce nom d'utilisateur est déjà pris!\nVeuillez en choisir un autre.",
+      nameTooLong: "Ce nom d'utilisateur est trop long!\nVeuillez en choisir un plus court.",
       emptyTitle: "Votre titre est vide!\n Mettez un mot ou deux...",
       emptyComment: "Votre commentaire est vide!",
       emptyReply: "Votre réponse est vide!",
@@ -508,6 +510,7 @@ const language = {
     error: {
       duplicateEmail: "Ein Konto mit dieser Emailadresse existiert schon.",
       duplicateUsername: "Dieser Benutzername ist schon vergeben!\nGeben Sie bitte einen anderen Benutzernamen ein.",
+      nameTooLong: "Dieser Benutzername ist zu lang!\nGeben Sie bitte einen kürzeren Benutzernamen ein.",
       emptyTitle: "Der Beitrag hat keine Überschrift!\n Schreiben Sie ein paar Wörter...",
       emptyComment: "Ihr Kommentar ist doch leer...",
       emptyReply: "Ihre Antwort ist doch leer...",

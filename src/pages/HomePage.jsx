@@ -1,13 +1,11 @@
-import { DotsHorizontalIcon, XIcon } from "@heroicons/react/solid";
 import React, { useEffect } from "react";
 import Div100vh from "react-div-100vh";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { heroImg } from "../assets";
-import { Settings } from "../components";
+import { BtnSettings, Settings } from "../components";
 import { persistor } from "../store/storeConfig";
-import useLanguage from "../utils/hooks/useLanguage";
-import useToggleSettings from "../utils/hooks/useToggleSettings";
+import { useLanguage, useToggleSettings } from "../utils/hooks";
 
 const Homepage = () => {
   const userLanguage = useLanguage();
@@ -20,15 +18,22 @@ const Homepage = () => {
 
   return (
     <Div100vh className="w-full transition-color duration-500 relative bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-100 flex flex-col items-center justify-start">
-      <button
+      {/* <button
         className="h-10 w-10 absolute top-5 right-6 md:right-14 flex items-center justify-center rounded-full tracking-widest font-bold text-2xl transition duration-300 hover:bg-gray-300 dark:hover:bg-gray-700"
         onClick={toggleSettings}
       >
         <DotsHorizontalIcon
-          className={`h-7 absolute m-auto z-10 text-black ${settingsOpen ? "animate-iconOff" : "animate-iconOn"}`}
+          className={`h-7 absolute m-auto z-10 text-gray-900 dark:text-gray-100 transition-color duration-500 ${
+            settingsOpen ? "animate-iconOff" : "animate-iconOn"
+          }`}
         />
-        <XIcon className={`h-7 absolute m-auto text-black ${settingsOpen ? "animate-iconOn" : "animate-iconOff"}`} />
-      </button>
+        <XIcon
+          className={`h-7 absolute m-auto text-gray-900 dark:text-gray-100 transition-color duration-500 ${
+            settingsOpen ? "animate-iconOn" : "animate-iconOff"
+          }`}
+        />
+      </button> */}
+      <BtnSettings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
       <div className="h-[calc(100vh-5rem)] md:h-max w-full md:min-h-[500px] max-w-[1300px] flex items-center justify-center md:px-12">
         <div className="hidden h-full w-[60%] z-50 md:flex items-center justify-center md:justify-end pt-8 2xl:pt-14">
           <img src={heroImg} alt="forum mockup on laptop and mobile phone" className="w-full max-w-[1200px]" />

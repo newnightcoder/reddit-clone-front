@@ -1,5 +1,6 @@
 export { default as AppContainer } from "./AppContainer";
 export { default as Aside } from "./Aside";
+export { default as BtnSettings } from "./BtnSettings";
 export { default as Comment } from "./Comment";
 export { default as CommentForm } from "./CommentForm";
 export { default as GifModal } from "./createPostModals/GifModal";

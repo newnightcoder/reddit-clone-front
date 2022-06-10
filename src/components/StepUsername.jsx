@@ -77,7 +77,7 @@ const StepUsername = () => {
           </button>
         </form>
       </div>
-      <StepImage />
+      {usernameAdded && <StepImage />}
     </Div100vh>
   );
 };

@@ -4,9 +4,10 @@ import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
+import { BtnSettings, Settings } from "../components";
 import { logUserAction } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
-import { useError, useLanguage } from "../utils/hooks";
+import { useError, useLanguage, useToggleSettings } from "../utils/hooks";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -16,6 +17,7 @@ const Login = () => {
   const { isAuthenticated, darkMode } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
+  const { settingsOpen, toggleSettings } = useToggleSettings();
   const error = useError();
 
   /* eslint no-control-regex: 0 */
@@ -50,7 +52,8 @@ const Login = () => {
   }, [isAuthenticated]);
 
   return (
-    <Div100vh className="w-full flex flex-col items-center justify-center space-y-16 transition-color duration-500 bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-200">
+    <Div100vh className="w-full relative flex flex-col items-center justify-between pt-24 pb-10 md:pt-24 transition-color duration-500 bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-200">
+      <BtnSettings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
       <header className="text-center uppercase flex flex-col items-center justify-center md:gap-1">
         <span className="font-bold text-lg">{userLanguage.login.greeting}</span>
         {/* <img src={logo} style={{ height: "150", width: "80%" }} alt="logo Forum" /> */}
@@ -120,8 +123,8 @@ const Login = () => {
           {!isLoading || error ? <span>{userLanguage.login.enter}</span> : <SyncLoader size={8} color={"#ffffff"} />}
         </button>
       </form>
-      <div className="w-4/5 md:w-96 text-center border-t border-black transform translate-y-12 md:translate-y-16 py-2 flex flex-col items-center justify-center gap-1 md:flex-row md:gap-2">
-        {userLanguage.login.first}?
+      <div className="w-4/5 md:w-96 text-center transition duration-500 border-t border-black dark:border-white py-2 flex items-center justify-center space-x-2">
+        <span>{userLanguage.login.first}?</span>
         <Link
           to="/signup"
           className="font-bold underline uppercase text-blue-500 transition-color duration-300 hover:text-blue-600"
@@ -129,6 +132,7 @@ const Login = () => {
           {userLanguage.login.registerBtn}
         </Link>
       </div>
+      <Settings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
     </Div100vh>
   );
 };

@@ -11,6 +11,7 @@ const useError = () => {
   const errorType = {
     duplicateEmail: "duplicateEmail",
     duplicateUsername: "duplicateUsername",
+    nameTooLong: "nameTooLong",
     emptyTitle: "emptyTitle",
     emptyComment: "emptyComment",
     emptyReply: "emptyReply",
@@ -30,6 +31,8 @@ const useError = () => {
         return setError(userLanguage.error.duplicateEmail);
       case errorType.duplicateUsername:
         return setError(userLanguage.error.duplicateUsername);
+      case errorType.nameTooLong:
+        return setError(userLanguage.error.nameTooLong);
       case errorType.emptyTitle:
         return setError(userLanguage.error.emptyTitle);
       case errorType.emptyComment:

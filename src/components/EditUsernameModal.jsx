@@ -58,6 +58,7 @@ const EditUsernameModal = ({ toggleEditModal, openEditModal }) => {
         />
         <div className="w-10/12 flex items-center justify-center space-x-4">
           <button
+            type="button"
             className="w-full md:w-max py-2 px-3 flex items-center justify-center text-white text-xs rounded-full shadow-xl cursor-pointer bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none uppercase"
             onClick={() => {
               toggleEditModal();

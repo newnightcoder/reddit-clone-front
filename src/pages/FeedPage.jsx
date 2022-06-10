@@ -45,14 +45,16 @@ const Feed = () => {
             <div className="w-max font-bold flex flex-col items-center justify-center text-sm ">
               <span className="w-full max-w-[100vw] flex items-center justify-center px-4">
                 <span className="">{userLanguage?.feed.greetingVisitor1}&nbsp;</span>
-                <span className="capitalize w-full md:w-[80%] overflow-x-hidden overflow-ellipsis">{user.username}!</span>
+                <span className="capitalize w-min md:w-[80%] text-left overflow-x-hidden overflow-ellipsis">
+                  {user.username}!
+                </span>
               </span>
               <span className="inline-block">{userLanguage?.feed.greetingVisitor2}</span>
             </div>
           ) : (
             <span className="font-bold">
               {userLanguage?.feed.greetingUser}&nbsp;
-              <span className="capitalize">{user.username}!</span>
+              <span className="capitalize w-min md:w-[80%] text-left overflow-x-hidden overflow-ellipsis">{user.username}!</span>
             </span>
           )}
         </div>
