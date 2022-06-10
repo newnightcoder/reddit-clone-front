@@ -119,7 +119,7 @@ const EditPostPage = () => {
       ) : (
         <Layout>
           <div
-            className="h-full w-full border border-green-500 bg-gray-200 dark:bg-black flex flex-col items-center justify-start md:pt-16 pb-16"
+            className="h-full w-full bg-gray-200 dark:bg-black flex flex-col items-center justify-start md:pt-16 pb-16"
             style={{ minHeight: "calc(100vh - 4rem)" }}
           >
             {error && (
