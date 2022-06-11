@@ -17,7 +17,7 @@ const Homepage = () => {
   }, []);
 
   return (
-    <Div100vh className="w-full transition-color duration-500 relative bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-100 flex flex-col items-center justify-start">
+    <Div100vh className="w-full transition-color duration-500 relative bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-100 flex flex-col items-center justify-start pb-4 md:pb-1">
       {/* <button
         className="h-10 w-10 absolute top-5 right-6 md:right-14 flex items-center justify-center rounded-full tracking-widest font-bold text-2xl transition duration-300 hover:bg-gray-300 dark:hover:bg-gray-700"
         onClick={toggleSettings}
@@ -34,7 +34,7 @@ const Homepage = () => {
         />
       </button> */}
       <BtnSettings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
-      <div className="h-[calc(100vh-5rem)] md:h-max w-full md:min-h-[500px] max-w-[1300px] flex items-center justify-center md:px-12">
+      <div className="h-full md:h-max w-full md:min-h-[500px] max-w-[1300px] flex items-center justify-center md:px-12">
         <div className="hidden h-full w-[60%] z-50 md:flex items-center justify-center md:justify-end pt-8 2xl:pt-14">
           <img src={heroImg} alt="forum mockup on laptop and mobile phone" className="w-full max-w-[1200px]" />
         </div>
@@ -198,7 +198,7 @@ const Homepage = () => {
             </svg>
           </div>
         </div>
-        <ul className="hidden md:flex items-center justify-center text-xs space-x-4 text-gray-500 dark:text-gray-400 capitalize pb-2">
+        <ul className="hidden md:flex items-center justify-center text-xs space-x-4 text-gray-500 dark:text-gray-400 capitalize">
           <li>about</li>
           <li>press</li>
           <li>terms of use</li>

@@ -147,11 +147,13 @@ const Profile = () => {
                   <span className="block italic text-sm flex items-center justify-center space-x-1 transform translate-x-40">
                     <img src={logo_mobile_blue} className="h-6" alt="forum logo" />
                     <span>{userLanguage.profile.member}</span>
-                    {userData?.creationDate
-                      ? formatTimestamp(userData?.creationDate, null, language)
-                      : creationDate?.length !== 0
-                      ? formatTimestamp(creationDate, null, language)
-                      : null}
+                    <span>
+                      {userData?.creationDate
+                        ? formatTimestamp(userData?.creationDate, null, language)
+                        : creationDate?.length !== 0
+                        ? formatTimestamp(creationDate, null, language)
+                        : null}
+                    </span>
                   </span>
                 </div>
 

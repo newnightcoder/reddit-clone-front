@@ -274,10 +274,13 @@ export const getRecentUsers = () => async (dispatch) => {
     if (sessionExpired) {
       return dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
     } else if (error) {
+      console.log(error);
       return dispatch({ type: SET_ERROR_USER, payload: error });
     }
+    console.log("just got recent users");
     dispatch({ type: GET_USERS, payload: { recentUsers } });
   } catch (err) {
+    console.log("error catch", err);
     dispatch({ type: SET_ERROR_USER, payload: "backend" });
   }
 };

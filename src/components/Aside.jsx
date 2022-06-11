@@ -19,12 +19,12 @@ const Aside = () => {
   const profilePage = pathname.includes("profile");
 
   useEffect(() => {
-    if (width > breakpoint.lg) {
+    if (width >= breakpoint.lg) {
       setTimeout(() => {
         setSize(element?.current?.getBoundingClientRect());
       }, 500);
     }
-  }, [dispatch, posts, element, width]);
+  }, [posts, element, width]);
 
   return (
     <div className="hidden lg:block w-72 h-full">

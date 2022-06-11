@@ -15,10 +15,10 @@ const RecentUsers = () => {
   const { width } = useWindowSize();
 
   useEffect(() => {
-    if (width > breakpoint.lg) {
+    if (width >= breakpoint.lg) {
       dispatch(getRecentUsers());
     }
-  }, [dispatch, width]);
+  }, [dispatch]);
 
   return (
     <div className="w-72 h-max flex flex-col rounded transition-color duration-500 bg-white dark:bg-gray-900">
@@ -29,12 +29,12 @@ const RecentUsers = () => {
       </div>
       <div className="list w-full h-max flex flex-col items-center justify-center rounded-bl rounded-br  transition-color duration-500 border-b border-l border-r dark:border-gray-600 pb-12">
         <>
-          {recentUsers.length === 0 || recentUsers === undefined ? (
+          {users.length === 0 || users === undefined ? (
             <Skeleton element="user" number={pathname.includes("profile") ? 3 : 5} />
           ) : pathname.includes("/profile") ? (
-            recentUsers?.splice(0, 3).map((user) => <UserCard user={user} key={user.id} />)
+            [...users]?.splice(0, 3).map((user) => <UserCard user={user} key={user.id} />)
           ) : (
-            recentUsers?.map((user) => <UserCard user={user} key={user.id} />)
+            [...users]?.map((user) => <UserCard user={user} key={user.id} />)
           )}
           <button className="bg-blue-500 shadow flex items-center justify-center rounded-2xl w-3/4 py-1 px-2 text-white transform translate-y-6">
             {userLanguage.aside.newMembersBtn}

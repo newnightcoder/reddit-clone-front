@@ -13,10 +13,10 @@ const ModsContainer = () => {
   const { width } = useWindowSize();
 
   useEffect(() => {
-    if (width > breakpoint.lg) {
+    if (width >= breakpoint.lg) {
       dispatch(getMods());
     }
-  }, [dispatch, width]);
+  }, [dispatch]);
 
   return (
     <div className="w-full h-max flex flex-col rounded transition-color duration-500 bg-white dark:bg-gray-900">
