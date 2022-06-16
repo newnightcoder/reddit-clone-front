@@ -2,14 +2,12 @@ import "draft-js/dist/Draft.css";
 import React, { useCallback, useEffect, useState } from "react";
 // import ContentEditable from "react-contenteditable";
 import { useDispatch, useSelector } from "react-redux";
-import { GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
+import { Error, GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
 import { clearErrorPost, clearTempPostImg, clearTempPreview, createPost, setErrorPost } from "../store/actions/posts.action";
 import { clearErrorUser } from "../store/actions/user.action";
+import { history, isObjectEmpty } from "../utils/helpers";
 import { createDate } from "../utils/helpers/formatTime";
-import history from "../utils/helpers/history";
-import { isObjectEmpty } from "../utils/helpers/isObjectEmpty";
 import { useError, useHandleLink } from "../utils/hooks";
-import useLanguage from "../utils/hooks/useLanguage";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
@@ -19,14 +17,12 @@ const CreatePost = () => {
   const { isAuthenticated, id } = useSelector((state) => state.user);
   const [imgAdded, setImgAdded] = useState(false);
   const [imgDom, setImgDom] = useState(null);
-  const [emptyTitle, setEmptyTitle] = useState(false);
   const [imgInputModalOpen, setImgInputModalOpen] = useState(false);
   const [gifModalOpen, setGifModalOpen] = useState(false);
   const [linkModalOpen, setLinkModalOpen] = useState(false);
   const [isPreview, setIsPreview] = useState(0);
   const dispatch = useDispatch();
   const handleLink = useHandleLink();
-  const userLanguage = useLanguage();
   const error = useError();
 
   const deletePreview = useCallback(() => {
@@ -95,17 +91,10 @@ const CreatePost = () => {
   return (
     <>
       <Layout>
-        <div
-          className="w-full flex flex-col items-center justify-start pb-32 md:pb-16 md:pt-8"
-          // style={{ minHeight: "calc(100vh - 4rem)" }}
-        >
+        <div className="w-full flex flex-col items-center justify-start pb-32 md:pb-16 md:pt-8">
           <div className="w-full h-full flex items-start justify-center space-x-8">
             <div className="h-max w-full flex flex-col items-center justify-center">
-              {error && (
-                <div className="error md:absolute md:top-0 h-max w-full md:w-max mx-auto flex items-center justify-center bg-black dark:bg-white text-white dark:text-black text-center text-sm px-3 md:px-12 py-2 rounded mb-4  whitespace-pre">
-                  {error}
-                </div>
-              )}
+              <Error />
               <PostForm
                 title={title}
                 handlePostSubmit={handlePostSubmit}

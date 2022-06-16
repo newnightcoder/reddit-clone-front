@@ -9,10 +9,13 @@ export { default as PreviewLinkModal } from "./createPostModals/PreviewLinkModal
 export { default as DeleteModal } from "./DeleteModal";
 export { default as EditCommentModal } from "./EditCommentModal";
 export { default as EditUsernameModal } from "./EditUsernameModal";
+export { default as Error } from "./Error";
+export { default as FeedGreetings } from "./FeedGreetings";
 export { default as FooterAside } from "./FooterAside";
 export { default as ImgUploader } from "./ImgUploader";
 export { default as Layout } from "./Layout";
 export { default as LinkPreview } from "./LinkPreview";
+export { default as LoginHeader } from "./LoginHeader";
 export { default as MainContainer } from "./MainContainer";
 export { default as Menu } from "./Menu";
 export { default as ModsContainer } from "./ModsContainer";

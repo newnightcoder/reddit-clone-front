@@ -2,6 +2,16 @@ import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict";
 import { de, fr } from "date-fns/locale";
 import en from "date-fns/locale/en-US";
 
+const time = {
+  year: new Date().getFullYear(),
+  month: new Date().getMonth(),
+  day: new Date().getDate(),
+  hour: new Date().getHours(),
+  minute: new Date().getMinutes(),
+  second: new Date().getSeconds(),
+};
+export const date = `${time.year}-${time.month}-${time.day}-${time.hour}-${time.minute}-${time.second}`;
+
 export const createDate = () => {
   const time = {
     year: new Date().getFullYear(),

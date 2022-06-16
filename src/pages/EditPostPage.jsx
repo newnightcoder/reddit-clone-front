@@ -2,7 +2,7 @@ import "draft-js/dist/Draft.css";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
-import { GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
+import { Error, GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
 import {
   clearErrorPost,
   clearTempPreview,
@@ -11,15 +11,13 @@ import {
   setErrorPost,
   setPreviewData,
 } from "../store/actions/posts.action";
-import { history } from "../utils/helpers";
+import { history, isObjectEmpty } from "../utils/helpers";
 import { useError } from "../utils/hooks";
 
 const EditPostPage = () => {
   const { posts, scrapedPost: preview, editId } = useSelector((state) => state.posts);
   const currentPostImg = useSelector((state) => state.posts.currentPost.imgUrl);
   const { isAuthenticated } = useSelector((state) => state?.user);
-  // const location = useLocation();
-  // const { postId, commentId, replyId } = isAuthenticated && location?.state;
   const [postToEdit] = posts.filter((post) => post.postId === editId.id);
   const [postTitle, setPostTitle] = useState(postToEdit && postToEdit.title);
   const [postText, setPostText] = useState(postToEdit && postToEdit.text);
@@ -31,12 +29,6 @@ const EditPostPage = () => {
   const [linkModalOpen, setLinkModalOpen] = useState(false);
   const dispatch = useDispatch();
   const error = useError();
-  const isObjectEmpty = useCallback((obj) => {
-    for (let prop in obj) {
-      return false;
-    }
-    return true;
-  }, []);
 
   const deletePreview = useCallback(() => {
     setImgDom(null);
@@ -45,7 +37,6 @@ const EditPostPage = () => {
   }, [dispatch, setImgDom, setIsPreview]);
 
   useEffect(() => {
-    // if (isAuthenticated) {
     if (postToEdit?.imgUrl) {
       return dispatch(saveImageToEdit(postImgUrl));
     } else if (postToEdit?.isPreview === 1) {
@@ -59,7 +50,6 @@ const EditPostPage = () => {
       };
       return dispatch(setPreviewData(postToEditPreview));
     }
-    // }
   }, [postImgUrl, dispatch, postToEdit, isAuthenticated]);
 
   useEffect(() => {
@@ -122,11 +112,7 @@ const EditPostPage = () => {
             className="h-full w-full bg-gray-200 dark:bg-black flex flex-col items-center justify-start md:pt-16 pb-16"
             style={{ minHeight: "calc(100vh - 4rem)" }}
           >
-            {error && (
-              <span className="whitespace-pre w-full md:w-max h-max py-2 px-3 text-sm md:text-sm text-white transition duration-500 bg-black dark:bg-white dark:text-black text-center rounded">
-                {error}
-              </span>
-            )}
+            <Error />
             <div className="w-full md:max-w-2xl">
               <PostForm
                 postToEdit={postToEdit}

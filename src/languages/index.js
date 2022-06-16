@@ -125,8 +125,8 @@ const language = {
     },
     feed: {
       greetingVisitorMode: "Welcome to Forum - Take a look around",
-      greetingVisitor1: "Welcome to Forum",
-      greetingVisitor2: "Share and discuss with the community.",
+      greetingVisitorLine1: "Welcome to Forum",
+      greetingVisitorLine2: "Share and discuss with the community.",
       greetingUser: "Happy to see you again",
       refreshBtn: "refresh",
     },
@@ -366,8 +366,8 @@ const language = {
     },
     feed: {
       greetingVisitorMode: "Bienvenue sur le fil du Forum, visiteur!",
-      greetingVisitor1: "Bienvenue sur Forum",
-      greetingVisitor2: "Echangez et discutez avec la communauté.",
+      greetingVisitorLine1: "Bienvenue sur Forum",
+      greetingVisitorLine2: "Echangez et discutez avec la communauté.",
       greetingUser: "Content de vous revoir",
       refreshBtn: "rafraîchir",
     },
@@ -609,8 +609,8 @@ const language = {
     },
     feed: {
       greetingVisitorMode: "Wilkommen auf Forum!\nViel spass bei den Rundgang",
-      greetingVisitor1: "Wilkommen auf Forum",
-      greetingVisitor2: "Teile und diskutiere mit der Community",
+      greetingVisitorLine1: "Wilkommen auf Forum",
+      greetingVisitorLine2: "Teile und diskutiere mit der Community",
       greetingUser: "Schön Sie wiederzusehen",
       refreshBtn: "aktualisieren",
     },

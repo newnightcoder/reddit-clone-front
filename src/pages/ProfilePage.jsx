@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import { useLocation } from "react-router-dom";
 import { bannerPlaceholder, logo_mobile_blue, picPlaceholder } from "../assets";
-import { DeleteModal, EditUsernameModal, Layout, Post, ProfileOptions, Skeleton } from "../components";
+import { DeleteModal, EditUsernameModal, Error, Layout, Post, ProfileOptions, Skeleton } from "../components";
 import { getUserPosts } from "../store/actions/posts.action";
 import { deleteUser } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
@@ -92,11 +92,7 @@ const Profile = () => {
             className="page-container relative h-max w-full flex items-start justify-center md:rounded-md text-gray-900 dark:text-gray-100 transition duration-500"
             style={{ minHeight: "calc(100vh - 4rem)" }}
           >
-            {error && (
-              <div className="fixed top-16  h-min inset-x-0 w-full py-4 px-2 bg-black dark:bg-white text-center text-white dark:text-black text-sm z-10 whitespace-pre rounded">
-                {error}
-              </div>
-            )}
+            <Error />
             {userData === undefined || !userData ? (
               <Skeleton element="profile" number={1} />
             ) : (
@@ -142,7 +138,13 @@ const Profile = () => {
                 </div>
                 <div className="username-member relative h-max w-full self-start transform flex flex-col items-start justify-start">
                   <span className="translate-x-40 text-xl font-bold capitalize w-[calc(100vw-12rem)] md:w-[68%] overflow-x-hidden overflow-ellipsis pl-1 pr-4">
-                    {id === profileId ? username : userData.username}
+                    {id === profileId && username
+                      ? username
+                      : id === profileId && !username
+                      ? "Noname"
+                      : userData.username
+                      ? userData.username
+                      : "Noname"}
                   </span>
                   <span className="block italic text-sm flex items-center justify-center space-x-1 transform translate-x-40">
                     <img src={logo_mobile_blue} className="h-6" alt="forum logo" />

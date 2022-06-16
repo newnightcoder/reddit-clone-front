@@ -77,7 +77,7 @@ export const userReducer = (state = userState, action) => {
 
     case LOG_USER: {
       const { id, email, username, picUrl, creationDate, role } = action.payload.user;
-      const { isNewUser, accessToken } = action.payload;
+      const { isNewUser } = action.payload;
       return {
         ...state,
         id,
@@ -87,7 +87,6 @@ export const userReducer = (state = userState, action) => {
         creationDate,
         isNewUser,
         role,
-        accessToken,
       };
     }
     case LOGIN_SUCCESS:

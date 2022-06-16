@@ -102,7 +102,7 @@ const NavBar = ({ toggleMenu }) => {
             <div className="flex flex-col items-start">
               {isAuthenticated && <span className="text-xs underline whitespace-nowrap">{userLanguage.navbar.connected}</span>}
               <span className="capitalize font-bold whitespace-nowrap underline max-w-[10ch] overflow-x-hidden overflow-ellipsis pr-1">
-                {username ? username : userLanguage.navbar.visitor}
+                {isAuthenticated && username ? username : isAuthenticated && !username ? "Noname" : userLanguage.navbar.visitor}
               </span>
             </div>
           </button>

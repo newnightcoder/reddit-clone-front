@@ -1,13 +1,13 @@
 import { RefreshIcon } from "@heroicons/react/solid";
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Layout, Post, Skeleton } from "../components";
+import { Error, FeedGreetings, Layout, Post, Skeleton } from "../components";
 import { clearTempPostImg, clearTempPreview, getLikes, getPosts } from "../store/actions/posts.action";
 import { useContainerSize, useError, useLanguage } from "../utils/hooks";
 
 const Feed = () => {
   const user = useSelector((state) => state.user);
-  const { isAuthenticated, isNewUser, liked } = useSelector((state) => state.user);
+  const { isAuthenticated, isNewUser, username, liked } = useSelector((state) => state.user);
   const posts = useSelector((state) => state?.posts?.posts);
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
@@ -33,31 +33,8 @@ const Feed = () => {
   return (
     <Layout>
       <div className="feed-container h-full w-full flex flex-col items-center justify-start space-y-2 transition-color text-black dark:text-blue-500 duration-500 relative">
-        {error && (
-          <div className="fixed top-16  mb-2 h-min inset-x-0 w-full py-4 px-2 bg-black dark:bg-white text-center text-white dark:text-black text-sm z-10 whitespace-pre rounded">
-            {error}
-          </div>
-        )}
-        <div className="bienvenueMsg-newcomer w-full h-16 flex items-center justify-center text-center whitespace-pre mb-2">
-          {!isAuthenticated ? (
-            <span className="font-bold">{userLanguage?.feed.greetingVisitorMode}&nbsp;</span>
-          ) : isNewUser ? (
-            <div className="w-max font-bold flex flex-col items-center justify-center text-sm ">
-              <span className="w-full max-w-[100vw] flex items-center justify-center px-4">
-                <span className="">{userLanguage?.feed.greetingVisitor1}&nbsp;</span>
-                <span className="capitalize w-min md:w-[80%] text-left overflow-x-hidden overflow-ellipsis">
-                  {user.username}!
-                </span>
-              </span>
-              <span className="inline-block">{userLanguage?.feed.greetingVisitor2}</span>
-            </div>
-          ) : (
-            <span className="font-bold">
-              {userLanguage?.feed.greetingUser}&nbsp;
-              <span className="capitalize w-min md:w-[80%] text-left overflow-x-hidden overflow-ellipsis">{user.username}!</span>
-            </span>
-          )}
-        </div>
+        <Error />
+        <FeedGreetings />
         <div className="w-full h-full flex flex-col items-center justify-center space-y-4">
           <div className="posts-aside-container w-full flex items-start justify-center pt-2 md:space-x-8 -translate-y-6">
             <div className="posts-section-container w-full flex flex-col items-center justify-center pb-20 relative">

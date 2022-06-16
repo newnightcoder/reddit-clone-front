@@ -14,16 +14,6 @@ const StepUsername = () => {
   const userLanguage = useLanguage();
   const error = useError();
 
-  const time = {
-    year: new Date().getFullYear(),
-    month: new Date().getMonth(),
-    day: new Date().getDate(),
-    hour: new Date().getHours(),
-    minute: new Date().getMinutes(),
-    second: new Date().getSeconds(),
-  };
-  const date = `${time.year}-${time.month}-${time.day}-${time.hour}-${time.minute}-${time.second}`;
-
   const toNextStep = usernameAdded ? { transform: "translateX(0%)" } : { transform: "translateX(100%)" };
 
   const handleInput = useCallback(
@@ -41,9 +31,9 @@ const StepUsername = () => {
     (e) => {
       e.preventDefault();
       console.log("working babe");
-      dispatch(saveUserName(userId, userName, date));
+      dispatch(saveUserName(userId, userName));
     },
-    [dispatch, userId, userName, date]
+    [dispatch, userId, userName]
   );
 
   return (

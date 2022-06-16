@@ -6,8 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { giphyDark } from "../assets";
 import { clearTempPostImg, toggleEditModal } from "../store/actions/posts.action";
-import { history } from "../utils/helpers";
-import { isObjectEmpty } from "../utils/helpers/isObjectEmpty";
+import { history, isObjectEmpty } from "../utils/helpers";
 import { useLanguage, useWindowSize } from "../utils/hooks";
 import LinkPreview from "./LinkPreview";
 

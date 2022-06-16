@@ -95,7 +95,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
         <Layout>
           <div
             ref={commentContainer}
-            className="border border-green-500 w-full flex flex-col items-center justify-start relative mb-16 md:mb-0 pb-8 overflow-x-hidden"
+            className="w-full flex flex-col items-center justify-start relative mb-16 md:mb-0 pb-8 overflow-x-hidden"
           >
             {error && errorType !== "emptyComment" && errorType !== "emptyReply" && (
               <div className="fixed top-16  z-[100] h-min inset-x-0 w-full py-4 px-2 bg-black dark:bg-white text-center text-white dark:text-black text-sm z-10 whitespace-pre rounded">

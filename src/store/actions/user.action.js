@@ -70,7 +70,7 @@ export const logUserAction = (email, password) => async (dispatch) => {
   }
 };
 
-export const createUser = (email, password) => async (dispatch) => {
+export const createUser = (email, password, date) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_USER });
   const request = {
     headers: {
@@ -81,6 +81,7 @@ export const createUser = (email, password) => async (dispatch) => {
     body: JSON.stringify({
       email,
       password,
+      date,
     }),
   };
   try {
@@ -100,7 +101,7 @@ export const createUser = (email, password) => async (dispatch) => {
   }
 };
 
-export const saveUserName = (id, username, creationDate) => async (dispatch) => {
+export const saveUserName = (id, username) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_USER });
   const request = {
     headers: {
@@ -108,7 +109,7 @@ export const saveUserName = (id, username, creationDate) => async (dispatch) => 
       "Content-Type": "application/json",
     },
     method: "POST",
-    body: JSON.stringify({ id, username, creationDate }),
+    body: JSON.stringify({ id, username }),
   };
   try {
     const response = await fetch(`${API_USER}/username`, request);
