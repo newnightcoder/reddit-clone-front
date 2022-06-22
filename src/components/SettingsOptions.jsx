@@ -1,5 +1,4 @@
 import { CheckIcon, ChevronLeftIcon } from "@heroicons/react/solid";
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { setLanguage } from "../store/actions/user.action";
@@ -15,11 +14,14 @@ const SettingsOptions = ({ isSettingsOpen, isActive, langOptions, toggleOption, 
   const { lang, appearance, subtitleLang, subtitleMode } = userLanguage.options;
   const { height, width } = useWindowSize();
   const { pathname } = useLocation();
+  const landingPage = pathname === "/";
+  const loginPage = pathname === "/login";
+  const signupPage = pathname === "/signup";
 
   return (
     <div
       className={`${isSettingsOpen ? "flex" : "hidden"} ${
-        width < breakpoint.md ? "bottom-0" : "top-0"
+        landingPage || signupPage || loginPage ? "top-0" : width < breakpoint.md ? "bottom-0" : "top-0"
       } z-40 w-52 px-2 pb-2 absolute left-0 flex-col items-start justify-start bg-white dark:bg-gray-700 rounded-lg shadow-xl `}
     >
       <button

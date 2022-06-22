@@ -1,11 +1,12 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Image, Link45deg, XLg } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 // import { useLocation } from "react-router";
 import { useLocation } from "react-router-dom";
 import { giphyDark } from "../assets";
 import { clearTempPostImg, toggleEditModal } from "../store/actions/posts.action";
+import { breakpoint } from "../utils/breakpoints";
 import { history, isObjectEmpty } from "../utils/helpers";
 import { useLanguage, useWindowSize } from "../utils/hooks";
 import LinkPreview from "./LinkPreview";
@@ -53,7 +54,7 @@ const PostForm = ({
 
   return (
     <form
-      className={`${width < 768 && editPage ? "min-h-[calc(100vh-8rem)]" : editPage ? "min-h-[max-content]" : ""} ${
+      className={`${width < breakpoint.md && editPage ? "min-h-[calc(100vh-8rem)]" : editPage ? "min-h-[max-content]" : ""} ${
         pathname !== "/edit" ? "h-min" : "h-full"
       } w-full flex flex-col items-center justify-start md:justify-center space-y-4 transition-color duration-500 bg-white dark:bg-gray-900 border dark:border-gray-700 md:rounded pt-4 ${
         editPage ? "pb-24" : "pb-6"
@@ -131,21 +132,21 @@ const PostForm = ({
           {!commentPage && (
             <div className="w-max h-full flex items-center justify-start space-x-2">
               <button
-                className="w-max text-gray-500 dark:text-gray-100 text-xs rounded-full transition-color duration-300 border border-gray-200 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-100 px-4 py-2 bg-transparent ouline-none flex items-center justify-start space-x-1"
+                className="h-10 w-max text-gray-500 dark:text-gray-100 text-xs rounded-full transition-color duration-300 border border-gray-200 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-100 px-4 py-2 bg-transparent ouline-none flex items-center justify-start space-x-1"
                 onClick={(e) => toggleImgUploadModal(e)}
               >
                 <Image size={16} className="text-gray-900 dark:text-gray-100" />
                 <span className="hidden md:inline-block text-sm">{userLanguage.createPost.imgBtn}</span>
               </button>
               <button
-                className="w-max  text-gray-500 dark:text-gray-100 text-xs rounded-full transition-color duration-300 border border-gray-200 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-100 px-4 py-2 bg-transparent ouline-none flex items-center justify-start space-x-1"
+                className="h-10 w-max text-gray-500 dark:text-gray-100 text-xs rounded-full transition-color duration-300 border border-gray-200 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-100 px-4 py-2 bg-transparent ouline-none flex items-center justify-start space-x-1"
                 onClick={(e) => toggleGifModal(e)}
               >
                 <img src={giphyDark} width="25" alt="giphy logo" />{" "}
                 <span className="hidden md:inline-block text-sm">{userLanguage.createPost.gifBtn}</span>
               </button>
               <button
-                className="w-max  text-gray-500 dark:text-gray-100 text-xs rounded-full transition-color duration-300 border border-gray-200 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-100 px-4 py-2 bg-transparent ouline-none flex items-center justify-start"
+                className="h-10 w-max text-gray-500 dark:text-gray-100 text-xs rounded-full transition-color duration-300 border border-gray-200 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-100 px-4 py-2 bg-transparent ouline-none flex items-center justify-start"
                 onClick={(e) => toggleLinkModal(e)}
               >
                 <Link45deg size={20} className="text-gray-900 dark:text-gray-100" />
@@ -154,11 +155,11 @@ const PostForm = ({
             </div>
           )}
           <button
-            className="flex items-center justify-center space-x-1 text-white py-3 px-6 rounded-full shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
+            className="h-10 w-10 3xs:h-max 3xs:w-max flex items-center justify-center space-x-1 text-white 3xs:py-3 3xs:px-6 rounded-full shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
             type="submit"
           >
             <PaperAirplaneIcon className="h-5 text-white transform rotate-45 -translate-y-0.5" />
-            <span className="text-sm uppercase">{userLanguage.createPost.publishBtn}</span>
+            <span className="hidden 3xs:inline-block text-sm uppercase">{userLanguage.createPost.publishBtn}</span>
           </button>
         </div>
       </div>

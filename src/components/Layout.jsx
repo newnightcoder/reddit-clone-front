@@ -1,15 +1,17 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { Aside, Menu, NavBar, NavBarDesktop, Overlay, SessionExpiredModal, VisitorModal } from ".";
 import { useToggleSettings } from "../utils/hooks";
 
 const Layout = ({ children }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isExpired, setIsExpired] = useState(false);
-
   const sessionExpired = useSelector((state) => state?.posts?.sessionExpired);
-
   const { settingsOpen, toggleSettings } = useToggleSettings();
+  const { pathname } = useLocation();
+  const createPostPage = pathname === "/create";
+  const editPostPage = pathname === "/edit";
 
   useEffect(() => {
     if (sessionExpired) setIsExpired(true);
@@ -33,11 +35,10 @@ const Layout = ({ children }) => {
       <NavBar toggleMenu={toggleMenu} />
       <div className="h-full w-full mt-16 relative flex items-start justify-center transition-color duration-500 bg-gray-200 dark:bg-gray-800">
         <div
-          className={`grid grid-cols-1 md:grid-cols-layout md:gap-x-12 md:px-16 justify-items-center w-full md:w-max  2xl:w-3/4 transition-color duration-500 dark:border-gray-800 relative`}
+          className={`grid grid-cols-1 md:grid-cols-layout md:gap-x-12 md:px-16 justify-items-center w-full h-full md:w-max  2xl:w-3/4 transition-color duration-500 dark:border-gray-800 relative`}
         >
-          {/* flex items-start justify-center md:space-x-4  */}
           <NavBarDesktop toggleSettings={toggleSettings} settingsOpen={settingsOpen} />
-          <div className="w-full">{children}</div>
+          <div className={`${createPostPage || editPostPage ? "md:min-w-[500px]" : ""} w-full`}>{children}</div>
           <Aside />
         </div>
       </div>

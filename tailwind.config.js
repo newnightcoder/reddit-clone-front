@@ -15,6 +15,12 @@ module.exports = {
         yellow: colors.yellow,
         orange: colors.orange,
       },
+      screens: {
+        "2xs": "480px",
+      },
+      screens: {
+        "3xs": "362px",
+      },
       gridTemplateColumns: {
         // Complex site-specific column configuration
         layout: "min-content minmax(200px, 700px) min-content",

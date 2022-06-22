@@ -1,5 +1,5 @@
 import { ChevronRightIcon, TranslateIcon } from "@heroicons/react/solid";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { LifePreserver, ToggleOn } from "react-bootstrap-icons";
 import { useLocation } from "react-router-dom";
 import language from "../languages";
@@ -50,17 +50,19 @@ const Settings = ({ settingsOpen, isMenuOpen }) => {
           : isMenuOpen
           ? "top-full"
           : width < breakpoint.md
-          ? "-top-36"
+          ? "bottom-16"
           : width < breakpoint.xl
-          ? "top-[16.5rem]"
+          ? "top-[9.6rem]"
           : width >= breakpoint.xl
-          ? "top-[13.5rem]"
+          ? "top-[6.6rem]"
           : ""
       } ${
         landingPage || loginPage || signupPage
           ? "left-auto"
           : isMenuOpen
           ? "left-0"
+          : width < breakpoint.xxs
+          ? "right-4"
           : width < breakpoint.md
           ? "left-1/2"
           : width < breakpoint.xl

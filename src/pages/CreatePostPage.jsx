@@ -1,6 +1,5 @@
 import "draft-js/dist/Draft.css";
-import React, { useCallback, useEffect, useState } from "react";
-// import ContentEditable from "react-contenteditable";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Error, GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
 import { clearErrorPost, clearTempPostImg, clearTempPreview, createPost, setErrorPost } from "../store/actions/posts.action";
