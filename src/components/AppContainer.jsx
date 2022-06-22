@@ -13,7 +13,7 @@ import {
 
 const AppContainer = () => {
   return (
-    <div className="min-h-screen w-full md:min-w-[280px] relative transition-color duration-500 bg-gray-200 dark:bg-gray-800">
+    <div className="min-h-screen w-full md:min-w-[320px] relative transition-color duration-500 bg-gray-200 dark:bg-gray-800">
       <Switch>
         <Route path="/" exact component={HomePage} />
         <Route path="/login" component={LoginPage} />
