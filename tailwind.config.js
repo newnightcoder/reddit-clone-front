@@ -23,7 +23,7 @@ module.exports = {
       },
       gridTemplateColumns: {
         layout: "min-content minmax(200px, 700px) min-content",
-        login: "60% 40%",
+        login: "70% 30%",
       },
       gridTemplateRows: {
         homepage: "1fr 5rem",

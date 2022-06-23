@@ -1,5 +1,4 @@
 import { SearchIcon } from "@heroicons/react/solid";
-import React from "react";
 import { Power } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -101,7 +100,7 @@ const NavBar = ({ toggleMenu }) => {
             ></div>
             <div className="flex flex-col items-start">
               {isAuthenticated && <span className="text-xs underline whitespace-nowrap">{userLanguage.navbar.connected}</span>}
-              <span className="capitalize font-bold whitespace-nowrap underline max-w-[10ch] overflow-x-hidden overflow-ellipsis pr-1">
+              <span className="capitalize font-bold whitespace-nowrap max-w-[10ch] overflow-x-hidden overflow-ellipsis pr-1">
                 {isAuthenticated && username ? username : isAuthenticated && !username ? "Noname" : userLanguage.navbar.visitor}
               </span>
             </div>
@@ -110,7 +109,7 @@ const NavBar = ({ toggleMenu }) => {
             {isAuthenticated ? (
               <button
                 tabIndex="0"
-                className="hidden xl:flex items-center justify-center gap-1 outline-none bg-transparent transform translate-x-8 hover:underline hover:font-bold"
+                className="hidden w-24 xl:flex items-center justify-center gap-1 outline-none bg-transparent transform translate-x-8 hover:underline hover:font-bold"
                 onClick={() => history.push("/")}
               >
                 <span className="capitalize">{userLanguage.navbar.logout}</span> <Power size={18} className="font-bold" />

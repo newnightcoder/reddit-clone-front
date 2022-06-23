@@ -33,7 +33,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <NavBar toggleMenu={toggleMenu} />
-      <div className="h-full w-full mt-16 relative flex items-start justify-center transition-colors duration-500 bg-gray-200 dark:bg-gray-800">
+      <div className="h-full w-full mt-16 relative flex items-start justify-center transition-colors duration-500 bg-gray-200 dark:bg-black">
         <div
           className={`grid grid-cols-1 md:grid-cols-layout md:gap-x-12 md:px-16 justify-items-center w-full h-full md:w-max  2xl:w-3/4 transition-color duration-500 dark:border-gray-800 relative`}
         >

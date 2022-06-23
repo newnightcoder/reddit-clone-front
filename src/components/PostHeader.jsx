@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { picPlaceholder } from "../assets";
 import { formatTimestamp } from "../utils/helpers/formatTime";
@@ -10,7 +9,7 @@ const PostHeader = ({ post }) => {
   const handleLink = useHandleLink();
 
   return (
-    <div className="top w-full flex items-start justify-start border-b transition-color duration-500 border-gray-100 dark:border-gray-800 pt-2 pb-1 px-4">
+    <div className="top w-full flex items-start justify-start border-b transition-color duration-500 border-gray-100 dark:border-gray-800 pt-3 md:pt-2 pb-1 px-4">
       <div className="left-column h-full w-max pr-1 flex justify-center">
         <button
           className="avatar-container outline-none border-[1px] dark:border-gray-600 w-11 h-11 rounded-full hover:cursor-pointer"
@@ -41,7 +40,7 @@ const PostHeader = ({ post }) => {
             >
               <div className="w-full text-left overflow-hidden overflow-ellipsis">
                 <span className="text-xs">@</span>
-                <span className="w-full text-left">{authorName}</span>
+                <span className="w-full text-left">{authorName ? authorName : "Noname"}</span>
               </div>
             </button>
             <div className="w-min text-xs italic whitespace-nowrap">{formatTimestamp(date, "post", language)}</div>

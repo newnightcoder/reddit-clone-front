@@ -1,5 +1,5 @@
 import { TrashIcon } from "@heroicons/react/solid";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import { useLocation } from "react-router-dom";
@@ -98,7 +98,7 @@ const Profile = () => {
             ) : (
               <div
                 style={{ minHeight: "calc(100vh - 7rem)" }}
-                className="bg-white dark:bg-gray-900 w-full h-max rounded-md md:mt-8 flex flex-col items-center justify-start space-y-3 pb-24 md:pb-12"
+                className="bg-white dark:bg-gray-900 transition duration-500 w-full h-max rounded-md md:mt-8 flex flex-col items-center justify-start space-y-3 pb-24 md:pb-12"
               >
                 <div
                   style={{
@@ -183,7 +183,7 @@ const Profile = () => {
                     <div className="relative w-full h-full flex items-center justify-evenly">
                       <button
                         onClick={!postTabOpen ? toggleTabs : undefined}
-                        className="h-12 w-1/2 flex items-center justify-center outline-none font-bold hover:bg-gray-200 dark:hover:bg-gray-700"
+                        className="h-12 w-1/2 flex items-center justify-center rounded-tl rounded-tr outline-none font-bold hover:bg-gray-200 dark:hover:bg-gray-700"
                       >
                         {userData?.id !== id ? (
                           <>
@@ -196,12 +196,12 @@ const Profile = () => {
                       </button>
                       <button
                         onClick={postTabOpen ? toggleTabs : undefined}
-                        className="h-12 w-1/2 flex items-center justify-center outline-none font-bold hover:bg-gray-200 dark:hover:bg-gray-700"
+                        className="h-12 w-1/2 flex items-center justify-center rounded-tl rounded-tr outline-none font-bold hover:bg-gray-200 dark:hover:bg-gray-700"
                       >
                         {`Likes (${likedPosts.length})`}
                       </button>
                       <div
-                        className={`absolute left-0 bottom-0 w-1/2 h-1 bg-blue-500 transform transition duration-100 ${
+                        className={`absolute left-0 bottom-0 w-1/2 h-1 bg-blue-500 rounded-full transform transition duration-100 ${
                           postTabOpen ? "translate-x-0" : "translate-x-full"
                         }`}
                       ></div>

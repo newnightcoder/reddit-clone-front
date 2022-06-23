@@ -17,10 +17,10 @@ const Homepage = () => {
   }, []);
 
   return (
-    <Div100vh className="w-full border-2 border-green-500 relative flex flex-col items-center justify-start transition-colors duration-500 bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-100">
+    <Div100vh className="w-full relative flex flex-col items-center justify-start transition-colors duration-500 bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-100">
       <BtnSettings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
-      <div className="border-2 border-red-300 h-full w-full grid grid-rows-homepage gap-10 md:flex md:flex-col md:items-center md:justify-between md:space-y-8 pt-10 md:pt-0">
-        <div className="main-section border-2 border-purple-400 h-max md:h-full w-full md:min-h-[500px] max-w-[1300px] flex flex-col md:flex-row items-center justify-center md:justify-center md:px-12">
+      <div className="h-full w-full grid grid-rows-homepage gap-10 md:flex md:flex-col md:items-center md:justify-between md:space-y-8 pt-10 md:pt-0 pb-2">
+        <div className="main-section h-max md:h-full w-full md:min-h-[500px] max-w-[1300px] flex flex-col md:flex-row items-center justify-center md:justify-center md:px-12">
           <div className="hero-img hidden h-full w-[60%] z-50 md:flex items-center justify-center md:justify-end pt-8 2xl:pt-14">
             <img src={heroImg} alt="forum mockup on laptop and mobile phone" className="w-full max-w-[1200px]" />
           </div>
@@ -86,7 +86,7 @@ const Homepage = () => {
             </div>
           </div>
         </div>
-        <div className="bottom-section border-2 border-purple-400 w-full h-max flex flex-col items-center justify-center md:space-y-4 md:pt-4">
+        <div className="bottom-section w-full h-max flex flex-col items-center justify-center md:space-y-4 md:pt-4">
           <div className="flex flex-col items-center justify-start md:justify-center -space-y-1 md:space-y-2">
             <button className="outline-none text-xs pb-2 md:pb-0 underline px-2">{userLanguage?.homepage.download}</button>
             <div className="flex items-center justify-center space-x-2 h-10">

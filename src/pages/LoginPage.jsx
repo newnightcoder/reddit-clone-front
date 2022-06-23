@@ -104,14 +104,14 @@ const Login = () => {
             </form>
           </div>
         </div>
-        <div className="bottom-section md:dark:bg-gray-600 md:bg-featherLight md:dark:bg-featherDark bg-no-repeat bg-center bg-90 flex items-center justify-start self-end md:self-auto h-min w-4/5 md:h-full md:w-full text-center border-t md:border-none border-black dark:border-white py-2 md:py-0">
+        <div className="bottom-section md:bg-blue-400 md:dark:bg-blue-500 md:bg-featherLight md:dark:bg-featherDark bg-no-repeat bg-center bg-90 flex items-center justify-start self-end md:self-auto h-min w-4/5 md:h-full md:w-full text-center border-t md:border-none border-black dark:border-white py-2 md:py-0">
           <div className="md:h-full w-full flex flex-col items-center justify-center space-x-2 md:px-16">
-            <span className="whitespace-nowrap text-gray-900 dark:text-white transition-colors duration-500">
+            <span className="whitespace-nowrap text-gray-900 dark:text-white transition-colors duration-500 hover:text-blue-500">
               {userLanguage.login.first}?
             </span>
             <Link
               to="/signup"
-              className="font-bold underline uppercase text-blue-400 transition-colors duration-300 hover:text-blue-600"
+              className="font-bold underline uppercase text-black dark:text-white transition duration-300 hover:text-blue-600"
             >
               {userLanguage.login.registerBtn}
             </Link>

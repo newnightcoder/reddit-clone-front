@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteModal, Options, PostFooter, PostHeader } from ".";
+import { useLocation } from "react-router-dom";
+import { DeleteModal, LinkPreview, Options, PostFooter, PostHeader } from ".";
 import "../index.css";
 import { deletePost } from "../store/actions/posts.action";
 import { likePost, toComment } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
-import LinkPreview from "./LinkPreview";
 
 const Post = ({ post, aside }) => {
   const {
@@ -37,6 +37,8 @@ const Post = ({ post, aside }) => {
   const postContainerRef = useRef();
   const optionsRef = useRef();
   const optionsBtnRef = useRef();
+  const { pathname } = useLocation();
+  const profilePage = pathname.includes("/profile");
 
   const toggleOptions = useCallback(() => {
     return setOptionsOpen((optionsOpen) => !optionsOpen);
@@ -83,12 +85,7 @@ const Post = ({ post, aside }) => {
   );
   const closeOptions = useCallback(
     (e) => {
-      if (
-        optionsOpen &&
-        // e.target.id !== optionsRef?.current.id &&
-        // e.target.id !== optionsBtnRef?.current.id &&
-        e.currentTarget.id === postContainerRef?.current?.id
-      ) {
+      if (optionsOpen && e.currentTarget.id === postContainerRef?.current?.id) {
         console.log("click on post");
         toggleOptions();
       }
@@ -124,10 +121,11 @@ const Post = ({ post, aside }) => {
     <div
       id="postContainer"
       ref={postContainerRef}
-      // onClick={optionsOpen ? toggleOptions : undefined}
       className={`post-container ${postId === lastPostAdded && "animate-post"} ${isDeleted && "scale-0"} ${
         postIsGone && "hidden"
-      } h-max w-full relative md:rounded-md flex-col items-center justify-center text-gray-900 dark:text-gray-300 border-t border-b md:border dark:border-gray-700 transition duration-500 bg-white dark:bg-gray-900 pt-2`}
+      } h-max w-full relative md:rounded-md flex-col items-center justify-center text-gray-900 dark:text-gray-300 border-t border-b md:border ${
+        profilePage ? "md:border-gray-400 dark:md:border-gray-600" : "md:border-gray-300 dark:md:border-gray-700"
+      } hover:border-gray-900 dark:hover:border-gray-400 transition duration-500 bg-white dark:bg-gray-900 pt-2`}
     >
       {(openModal && userId === fk_userId_post) || (openModal && role === "admin") ? (
         <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"post"} postId={postId} />

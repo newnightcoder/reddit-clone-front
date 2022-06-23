@@ -1,5 +1,5 @@
 import { RefreshIcon } from "@heroicons/react/solid";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Error, FeedGreetings, Layout, Post, Skeleton } from "../components";
 import { clearTempPostImg, clearTempPreview, getLikes, getPosts } from "../store/actions/posts.action";
@@ -32,7 +32,7 @@ const Feed = () => {
 
   return (
     <Layout>
-      <div className="feed-container h-full w-full flex flex-col items-center justify-start space-y-2 transition-color text-black dark:text-blue-500 duration-500 relative">
+      <div className="feed-container h-full w-full flex flex-col items-center justify-start space-y-2 transition-color text-black dark:text-gray-100 duration-500 relative">
         <Error />
         <FeedGreetings />
         <div className="w-full h-full flex flex-col items-center justify-center space-y-4">
@@ -50,7 +50,7 @@ const Feed = () => {
               </div>
               <div
                 ref={postsContainer}
-                className="posts-wrapper h-full w-full relative flex flex-col items-center justify-center space-y-4 pb-6"
+                className="posts-wrapper h-full w-full relative flex flex-col items-center justify-center space-y-2 md:space-y-4 pb-6"
               >
                 {posts.length === 0 ? (
                   <Skeleton element="post" number={8} />

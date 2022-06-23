@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link as LinkIcon } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -32,7 +32,7 @@ const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previe
   }, [dispatch, setImgUrl, isObjectEmpty]);
 
   return (
-    <div className="h-max w-full rounded border border-gray-400 dark:border-gray-700 pb-4 mt-1 flex flex-col items-center justify-start space-y-3 border rounded-md ">
+    <div className="h-max w-full rounded border border-gray-300 dark:border-gray-800 pb-4 mt-1 flex flex-col items-center justify-start space-y-3 border rounded-md ">
       <div
         style={{
           backgroundColor: "white",
