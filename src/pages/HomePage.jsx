@@ -19,12 +19,12 @@ const Homepage = () => {
   return (
     <Div100vh className="w-full border-2 border-green-500 relative flex flex-col items-center justify-start transition-colors duration-500 bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-100">
       <BtnSettings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
-      <div className="border-2 border-red-300 h-full md:h-full w-full flex flex-col items-center justify-between space-y-8 pt-10 md:pt-0 pb-2 ">
-        <div className="main-section border-2 border-purple-400 h-max md:h-full w-full md:min-h-[500px] max-w-[1300px] flex flex-col md:flex-row items-center justify-between md:justify-center md:px-12">
+      <div className="border-2 border-red-300 h-full w-full grid grid-rows-homepage gap-10 md:flex md:flex-col md:items-center md:justify-between md:space-y-8 pt-10 md:pt-0">
+        <div className="main-section border-2 border-purple-400 h-max md:h-full w-full md:min-h-[500px] max-w-[1300px] flex flex-col md:flex-row items-center justify-center md:justify-center md:px-12">
           <div className="hero-img hidden h-full w-[60%] z-50 md:flex items-center justify-center md:justify-end pt-8 2xl:pt-14">
             <img src={heroImg} alt="forum mockup on laptop and mobile phone" className="w-full max-w-[1200px]" />
           </div>
-          <div className="header-btns-section h-max md:h-full w-full md:w-[40%] flex flex-col items-center justify-start md:justify-center space-y-12 md:space-y-6 2xl:space-y-10">
+          <div className="header-btns-section h-max md:h-full w-full md:w-[40%] flex flex-col items-center justify-start md:justify-center space-y-6 md:space-y-6 2xl:space-y-10">
             <div className="header-container w-full h-max flex flex-col items-center justify-center space-y-8 md:space-y-4">
               <header className="h-max flex flex-col items-center justify-center space-y-2">
                 <svg
@@ -52,7 +52,7 @@ const Homepage = () => {
                     </clipPath>
                   </defs>
                 </svg>
-                <p className="max-w-[310px] md:max-w-[400px] text-sm text-center px-2">{userLanguage.homepage.introText}</p>
+                <p className="w-full max-w-[85%] md:max-w-[400px] text-sm text-center">{userLanguage.homepage.introText}</p>
               </header>
             </div>
             <div className="btns-container w-full flex flex-col items-center justify-center space-y-5">

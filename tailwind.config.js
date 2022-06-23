@@ -22,8 +22,13 @@ module.exports = {
         "3xs": "362px",
       },
       gridTemplateColumns: {
-        // Complex site-specific column configuration
         layout: "min-content minmax(200px, 700px) min-content",
+        login: "60% 40%",
+      },
+      gridTemplateRows: {
+        homepage: "1fr 5rem",
+        login: "minmax(max-content, 1fr) min-content",
+        main: "max-content minmax(max-content, 350px)",
       },
       keyframes: {
         postAppear: {
@@ -47,14 +52,14 @@ module.exports = {
       },
       backgroundImage: {
         hero: "url('/src/assets/mockup-1000.png')",
+        featherDark: "url('/src/assets/feather.svg')",
+        featherLight: "url('/src/assets/feather-lightgray.svg')",
+        featherBlue: "url('/src/assets/feather-blue.svg')",
       },
       backgroundSize: {
         90: "110%",
+        10: "10%",
       },
-      // screens: {
-      //   landscape: { raw: "(max-height: 400px)" },
-      //   // => @media (min-height: 800px) { ... }
-      // },
     },
   },
   variants: {

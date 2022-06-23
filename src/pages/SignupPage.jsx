@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -70,30 +70,38 @@ const Signup = () => {
 
   return (
     <Div100vh
-      className="flex flex-col items-center justify-between pt-24 pb-10 md:pt-24 relative transition duration-500 bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-200"
+      className="w-full relative flex flex-col items-center justify-start pb-3 md:pb-0 pt-16 md:pt-0 transition-colors duration-500 text-gray-900 dark:text-gray-200"
       style={toNextStep}
     >
       <BtnSettings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
-      <LoginHeader />
       <Error />
-      <SignupForm
-        isEmail={isEmail}
-        isUppercase={isUppercase}
-        isLowercase={isLowercase}
-        isNumber={isNumber}
-        isLong={isLong}
-        handleNewEmail={handleNewEmail}
-        handleNewPass={handleNewPass}
-        handleNewUserSubmit={handleNewUserSubmit}
-      />
-      <div className="h-min w-4/5 md:w-96 border-t border-black dark:border-white transition duration-500 text-black dark:text-white py-2 flex items-center justify-center gap-2">
-        {userLanguage.signup.already}
-        <Link
-          to="/login"
-          className="font-bold underline uppercase text-blue-500 transition-color duration-300 hover:text-blue-600"
-        >
-          {userLanguage.signup.alreadyBtn}
-        </Link>
+      <div className="page-container h-full w-full grid grid-rows-login justify-items-center md:grid-rows-none md:grid-cols-login">
+        <div className="header-form self-center h-max w-full md:w-max justify-self-center grid grid-rows-main gap-6 lg:translate-x-20">
+          <LoginHeader />
+          <SignupForm
+            isEmail={isEmail}
+            isUppercase={isUppercase}
+            isLowercase={isLowercase}
+            isNumber={isNumber}
+            isLong={isLong}
+            handleNewEmail={handleNewEmail}
+            handleNewPass={handleNewPass}
+            handleNewUserSubmit={handleNewUserSubmit}
+          />
+        </div>
+        <div className="bottom-section md:bg-featherLight md:dark:bg-featherDark bg-no-repeat bg-center bg-contain h-min md:h-max w-4/5 md:w-full md:bg-gray-100 md:dark:bg-gray-600 flex items-center justify-start self-end md:self-auto text-center transition duration-500 border-t md:border-none border-black dark:border-white py-2 md:py-20">
+          <div className="md:h-full md:max-h-[500px] w-full flex flex-col items-center justify-center space-x-2 md:px-16">
+            <span className="whitespace-nowrap text-gray-900 dark:text-gray-200 transition-colors duration-500 ">
+              {userLanguage.signup.already}
+            </span>
+            <Link
+              to="/login"
+              className="font-bold underline uppercase text-blue-400 transition-colors duration-300 hover:text-blue-500"
+            >
+              {userLanguage.signup.alreadyBtn}
+            </Link>
+          </div>
+        </div>
       </div>
       {userCreated && <StepUsername userId={userId}></StepUsername>}
       <Settings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />

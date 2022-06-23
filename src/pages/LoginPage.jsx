@@ -1,5 +1,5 @@
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -56,53 +56,67 @@ const Login = () => {
   }, [dispatch]);
 
   return (
-    <Div100vh className="w-full relative flex flex-col items-center justify-between pt-24 pb-10 md:pt-24 transition-colors duration-500 bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-200">
+    <Div100vh className="w-full relative flex flex-col items-center justify-start pt-16 md:pt-0 pb-3 md:pb-0 transition-colors duration-500 md:bg-gray-100 md:dark:bg-gray-600 text-gray-900 dark:text-gray-200">
       <BtnSettings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
-      <LoginHeader />
       <Error />
-      <form method="post" className="h-max flex flex-col items-center justify-center gap-4" onSubmit={handleUserSubmit}>
-        <div className="flex flex-col items-start">
-          <label htmlFor="email">Email</label>
-          <input
-            className="w-64 rounded p-1 border border-blue-400 bg-gray-100 text-gray-900 dark:bg-gray-600 dark:text-gray-100 outline-none"
-            type="email"
-            id="email"
-            onChange={handleEmail}
-          ></input>
-        </div>
-        <div className="flex flex-col items-start">
-          <label htmlFor="password">{userLanguage.login.pass}</label>
-          <div className="w-64 h-max flex items-center justify-start relative">
-            <input
-              className="w-full rounded py-1 pl-1 pr-10 border border-blue-400 bg-gray-100 text-gray-900 dark:bg-gray-600 dark:text-gray-100 outline-none"
-              type={passwordType}
-              id="password"
-              onChange={handlePass}
-            ></input>
-            <button type="button" className="h-max w-8 absolute right-0 pr-1 outline-none">
-              {passwordType === "password" ? (
-                <EyeOffIcon className="h-5" onClick={() => setPasswordType("text")} />
-              ) : (
-                <EyeIcon className="h-5" onClick={() => setPasswordType("password")} />
-              )}
-            </button>
+      <div className="page-container h-full w-full grid grid-rows-login justify-items-center md:grid-rows-none md:grid-cols-login">
+        <div className="header-form-container h-full w-full flex items-center justify-center bg-gray-200 dark:bg-black">
+          <div className="header-form self-center h-max w-full md:w-max justify-self-center grid grid-rows-main lg:translate-x-20">
+            <LoginHeader />
+            <form
+              method="post"
+              className="h-full max-h-[350px] flex flex-col items-center justify-center gap-4"
+              onSubmit={handleUserSubmit}
+            >
+              <div className="w-64 h-max  flex flex-col items-start">
+                <label htmlFor="email">Email</label>
+                <input
+                  className="w-full rounded p-1 border border-blue-400 bg-gray-100 dark:bg-gray-500 text-gray-900 dark:text-gray-100 outline-none focus:bg-white dark:focus:bg-gray-600"
+                  type="email"
+                  id="email"
+                  onChange={handleEmail}
+                ></input>
+              </div>
+              <div className="flex flex-col items-start">
+                <label htmlFor="password">{userLanguage.login.pass}</label>
+                <div className="w-64 h-max flex items-center justify-start relative">
+                  <input
+                    className="w-full rounded py-1 pl-1 pr-10 border border-blue-400 bg-gray-100 dark:bg-gray-500 text-gray-900 dark:text-gray-100 outline-none focus:bg-white dark:focus:bg-gray-600"
+                    type={passwordType}
+                    id="password"
+                    onChange={handlePass}
+                  ></input>
+                  <button type="button" className="h-max w-8 absolute right-0 pr-1 outline-none">
+                    {passwordType === "password" ? (
+                      <EyeOffIcon className="h-5" onClick={() => setPasswordType("text")} />
+                    ) : (
+                      <EyeIcon className="h-5" onClick={() => setPasswordType("password")} />
+                    )}
+                  </button>
+                </div>
+              </div>
+              <button
+                className="w-[15.5rem] text-white bg-blue-400 p-2 rounded-full transform translate-y-2 md:translate-y-8 disabled:opacity-50 shadow-xl transition-all duration-300 hover:bg-blue-500 hover:shadow-none uppercase"
+                disabled={!isEmail || password.length < 8 ? true : false}
+              >
+                {!isLoading || error ? <span>{userLanguage.login.enter}</span> : <SyncLoader size={8} color={"#ffffff"} />}
+              </button>
+            </form>
           </div>
         </div>
-        <button
-          className="w-48 text-white p-2 rounded transform translate-y-2 disabled:opacity-50 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none uppercase"
-          disabled={!isEmail || password.length < 8 ? true : false}
-        >
-          {!isLoading || error ? <span>{userLanguage.login.enter}</span> : <SyncLoader size={8} color={"#ffffff"} />}
-        </button>
-      </form>
-      <div className="w-4/5 md:w-96 text-center transition duration-500 border-t border-black dark:border-white py-2 flex items-center justify-center space-x-2">
-        <span>{userLanguage.login.first}?</span>
-        <Link
-          to="/signup"
-          className="font-bold underline uppercase text-blue-500 transition-color duration-300 hover:text-blue-600"
-        >
-          {userLanguage.login.registerBtn}
-        </Link>
+        <div className="bottom-section md:dark:bg-gray-600 md:bg-featherLight md:dark:bg-featherDark bg-no-repeat bg-center bg-90 flex items-center justify-start self-end md:self-auto h-min w-4/5 md:h-full md:w-full text-center border-t md:border-none border-black dark:border-white py-2 md:py-0">
+          <div className="md:h-full w-full flex flex-col items-center justify-center space-x-2 md:px-16">
+            <span className="whitespace-nowrap text-gray-900 dark:text-white transition-colors duration-500">
+              {userLanguage.login.first}?
+            </span>
+            <Link
+              to="/signup"
+              className="font-bold underline uppercase text-blue-400 transition-colors duration-300 hover:text-blue-600"
+            >
+              {userLanguage.login.registerBtn}
+            </Link>
+          </div>
+        </div>
       </div>
       <Settings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
     </Div100vh>
