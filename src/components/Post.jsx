@@ -123,7 +123,7 @@ const Post = ({ post, aside }) => {
       ref={postContainerRef}
       className={`post-container ${postId === lastPostAdded && "animate-post"} ${isDeleted && "scale-0"} ${
         postIsGone && "hidden"
-      } h-max w-full relative md:rounded-md flex-col items-center justify-center text-gray-900 dark:text-gray-300 border-t border-b md:border ${
+      } h-max w-full relative md:rounded-md flex-col items-center justify-center text-gray-900 dark:text-gray-300 border-t border-b dark:border-gray-700 md:border ${
         profilePage ? "md:border-gray-400 dark:md:border-gray-600" : "md:border-gray-300 dark:md:border-gray-700"
       } hover:border-gray-900 dark:hover:border-gray-400 transition duration-500 bg-white dark:bg-gray-900 pt-2`}
     >
