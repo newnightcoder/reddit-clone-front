@@ -22,7 +22,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
         width: width >= 1280 ? "14rem" : width > 768 ? "min-content" : width < 768 ? "100%" : "",
         marginTop: width > 768 ? "" : "4rem",
       }}
-      className="navbar-mobile fixed bottom-0 md:relative h-16 md:h-full w-full md:w-min flex items-start justify-center z-30 border-t transition duration-500 dark:border-gray-600 md:dark:border-none md:justify-start md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent shadow-xl md:shadow-none"
+      className="navbar-mobile fixed bottom-0 md:relative h-16 md:h-full w-full md:w-min flex items-start justify-center z-30 border-t transition duration-500 dark:border-gray-700 md:dark:border-none md:justify-start md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent shadow-xl md:shadow-none"
     >
       <div
         style={{ width: "100%", maxWidth: width < 768 ? "550px" : "", top: width > 768 ? "6rem" : "" }}

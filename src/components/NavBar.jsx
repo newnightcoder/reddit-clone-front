@@ -14,7 +14,7 @@ const NavBar = ({ toggleMenu }) => {
 
   return (
     <div className="h-16 w-full fixed top-0 overflow-hidden z-[1000] shadow-md">
-      <div className=" h-full w-full pl-0 md:pl-2 pr-4 flex items-center justify-between md:justify-evenly space-x-1 md:space-x-2 transition duration-500 dark:text-white bg-gray-100 dark:bg-gray-900">
+      <div className=" h-full w-full pl-0 md:pl-2 pr-4 flex items-center justify-between md:justify-evenly space-x-1 md:space-x-2 transition duration-500 dark:text-white bg-gray-100 dark:bg-gray-900 dark:border-b dark:border-gray-700">
         <Link
           to="/feed"
           className=" h-5/6 w-36 flex items-center justify-center ml-0 md:ml-3 mr-2"
