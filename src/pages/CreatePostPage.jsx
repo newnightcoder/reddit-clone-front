@@ -6,7 +6,7 @@ import { clearErrorPost, clearTempPostImg, clearTempPreview, createPost, setErro
 import { clearErrorUser } from "../store/actions/user.action";
 import { history, isObjectEmpty } from "../utils/helpers";
 import { createDate } from "../utils/helpers/formatTime";
-import { useError, useHandleLink } from "../utils/hooks";
+import { useError, useHandleLink, useLanguage } from "../utils/hooks";
 
 const CreatePost = () => {
   const [title, setTitle] = useState("");
@@ -23,6 +23,7 @@ const CreatePost = () => {
   const dispatch = useDispatch();
   const handleLink = useHandleLink();
   const error = useError();
+  const userLanguage = useLanguage();
 
   const deletePreview = useCallback(() => {
     setIsPreview(0);
@@ -90,24 +91,24 @@ const CreatePost = () => {
   return (
     <>
       <Layout>
-        <div className="w-full flex flex-col items-center justify-start pb-32 md:pb-16 md:pt-8">
-          <div className="w-full h-full flex items-start justify-center space-x-8">
-            <div className="h-max w-full flex flex-col items-center justify-center">
-              <Error />
-              <PostForm
-                title={title}
-                handlePostSubmit={handlePostSubmit}
-                handleTitleInput={handleTitleInput}
-                toggleImgUploadModal={toggleImgUploadModal}
-                toggleGifModal={toggleGifModal}
-                toggleLinkModal={toggleLinkModal}
-                handlePostInput={handlePostInput}
-                imgDom={imgDom}
-                setImgDom={setImgDom}
-                setIsPreview={setIsPreview}
-              />
-            </div>
-          </div>
+        <div className="w-full flex flex-col items-center justify-start pb-32 md:pb-16 pt-24">
+          <Error />
+          <span className="absolute top-8 mx-auto font-bold text-sm italic text-gray-900 dark:text-blue-400 text-center whitespace-nowrap">
+            {userLanguage.createPost.heading1} <br />
+            {userLanguage.createPost.heading2}
+          </span>
+          <PostForm
+            title={title}
+            handlePostSubmit={handlePostSubmit}
+            handleTitleInput={handleTitleInput}
+            toggleImgUploadModal={toggleImgUploadModal}
+            toggleGifModal={toggleGifModal}
+            toggleLinkModal={toggleLinkModal}
+            handlePostInput={handlePostInput}
+            imgDom={imgDom}
+            setImgDom={setImgDom}
+            setIsPreview={setIsPreview}
+          />
           <ImgUploadModal
             imgInputModalOpen={imgInputModalOpen}
             toggleImgUploadModal={toggleImgUploadModal}

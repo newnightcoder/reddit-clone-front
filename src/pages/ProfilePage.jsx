@@ -102,9 +102,16 @@ const Profile = () => {
               >
                 <div
                   style={{
-                    background: `url(${
-                      bannerUrl ? bannerUrl : userData.bannerUrl ? userData.bannerUrl : bannerPlaceholder
-                    }) no-repeat center/cover`,
+                    background: `${
+                      userData?.id === id && bannerUrl
+                        ? `url(${bannerUrl})`
+                        : userData?.id === id && !bannerUrl
+                        ? `url(${bannerPlaceholder})`
+                        : userData?.id !== id && userData?.bannerUrl
+                        ? `url(${userData?.bannerUrl})`
+                        : `url(${bannerPlaceholder})`
+                    }                      
+                     no-repeat center/cover`,
                   }}
                   className="top-section relative h-48 w-full pb-2 flex flex-col items-center justify-center gap-2 md:rounded-tl-md md:rounded-tr-md"
                 >
@@ -127,9 +134,9 @@ const Profile = () => {
                   <div
                     className="w-36 h-36 rounded-full border-4 border-white dark:border-gray-900 absolute left-4 -bottom-20"
                     style={
-                      userData?.username === username && picUrl !== null
+                      userData?.id === id && picUrl !== null
                         ? { background: `url(${picUrl}) no-repeat center/cover` }
-                        : userData?.username !== username && userData?.picUrl !== null
+                        : userData?.id !== id && userData?.picUrl !== null
                         ? { background: `url(${userData?.picUrl}) no-repeat center/cover` }
                         : { background: `url(${picPlaceholder}) no-repeat center/cover` }
                     }

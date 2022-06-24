@@ -1,6 +1,6 @@
 import { ChatAltIcon, ChevronDoubleLeftIcon } from "@heroicons/react/solid";
 import "draft-js/dist/Draft.css";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import { PulseLoader } from "react-spinners";
@@ -106,10 +106,12 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
               style={{ width: `${size}` }}
               className={`backBtn-container h-16 fixed top-16 z-50 flex items-center justify-center space-x-2`}
             >
-              <div className="w-full h-full transition-color duration-500 bg-gray-200 dark:bg-gray-800 text-black dark:text-white flex items-center justify-start pl-8 space-x-2">
+              <div className="w-full h-full transition-color duration-500 bg-gray-200 dark:bg-black text-black dark:text-white flex items-center justify-start pl-4 space-x-2">
                 <button
                   onClick={() => history.push("/feed")}
-                  className="w-max flex items-center justify-center space-x-2 outline-none font-bold"
+                  className={`w-max flex items-center justify-center space-x-2 outline-none font-bold transition duration-300 ${
+                    size ? "opacity-100" : "opacity-0"
+                  }`}
                 >
                   <ChevronDoubleLeftIcon className="h-4" />
                   <span className="underline">{userLanguage.commentPage.backLink}</span>

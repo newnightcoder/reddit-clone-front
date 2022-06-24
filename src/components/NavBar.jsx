@@ -18,7 +18,7 @@ const NavBar = ({ toggleMenu }) => {
         <Link
           to="/feed"
           className=" h-5/6 w-36 flex items-center justify-center ml-0 md:ml-3 mr-2"
-          style={{ transform: width < 768 ? "translateY(-3px)" : "translateY(-6px)" }}
+          style={{ transform: width < 768 ? "translateY(-3px)" : "translateY(-5px)" }}
         >
           <svg
             className="h-5/6 md:h-full transition duration-300"

@@ -45,7 +45,7 @@ const PostHeader = ({ post }) => {
             </button>
             <div className="w-min text-xs italic whitespace-nowrap">{formatTimestamp(date, "post", language)}</div>
           </div>
-          <div className="title text-lg font-bold h-max w-full pl-1 break-all">{title}</div>
+          <div className="title text-lg font-bold h-max w-full pl-1 break-words">{title}</div>
         </div>
       </div>
     </div>

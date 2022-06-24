@@ -78,12 +78,12 @@ const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previe
           </span>
         </a>
         {logo ? (
-          <a href={url ? url : previewUrl && previewUrl} target="_blank" rel="noreferrer" className="w-1/4 cursor-pointer">
-            <img src={logo} width="50" alt="publication logo" className="w-full h-full" />
+          <a href={url ? url : previewUrl && previewUrl} target="_blank" rel="noreferrer" className="h-6 w-6 cursor-pointer">
+            <img src={logo} alt="publication logo" className="w-full h-full" />
           </a>
         ) : (
           previewPubLogo && (
-            <a href={url ? url : previewUrl && previewUrl} target="_blank" rel="noreferrer">
+            <a href={url ? url : previewUrl && previewUrl} target="_blank" rel="noreferrer" className="h-6 w-6 cursor-pointer">
               <img src={previewPubLogo} width="50" alt="publication logo" />
             </a>
           )

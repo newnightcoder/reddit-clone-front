@@ -55,6 +55,8 @@ module.exports = {
         featherDark: "url('/src/assets/feather.svg')",
         featherLight: "url('/src/assets/feather-lightgray.svg')",
         featherBlue: "url('/src/assets/feather-blue.svg')",
+        byebye: "url('/src/assets/bye.gif')",
+        expired: "url('/src/assets/expired.gif')",
       },
       backgroundSize: {
         90: "110%",

@@ -7,7 +7,7 @@ import { useToggleSettings } from "../utils/hooks";
 const Layout = ({ children }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isExpired, setIsExpired] = useState(false);
-  const sessionExpired = useSelector((state) => state?.posts?.sessionExpired);
+  const { sessionExpired } = useSelector((state) => state.posts);
   const { settingsOpen, toggleSettings } = useToggleSettings();
   const { pathname } = useLocation();
   const createPostPage = pathname === "/create";
