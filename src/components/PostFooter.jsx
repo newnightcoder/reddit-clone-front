@@ -2,7 +2,18 @@ import { ChatRight, HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "re
 import { useSelector } from "react-redux";
 import { useHandleLink, useLanguage } from "../utils/hooks";
 
-const PostFooter = ({ toggleOptions, toCommentPage, likesNumber, commentsNumber, handleLike, postId, like, optionsBtnRef }) => {
+const PostFooter = ({
+  optionsOpen,
+  setOptionsOpen,
+  toggleOptions,
+  toCommentPage,
+  likesNumber,
+  commentsNumber,
+  handleLike,
+  postId,
+  like,
+  optionsBtnRef,
+}) => {
   const { isAuthenticated } = useSelector((state) => state.user);
   const handleLink = useHandleLink();
   const userLanguage = useLanguage();

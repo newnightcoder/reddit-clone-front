@@ -1,5 +1,5 @@
 import { FlagIcon, PencilIcon, ShareIcon, TrashIcon, XIcon } from "@heroicons/react/solid";
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setEditId, toggleEditModal } from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
@@ -17,27 +17,18 @@ const Options = ({
   optionsOpen,
   optionsRef,
 }) => {
-  const { id: user, role } = useSelector((state) => state?.user);
+  const { id: userId, role } = useSelector((state) => state?.user);
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
 
-  // const contentToEdit =
-  //   postId !== undefined
-  //     ? { id: postId, type: "post" }
-  //     : commentId !== undefined
-  //     ? { id: commentId, type: "comment" }
-  //     : replyId !== undefined && { id: replyId, type: "reply" };
-
   const dispatchEditInfo = useCallback(() => {
-    dispatch(
-      setEditId(
-        postId !== undefined
-          ? { id: postId, type: "post" }
-          : commentId !== undefined
-          ? { id: commentId, type: "comment" }
-          : replyId !== undefined && { id: replyId, type: "reply" }
-      )
-    );
+    const contentToEdit =
+      postId !== undefined
+        ? { id: postId, type: "post" }
+        : commentId !== undefined
+        ? { id: commentId, type: "comment" }
+        : replyId !== undefined && { id: replyId, type: "reply" };
+    dispatch(setEditId(contentToEdit));
   }, [dispatch, setEditId, postId, commentId, replyId]);
 
   const handleOptionEdit = useCallback(() => {
@@ -59,9 +50,9 @@ const Options = ({
         <XIcon className="h-4 text-white pointer-events-none" />
       </button>
 
-      {((postUserId !== undefined && user === postUserId) ||
-        (commentUserId !== undefined && user === commentUserId) ||
-        (replyUserId !== undefined && user === replyUserId)) && (
+      {((postUserId !== undefined && userId === postUserId) ||
+        (commentUserId !== undefined && userId === commentUserId) ||
+        (replyUserId !== undefined && userId === replyUserId)) && (
         <button
           className="h-max w-11/12 border border-gray-500 rounded-full px-2 py-px flex items-center justify-center space-x-2 hover:text-white hover:underline hover:font-bold group"
           onClick={handleOptionEdit}
@@ -75,16 +66,16 @@ const Options = ({
         <span>{userLanguage.postOptions.share}</span>
       </button>
 
-      {((postUserId !== undefined && user !== postUserId) ||
-        (commentUserId !== undefined && user !== commentUserId) ||
-        (replyUserId !== undefined && user !== replyUserId)) && (
+      {((postUserId !== undefined && userId !== postUserId) ||
+        (commentUserId !== undefined && userId !== commentUserId) ||
+        (replyUserId !== undefined && userId !== replyUserId)) && (
         <button className="h-max w-11/12 border border-gray-500 rounded-full px-2 py-px flex items-center justify-center space-x-2 hover:text-white hover:underline hover:font-bold group">
           <FlagIcon className="h-4 text-gray-300 group-hover:text-white" /> <span>{userLanguage.postOptions.report}</span>
         </button>
       )}
-      {((postUserId !== undefined && user === postUserId) ||
-        (commentUserId !== undefined && user === commentUserId) ||
-        (replyUserId !== undefined && user === replyUserId) ||
+      {((postUserId !== undefined && userId === postUserId) ||
+        (commentUserId !== undefined && userId === commentUserId) ||
+        (replyUserId !== undefined && userId === replyUserId) ||
         role === "admin") && (
         <button
           className="h-max w-11/12 border border-gray-500 rounded-full px-2 py-px flex items-center justify-center space-x-2 hover:text-white hover:underline hover:font-bold group"

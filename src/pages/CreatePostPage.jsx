@@ -91,9 +91,9 @@ const CreatePost = () => {
   return (
     <>
       <Layout>
-        <div className="w-full flex flex-col items-center justify-start pb-32 md:pb-16 pt-24">
+        <div className="w-full flex flex-col items-center justify-start pb-32 md:pb-16 pt-20 md:pt-24">
           <Error />
-          <span className="absolute top-8 mx-auto font-bold text-sm italic text-gray-900 dark:text-blue-400 text-center whitespace-nowrap">
+          <span className="absolute top-5 md:top-8 mx-auto font-bold text-sm italic text-gray-900 dark:text-blue-400 text-center whitespace-nowrap">
             {userLanguage.createPost.heading1} <br />
             {userLanguage.createPost.heading2}
           </span>

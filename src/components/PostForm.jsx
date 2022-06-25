@@ -2,7 +2,6 @@ import { PaperAirplaneIcon } from "@heroicons/react/solid";
 import { useEffect } from "react";
 import { Image, Link45deg, XLg } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-// import { useLocation } from "react-router";
 import { useLocation } from "react-router-dom";
 import { giphyDark } from "../assets";
 import { clearTempPostImg, toggleEditModal } from "../store/actions/posts.action";
@@ -56,7 +55,7 @@ const PostForm = ({
     <form
       className={`${width < breakpoint.md && editPage ? "min-h-[calc(100vh-8rem)]" : editPage ? "min-h-[max-content]" : ""} ${
         pathname !== "/edit" ? "h-min" : "h-full"
-      } w-full flex flex-col items-center justify-start md:justify-center space-y-4 transition-color duration-500 bg-white dark:bg-gray-900 border dark:border-gray-700 md:rounded pt-4 ${
+      } w-full flex flex-col items-center justify-start md:justify-center space-y-4 transition-color duration-500 bg-white dark:bg-gray-900 border-t border-b md:border dark:border-gray-700 md:rounded pt-4 ${
         editPage ? "pb-24" : "pb-6"
       } md:pt-6 md:pb-6 px-4`}
       method="post"

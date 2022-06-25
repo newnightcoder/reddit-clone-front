@@ -1,5 +1,5 @@
 import { CogIcon, PencilIcon, TrashIcon, UserIcon } from "@heroicons/react/solid";
-import React, { useState } from "react";
+import { useState } from "react";
 import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -54,10 +54,10 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
             <img src={logo_mobile_blue} className="h-6" alt="forum logo" />
             {isAuthenticated ? (
               <span>
-                {userLanguage.navbarDesktop.member} {creationDate?.length !== 0 && formatTimestamp(creationDate, null, language)}
+                {userLanguage.menu.member} {creationDate?.length !== 0 && formatTimestamp(creationDate, null, language)}
               </span>
             ) : (
-              <span>{userLanguage.navbarDesktop.visitor}</span>
+              <span>{userLanguage.menu.visitor}</span>
             )}
           </span>
         </div>
@@ -73,19 +73,19 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
               }}
             >
               <UserIcon className="h-6 text-gray-500 dark:text-gray-200" />
-              <span>{userLanguage.navbarDesktop.profile}</span>
+              <span>{userLanguage.menu.profile}</span>
             </button>
           </li>
           <li>
             <button
               className="flex items-center justify-center space-x-2 px-3 py-1 border-2 border-transparent transition-color duration-100 hover:border-blue-400 rounded-full"
               onClick={() => {
-                handleLink("post");
-                isAuthenticated && toggleMenu();
+                history.push("/create");
+                toggleMenu();
               }}
             >
               <PencilIcon className="h-6 text-gray-500 dark:text-gray-200" />
-              <span>{userLanguage.navbarDesktop.publish}</span>
+              <span>{userLanguage.menu.publish}</span>
             </button>
           </li>
           <li>
@@ -96,7 +96,7 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
               onClick={toggleSettings}
             >
               <CogIcon className="h-6 text-gray-500 dark:text-gray-200" />
-              <span className="inline-block">{userLanguage.navbarDesktop.settings}</span>
+              <span className="inline-block">{userLanguage.menu.settings}</span>
             </button>
             <div className="w-full relative transition duration-300 h-max pt-1">
               <Settings settingsOpen={settingsOpen} isMenuOpen={isMenuOpen} />
@@ -108,7 +108,7 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
               onClick={() => (isAuthenticated ? setOpenModal(true) : handleLink("delete"))}
             >
               <TrashIcon className="h-6 text-gray-500 dark:text-gray-200" />
-              <span>{userLanguage.navbarDesktop.delete}</span>
+              <span className="whitespace-nowrap">{userLanguage.menu.delete}</span>
             </button>
           </li>
         </ul>
@@ -117,7 +117,7 @@ const Menu = ({ isMenuOpen, toggleMenu }) => {
         style={{ minWidth: "50%" }}
         className="h-12 w-max flex items-center justify-center space-x-1 border border-green-500 text-green-500 text-sm rounded-full"
       >
-        <span className="w-3 h-3 rounded-full bg-green-500 "></span> <span>{userLanguage.navbarDesktop.status}</span>
+        <span className="w-3 h-3 rounded-full bg-green-500 "></span> <span>{userLanguage.menu.status}</span>
       </div>
       {openModal && (
         <DeleteModal

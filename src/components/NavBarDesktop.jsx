@@ -8,7 +8,7 @@ import { history } from "../utils/helpers";
 import { useDarkMode, useHandleLink, useLanguage, useWindowSize } from "../utils/hooks";
 import Settings from "./Settings";
 
-const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
+const NavBarDesktop = ({ toggleSettings, settingsOpen, toggleMenu }) => {
   const { id, username } = useSelector((state) => state.user);
   const { width } = useWindowSize();
   const { pathname } = useLocation();
@@ -19,13 +19,13 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
   return (
     <div
       style={{
-        width: width >= 1280 ? "14rem" : width > 768 ? "min-content" : width < 768 ? "100%" : "",
-        marginTop: width > 768 ? "" : "4rem",
+        width: width >= 1280 ? "14rem" : width > breakpoint.md ? "min-content" : width < breakpoint.md ? "100%" : "",
+        marginTop: width > breakpoint.md ? "" : "4rem",
       }}
       className="navbar-mobile fixed bottom-0 md:relative h-16 md:h-full w-full md:w-min flex items-start justify-center z-30 border-t transition duration-500 dark:border-gray-700 md:dark:border-none md:justify-start md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent shadow-xl md:shadow-none"
     >
       <div
-        style={{ width: "100%", maxWidth: width < 768 ? "550px" : "", top: width > 768 ? "6rem" : "" }}
+        style={{ width: "100%", maxWidth: width < breakpoint.md ? "550px" : "", top: width > breakpoint.md ? "6rem" : "" }}
         className=" md:sticky  md:mt-24 flex h-min md:flex-col items-center justify-evenly md:justify-center md:space-y-4 py-2 md:py-0  md:pb-4 whitespace-nowrap md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent"
       >
         <NavLink
@@ -66,7 +66,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen }) => {
               : null
           }
           className="xl:w-full outline-none ring-none flex items-center justify-center rounded-full xl:justify-start space-x-1 xl:pl-2 xl:pr-4 border-2 border-transparent bg-transparent md:bg-white md:dark:bg-transparent xl:bg-transparent xl:dark:bg-transparent md:dark:bg-gray-600 transition duration-300 text-gray-500 md:text-black dark:text-white hover:bg-blue-400 dark:hover:bg-blue-500 hover:text-black md:hover:text-white"
-          onClick={() => handleLink("profile", id, username)}
+          onClick={width > breakpoint.md ? () => handleLink("profile", id, username) : toggleMenu}
         >
           <div className="w-10 h-10 xl:w-max  xl:border-0 rounded-full relative flex items-center justify-center">
             <UserIcon className="h-6 w-8" />

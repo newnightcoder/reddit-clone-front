@@ -131,14 +131,14 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
               />
               <div className="comments-container w-full  flex flex-col items-center justify-center">
                 {!commentsToDisplay ? (
-                  <div className="w-full flex flex-col items-center justify-center mt-3 md:border border-red-300 md:rounded">
+                  <div className="w-full flex flex-col items-center justify-center mt-3 md:rounded">
                     <span className="w-full flex items-center justify-center space-x-1 uppercase italic md:rounded text-center text-white px-2 py-1 bg-[#ef5350]">
                       <span>{userLanguage.commentPage.comments}</span>
                       <div className="translate-y-0.5">
                         <PulseLoader size={6} color={"#ffffff"} />
                       </div>
                     </span>
-                    <div className="h-20 w-full animate-pulse transition-color duration-500 bg-gray-200 dark:bg-gray-800 flex flex-col items-center justify-center gap-2 md:rounded-bl md:rounded-br border border-red-300"></div>
+                    <div className="h-20 w-full animate-pulse transition-color duration-500 bg-gray-200 dark:bg-gray-800 flex flex-col items-center justify-center gap-2 md:rounded-bl md:rounded-br"></div>
                   </div>
                 ) : commentsToDisplay.length > 0 ? (
                   <div className="w-full h-max flex flex-col items-center justify-center mt-3 md:rounded">

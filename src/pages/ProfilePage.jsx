@@ -4,15 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import { useLocation } from "react-router-dom";
 import { bannerPlaceholder, logo_mobile_blue, picPlaceholder } from "../assets";
-import { DeleteModal, EditUsernameModal, Error, Layout, Post, ProfileOptions, Skeleton } from "../components";
+import { DeleteModal, EditUsernameModal, Error, Followers, Layout, Post, ProfileOptions, Skeleton } from "../components";
 import { getUserPosts } from "../store/actions/posts.action";
-import { deleteUser } from "../store/actions/user.action";
+import { deleteUser, followUser } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
-import { formatTimestamp } from "../utils/helpers/formatTime";
-import { useError, useGetProfile, useLanguage } from "../utils/hooks";
+import { date, formatTimestamp } from "../utils/helpers/formatTime";
+import { useGetProfile, useLanguage, useToggleBox } from "../utils/hooks";
 
 const Profile = () => {
-  const { id, picUrl, bannerUrl, username, creationDate, role, isAuthenticated, language } = useSelector((state) => state?.user);
+  const { id, picUrl, bannerUrl, username, creationDate, role, followingCount, followersCount, isAuthenticated, language } =
+    useSelector((state) => state?.user);
   const { userPosts, posts, likes } = useSelector((state) => state?.posts);
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -24,7 +25,28 @@ const Profile = () => {
   const profileId = isAuthenticated ? location?.state?.profileId : null;
   const userData = useGetProfile(profileId);
   const userLanguage = useLanguage();
-  const error = useError();
+  const initialCount = userData?.followersCount;
+  const [updatedFollowers, setUpdatedFollowers] = useState(initialCount);
+  const [followersOpen, setFollowersOpen] = useState(false);
+  const [isFollowersClicked, setIsFollowersClicked] = useState(false);
+
+  const toggleDeleteModal = useToggleBox(openModal, setOpenModal);
+  const toggleEditModal = useToggleBox(openEditModal, setOpenEditModal);
+  const toggleProfileOptions = useToggleBox(openProfileOptions, setOpenProfileOptions);
+  const toggleTabs = useToggleBox(postTabOpen, setPostTabOpen);
+  const toggleFollowers = useToggleBox(followersOpen, setFollowersOpen);
+
+  const formatNumber = useCallback((number) => {
+    const thousand = 1000;
+    const million = 1000000;
+    if (number >= million) return `${number / 1000000}M`;
+    if (number >= thousand) return `${number / 1000}K`;
+    return number;
+  }, []);
+
+  const updateCount = useCallback(() => {
+    setUpdatedFollowers(updatedFollowers + 1);
+  }, [userData, setUpdatedFollowers, updatedFollowers]);
 
   const getLikedPostArray = useCallback(() => {
     const postsArr = [];
@@ -46,28 +68,14 @@ const Profile = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (error) return;
+    console.log("USER DATA IN PROFILE PAGE", userData);
+    setUpdatedFollowers(initialCount);
+  }, [userData]);
+
+  useEffect(() => {
     dispatch(getUserPosts(profileId));
     getLikedPostArray();
-  }, [profileId, error, userData, dispatch]);
-
-  const toggleTabs = useCallback(() => {
-    if (postTabOpen) {
-      return setPostTabOpen(false);
-    } else setPostTabOpen(true);
-  }, [postTabOpen, setPostTabOpen]);
-
-  const toggleDeleteModal = useCallback(() => {
-    setOpenModal((openModal) => !openModal);
-  }, []);
-
-  const toggleEditModal = useCallback(() => {
-    setOpenEditModal((openEditModal) => !openEditModal);
-  }, [setOpenEditModal]);
-
-  const toggleProfileOptions = useCallback(() => {
-    setOpenProfileOptions((prevState) => !prevState);
-  }, [setOpenProfileOptions]);
+  }, [profileId, userData, dispatch]);
 
   const handleDeleteProfile = useCallback(
     (profileId) => {
@@ -76,7 +84,7 @@ const Profile = () => {
         history.push("/fin");
       } else if (profileId === userData?.id) {
         dispatch(deleteUser(userData?.id));
-        history.push({ pathname: "/fin", state: { admin: true } });
+        history.push("/fin");
       }
     },
     [dispatch, id, userData]
@@ -98,136 +106,181 @@ const Profile = () => {
             ) : (
               <div
                 style={{ minHeight: "calc(100vh - 7rem)" }}
-                className="bg-white dark:bg-gray-900 transition duration-500 w-full h-max rounded-md md:mt-8 flex flex-col items-center justify-start space-y-3 pb-24 md:pb-12"
+                className={`bg-white relative dark:bg-gray-900 transition duration-500 border-2 border-purple-500 w-full h-max rounded-md md:mt-8 flex items-center justify-start overflow-x-hidden`}
               >
+                <Followers
+                  toggleFollowers={toggleFollowers}
+                  followersOpen={followersOpen}
+                  username={userData.username}
+                  userId={userData.id}
+                  bool={isFollowersClicked}
+                />
                 <div
-                  style={{
-                    background: `${
-                      userData?.id === id && bannerUrl
-                        ? `url(${bannerUrl})`
-                        : userData?.id === id && !bannerUrl
-                        ? `url(${bannerPlaceholder})`
-                        : userData?.id !== id && userData?.bannerUrl
-                        ? `url(${userData?.bannerUrl})`
-                        : `url(${bannerPlaceholder})`
-                    }                      
-                     no-repeat center/cover`,
-                  }}
-                  className="top-section relative h-48 w-full pb-2 flex flex-col items-center justify-center gap-2 md:rounded-tl-md md:rounded-tr-md"
+                  className={`border-2 border-red-500 w-full h-max  transition duration-300 ${
+                    followersOpen ? "-translate-x-full" : "translate-x-0"
+                  } rounded-md  flex flex-col items-center justify-start pb-24 md:pb-12`}
                 >
-                  {profileId === id && (
-                    <button
-                      className="absolute top-4 right-4 flex items-center justify-center space-x-1 text-xs italic text-white py-1 px-6 rounded-full shadow-xl bg-blue-400 dark:bg-black transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
-                      onClick={toggleProfileOptions}
-                    >
-                      {userLanguage.profile.editBtn}
-                    </button>
-                  )}
-                  {openProfileOptions && (
-                    <ProfileOptions
-                      setOpenModal={setOpenModal}
-                      toggleEditModal={toggleEditModal}
-                      toggleProfileOptions={toggleProfileOptions}
-                      profileId={profileId}
-                    />
-                  )}
                   <div
-                    className="w-36 h-36 rounded-full border-4 border-white dark:border-gray-900 absolute left-4 -bottom-20"
-                    style={
-                      userData?.id === id && picUrl !== null
-                        ? { background: `url(${picUrl}) no-repeat center/cover` }
-                        : userData?.id !== id && userData?.picUrl !== null
-                        ? { background: `url(${userData?.picUrl}) no-repeat center/cover` }
-                        : { background: `url(${picPlaceholder}) no-repeat center/cover` }
-                    }
-                  ></div>
-                  {openEditModal && <EditUsernameModal toggleEditModal={toggleEditModal} openEditModal={openEditModal} />}
-                </div>
-                <div className="username-member relative h-max w-full self-start transform flex flex-col items-start justify-start">
-                  <span className="translate-x-40 text-xl font-bold capitalize w-[calc(100vw-12rem)] md:w-[68%] overflow-x-hidden overflow-ellipsis pl-1 pr-4">
-                    {id === profileId && username
-                      ? username
-                      : id === profileId && !username
-                      ? "Noname"
-                      : userData.username
-                      ? userData.username
-                      : "Noname"}
-                  </span>
-                  <span className="block italic text-sm flex items-center justify-center space-x-1 transform translate-x-40">
-                    <img src={logo_mobile_blue} className="h-6" alt="forum logo" />
-                    <span>{userLanguage.profile.member}</span>
-                    <span>
-                      {userData?.creationDate
-                        ? formatTimestamp(userData?.creationDate, null, language)
-                        : creationDate?.length !== 0
-                        ? formatTimestamp(creationDate, null, language)
-                        : null}
-                    </span>
-                  </span>
-                </div>
-
-                <div className="main-container h-full w-10/12 flex flex-col items-center justify-start"></div>
-                <div className="w-10/12 pl-4">
-                  {role === "admin" && userData?.id !== id && (
+                    style={{
+                      background: `${
+                        userData?.id === id && bannerUrl
+                          ? `url(${bannerUrl})`
+                          : userData?.id === id && !bannerUrl
+                          ? `url(${bannerPlaceholder})`
+                          : userData?.id !== id && userData?.bannerUrl
+                          ? `url(${userData?.bannerUrl})`
+                          : `url(${bannerPlaceholder})`
+                      }
+                       no-repeat center/cover`,
+                    }}
+                    className="top-section mb-2 relative h-48 w-full pb-2 flex flex-col items-center justify-center space-y-2 md:rounded-tl-md md:rounded-tr-md"
+                  >
+                    {profileId === id && (
+                      <button
+                        className="absolute top-4 right-4 flex items-center justify-center space-x-1 text-xs italic text-white py-1 px-6 rounded-full shadow-xl bg-blue-400 dark:bg-black transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
+                        onClick={toggleProfileOptions}
+                      >
+                        {userLanguage.profile.editBtn}
+                      </button>
+                    )}
+                    {openProfileOptions && (
+                      <ProfileOptions
+                        setOpenModal={setOpenModal}
+                        toggleEditModal={toggleEditModal}
+                        toggleProfileOptions={toggleProfileOptions}
+                        profileId={profileId}
+                      />
+                    )}
+                    <div
+                      className="w-36 h-36 rounded-full border-4 border-white dark:border-gray-900 absolute left-4 -bottom-20"
+                      style={
+                        userData?.id === id && picUrl !== null
+                          ? { background: `url(${picUrl}) no-repeat center/cover` }
+                          : userData?.id !== id && userData?.picUrl !== null
+                          ? { background: `url(${userData?.picUrl}) no-repeat center/cover` }
+                          : { background: `url(${picPlaceholder}) no-repeat center/cover` }
+                      }
+                    ></div>
+                    {openEditModal && <EditUsernameModal toggleEditModal={toggleEditModal} openEditModal={openEditModal} />}
                     <button
-                      className="flex items-center justify-center space-x-1 text-md rounded-full hover:drop-shadow"
-                      onClick={() => setOpenModal(true)}
+                      className="z-10 followBtn absolute right-4 bottom-0 translate-y-[calc(100%+.75rem)] flex items-center justify-center space-x-1 text-md bg-blue-500 text-white text-sm px-4 py-1 rounded-full hover:drop-shadow"
+                      onClick={() => {
+                        dispatch(followUser(id, profileId, true, date));
+                        updateCount();
+                      }}
                     >
-                      <TrashIcon className="h-8 text-gray-700" />
-                      {userLanguage.profile.modDeleteBtn}
+                      <span>follow</span>
                     </button>
-                  )}
-                </div>
-                {openModal && (
-                  <DeleteModal
-                    toggleDeleteModal={toggleDeleteModal}
-                    handleDeleteProfile={handleDeleteProfile}
-                    origin={role === "admin" && userData?.id !== id ? "profile-admin" : "profile"}
-                  />
-                )}
-                <div className="w-full h-full md:w-11/12 flex flex-col items-center justify-center">
-                  <div className="w-full h-min px-4">
-                    <div className="relative w-full h-full flex items-center justify-evenly">
-                      <button
-                        onClick={!postTabOpen ? toggleTabs : undefined}
-                        className="h-12 w-1/2 flex items-center justify-center rounded-tl rounded-tr outline-none font-bold hover:bg-gray-200 dark:hover:bg-gray-700"
-                      >
-                        {userData?.id !== id ? (
-                          <>
-                            {userLanguage.profile.userPosts}&nbsp;
-                            {`(${userPosts.length})`}
-                          </>
-                        ) : (
-                          `${userLanguage.profile.posts} (${userPosts.length})`
-                        )}
-                      </button>
-                      <button
-                        onClick={postTabOpen ? toggleTabs : undefined}
-                        className="h-12 w-1/2 flex items-center justify-center rounded-tl rounded-tr outline-none font-bold hover:bg-gray-200 dark:hover:bg-gray-700"
-                      >
-                        {`Likes (${likedPosts.length})`}
-                      </button>
-                      <div
-                        className={`absolute left-0 bottom-0 w-1/2 h-1 bg-blue-500 rounded-full transform transition duration-100 ${
-                          postTabOpen ? "translate-x-0" : "translate-x-full"
-                        }`}
-                      ></div>
+                    <div className="deleteBtn absolute left-4 top-4 w-10/12 pl-4">
+                      {role === "admin" && userData?.id !== id && (
+                        <button
+                          className="flex items-center justify-center space-x-1 text-md bg-black text-white text-sm  pl-2 pr-3 py-1 rounded-full hover:drop-shadow"
+                          onClick={() => setOpenModal(true)}
+                        >
+                          <TrashIcon className="h-6 text-white" />
+                          <span>{userLanguage.profile.modDeleteBtn}</span>
+                        </button>
+                      )}
                     </div>
                   </div>
-                  <div className="w-full h-full flex items-center justify-center pt-4 border-t border-gray-200 dark:border-gray-700 transition duration-500">
-                    {postTabOpen ? (
-                      <div className="w-full h-max flex flex-col items-center justify-center space-y-3">
-                        {userPosts.map((post) => (
-                          <Post key={post.postId} post={post} />
-                        ))}
+                  <div className="username-member mb-2  relative h-max w-full self-start transform flex flex-col items-start justify-start">
+                    <span className="translate-x-40 text-xl font-bold capitalize w-[calc(100vw-12rem)] md:w-[68%] overflow-x-hidden overflow-ellipsis pl-1 pr-4">
+                      {id === profileId && username
+                        ? username
+                        : id === profileId && !username
+                        ? "Noname"
+                        : userData.username
+                        ? userData.username
+                        : "Noname"}
+                    </span>
+                    <div className="italic text-sm flex items-center justify-center space-x-1 transform translate-x-40 mt-1">
+                      <img src={logo_mobile_blue} className="h-6" alt="forum logo" />
+                      <span>{userLanguage.menu.member}</span>
+                      <span>
+                        {userData?.creationDate
+                          ? formatTimestamp(userData?.creationDate, null, language)
+                          : creationDate?.length !== 0
+                          ? formatTimestamp(creationDate, null, language)
+                          : null}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="w-full flex items-center justify-start space-x-2 text-sm translate-x-40 pl-2 mb-4">
+                    <button
+                      className="outline-none"
+                      onClick={() => {
+                        setIsFollowersClicked(false);
+                        toggleFollowers();
+                      }}
+                    >
+                      <span className="font-bold font-sans">{profileId === id ? followingCount : userData?.followingCount}</span>
+                      Following
+                    </button>
+                    <button
+                      className="outline-none"
+                      onClick={() => {
+                        setIsFollowersClicked(true);
+                        toggleFollowers();
+                      }}
+                    >
+                      <span className="font-bold font-sans">
+                        {profileId === id ? formatNumber(followersCount) : formatNumber(updatedFollowers)}
+                      </span>
+                      Followers
+                    </button>
+                  </div>
+                  {openModal && (
+                    <DeleteModal
+                      toggleDeleteModal={toggleDeleteModal}
+                      handleDeleteProfile={handleDeleteProfile}
+                      origin={role === "admin" && userData?.id !== id ? "profile-admin" : "profile"}
+                    />
+                  )}
+                  <div className="w-full h-full md:w-11/12 flex flex-col items-center justify-center">
+                    <div className="w-full h-min px-4">
+                      <div className="tabs-container h-max relative w-full h-full flex items-center justify-evenly">
+                        <button
+                          onClick={!postTabOpen ? toggleTabs : undefined}
+                          className="h-max py-[0.55rem] w-1/2 flex items-center justify-center rounded-tl rounded-tr outline-none font-bold hover:bg-gray-200 dark:hover:bg-gray-700"
+                        >
+                          {userData?.id !== id ? (
+                            <>
+                              {userLanguage.profile.userPosts} {`(${userPosts.length})`}
+                            </>
+                          ) : (
+                            <>
+                              {userLanguage.profile.posts} {`(${userPosts.length})`}
+                            </>
+                          )}
+                        </button>
+                        <button
+                          onClick={postTabOpen ? toggleTabs : undefined}
+                          className="h-max py-[0.55rem] w-1/2 flex items-center justify-center rounded-tl rounded-tr outline-none font-bold hover:bg-gray-200 dark:hover:bg-gray-700"
+                        >
+                          {`Likes (${likedPosts.length})`}
+                        </button>
+                        <div
+                          className={`absolute left-0 bottom-0 w-1/2 h-1 bg-blue-500 rounded-full transform transition duration-100 ${
+                            postTabOpen ? "translate-x-0" : "translate-x-full"
+                          }`}
+                        ></div>
                       </div>
-                    ) : (
-                      <div className="w-full h-max flex flex-col items-center justify-center space-y-3">
-                        {likedPosts?.map((post) => (
-                          <Post key={post.postId} post={post} />
-                        ))}
-                      </div>
-                    )}
+                    </div>
+                    <div className="w-full h-full flex items-center justify-center pt-4 border-t border-gray-200 dark:border-gray-700 transition duration-500">
+                      {postTabOpen ? (
+                        <div className="w-full h-max flex flex-col items-center justify-center space-y-3">
+                          {userPosts.map((post) => (
+                            <Post key={post.postId} post={post} />
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="w-full h-max flex flex-col items-center justify-center space-y-3">
+                          {likedPosts?.map((post) => (
+                            <Post key={post.postId} post={post} />
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>

@@ -29,7 +29,7 @@ const UserCard = ({ user, mod }) => {
       </button>
       {!mod && (
         <span className="w-full flex justify-center text-xs italic">
-          {userLanguage.navbarDesktop.member} {formatTimestamp(creationDate, "card", language)}
+          {userLanguage.profile.member} {formatTimestamp(creationDate, "card", language)}
         </span>
       )}
     </div>

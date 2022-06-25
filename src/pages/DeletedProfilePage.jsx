@@ -1,13 +1,12 @@
 import Div100vh from "react-div-100vh";
 import { useSelector } from "react-redux";
-import { Redirect, useLocation } from "react-router";
+import { Redirect } from "react-router";
 import { history } from "../utils/helpers";
 import { useLanguage } from "../utils/hooks";
 
 const DeletedProfile = () => {
-  const location = useLocation();
-  const isAdmin = location?.state?.admin;
-  const { isAuthenticated, language, darkMode } = useSelector((state) => state?.user);
+  const { isAuthenticated, language, darkMode, role } = useSelector((state) => state?.user);
+  const isAdmin = role === "admin";
   const userLanguage = useLanguage();
 
   return (

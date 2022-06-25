@@ -1,14 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { FooterAside, ModsContainer, PopularPosts, RecentUsers, Rules } from ".";
+import { getMods, getRecentUsers } from "../store/actions/user.action";
 import { breakpoint } from "../utils/breakpoints";
 import { useWindowSize } from "../utils/hooks";
 
 const Aside = () => {
   const { pathname } = useLocation();
-  const element = useRef();
-  const [size, setSize] = useState(null);
+  const asideContainerRef = useRef();
+  const [asideContainerSize, setAsideContainerSize] = useState(null);
   const { posts } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
   const { width } = useWindowSize();
@@ -19,18 +20,23 @@ const Aside = () => {
   const profilePage = pathname.includes("profile");
 
   useEffect(() => {
+    dispatch(getRecentUsers());
+    dispatch(getMods());
+  }, [dispatch]);
+
+  useEffect(() => {
     if (width >= breakpoint.lg) {
       setTimeout(() => {
-        setSize(element?.current?.getBoundingClientRect());
+        setAsideContainerSize(asideContainerRef?.current?.getBoundingClientRect());
       }, 500);
     }
-  }, [posts, element, width]);
+  }, [posts, asideContainerRef, width]);
 
   return (
-    <div className="hidden lg:block w-72 h-full">
+    <div className={`hidden lg:block w-72 h-full`}>
       <div
-        ref={element}
-        style={{ top: feedPage ? `calc(100vh - ${size?.height}px - 15px)` : "6rem" }}
+        ref={asideContainerRef}
+        style={{ top: feedPage ? `calc(100vh - ${asideContainerSize?.height}px - 15px)` : "6rem" }}
         className="sticky pathname w-full h-max flex flex-col items-center justify-start mt-[6rem] gap-2"
       >
         {feedPage ? (

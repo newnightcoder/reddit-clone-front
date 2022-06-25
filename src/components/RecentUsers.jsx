@@ -1,9 +1,6 @@
-import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { Skeleton, UserCard } from ".";
-import { getRecentUsers } from "../store/actions/user.action";
-import { breakpoint } from "../utils/breakpoints";
 import { useLanguage, useWindowSize } from "../utils/hooks";
 
 const RecentUsers = () => {
@@ -13,12 +10,6 @@ const RecentUsers = () => {
   const { pathname } = useLocation();
   const userLanguage = useLanguage();
   const { width } = useWindowSize();
-
-  useEffect(() => {
-    if (width >= breakpoint.lg) {
-      dispatch(getRecentUsers());
-    }
-  }, [dispatch]);
 
   return (
     <div className="w-72 h-max flex flex-col rounded transition-color duration-500 bg-white dark:bg-gray-900">

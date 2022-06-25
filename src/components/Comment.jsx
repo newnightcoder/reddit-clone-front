@@ -1,5 +1,5 @@
 import "draft-js/dist/Draft.css";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ChatRight, HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteModal, Options, Reply, ReplyForm } from ".";
@@ -7,19 +7,19 @@ import picPlaceholder from "../assets/pic_placeholder.svg";
 import { clearErrorPost, createReply, deletePost, getReplies, setErrorPost } from "../store/actions/posts.action";
 import { likePost } from "../store/actions/user.action";
 import { createDate, formatTimestamp } from "../utils/helpers/formatTime";
-import { useError, useLanguage } from "../utils/hooks";
+import { useError, useLanguage, useToggleBox } from "../utils/hooks";
 
 const Comment = ({ comment, postId }) => {
-  const { fk_userId_comment, picUrl, username, text, date, commentId, likesCount } = comment;
+  const { fk_userId_comment: authorId, picUrl, username, text, date, commentId, likesCount } = comment;
   const { likes, replies } = useSelector((state) => state?.posts);
-  const { id: userId, role, error: serverError } = useSelector((state) => state?.user);
+  const { id: myId, role, error: serverError } = useSelector((state) => state?.user);
   const [like, setLike] = useState(false);
   const [likesNumber, setLikesNumber] = useState(likesCount);
   const [replyNumber, setReplyNumber] = useState(0);
   const [replyOpen, setReplyOpen] = useState(false);
   const [replyText, setReplyText] = useState("");
   const [optionsOpen, setOptionsOpen] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [postIsGone, setpostIsGone] = useState(false);
   const sameUserComment = [];
@@ -48,7 +48,7 @@ const Comment = ({ comment, postId }) => {
 
   useEffect(() => {
     likes?.map((like) => {
-      if (like.fk_userId_like === userId && like.fk_commentId_like === commentId) {
+      if (like.fk_userId_like === myId && like.fk_commentId_like === commentId) {
         return sameUserComment.push(like.fk_commentId_like);
       }
       return sameUserComment;
@@ -58,19 +58,11 @@ const Comment = ({ comment, postId }) => {
         setLike(true);
       }
     });
-  }, [commentId, likes, userId]);
+  }, [commentId, likes, myId]);
 
-  const toggleOptions = useCallback(() => {
-    return setOptionsOpen((optionsOpen) => !optionsOpen);
-  }, [optionsOpen]);
-
-  const toggleDeleteModal = useCallback(() => {
-    setOpenModal((openModal) => !openModal);
-  }, [openModal]);
-
-  const toggleReply = useCallback(() => {
-    return setReplyOpen((replyOpen) => !replyOpen);
-  }, [replyOpen]);
+  const toggleOptions = useToggleBox(optionsOpen, setOptionsOpen);
+  const toggleDeleteModal = useToggleBox(openDeleteModal, setOpenDeleteModal);
+  const toggleReply = useToggleBox(replyOpen, setReplyOpen);
 
   const handleLike = useCallback(
     (commentId) => {
@@ -85,9 +77,9 @@ const Comment = ({ comment, postId }) => {
         default:
           break;
       }
-      dispatch(likePost("comment", userId, commentId, like));
+      dispatch(likePost("comment", myId, commentId, like));
     },
-    [dispatch, like, likesNumber, userId]
+    [dispatch, like, likesNumber, myId]
   );
 
   const handleChange = useCallback(
@@ -110,7 +102,7 @@ const Comment = ({ comment, postId }) => {
       }
       if (replyText.length === 0) return dispatch(setErrorPost("emptyReply"));
       if (error) return;
-      dispatch(createReply(userId, commentId, replyText, createDate()));
+      dispatch(createReply(myId, commentId, replyText, createDate()));
       setReplyOpen(false);
       replyTextRef.current.value = "";
       setReplyText("");
@@ -118,7 +110,7 @@ const Comment = ({ comment, postId }) => {
         dispatch(getReplies());
       }, 1000);
     },
-    [commentId, commentRef, dispatch, replyText, serverError, userId]
+    [commentId, commentRef, dispatch, replyText, serverError, myId]
   );
 
   const handleDeletePost = useCallback(() => {
@@ -135,7 +127,7 @@ const Comment = ({ comment, postId }) => {
         className="comment-container rounded relative h-max w-full flex-col items-center justify-center text-gray-900 dark:text-gray-300 transition duration-500 bg-white dark:bg-gray-900 px-2 py-1"
         style={{ marginBottom: replyOpen && "5px", transform: isDeleted && "scale(0)", display: postIsGone && "none" }}
       >
-        {(openModal && userId === fk_userId_comment) || (openModal && role === "admin") ? (
+        {openDeleteModal && (myId === authorId || role === "admin") ? (
           <DeleteModal
             toggleDeleteModal={toggleDeleteModal}
             handleDeletePost={handleDeletePost}
@@ -189,7 +181,7 @@ const Comment = ({ comment, postId }) => {
           </div>
         </div>
         <Options
-          commentUserId={fk_userId_comment}
+          commentUserId={authorId}
           commentId={commentId}
           optionsOpen={optionsOpen}
           toggleOptions={toggleOptions}

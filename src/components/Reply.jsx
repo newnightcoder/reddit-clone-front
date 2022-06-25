@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteModal, Options } from ".";
@@ -6,6 +6,7 @@ import picPlaceholder from "../assets/pic_placeholder.svg";
 import { deletePost } from "../store/actions/posts.action";
 import { likePost } from "../store/actions/user.action";
 import { formatTimestamp } from "../utils/helpers/formatTime";
+import { useToggleBox } from "../utils/hooks";
 
 const Reply = ({ reply }) => {
   const { replyId, fk_userId_reply, text, date, username, picUrl, likesCount } = reply;
@@ -15,7 +16,7 @@ const Reply = ({ reply }) => {
   const [likesNumber, setLikesNumber] = useState(likesCount);
   const [replyOpen, setReplyOpen] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [postIsGone, setpostIsGone] = useState(false);
   const sameUserReply = [];
@@ -40,13 +41,8 @@ const Reply = ({ reply }) => {
     });
   }, [replyId, likes, userId]);
 
-  const toggleOptions = useCallback(() => {
-    return setOptionsOpen((optionsOpen) => !optionsOpen);
-  }, []);
-
-  const toggleDeleteModal = useCallback(() => {
-    setOpenModal((openModal) => !openModal);
-  }, []);
+  const toggleOptions = useToggleBox(optionsOpen, setOptionsOpen);
+  const toggleDeleteModal = useToggleBox(openDeleteModal, setOpenDeleteModal);
 
   const toggleReply = useCallback(() => {
     return setReplyOpen((replyOpen) => !replyOpen);
@@ -83,7 +79,7 @@ const Reply = ({ reply }) => {
       className="reply-container relative h-max w-11/12 flex-col items-center justify-center text-gray-900 dark:text-gray-300 transition duration-500 bg-white dark:bg-gray-900 border border-transparent dark:border-transparent hover:border-gray-200 dark:hover:border-gray-400 rounded-md px-2 py-1 "
       style={{ marginBottom: replyOpen && "5px", transform: isDeleted && "scale(0)", display: postIsGone && "none" }}
     >
-      {(openModal && userId === fk_userId_reply) || (openModal && role === "admin") ? (
+      {(openDeleteModal && userId === fk_userId_reply) || (openDeleteModal && role === "admin") ? (
         <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"reply"} />
       ) : null}
       <div className="top w-full flex items-center justify-center pl-1 py-1 transition-color duration-500 border-b dark:border-gray-800">

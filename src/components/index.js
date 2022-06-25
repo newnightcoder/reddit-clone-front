@@ -11,6 +11,7 @@ export { default as EditCommentModal } from "./EditCommentModal";
 export { default as EditUsernameModal } from "./EditUsernameModal";
 export { default as Error } from "./Error";
 export { default as FeedGreetings } from "./FeedGreetings";
+export { default as Followers } from "./Followers";
 export { default as FooterAside } from "./FooterAside";
 export { default as ImgUploader } from "./ImgUploader";
 export { default as Layout } from "./Layout";

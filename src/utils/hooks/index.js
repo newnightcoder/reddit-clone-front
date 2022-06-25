@@ -6,5 +6,6 @@ export { default as useGetProfile } from "./useGetProfile";
 export { default as useHandleLink } from "./useHandleLink";
 export { default as useLanguage } from "./useLanguage";
 export { default as useLinkToProfile } from "./useLinkToProfile";
+export { default as useToggleBox } from "./useToggleBox";
 export { default as useToggleSettings } from "./useToggleSettings";
 export { default as useWindowSize } from "./useWindowSize";

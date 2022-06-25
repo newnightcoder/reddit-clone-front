@@ -6,6 +6,7 @@ import "../index.css";
 import { deletePost } from "../store/actions/posts.action";
 import { likePost, toComment } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
+import { useToggleBox } from "../utils/hooks";
 
 const Post = ({ post, aside }) => {
   const {
@@ -30,9 +31,9 @@ const Post = ({ post, aside }) => {
   const [commentsNumber, setcommentsNumber] = useState(commentCount);
   const [like, setLike] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
-  const [postIsGone, setpostIsGone] = useState(false);
+  const [postDisappear, setPostDisappear] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const dispatch = useDispatch();
   const postContainerRef = useRef();
   const optionsRef = useRef();
@@ -40,19 +41,14 @@ const Post = ({ post, aside }) => {
   const { pathname } = useLocation();
   const profilePage = pathname.includes("/profile");
 
-  const toggleOptions = useCallback(() => {
-    return setOptionsOpen((optionsOpen) => !optionsOpen);
-  }, [optionsOpen]);
-
-  const toggleDeleteModal = useCallback(() => {
-    return setOpenModal((openModal) => !openModal);
-  }, [openModal]);
+  const toggleOptions = useToggleBox(optionsOpen, setOptionsOpen);
+  const toggleDeleteModal = useToggleBox(openDeleteModal, setOpenDeleteModal);
 
   const handleDeletePost = useCallback(() => {
     dispatch(deletePost(postId, "post", null));
     setIsDeleted(true);
     setTimeout(() => {
-      setpostIsGone(true);
+      setPostDisappear(true);
     }, 500);
   }, [dispatch, postId]);
 
@@ -83,22 +79,19 @@ const Post = ({ post, aside }) => {
     },
     [postId, setLike, like, dispatch, updateLikesNumber]
   );
-  const closeOptions = useCallback(
-    (e) => {
-      if (optionsOpen && e.currentTarget.id === postContainerRef?.current?.id) {
-        console.log("click on post");
-        toggleOptions();
-      }
-    },
-    [postContainerRef, optionsRef, optionsBtnRef]
-  );
 
-  useEffect(() => {
-    postContainerRef?.current?.addEventListener("click", (e) => closeOptions(e));
-    return () => {
-      postContainerRef?.current?.removeEventListener("click", (e) => closeOptions(e));
-    };
-  }, []);
+  // const closeOptions = useCallback(
+  //
+  //   },
+  //   []
+  // );
+
+  // useEffect(() => {
+  //  addEventListener("click", (e) => closeOptions(e));
+  //   return () => {
+  //    removeEventListener("click", (e) => closeOptions(e));
+  //   };
+  // }, []);
 
   useEffect(() => {
     setLikesNumber(likesCount);
@@ -122,12 +115,12 @@ const Post = ({ post, aside }) => {
       id="postContainer"
       ref={postContainerRef}
       className={`post-container ${postId === lastPostAdded && "animate-post"} ${isDeleted && "scale-0"} ${
-        postIsGone && "hidden"
+        postDisappear && "hidden"
       } h-max w-full relative md:rounded-md flex-col items-center justify-center text-gray-900 dark:text-gray-300 border-t border-b dark:border-black md:border ${
         profilePage ? "md:border-gray-400 dark:md:border-gray-600" : "md:border-gray-300 dark:md:border-gray-700"
       } md:hover:border-gray-900 dark:md:hover:border-gray-400 transition duration-500 bg-white dark:bg-gray-900 pt-2`}
     >
-      {(openModal && userId === fk_userId_post) || (openModal && role === "admin") ? (
+      {(openDeleteModal && userId === fk_userId_post) || (openDeleteModal && role === "admin") ? (
         <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"post"} postId={postId} />
       ) : null}
       <PostHeader post={post} />
@@ -167,6 +160,8 @@ const Post = ({ post, aside }) => {
         like={like}
         likesNumber={likesNumber}
         commentsNumber={commentsNumber}
+        optionsOpen={optionsOpen}
+        setOptionsOpen={setOptionsOpen}
         toggleOptions={toggleOptions}
         handleLike={handleLike}
         toCommentPage={toCommentPage}

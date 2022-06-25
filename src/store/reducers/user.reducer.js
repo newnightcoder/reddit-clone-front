@@ -8,6 +8,8 @@ const userState = {
   picUrl: null,
   bannerUrl: null,
   creationDate: "",
+  followingCount: null,
+  followersCount: null,
   error: "",
   isAuthenticated: false,
   isVisitor: false,
@@ -24,6 +26,8 @@ const userState = {
   },
   liked: false,
   currentProfileVisit: {},
+  followers: [],
+  following: [],
   recentUsers: [],
   mods: [],
   sessionExpired: false,
@@ -48,8 +52,10 @@ const {
   USERNAME_FAIL,
   SAVE_USERPIC,
   LIKE_POST,
+  UPDATE_FOLLOW,
   TO_COMMENT,
   GET_USER_PROFILE,
+  GET_FOLLOWERS,
   CLEAN_PROFILE_VISIT,
   GET_USERS,
   GET_MODS,
@@ -76,7 +82,7 @@ export const userReducer = (state = userState, action) => {
       return { ...state, language: action.payload };
 
     case LOG_USER: {
-      const { id, email, username, picUrl, creationDate, role } = action.payload.user;
+      const { id, email, username, picUrl, bannerUrl, creationDate, role, followingCount, followersCount } = action.payload.user;
       const { isNewUser } = action.payload;
       return {
         ...state,
@@ -84,9 +90,12 @@ export const userReducer = (state = userState, action) => {
         email,
         username,
         picUrl,
+        bannerUrl,
         creationDate,
         isNewUser,
         role,
+        followingCount,
+        followersCount,
       };
     }
     case LOGIN_SUCCESS:
@@ -172,6 +181,12 @@ export const userReducer = (state = userState, action) => {
       return {
         ...state,
         liked: action.payload,
+      };
+    case UPDATE_FOLLOW:
+      const bool = action.payload;
+      return {
+        ...state,
+        followingCount: bool ? state.followingCount + 1 : state.followingCount - 1,
       };
 
     case TO_COMMENT:

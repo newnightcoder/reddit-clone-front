@@ -1,7 +1,4 @@
-import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getMods } from "../store/actions/user.action";
-import { breakpoint } from "../utils/breakpoints";
 import { useLanguage, useWindowSize } from "../utils/hooks";
 import Skeleton from "./Skeleton";
 import UserCard from "./UserCard";
@@ -11,12 +8,6 @@ const ModsContainer = () => {
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
   const { width } = useWindowSize();
-
-  useEffect(() => {
-    if (width >= breakpoint.lg) {
-      dispatch(getMods());
-    }
-  }, [dispatch]);
 
   return (
     <div className="w-full h-max flex flex-col rounded transition-color duration-500 bg-white dark:bg-gray-900">

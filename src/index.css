@@ -3,6 +3,10 @@
 @tailwind utilities;
 /* @tailwind variants; */
 
+body {
+  font-family: "Helvetica", sans-serif;
+}
+
 .dark input:-webkit-autofill,
 .dark input:-webkit-autofill:hover,
 .dark input:-webkit-autofill:focus,

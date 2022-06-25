@@ -23,8 +23,10 @@ const {
   USERNAME_EDITED,
   USER_CREATED,
   LIKE_POST,
+  UPDATE_FOLLOW,
   TO_COMMENT,
   GET_USER_PROFILE,
+  GET_FOLLOWERS,
   CLEAN_PROFILE_VISIT,
   GET_USERS,
   GET_MODS,
@@ -341,4 +343,50 @@ export const clearErrorUser = () => (dispatch) => {
 
 export const toggleDarkMode = () => (dispatch) => {
   dispatch({ type: TOGGLE_DARK_MODE });
+};
+
+export const followUser = (myId, userId, bool, date) => async (dispatch) => {
+  const token = localStorage.getItem("jwt");
+  const request = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    method: "post",
+    body: JSON.stringify({ myId, userId, bool, date }),
+  };
+
+  try {
+    const response = await fetch(`${API_USER}/follow`, request);
+    const { msg } = await response.json();
+    if (msg) {
+      return dispatch({ type: UPDATE_FOLLOW, payload: bool });
+    }
+  } catch (error) {
+    dispatch({ type: SET_ERROR_USER, payload: "backend" });
+  }
+};
+
+export const getFollowers = (id) => async (dispatch) => {
+  const token = localStorage.getItem("jwt");
+  const request = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    method: "get",
+  };
+  try {
+    const response = await fetch(`${API_USER}/follow/${id}`, request);
+    const data = await response.json();
+    if (data) {
+      console.log("FOLLOWERS", data);
+      return dispatch({ type: GET_FOLLOWERS, payload: data });
+    }
+  } catch (error) {
+    console.log(error);
+    dispatch({ type: SET_ERROR_USER, payload: "backend" });
+  }
 };
