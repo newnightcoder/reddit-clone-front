@@ -7,6 +7,7 @@ const {
   GET_LIKES,
   GET_USER_POSTS,
   SAVE_POST_PIC,
+  SET_PREVIEW_LOADER,
   GET_PREVIEW_DATA,
   SET_PREVIEW_DATA,
   CLEAR_TEMP_POST_PIC,
@@ -165,6 +166,10 @@ export const saveGifUrl = (url) => (dispatch) => {
   dispatch({ type: SAVE_GIF_URL, payload: url });
 };
 
+export const setPreviewLoader = (bool) => (dispatch) => {
+  dispatch({ type: SET_PREVIEW_LOADER, payload: bool });
+};
+
 export const getPreviewData = (targetUrl) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
   dispatch({ type: CLEAR_TEMP_POST_PIC });
@@ -180,10 +185,16 @@ export const getPreviewData = (targetUrl) => async (dispatch) => {
     const response = await fetch(`${API_POST}/post-link`, request);
     const data = await response.json();
     const { article, error } = data;
-    if (error) return dispatch({ type: SET_ERROR_POST, payload: error });
+    if (error) {
+      dispatch({ type: SET_PREVIEW_LOADER, payload: false });
+      dispatch({ type: SET_ERROR_POST, payload: error });
+      return;
+    }
     dispatch({ type: GET_PREVIEW_DATA, payload: article });
+    dispatch({ type: SET_PREVIEW_LOADER, payload: false });
   } catch (err) {
     dispatch({ type: SET_ERROR_POST, payload: "backend" });
+    dispatch({ type: SET_PREVIEW_LOADER, payload: false });
   }
 };
 

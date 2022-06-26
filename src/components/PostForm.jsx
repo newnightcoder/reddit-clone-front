@@ -1,14 +1,23 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Image, Link45deg, XLg } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
+import { BeatLoader } from "react-spinners";
 import { giphyDark } from "../assets";
-import { clearTempPostImg, toggleEditModal } from "../store/actions/posts.action";
+import { clearTempPostImg, clearTempPreview, toggleEditModal } from "../store/actions/posts.action";
 import { breakpoint } from "../utils/breakpoints";
 import { history, isObjectEmpty } from "../utils/helpers";
 import { useLanguage, useWindowSize } from "../utils/hooks";
 import LinkPreview from "./LinkPreview";
+
+const PreviewLoader = () => {
+  return (
+    <div className="absolute inset-0 h-full w-full flex items-center justify-center">
+      <BeatLoader size={25} color={"gray"} />
+    </div>
+  );
+};
 
 const PostForm = ({
   title,
@@ -31,7 +40,7 @@ const PostForm = ({
   handleEditText,
 }) => {
   const currentPostImgUrl = useSelector((state) => state.posts.currentPost.imgUrl);
-  const scrapedPost = useSelector((state) => state.posts.scrapedPost);
+  const { scrapedPost, previewLoading } = useSelector((state) => state.posts);
   const { pathname } = useLocation();
   const { width } = useWindowSize();
   const dispatch = useDispatch();
@@ -39,17 +48,19 @@ const PostForm = ({
   const editPage = pathname === "/edit";
   const commentPage = pathname.includes("comments");
 
-  useEffect(() => {
+  const handleImgPostForm = useCallback(() => {
     if (!commentPage) {
-      if (currentPostImgUrl.length !== 0) {
-        return setImgDom(
-          <img id="postImg" src={currentPostImgUrl} alt="" className="h-max rounded" style={{ maxHeight: "500px" }} />
-        );
-      } else if (!isObjectEmpty(scrapedPost)) {
-        return setImgDom(<LinkPreview />);
-      } else return setImgDom(null);
+      const postImg = <img id="postImg" src={currentPostImgUrl} alt="" className="h-max rounded max-h-[500px]" />;
+      if (currentPostImgUrl.length !== 0) return setImgDom(postImg);
+      if (previewLoading) return setImgDom(<PreviewLoader />);
+      if (!isObjectEmpty(scrapedPost)) return setImgDom(<LinkPreview />);
+      return setImgDom(null);
     }
-  }, [currentPostImgUrl, postToEdit, scrapedPost]);
+  }, [currentPostImgUrl, setImgDom, scrapedPost, previewLoading]);
+
+  useEffect(() => {
+    handleImgPostForm();
+  }, [currentPostImgUrl, postToEdit, scrapedPost, previewLoading]);
 
   return (
     <form
@@ -73,11 +84,15 @@ const PostForm = ({
         >
           <span className="hidden md:inline-block text-xs capitalize">{userLanguage.createPost.cancelBtn}</span> <XLg size={12} />
         </button>
-        {currentPostImgUrl || postToEdit?.isPreview === 1 ? (
+        {currentPostImgUrl || !isObjectEmpty(scrapedPost) || postToEdit?.isPreview === 1 ? (
           <button
             onClick={(e) => {
               e.preventDefault();
-              currentPostImgUrl ? dispatch(clearTempPostImg()) : postToEdit?.isPreview === 1 && deletePreview();
+              currentPostImgUrl
+                ? dispatch(clearTempPostImg())
+                : !isObjectEmpty(scrapedPost)
+                ? dispatch(clearTempPreview())
+                : postToEdit?.isPreview === 1 && deletePreview();
             }}
             className="h-8 w-max rounded-full px-2  border whitespace-wrap text-xs text-gray-500 flex items-center justify-end text-right"
           >

@@ -80,19 +80,6 @@ const Post = ({ post, aside }) => {
     [postId, setLike, like, dispatch, updateLikesNumber]
   );
 
-  // const closeOptions = useCallback(
-  //
-  //   },
-  //   []
-  // );
-
-  // useEffect(() => {
-  //  addEventListener("click", (e) => closeOptions(e));
-  //   return () => {
-  //    removeEventListener("click", (e) => closeOptions(e));
-  //   };
-  // }, []);
-
   useEffect(() => {
     setLikesNumber(likesCount);
     setcommentsNumber(commentCount);

@@ -11,6 +11,7 @@ const initialState = {
   },
   editId: { id: null, type: null },
   editModalOpen: false,
+  previewLoading: false,
   scrapedPost: {},
   comments: null,
   currentCommentsCount: null,
@@ -29,6 +30,7 @@ const {
   GET_POST_BY_ID,
   GET_LIKES,
   GET_USER_POSTS,
+  SET_PREVIEW_LOADER,
   GET_PREVIEW_DATA,
   SET_PREVIEW_DATA,
   GET_COMMENTS,
@@ -80,8 +82,15 @@ export const postsReducer = (state = initialState, action) => {
       return { ...state, userPosts: posts, likes };
     }
 
+    case SET_PREVIEW_LOADER:
+      return { ...state, previewLoading: action.payload };
+
     case GET_PREVIEW_DATA:
-      return { ...state, scrapedPost: action.payload };
+      const { title, image, description, publisher, logo, url } = action.payload;
+      return {
+        ...state,
+        scrapedPost: { title, image: image.includes("http") ? image : "", description, publisher, logo, url },
+      };
 
     case SET_PREVIEW_DATA:
       return { ...state, scrapedPost: action.payload };

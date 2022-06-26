@@ -2,48 +2,42 @@ import { useCallback, useEffect, useState } from "react";
 import { Link as LinkIcon } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { articlePlaceholder } from "../assets";
+import { logo_mobile_blue } from "../assets";
 import { clearErrorPost, clearPreviewImg } from "../store/actions/posts.action";
+import isObjectEmpty from "../utils/helpers/isObjectEmpty";
 import useLanguage from "../utils/hooks/useLanguage";
 
 const LinkPreview = ({ previewTitle, previewText, previewImg, previewUrl, previewPub, previewPubLogo, aside }) => {
-  const { title, image, description, publisher, logo, url } = useSelector((state) => state.posts.scrapedPost);
+  const { title, image, description, publisher, logo, url } = useSelector((state) => state?.posts?.scrapedPost);
   const { preview } = useSelector((state) => state.posts.scrapedPost);
-  const [imgUrl, setImgUrl] = useState(image ? image : previewImg);
+  const validImg = image?.includes("http");
+  const initialState = image && validImg ? image : previewImg ? previewImg : logo_mobile_blue;
+  const [imgUrl, setImgUrl] = useState(initialState);
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
 
   useEffect(() => {
-    setImgUrl(image ? image : previewImg ? previewImg : articlePlaceholder);
+    setImgUrl(initialState);
   }, [image, previewImg]);
-
-  const isObjectEmpty = useCallback((obj) => {
-    for (let prop in obj) {
-      return false;
-    }
-    return true;
-  }, []);
 
   const handleImgError = useCallback(() => {
     dispatch(clearErrorPost());
-    if (!isObjectEmpty(preview)) dispatch(clearPreviewImg());
-    setImgUrl(articlePlaceholder);
-  }, [dispatch, setImgUrl, isObjectEmpty]);
+    if (!isObjectEmpty(preview)) {
+      dispatch(clearPreviewImg());
+    }
+    setImgUrl(logo_mobile_blue);
+  }, [dispatch, setImgUrl, preview]);
 
   return (
-    <div className="h-max w-full rounded border border-gray-300 dark:border-gray-800 pb-4 mt-1 flex flex-col items-center justify-start space-y-3 border rounded-md ">
+    <div className="h-max w-full rounded border border-gray-300 dark:border-gray-600 pb-4 mt-1 flex flex-col items-center justify-start space-y-3 border rounded-md ">
       <div
-        style={{
-          backgroundColor: "white",
-          backgroundImage: `url("${imgUrl}")`,
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-        }}
-        className={`${aside ? "h-32" : "h-44 md:h-64"}  w-full rounded-tl rounded-tr`}
+        style={{ backgroundImage: `url("${imgUrl}")` }}
+        className={`${
+          aside ? "h-32" : "h-44 md:h-64"
+        }  w-full rounded-tl rounded-tr bg-transparent bg-no-repeat bg-center bg-cover`}
       >
-        <img src={imgUrl} onError={handleImgError} alt="article image" className="hidden w-full h-full" />
+        <img src={imgUrl} onError={handleImgError} alt="article cover" className="hidden w-full h-full" />
       </div>
       <div className="w-full flex flex-col space-y-1.5 text-gray-700 dark:text-gray-200 text-sm cursor-pointer">
         <a
