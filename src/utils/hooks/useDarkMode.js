@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleDarkMode } from "../../store/actions/user.action";
 
@@ -8,19 +8,23 @@ const useDarkMode = () => {
   const dispatch = useDispatch();
   const root = window.document.documentElement;
 
-  const handleClassList = (isDarkMode) => {
-    switch (isDarkMode) {
-      case true:
-        root.classList.remove("light");
-        root.classList.add("dark");
-        break;
-      case false:
-        root.classList.remove("dark");
-        root.classList.add("light");
-        break;
-      default:
-    }
-  };
+  const handleClassList = useCallback(
+    (isDarkMode) => {
+      switch (isDarkMode) {
+        case true:
+          root.classList.remove("light");
+          root.classList.add("dark");
+          break;
+        case false:
+          root.classList.remove("dark");
+          root.classList.add("light");
+          break;
+        default:
+      }
+    },
+    [root.classList]
+  );
+
   const toggleMode = () => {
     console.log("hook darkmode");
     dispatch(toggleDarkMode());
@@ -31,7 +35,7 @@ const useDarkMode = () => {
   useEffect(() => {
     handleClassList(darkMode);
     setIsDarkMode(darkMode);
-  }, [darkMode]);
+  }, [darkMode, handleClassList]);
 
   return [isDarkMode, toggleMode];
 };

@@ -183,11 +183,34 @@ export const userReducer = (state = userState, action) => {
         liked: action.payload,
       };
     case UPDATE_FOLLOW:
-      const bool = action.payload;
-      return {
-        ...state,
-        followingCount: bool ? state.followingCount + 1 : state.followingCount - 1,
-      };
+      const { myId, userId, bool } = action.payload;
+      switch (bool) {
+        case true: {
+          const username = state.username;
+          const picUrl = state.picUrl;
+          const newFollower = {
+            id: null,
+            username,
+            picUrl,
+            myId,
+          };
+          const updatedFollowers = [newFollower, ...state.followers];
+          return {
+            ...state,
+            followingCount: state.followingCount + 1,
+            followers: updatedFollowers,
+          };
+        }
+        case false: {
+          const copy = [...state.followers];
+          const updatedFollowers = copy.filter((follower) => follower.userId !== myId);
+          return {
+            ...state,
+            followingCount: state.followingCount - 1,
+            followers: updatedFollowers,
+          };
+        }
+      }
 
     case TO_COMMENT:
       return {
@@ -202,11 +225,21 @@ export const userReducer = (state = userState, action) => {
         ...state,
         currentProfileVisit: action.payload,
       };
+
     case CLEAN_PROFILE_VISIT:
       return {
         ...state,
         currentProfileVisit: {},
       };
+
+    case GET_FOLLOWERS: {
+      const { followers, following } = action.payload;
+      return {
+        ...state,
+        followers,
+        following,
+      };
+    }
 
     case GET_USERS: {
       const { recentUsers } = action.payload;

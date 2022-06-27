@@ -5,7 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router";
 import { PulseLoader } from "react-spinners";
 import { Comment, CommentForm, EditCommentModal, Layout, Post } from "../components";
-import { clearErrorPost, createComment, getComments, getLikes, getReplies, setErrorPost } from "../store/actions/posts.action";
+import {
+  clearErrorPost,
+  createComment,
+  getComments,
+  getLikes,
+  getReplies,
+  resetReplies,
+  setErrorPost,
+} from "../store/actions/posts.action";
 import { history } from "../utils/helpers";
 import { createDate } from "../utils/helpers/formatTime";
 import { useContainerSize, useError, useLanguage } from "../utils/hooks";
@@ -30,40 +38,47 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
   const error = useError();
 
   useEffect(() => {
-    dispatch(getComments());
-  }, [dispatch, count]);
+    const arr = [];
+    for (let comment of comments) {
+      arr.push(comment.commentId);
+    }
+    return () => dispatch(resetReplies());
+  }, []);
 
   useEffect(() => {
-    dispatch(getReplies());
-  }, [dispatch, replyId]);
+    console.log("POST ID", postId);
+    dispatch(getComments(postId));
+  }, [dispatch, postId]);
+  const doNothing = () => {
+    return;
+  };
+
+  useEffect(() => {
+    window.addEventListener("beforeonload", () => dispatch(resetReplies()));
+
+    return () => {
+      window.removeEventListener("beforeonload", () => dispatch(resetReplies()));
+      // dispatch(resetReplies());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(resetReplies());
+    const arr = [];
+    for (let comment of comments) {
+      arr.push(comment.commentId);
+    }
+    dispatch(getReplies(arr));
+  }, []);
 
   useEffect(() => {
     dispatch(getLikes());
   }, [liked]);
 
-  const getRelatedComments = useCallback(
-    (postId) => {
-      const copy = comments && [...comments];
-      const relatedComments = copy
-        ?.sort((a, b) => {
-          if (a.commentId > b.commentId) return -1;
-          else return 1;
-        })
-        .map((comment) => {
-          if (comment.fk_postId_comment === postId) {
-            return comment;
-          }
-        })
-        .filter((comment) => comment !== undefined);
-      return relatedComments;
-    },
-    [comments, postId]
-  );
-
   useEffect(() => {
-    setTimeout(() => {
-      setCommentsToDisplay(getRelatedComments(postId));
-    }, 900);
+    // setTimeout(() => {
+    setCommentsToDisplay(comments);
+    // }, 500);
   }, [comments]);
 
   const handleChange = useCallback(
@@ -106,15 +121,15 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
               style={{ width: `${size}` }}
               className={`backBtn-container h-16 fixed top-16 z-50 flex items-center justify-center space-x-2`}
             >
-              <div className="w-full h-full transition-color duration-500 bg-gray-200 dark:bg-black text-black dark:text-white flex items-center justify-start pl-4 space-x-2">
+              <div className="w-full h-full transition-color duration-500 bg-gray-200 dark:bg-black text-black dark:text-white flex items-center justify-start pl-4 md:pl-1 space-x-2">
                 <button
                   onClick={() => history.push("/feed")}
                   className={`w-max flex items-center justify-center space-x-2 outline-none font-bold transition duration-300 ${
                     size ? "opacity-100" : "opacity-0"
                   }`}
                 >
-                  <ChevronDoubleLeftIcon className="h-4" />
-                  <span className="underline">{userLanguage.commentPage.backLink}</span>
+                  <ChevronDoubleLeftIcon className="h-5" />
+                  <span className="underline whitespace-nowrap">{userLanguage.commentPage.backLink}</span>
                 </button>
               </div>
             </div>
@@ -145,7 +160,7 @@ const CommentPage = ({ toggleDeleteModal, openModal }) => {
                     <span className="w-full uppercase italic md:rounded text-white text-center px-2 py-1 bg-[#ef5350]">
                       {userLanguage.commentPage.comments}
                     </span>
-                    <div className="w-full h-max flex flex-col transition-color duration-500 bg-gray-200 dark:bg-gray-800 md:rounded-bl md:rounded-br pt-1 pb-4 md:pb-2">
+                    <div className="w-full h-max flex flex-col space-y-1 transition-color duration-500 bg-gray-200 dark:bg-gray-800 md:rounded-bl md:rounded-br pt-1 pb-4 md:pb-2">
                       {commentsToDisplay.map((comment) => {
                         return (
                           <Comment

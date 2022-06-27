@@ -6,7 +6,7 @@ import "../index.css";
 import { deletePost } from "../store/actions/posts.action";
 import { likePost, toComment } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
-import { useToggleBox } from "../utils/hooks";
+import { useToggle } from "../utils/hooks";
 
 const Post = ({ post, aside }) => {
   const {
@@ -31,7 +31,6 @@ const Post = ({ post, aside }) => {
   const [commentsNumber, setcommentsNumber] = useState(commentCount);
   const [like, setLike] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
-  const [postDisappear, setPostDisappear] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const dispatch = useDispatch();
@@ -40,16 +39,14 @@ const Post = ({ post, aside }) => {
   const optionsBtnRef = useRef();
   const { pathname } = useLocation();
   const profilePage = pathname.includes("/profile");
-
-  const toggleOptions = useToggleBox(optionsOpen, setOptionsOpen);
-  const toggleDeleteModal = useToggleBox(openDeleteModal, setOpenDeleteModal);
+  const toggleOptions = useToggle(optionsOpen, setOptionsOpen);
+  const toggleDeleteModal = useToggle(openDeleteModal, setOpenDeleteModal);
 
   const handleDeletePost = useCallback(() => {
+    console.log("pre dispatsch delete");
     dispatch(deletePost(postId, "post", null));
+    console.log("post dispatsch delete");
     setIsDeleted(true);
-    setTimeout(() => {
-      setPostDisappear(true);
-    }, 500);
   }, [dispatch, postId]);
 
   const toCommentPage = useCallback(() => {
@@ -81,9 +78,11 @@ const Post = ({ post, aside }) => {
   );
 
   useEffect(() => {
-    setLikesNumber(likesCount);
-    setcommentsNumber(commentCount);
-  }, [likesCount, commentCount]);
+    if (!isDeleted) {
+      setLikesNumber(likesCount);
+      setcommentsNumber(commentCount);
+    }
+  }, [likesCount, commentCount, isDeleted]);
 
   const setCurrentUserLikes = useCallback(() => {
     allLikes?.map((like) => {
@@ -94,16 +93,18 @@ const Post = ({ post, aside }) => {
   }, [allLikes, userId, postId]);
 
   useEffect(() => {
-    setCurrentUserLikes();
-  }, [allLikes]);
+    if (!isDeleted) {
+      setCurrentUserLikes();
+    }
+  }, [allLikes, isDeleted]);
 
   return (
     <div
       id="postContainer"
       ref={postContainerRef}
-      className={`post-container ${postId === lastPostAdded && "animate-post"} ${isDeleted && "scale-0"} ${
-        postDisappear && "hidden"
-      } h-max w-full relative md:rounded-md flex-col items-center justify-center text-gray-900 dark:text-gray-300 border-t border-b dark:border-black md:border ${
+      className={`post-container ${postId === lastPostAdded ? "animate-post" : ""} ${
+        isDeleted ? "scale-0" : ""
+      }  h-max w-full relative md:rounded-md flex-col items-center justify-center text-gray-900 dark:text-gray-300 border-t border-b dark:border-black md:border ${
         profilePage ? "md:border-gray-400 dark:md:border-gray-600" : "md:border-gray-300 dark:md:border-gray-700"
       } md:hover:border-gray-900 dark:md:hover:border-gray-400 transition duration-500 bg-white dark:bg-gray-900 pt-2`}
     >

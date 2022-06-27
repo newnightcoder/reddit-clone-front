@@ -1,7 +1,7 @@
 import { ArrowCircleUpIcon, RefreshIcon } from "@heroicons/react/solid";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Error, FeedGreetings, Layout, Post, Skeleton } from "../components";
+import { EditCommentModal, Error, FeedGreetings, Layout, Post, Skeleton } from "../components";
 import { clearTempPostImg, clearTempPreview, getLikes, getPosts } from "../store/actions/posts.action";
 import { useContainerSize, useError, useLanguage } from "../utils/hooks";
 
@@ -14,9 +14,9 @@ const Feed = () => {
   const postsContainer = useRef();
   const size = useContainerSize(postsContainer);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  // }, []);
 
   useEffect(() => {
     dispatch(clearTempPostImg());
@@ -31,7 +31,7 @@ const Feed = () => {
 
   return (
     <Layout>
-      <div className="feed-container  h-full w-full flex flex-col items-center justify-start space-y-2 transition-color text-black dark:text-gray-100 duration-500 relative">
+      <div className="feed-container  lg:border-r lg:border-l lg:border-[#ededed] dark:md:border-gray-900 transition duration-500 md:px-12 h-full w-full flex flex-col items-center justify-start space-y-2 transition-color text-black dark:text-gray-100 duration-500 relative">
         <Error />
         <FeedGreetings />
         <div className="w-full h-full flex flex-col items-center justify-center space-y-4">
@@ -69,6 +69,7 @@ const Feed = () => {
               </button>
             </div>
           </div>
+          <EditCommentModal />
         </div>
       </div>
     </Layout>

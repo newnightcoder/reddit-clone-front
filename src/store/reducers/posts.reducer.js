@@ -15,7 +15,7 @@ const initialState = {
   scrapedPost: {},
   comments: null,
   currentCommentsCount: null,
-  currentPostComments: {},
+  // currentPostComments: {},
   replies: [],
   likes: [],
   error: "",
@@ -35,6 +35,7 @@ const {
   SET_PREVIEW_DATA,
   GET_COMMENTS,
   GET_REPLIES,
+  RESET_REPLIES,
   SET_ERROR_POST,
   CLEAR_ERROR_POST,
   SAVE_POST_PIC,
@@ -67,10 +68,10 @@ export const postsReducer = (state = initialState, action) => {
       return { ...state, posts: postsInOrder, likes };
     }
 
-    case GET_POST_BY_ID: {
-      const currentPost = action.payload;
-      return { ...state, currentPostComments: currentPost };
-    }
+    // case GET_POST_BY_ID: {
+    //   const currentPost = action.payload;
+    //   return { ...state, currentPostComments: currentPost };
+    // }
 
     case GET_LIKES: {
       const likes = action.payload;
@@ -102,7 +103,20 @@ export const postsReducer = (state = initialState, action) => {
 
     case GET_REPLIES: {
       const replies = action.payload;
-      return { ...state, replies };
+      const copy = state.replies.length > 0 ? [...state.replies] : [];
+      if (replies.length > 0) {
+        replies.forEach((reply) => {
+          copy.push(reply);
+        });
+      } else return { ...state };
+      return { ...state, replies: copy };
+    }
+
+    case RESET_REPLIES: {
+      return {
+        ...state,
+        replies: [],
+      };
     }
 
     case SAVE_POST_PIC:
@@ -146,8 +160,59 @@ export const postsReducer = (state = initialState, action) => {
     case CREATE_REPLY:
       return { ...state, lastReplyAdded: action.payload };
 
-    case EDIT_POST:
-      return { ...state };
+    case EDIT_POST: {
+      const { edit, id, origin } = action.payload;
+      switch (origin) {
+        case "post": {
+          const copy = [...state.posts];
+          const updatedPosts = copy.map((post) => {
+            if (post.postId === id) {
+              return {
+                ...post,
+                title: edit.title,
+                text: edit.text,
+                imgUrl: edit.imgUrl,
+                date: edit.date,
+                isPreview: edit.isPreview,
+                previewTitle: edit.previewTitle,
+                previewText: edit.previewText,
+                previewImg: edit.previewImg,
+                previewPub: edit.previewPub,
+                previewUrl: edit.previewUrl,
+                previewPubLogo: edit.previewLogo,
+              };
+            } else return post;
+          });
+          return { ...state, posts: updatedPosts };
+        }
+        case "comment": {
+          const copy = [...state.comments];
+          const updatedComments = copy.map((comment) => {
+            if (comment.commentId === id) {
+              return {
+                ...comment,
+                text: edit.text,
+              };
+            } else return comment;
+          });
+          return { ...state, comments: updatedComments };
+        }
+        case "reply": {
+          const copy = [...state.replies];
+          const updatedReplies = copy.map((reply) => {
+            if (reply.replyId === id) {
+              return {
+                ...reply,
+                text: edit.text,
+              };
+            } else return reply;
+          });
+          return { ...state, replies: updatedReplies };
+        }
+        default:
+          return;
+      }
+    }
 
     case SET_EDIT_ID:
       return { ...state, editId: action.payload };
@@ -158,8 +223,11 @@ export const postsReducer = (state = initialState, action) => {
 
     case DELETE_POST: {
       const postId = action.payload;
-      return { ...state, posts: state.posts.filter((post) => post.postId !== postId), lastDeleted: true };
+      const copy = [...state.posts];
+      const updatedPosts = copy.filter((post) => post.postId !== postId);
+      return { ...state, posts: updatedPosts, lastDeleted: true };
     }
+
     case SET_ERROR_POST:
       return { ...state, error: action.payload };
 

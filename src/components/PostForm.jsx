@@ -38,20 +38,21 @@ const PostForm = ({
   handleEditCommentSubmit,
   handleEditTitleInput,
   handleEditText,
+  handleEditCommentText,
 }) => {
   const currentPostImgUrl = useSelector((state) => state.posts.currentPost.imgUrl);
-  const { scrapedPost, previewLoading } = useSelector((state) => state.posts);
+  const { scrapedPost, previewLoading, editId } = useSelector((state) => state.posts);
   const { pathname } = useLocation();
   const { width } = useWindowSize();
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
-  const editPage = pathname === "/edit";
+  const createPage = pathname === "/create";
   const commentPage = pathname.includes("comments");
 
   const handleImgPostForm = useCallback(() => {
-    if (!commentPage) {
+    if (editId.type === "post") {
       const postImg = <img id="postImg" src={currentPostImgUrl} alt="" className="h-max rounded max-h-[500px]" />;
-      if (currentPostImgUrl.length !== 0) return setImgDom(postImg);
+      if (currentPostImgUrl?.length !== 0) return setImgDom(postImg);
       if (previewLoading) return setImgDom(<PreviewLoader />);
       if (!isObjectEmpty(scrapedPost)) return setImgDom(<LinkPreview />);
       return setImgDom(null);
@@ -64,30 +65,30 @@ const PostForm = ({
 
   return (
     <form
-      className={`${width < breakpoint.md && editPage ? "min-h-[calc(100vh-8rem)]" : editPage ? "min-h-[max-content]" : ""} ${
-        pathname !== "/edit" ? "h-min" : "h-full"
-      } w-full flex flex-col items-center justify-start md:justify-center space-y-4 transition-color duration-500 bg-white dark:bg-gray-900 border-t border-b md:border dark:border-gray-700 md:rounded pt-4 ${
-        editPage ? "pb-24" : "pb-6"
-      } md:pt-6 md:pb-6 px-4`}
+      className={`${
+        width < breakpoint.md && !commentPage ? "min-h-[calc(100vh-8rem)]" : "min-h-[max-content]"
+      }  h-full w-full flex flex-col items-center justify-start md:justify-center space-y-4 transition-color duration-500 bg-white dark:bg-gray-900 border-t border-b md:border dark:border-gray-700 md:rounded pt-4 pb-6 md:pt-6 md:pb-6 px-4`}
       method="post"
-      onSubmit={editPage ? handleEditSubmit : commentPage ? handleEditCommentSubmit : handlePostSubmit}
+      onSubmit={
+        editId?.type === "post"
+          ? handleEditSubmit
+          : editId?.type === "comment" || editId?.type === "reply"
+          ? handleEditCommentSubmit
+          : handlePostSubmit
+      }
     >
       <div className="w-full flex items-center justify-between">
         <button
           type="button"
-          onClick={() => {
-            if (commentPage) {
-              return dispatch(toggleEditModal());
-            } else history.push("/feed");
-          }}
+          onClick={createPage ? () => history.push("/feed") : () => dispatch(toggleEditModal())}
           className="w-8 h-8 outline-none mb-2 md:mb-0 md:w-max md:h-max self-start flex items-center justify-center md:space-x-2 text-white md:px-4 md:py-2 rounded-full shadow-xl bg-gray-500 dark:bg-gray-600 transition duration-300 hover:bg-black dark:hover:bg-black  hover:shadow-none dark:border dark:border-gray-600"
         >
           <span className="hidden md:inline-block text-xs capitalize">{userLanguage.createPost.cancelBtn}</span> <XLg size={12} />
         </button>
         {currentPostImgUrl || !isObjectEmpty(scrapedPost) || postToEdit?.isPreview === 1 ? (
           <button
-            onClick={(e) => {
-              e.preventDefault();
+            type="button"
+            onClick={() => {
               currentPostImgUrl
                 ? dispatch(clearTempPostImg())
                 : !isObjectEmpty(scrapedPost)
@@ -100,15 +101,15 @@ const PostForm = ({
           </button>
         ) : null}
       </div>
-      {!commentPage && (
+      {editId.type === "post" && (
         <input
           className="h-10 w-full px-2 rounded outline-none text-gray-900 dark:text-gray-100 dark:caret-white bg-gray-100 dark:bg-gray-700 hover:bg-white active:bg-white focus:bg-white border border-gray-400 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-200 transition-all duration-200 placeholder-gray-400 dark:placeholder-[#999999]"
           type="text"
           name="Title"
           id="title"
-          placeholder={pathname === "/create" ? userLanguage.createPost.titlePlaceholder : null}
-          onChange={editPage ? (e) => handleEditTitleInput(e) : (e) => handleTitleInput(e)}
-          value={editPage ? postTitle : title}
+          placeholder={createPage ? userLanguage.createPost.titlePlaceholder : null}
+          onChange={editId.type === "post" ? (e) => handleEditTitleInput(e) : (e) => handleTitleInput(e)}
+          value={editId.type === "post" ? postTitle : title}
         />
       )}
       <div className="form-container h-full w-full flex flex-col items-center justify-start space-y-6">
@@ -121,7 +122,7 @@ const PostForm = ({
               id="postInput"
               style={{
                 minHeight:
-                  !isObjectEmpty(scrapedPost) || currentPostImgUrl.length !== 0 || postToEdit?.isPreview === 1
+                  !isObjectEmpty(scrapedPost) || currentPostImgUrl?.length !== 0 || postToEdit?.isPreview === 1
                     ? "min-content"
                     : "12rem",
               }}
@@ -129,9 +130,9 @@ const PostForm = ({
               contentEditable="true"
               suppressContentEditableWarning={true}
               placeholder={userLanguage.createPost.textPlaceholder}
-              onBlur={editPage || commentPage ? handleEditText : handlePostInput}
+              onBlur={editId.type === "post" ? handleEditText : commentPage ? handleEditCommentText : handlePostInput}
             >
-              {postText ? postText : editText && editText}
+              {postText ? postText : editText}
             </span>
             <div id="imgContainer" className="px-2 flex items-start justify-center">
               {imgDom}
@@ -140,28 +141,31 @@ const PostForm = ({
         </div>
         <div
           className={`w-full h-max flex items-center ${
-            !commentPage ? "justify-between" : "justify-end"
+            editId.type === "post" ? "justify-between" : "justify-end"
           } px-1 pb-4 overflow-y-auto space-x-6`}
         >
-          {!commentPage && (
+          {editId.type === "post" && (
             <div className="w-max h-full flex items-center justify-start space-x-2">
               <button
+                type="button"
                 className="h-10 w-max text-gray-500 dark:text-gray-100 text-xs rounded-full transition-color duration-300 border border-gray-200 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-100 px-4 py-2 bg-transparent ouline-none flex items-center justify-start space-x-1"
-                onClick={(e) => toggleImgUploadModal(e)}
+                onClick={toggleImgUploadModal}
               >
                 <Image size={16} className="text-gray-900 dark:text-gray-100" />
                 <span className="hidden md:inline-block text-sm">{userLanguage.createPost.imgBtn}</span>
               </button>
               <button
+                type="button"
                 className="h-10 w-max text-gray-500 dark:text-gray-100 text-xs rounded-full transition-color duration-300 border border-gray-200 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-100 px-4 py-2 bg-transparent ouline-none flex items-center justify-start space-x-1"
-                onClick={(e) => toggleGifModal(e)}
+                onClick={toggleGifModal}
               >
                 <img src={giphyDark} width="25" alt="giphy logo" />{" "}
                 <span className="hidden md:inline-block text-sm">{userLanguage.createPost.gifBtn}</span>
               </button>
               <button
+                type="button"
                 className="h-10 w-max text-gray-500 dark:text-gray-100 text-xs rounded-full transition-color duration-300 border border-gray-200 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-100 px-4 py-2 bg-transparent ouline-none flex items-center justify-start"
-                onClick={(e) => toggleLinkModal(e)}
+                onClick={toggleLinkModal}
               >
                 <Link45deg size={20} className="text-gray-900 dark:text-gray-100" />
                 <span className="hidden md:inline-block text-sm capitalize">{userLanguage.createPost.linkBtn}</span>

@@ -6,4 +6,5 @@ export { default as EditPostPage } from "./EditPostPage";
 export { default as FeedPage } from "./FeedPage";
 export { default as LoginPage } from "./LoginPage";
 export { default as ProfilePage } from "./ProfilePage";
+export { default as SearchPage } from "./SearchPage";
 export { default as SignupPage } from "./SignupPage";

@@ -6,7 +6,7 @@ import picPlaceholder from "../assets/pic_placeholder.svg";
 import { deletePost } from "../store/actions/posts.action";
 import { likePost } from "../store/actions/user.action";
 import { formatTimestamp } from "../utils/helpers/formatTime";
-import { useToggleBox } from "../utils/hooks";
+import { useToggle } from "../utils/hooks";
 
 const Reply = ({ reply }) => {
   const { replyId, fk_userId_reply, text, date, username, picUrl, likesCount } = reply;
@@ -21,7 +21,12 @@ const Reply = ({ reply }) => {
   const [postIsGone, setpostIsGone] = useState(false);
   const sameUserReply = [];
   const dispatch = useDispatch();
-  // const userlanguage = useLanguage();
+  const toggleOptions = useToggle(optionsOpen, setOptionsOpen);
+  const toggleDeleteModal = useToggle(openDeleteModal, setOpenDeleteModal);
+
+  // const toggleReply = useCallback(() => {
+  //   return setReplyOpen((replyOpen) => !replyOpen);
+  // }, []);
 
   useEffect(() => {
     setLikesNumber(likesCount);
@@ -40,13 +45,6 @@ const Reply = ({ reply }) => {
       }
     });
   }, [replyId, likes, userId]);
-
-  const toggleOptions = useToggleBox(optionsOpen, setOptionsOpen);
-  const toggleDeleteModal = useToggleBox(openDeleteModal, setOpenDeleteModal);
-
-  const toggleReply = useCallback(() => {
-    return setReplyOpen((replyOpen) => !replyOpen);
-  }, []);
 
   const handleLike = useCallback(
     (replyId) => {

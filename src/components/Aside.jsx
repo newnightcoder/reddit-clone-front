@@ -17,12 +17,15 @@ const Aside = () => {
   const createPostPage = pathname === "/create";
   const commentPage = pathname.includes("comments");
   const editPostPage = pathname === "/edit";
+  const searchPage = pathname === "/search";
   const profilePage = pathname.includes("profile");
 
   useEffect(() => {
-    dispatch(getRecentUsers());
-    dispatch(getMods());
-  }, [dispatch]);
+    if (feedPage || profilePage) {
+      dispatch(getRecentUsers());
+      dispatch(getMods());
+    }
+  }, [dispatch, profilePage, feedPage]);
 
   useEffect(() => {
     if (width >= breakpoint.lg) {
@@ -46,7 +49,7 @@ const Aside = () => {
             <PopularPosts />
             <FooterAside />
           </>
-        ) : profilePage ? (
+        ) : profilePage || searchPage ? (
           <RecentUsers />
         ) : (
           (createPostPage || editPostPage || commentPage) && <Rules />

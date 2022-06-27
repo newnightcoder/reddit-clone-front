@@ -1,4 +1,3 @@
-import "draft-js/dist/Draft.css";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Error, GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
@@ -31,6 +30,7 @@ const CreatePost = () => {
   }, [dispatch, setIsPreview]);
 
   useEffect(() => {
+    window.scroll(0, 0);
     dispatch(clearTempPostImg());
     dispatch(clearTempPreview());
     dispatch(clearErrorPost());
@@ -64,9 +64,7 @@ const CreatePost = () => {
       dispatch(createPost(id, title, postText, createDate(), postImg && postImg, isPreview, preview));
       dispatch(clearTempPostImg());
       dispatch(clearTempPreview());
-      history.push({
-        pathname: "/feed",
-      });
+      history.push("/feed");
     },
     [dispatch, title, postText, id, postImg, isPreview, preview]
   );
@@ -91,7 +89,7 @@ const CreatePost = () => {
   return (
     <>
       <Layout>
-        <div className="w-full flex flex-col items-center justify-start pb-32 md:pb-16 pt-20 md:pt-24">
+        <div className="w-full flex flex-col items-center justify-start pb-32 md:pb-16 pt-20 md:pt-24 lg:border-r lg:border-l lg:border-[#ededed] dark:md:border-gray-900 transition duration-500 md:px-12">
           <Error />
           <span className="absolute top-5 md:top-8 mx-auto font-bold text-sm italic text-gray-900 dark:text-blue-400 text-center whitespace-nowrap">
             {userLanguage.createPost.heading1} <br />

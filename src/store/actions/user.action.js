@@ -345,7 +345,7 @@ export const toggleDarkMode = () => (dispatch) => {
   dispatch({ type: TOGGLE_DARK_MODE });
 };
 
-export const followUser = (myId, userId, bool, date) => async (dispatch) => {
+export const followUser = (myId, userId, bool) => async (dispatch) => {
   const token = localStorage.getItem("jwt");
   const request = {
     headers: {
@@ -354,14 +354,16 @@ export const followUser = (myId, userId, bool, date) => async (dispatch) => {
       Authorization: `Bearer ${token}`,
     },
     method: "post",
-    body: JSON.stringify({ myId, userId, bool, date }),
+    body: JSON.stringify({ myId, userId, bool }),
   };
 
   try {
     const response = await fetch(`${API_USER}/follow`, request);
-    const { msg } = await response.json();
+    const { msg, error } = await response.json();
+    if (error) return dispatch({ type: SET_ERROR_USER, payload: "backend" });
     if (msg) {
-      return dispatch({ type: UPDATE_FOLLOW, payload: bool });
+      console.log(msg);
+      return dispatch({ type: UPDATE_FOLLOW, payload: { myId, userId, bool } });
     }
   } catch (error) {
     dispatch({ type: SET_ERROR_USER, payload: "backend" });
@@ -380,11 +382,9 @@ export const getFollowers = (id) => async (dispatch) => {
   };
   try {
     const response = await fetch(`${API_USER}/follow/${id}`, request);
-    const data = await response.json();
-    if (data) {
-      console.log("FOLLOWERS", data);
-      return dispatch({ type: GET_FOLLOWERS, payload: data });
-    }
+    const { followers, following, error } = await response.json();
+    if (error) return dispatch({ type: SET_ERROR_USER, payload: "backend" });
+    dispatch({ type: GET_FOLLOWERS, payload: { followers, following } });
   } catch (error) {
     console.log(error);
     dispatch({ type: SET_ERROR_USER, payload: "backend" });

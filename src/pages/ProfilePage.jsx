@@ -6,14 +6,25 @@ import { useLocation } from "react-router-dom";
 import { bannerPlaceholder, logo_mobile_blue, picPlaceholder } from "../assets";
 import { DeleteModal, EditUsernameModal, Error, Followers, Layout, Post, ProfileOptions, Skeleton } from "../components";
 import { getUserPosts } from "../store/actions/posts.action";
-import { deleteUser, followUser } from "../store/actions/user.action";
+import { deleteUser, followUser, getFollowers } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
-import { date, formatTimestamp } from "../utils/helpers/formatTime";
-import { useGetProfile, useLanguage, useToggleBox } from "../utils/hooks";
+import { formatTimestamp } from "../utils/helpers/formatTime";
+import { useGetProfile, useLanguage, useToggle } from "../utils/hooks";
 
 const Profile = () => {
-  const { id, picUrl, bannerUrl, username, creationDate, role, followingCount, followersCount, isAuthenticated, language } =
-    useSelector((state) => state?.user);
+  const {
+    id,
+    picUrl,
+    bannerUrl,
+    username,
+    creationDate,
+    role,
+    followingCount,
+    followersCount,
+    followers,
+    isAuthenticated,
+    language,
+  } = useSelector((state) => state?.user);
   const { userPosts, posts, likes } = useSelector((state) => state?.posts);
   const [openModal, setOpenModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
@@ -23,30 +34,46 @@ const Profile = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const profileId = isAuthenticated ? location?.state?.profileId : null;
-  const userData = useGetProfile(profileId);
+  const { userData, loading } = useGetProfile(profileId);
   const userLanguage = useLanguage();
-  const initialCount = userData?.followersCount;
-  const [updatedFollowers, setUpdatedFollowers] = useState(initialCount);
+  const initialFollowersCount = userData?.followersCount;
+  const [updatedFollowersCount, setUpdatedFollowersCount] = useState(initialFollowersCount);
   const [followersOpen, setFollowersOpen] = useState(false);
   const [isFollowersClicked, setIsFollowersClicked] = useState(false);
+  const [isFollowed, setIsFollowed] = useState(false);
+  const [btnFollowStatus, setBtnFollowStatus] = useState(isFollowed);
+  const toggleDeleteModal = useToggle(openModal, setOpenModal);
+  const toggleEditModal = useToggle(openEditModal, setOpenEditModal);
+  const toggleProfileOptions = useToggle(openProfileOptions, setOpenProfileOptions);
+  const toggleTabs = useToggle(postTabOpen, setPostTabOpen);
+  const toggleFollowers = useToggle(followersOpen, setFollowersOpen);
+  const toggleBtnTextFollow = useToggle(btnFollowStatus, setBtnFollowStatus);
 
-  const toggleDeleteModal = useToggleBox(openModal, setOpenModal);
-  const toggleEditModal = useToggleBox(openEditModal, setOpenEditModal);
-  const toggleProfileOptions = useToggleBox(openProfileOptions, setOpenProfileOptions);
-  const toggleTabs = useToggleBox(postTabOpen, setPostTabOpen);
-  const toggleFollowers = useToggleBox(followersOpen, setFollowersOpen);
+  const checkIsFollowed = useCallback(
+    (id) => {
+      const followed = followers?.find((follower) => follower.userId === id);
+      if (followed) {
+        setIsFollowed(true);
+        setBtnFollowStatus(true);
+      }
+    },
+    [followers, id]
+  );
 
   const formatNumber = useCallback((number) => {
     const thousand = 1000;
     const million = 1000000;
-    if (number >= million) return `${number / 1000000}M`;
-    if (number >= thousand) return `${number / 1000}K`;
+    if (number >= million) return `${number / million}M`;
+    if (number >= thousand) return `${number / thousand}K`;
     return number;
   }, []);
 
-  const updateCount = useCallback(() => {
-    setUpdatedFollowers(updatedFollowers + 1);
-  }, [userData, setUpdatedFollowers, updatedFollowers]);
+  const updateCount = useCallback(
+    (bool) => {
+      bool ? setUpdatedFollowersCount(updatedFollowersCount + 1) : setUpdatedFollowersCount(updatedFollowersCount - 1);
+    },
+    [setUpdatedFollowersCount, updatedFollowersCount]
+  );
 
   const getLikedPostArray = useCallback(() => {
     const postsArr = [];
@@ -68,14 +95,21 @@ const Profile = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    console.log("USER DATA IN PROFILE PAGE", userData);
-    setUpdatedFollowers(initialCount);
-  }, [userData]);
+  }, []);
 
   useEffect(() => {
     dispatch(getUserPosts(profileId));
+    dispatch(getFollowers(profileId));
     getLikedPostArray();
   }, [profileId, userData, dispatch]);
+
+  useEffect(() => {
+    setUpdatedFollowersCount(initialFollowersCount);
+  }, [userData, initialFollowersCount]);
+
+  useEffect(() => {
+    checkIsFollowed(id);
+  }, [followers, checkIsFollowed, id]);
 
   const handleDeleteProfile = useCallback(
     (profileId) => {
@@ -97,16 +131,16 @@ const Profile = () => {
       ) : (
         <Layout>
           <div
-            className="page-container relative h-max w-full flex items-start justify-center md:rounded-md text-gray-900 dark:text-gray-100 transition duration-500"
+            className="page-container relative h-max w-full flex items-start justify-center md:rounded-md text-gray-900 dark:text-gray-100 transition duration-500 lg:border-r lg:border-l lg:border-[#ededed] dark:md:border-gray-900 md:px-12"
             style={{ minHeight: "calc(100vh - 4rem)" }}
           >
             <Error />
-            {userData === undefined || !userData ? (
+            {userData === undefined || !userData || loading ? (
               <Skeleton element="profile" number={1} />
             ) : (
               <div
                 style={{ minHeight: "calc(100vh - 7rem)" }}
-                className={`bg-white relative dark:bg-gray-900 transition duration-500 border-2 border-purple-500 w-full h-max rounded-md md:mt-8 flex items-center justify-start overflow-x-hidden`}
+                className={`bg-white relative dark:bg-gray-900 transition duration-500 border-2 border-purple-500 w-full h-max rounded-md md:mt-8 flex items-start justify-center overflow-x-hidden`}
               >
                 <Followers
                   toggleFollowers={toggleFollowers}
@@ -135,14 +169,14 @@ const Profile = () => {
                     }}
                     className="top-section mb-2 relative h-48 w-full pb-2 flex flex-col items-center justify-center space-y-2 md:rounded-tl-md md:rounded-tr-md"
                   >
-                    {profileId === id && (
-                      <button
-                        className="absolute top-4 right-4 flex items-center justify-center space-x-1 text-xs italic text-white py-1 px-6 rounded-full shadow-xl bg-blue-400 dark:bg-black transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
-                        onClick={toggleProfileOptions}
-                      >
-                        {userLanguage.profile.editBtn}
-                      </button>
-                    )}
+                    <button
+                      className={`${
+                        profileId === id && !loading ? "visible" : "invisible"
+                      } absolute top-4 right-4 items-center justify-center space-x-1 text-xs opacity-0 flex italic text-white py-1 px-6 rounded-full shadow-xl bg-blue-400 dark:bg-black transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
+                      onClick={toggleProfileOptions}
+                    >
+                      {userLanguage.profile.editBtn}
+                    </button>
                     {openProfileOptions && (
                       <ProfileOptions
                         setOpenModal={setOpenModal}
@@ -162,17 +196,30 @@ const Profile = () => {
                       }
                     ></div>
                     {openEditModal && <EditUsernameModal toggleEditModal={toggleEditModal} openEditModal={openEditModal} />}
-                    <button
-                      className="z-10 followBtn absolute right-4 bottom-0 translate-y-[calc(100%+.75rem)] flex items-center justify-center space-x-1 text-md bg-blue-500 text-white text-sm px-4 py-1 rounded-full hover:drop-shadow"
-                      onClick={() => {
-                        dispatch(followUser(id, profileId, true, date));
-                        updateCount();
-                      }}
-                    >
-                      <span>follow</span>
-                    </button>
+                    {profileId !== id && !loading && (
+                      <button
+                        className="z-10 followBtn absolute right-4 bottom-0 translate-y-[calc(100%+.75rem)] flex items-center justify-center space-x-1 text-md bg-blue-500 text-white text-sm px-4 py-1 rounded-full hover:drop-shadow"
+                        onClick={
+                          !btnFollowStatus
+                            ? () => {
+                                dispatch(followUser(id, profileId, true));
+                                updateCount(true);
+                                toggleBtnTextFollow();
+                              }
+                            : () => {
+                                dispatch(followUser(id, profileId, false));
+                                updateCount(false);
+                                toggleBtnTextFollow();
+                              }
+                        }
+                      >
+                        <span className="capitalize">
+                          {btnFollowStatus ? userLanguage.profile.unfollow : userLanguage.profile.follow}
+                        </span>
+                      </button>
+                    )}
                     <div className="deleteBtn absolute left-4 top-4 w-10/12 pl-4">
-                      {role === "admin" && userData?.id !== id && (
+                      {role === "admin" && userData?.id !== id && !loading && (
                         <button
                           className="flex items-center justify-center space-x-1 text-md bg-black text-white text-sm  pl-2 pr-3 py-1 rounded-full hover:drop-shadow"
                           onClick={() => setOpenModal(true)}
@@ -224,7 +271,7 @@ const Profile = () => {
                       }}
                     >
                       <span className="font-bold font-sans">
-                        {profileId === id ? formatNumber(followersCount) : formatNumber(updatedFollowers)}
+                        {profileId === id ? formatNumber(followersCount) : formatNumber(updatedFollowersCount)}
                       </span>
                       Followers
                     </button>

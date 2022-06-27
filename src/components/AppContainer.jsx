@@ -3,11 +3,11 @@ import {
   CommentPage,
   CreatePostPage,
   DeletedProfilePage,
-  EditPostPage,
   FeedPage,
   HomePage,
   LoginPage,
   ProfilePage,
+  SearchPage,
   SignupPage,
 } from "../pages";
 
@@ -20,9 +20,9 @@ const AppContainer = () => {
         <Route path="/signup" component={SignupPage} />
         <Route path="/feed" component={FeedPage} />
         <Route path="/create" component={CreatePostPage} />
-        <Route path="/edit" component={EditPostPage} />
         <Route path="/comments" component={CommentPage} />
         <Route path="/profile" component={ProfilePage} />
+        <Route path="/search" component={SearchPage} />
         <Route path="/fin" component={DeletedProfilePage} />
       </Switch>
     </div>

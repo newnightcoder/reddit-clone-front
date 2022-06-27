@@ -12,40 +12,43 @@ const useHandleLink = () => {
   const linkToProfile = useLinkToProfile();
   const userLanguage = useLanguage();
 
-  const handleVisitorModal = (origin) => {
-    switch (origin) {
-      case "post":
-        visitorMessage.current = userLanguage.visitorModal.msgPost;
-        break;
-      case "profile":
-        visitorMessage.current = userLanguage.visitorModal.msgSelfProfile;
-        break;
-      case "login":
-        visitorMessage.current = userLanguage.visitorModal.msgConnect;
-        break;
-      case "post-profile":
-        visitorMessage.current = userLanguage.visitorModal.msgProfiles;
-        break;
-      case "new-members":
-        visitorMessage.current = userLanguage.visitorModal.msgNewMembers;
-        break;
-      case "mods":
-        visitorMessage.current = userLanguage.visitorModal.msgMods;
-        break;
-      case "like":
-        visitorMessage.current = userLanguage.visitorModal.msgLike;
-        break;
-      case "comment":
-        visitorMessage.current = userLanguage.visitorModal.msgComments;
-        break;
-      case "delete":
-        visitorMessage.current = userLanguage.visitorModal.msgDeleteProfile;
-        break;
-      default:
-        visitorMessage.current = "";
-    }
-    dispatch(toggleVisitorModal(visitorMessage.current));
-  };
+  const handleVisitorModal = useCallback(
+    (origin) => {
+      switch (origin) {
+        case "post":
+          visitorMessage.current = userLanguage.visitorModal.msgPost;
+          break;
+        case "profile":
+          visitorMessage.current = userLanguage.visitorModal.msgSelfProfile;
+          break;
+        case "login":
+          visitorMessage.current = userLanguage.visitorModal.msgConnect;
+          break;
+        case "post-profile":
+          visitorMessage.current = userLanguage.visitorModal.msgProfiles;
+          break;
+        case "new-members":
+          visitorMessage.current = userLanguage.visitorModal.msgNewMembers;
+          break;
+        case "mods":
+          visitorMessage.current = userLanguage.visitorModal.msgMods;
+          break;
+        case "like":
+          visitorMessage.current = userLanguage.visitorModal.msgLike;
+          break;
+        case "comment":
+          visitorMessage.current = userLanguage.visitorModal.msgComments;
+          break;
+        case "delete":
+          visitorMessage.current = userLanguage.visitorModal.msgDeleteProfile;
+          break;
+        default:
+          visitorMessage.current = "";
+      }
+      dispatch(toggleVisitorModal(visitorMessage.current));
+    },
+    [visitorMessage, userLanguage, dispatch]
+  );
 
   const handleLink = useCallback(
     (link, userId, username) => {

@@ -7,7 +7,7 @@ import picPlaceholder from "../assets/pic_placeholder.svg";
 import { clearErrorPost, createReply, deletePost, getReplies, setErrorPost } from "../store/actions/posts.action";
 import { likePost } from "../store/actions/user.action";
 import { createDate, formatTimestamp } from "../utils/helpers/formatTime";
-import { useError, useLanguage, useToggleBox } from "../utils/hooks";
+import { useError, useLanguage, useToggle } from "../utils/hooks";
 
 const Comment = ({ comment, postId }) => {
   const { fk_userId_comment: authorId, picUrl, username, text, date, commentId, likesCount } = comment;
@@ -29,6 +29,9 @@ const Comment = ({ comment, postId }) => {
   const userLanguage = useLanguage();
   const error = useError();
   const [commentRefNumber, setcommentRefNumber] = useState(null);
+  const toggleOptions = useToggle(optionsOpen, setOptionsOpen);
+  const toggleDeleteModal = useToggle(openDeleteModal, setOpenDeleteModal);
+  const toggleReply = useToggle(replyOpen, setReplyOpen);
 
   useEffect(() => {
     const copy = replies && [...replies];
@@ -59,10 +62,6 @@ const Comment = ({ comment, postId }) => {
       }
     });
   }, [commentId, likes, myId]);
-
-  const toggleOptions = useToggleBox(optionsOpen, setOptionsOpen);
-  const toggleDeleteModal = useToggleBox(openDeleteModal, setOpenDeleteModal);
-  const toggleReply = useToggleBox(replyOpen, setReplyOpen);
 
   const handleLike = useCallback(
     (commentId) => {
@@ -122,7 +121,7 @@ const Comment = ({ comment, postId }) => {
   }, [commentId, dispatch, postId]);
 
   return (
-    <div id={commentId} ref={commentRef} className="flex flex-col items-center justify-center space-y-1 w-full rounded">
+    <div id={commentId} ref={commentRef} className="flex flex-col items-center justify-center space-y-1 w-full rounded pb-2">
       <div
         className="comment-container rounded relative h-max w-full flex-col items-center justify-center text-gray-900 dark:text-gray-300 transition duration-500 bg-white dark:bg-gray-900 px-2 py-1"
         style={{ marginBottom: replyOpen && "5px", transform: isDeleted && "scale(0)", display: postIsGone && "none" }}

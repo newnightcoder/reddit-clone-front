@@ -2,7 +2,6 @@ import { FlagIcon, PencilIcon, ShareIcon, TrashIcon, XIcon } from "@heroicons/re
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setEditId, toggleEditModal } from "../store/actions/posts.action";
-import { history } from "../utils/helpers";
 import { useLanguage } from "../utils/hooks";
 
 const Options = ({
@@ -33,10 +32,10 @@ const Options = ({
 
   const handleOptionEdit = useCallback(() => {
     dispatchEditInfo();
-    if (postId === undefined) {
-      dispatch(toggleEditModal());
-      toggleOptions();
-    } else history.push("/edit");
+    // if (postId === undefined) {
+    dispatch(toggleEditModal());
+    toggleOptions();
+    // } else history.push("/edit");
   }, [dispatchEditInfo, dispatch, toggleEditModal, toggleOptions]);
 
   return (

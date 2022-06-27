@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import useLanguage from "./useLanguage";
 
@@ -9,7 +9,7 @@ const useDelete = (props) => {
   const userId = useSelector((state) => state?.user?.id);
   const userLanguage = useLanguage();
 
-  const toggleMessage = () => {
+  const toggleMessage = useCallback(() => {
     switch (origin) {
       case "post":
         return setMessage(userLanguage.deleteModal.msgPost);
@@ -26,7 +26,7 @@ const useDelete = (props) => {
       default:
         return message;
     }
-  };
+  }, [setMessage, userLanguage, message, origin]);
 
   const deleteFunction = () => {
     switch (origin) {
@@ -49,7 +49,7 @@ const useDelete = (props) => {
 
   useEffect(() => {
     toggleMessage();
-  }, [userLanguage]);
+  }, [userLanguage, toggleMessage]);
 
   return { message, deleteFunction };
 };

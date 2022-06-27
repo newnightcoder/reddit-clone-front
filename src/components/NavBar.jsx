@@ -12,6 +12,11 @@ const NavBar = ({ toggleMenu }) => {
   const handleLink = useHandleLink();
   const userLanguage = useLanguage();
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    history.push("/search");
+  };
+
   return (
     <div className="h-16 w-full fixed top-0 overflow-hidden z-[1000] shadow-md">
       <div className=" h-full w-full pl-0 md:pl-2 pr-4 flex items-center justify-between md:justify-evenly space-x-1 md:space-x-2 transition duration-500 dark:text-white bg-gray-100 dark:bg-gray-900 border-b border-transparent dark:border-gray-700">
@@ -47,14 +52,18 @@ const NavBar = ({ toggleMenu }) => {
           </svg>
         </Link>
 
-        <form className="hidden group w-2/3  max-w-xl 2xl:max-w-5xl md:flex items-center justify-center rounded-l-full" action="">
+        <form
+          className="hidden group w-2/3  max-w-xl 2xl:max-w-5xl md:flex items-center justify-center rounded-l-full"
+          action="post"
+          onSubmit={handleSearch}
+        >
           <input
             className="h-10 w-full rounded-l-full outline-none pl-3 pr-2 text-black dark:text-gray-100 dark:placeholder-gray-200 dark:bg-gray-600 text-sm lg:text-md transition-color duration-300 border-t border-b border-l border-gray-200 dark:border-gray-700 group-hover:border-gray-400 dark:group-hover:border-gray-400"
             type="search"
             placeholder={userLanguage.navbar.searchPlaceholder}
           />
           <button
-            type="button"
+            type="submit"
             className="w-10 h-10 outline-none rounded-r-full bg-black dark:bg-gray-700 flex items-center justify-center border border-transparent group-hover:border-gray-400 dark:group-hover:border-gray-400"
           >
             <SearchIcon className="h-5 w-5 text-white" />
@@ -100,7 +109,7 @@ const NavBar = ({ toggleMenu }) => {
             ></div>
             <div className="flex flex-col items-start">
               {isAuthenticated && <span className="text-xs underline whitespace-nowrap">{userLanguage.navbar.connected}</span>}
-              <span className="capitalize font-bold whitespace-nowrap max-w-[10ch] overflow-x-hidden overflow-ellipsis pr-1">
+              <span className="capitalize font-bold whitespace-nowrap max-w-[10ch] md:max-w-[15ch] overflow-x-hidden overflow-ellipsis pr-1">
                 {isAuthenticated && username ? username : isAuthenticated && !username ? "Noname" : userLanguage.navbar.visitor}
               </span>
             </div>

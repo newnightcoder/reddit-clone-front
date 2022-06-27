@@ -22,6 +22,7 @@ const {
   DELETE_POST,
   GET_COMMENTS,
   GET_REPLIES,
+  RESET_REPLIES,
   SET_ERROR_POST,
   CLEAR_ERROR_POST,
   CLEAR_LAST_ADDED,
@@ -57,31 +58,31 @@ export const getPosts = () => async (dispatch) => {
   }
 };
 
-export const getPostById = (id) => async (dispatch) => {
-  const accessToken = localStorage.getItem("jwt");
-  const request = {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      Authorization: `Bearer ${accessToken}`,
-    },
-    method: "get",
-  };
+// export const getPostById = (id) => async (dispatch) => {
+//   const accessToken = localStorage.getItem("jwt");
+//   const request = {
+//     headers: {
+//       "Access-Control-Allow-Origin": "*",
+//       Authorization: `Bearer ${accessToken}`,
+//     },
+//     method: "get",
+//   };
 
-  try {
-    const response = await fetch(`${API_POST}/id/${id}`, request);
-    const { currentPost, error, sessionExpired } = await response.json();
-    if (sessionExpired) {
-      return dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
-    } else if (error) {
-      return dispatch({ type: SET_ERROR_POST, payload: error });
-    }
-    // console.log("current post", currentPost);
-    dispatch({ type: GET_POST_BY_ID, payload: currentPost });
-  } catch (err) {
-    console.log(err);
-    dispatch({ type: SET_ERROR_POST, payload: "backend" });
-  }
-};
+//   try {
+//     const response = await fetch(`${API_POST}/id/${id}`, request);
+//     const { currentPost, error, sessionExpired } = await response.json();
+//     if (sessionExpired) {
+//       return dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+//     } else if (error) {
+//       return dispatch({ type: SET_ERROR_POST, payload: error });
+//     }
+//     // console.log("current post", currentPost);
+//     dispatch({ type: GET_POST_BY_ID, payload: currentPost });
+//   } catch (err) {
+//     console.log(err);
+//     dispatch({ type: SET_ERROR_POST, payload: "backend" });
+//   }
+// };
 
 export const getLikes = () => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
@@ -252,13 +253,14 @@ export const editPost = (origin, id, title, text, imgUrl, isPreview, preview) =>
   try {
     const response = await fetch(`${API_POST}/edit`, request);
     const data = await response.json();
-    const { error, sessionExpired } = data;
+    const { edit, error, sessionExpired } = data;
     if (sessionExpired) {
       return dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
     } else if (error) {
       return dispatch({ type: SET_ERROR_POST, payload: error });
     }
-    dispatch({ type: EDIT_POST });
+    console.log("edited", edit);
+    dispatch({ type: EDIT_POST, payload: { edit, id, origin } });
   } catch (err) {
     dispatch({ type: SET_ERROR_POST, payload: "backend" });
   }
@@ -296,14 +298,17 @@ export const deletePost = (postId, origin, postIdComment) => async (dispatch) =>
   };
   try {
     const response = await fetch(`${API_POST}/delete`, request);
-    const data = await response.json();
-    const { error, sessionExpired } = data;
+    const data = await response?.json();
+    const { msg, error, sessionExpired } = data;
     if (sessionExpired) {
       return dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
     } else if (error) {
       return dispatch({ type: SET_ERROR_POST, payload: error });
     }
-    dispatch({ type: DELETE_POST, payload: postId });
+    if (response.status === 200) {
+      console.log("post id deleted", postId);
+      dispatch({ type: DELETE_POST, payload: postId });
+    }
   } catch (err) {
     dispatch({ type: SET_ERROR_POST, payload: "backend" });
   }
@@ -336,32 +341,6 @@ export const createComment = (userId, postId, text, date) => async (dispatch) =>
   }
 };
 
-export const getComments = () => async (dispatch) => {
-  dispatch({ type: CLEAR_ERROR_POST });
-  const accessToken = localStorage.getItem("jwt");
-
-  const request = {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      Authorization: `Bearer ${accessToken}`,
-    },
-    method: "get",
-  };
-  try {
-    const response = await fetch(`${API_POST}/comment`, request);
-    const data = await response.json();
-    const { error, comments, sessionExpired } = data;
-    if (sessionExpired) {
-      return dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
-    } else if (error) {
-      return dispatch({ type: SET_ERROR_POST, payload: error });
-    }
-    dispatch({ type: GET_COMMENTS, payload: comments });
-  } catch (err) {
-    dispatch({ type: SET_ERROR_POST, payload: "backend" });
-  }
-};
-
 export const createReply = (userId, commentId, text, date) => async (dispatch) => {
   dispatch({ type: CLEAR_ERROR_POST });
   const accessToken = localStorage.getItem("jwt");
@@ -389,9 +368,35 @@ export const createReply = (userId, commentId, text, date) => async (dispatch) =
   }
 };
 
-export const getReplies = () => async (dispatch) => {
+export const getComments = (postId) => async (dispatch) => {
+  console.log("post id dans action", postId);
+  dispatch({ type: CLEAR_ERROR_POST });
   const accessToken = localStorage.getItem("jwt");
+  const request = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "Application/json",
+      Authorization: `Bearer ${accessToken}`,
+    },
+    method: "get",
+  };
+  try {
+    const response = await fetch(`${API_POST}/comment/${postId}`, request);
+    const data = await response.json();
+    const { error, comments, sessionExpired } = data;
+    if (sessionExpired) {
+      return dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
+    } else if (error) {
+      return dispatch({ type: SET_ERROR_POST, payload: error });
+    }
+    dispatch({ type: GET_COMMENTS, payload: comments });
+  } catch (err) {
+    dispatch({ type: SET_ERROR_POST, payload: "backend" });
+  }
+};
 
+export const getReplies = (arr) => async (dispatch) => {
+  const accessToken = localStorage.getItem("jwt");
   const request = {
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -400,18 +405,23 @@ export const getReplies = () => async (dispatch) => {
     method: "get",
   };
   try {
-    const response = await fetch(`${API_POST}/reply`, request);
-    const data = await response.json();
-    const { error, replies, sessionExpired } = data;
+    const response = await fetch(`${API_POST}/reply/${arr}`, request);
+    const { error, replies, sessionExpired } = await response.json();
     if (sessionExpired) {
       return dispatch({ type: SESSION_EXPIRED, payload: sessionExpired });
     } else if (error) {
       return dispatch({ type: SET_ERROR_POST, payload: error });
     }
+    console.log(replies);
     dispatch({ type: GET_REPLIES, payload: replies });
   } catch (err) {
+    console.log("error get replies", err);
     dispatch({ type: SET_ERROR_POST, payload: "backend" });
   }
+};
+
+export const resetReplies = () => (dispatch) => {
+  dispatch({ type: RESET_REPLIES });
 };
 
 export const cleanCurrentProfilePosts = () => (dispatch) => {

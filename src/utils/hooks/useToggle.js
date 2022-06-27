@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useToggleBox = (state, setState) => {
+const useToggle = (state, setState) => {
   const [bool, setBool] = useState(state);
 
   const toggle = () => {
@@ -14,4 +14,4 @@ const useToggleBox = (state, setState) => {
   return toggle;
 };
 
-export default useToggleBox;
+export default useToggle;
