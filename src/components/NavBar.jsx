@@ -1,21 +1,54 @@
 import { SearchIcon } from "@heroicons/react/solid";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Power } from "react-bootstrap-icons";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation } from "react-router-dom";
 import { picPlaceholder } from "../assets";
+import { setSearchQuery } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
-import { useHandleLink, useLanguage, useWindowSize } from "../utils/hooks";
+import { useHandleLink, useLanguage, useToggle, useWindowSize } from "../utils/hooks";
 
 const NavBar = ({ toggleMenu }) => {
   const { width } = useWindowSize();
   const { isAuthenticated, picUrl, username, id, darkMode } = useSelector((state) => state.user);
   const handleLink = useHandleLink();
   const userLanguage = useLanguage();
+  const searchBarRef = useRef();
+  const searchFilterRef = useRef();
+  const [searchBarRect, setSearchBarRect] = useState(null);
+  const [searchFilterRect, setSearchFilterRect] = useState(null);
+  const [searchMenuOpen, setSearchMenuOpen] = useState(false);
+  const toggleSearchMenu = useToggle(searchMenuOpen, setSearchMenuOpen);
+  const [searchFilter, setSearchFilter] = useState(null);
+  const activeStates = ["user", "post"];
+  const [active, setActive] = useState("");
+  const searchRef = useRef();
+  const dispatch = useDispatch();
+  const { pathname } = useLocation();
+  const searchPage = pathname === "/search";
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    history.push("/search");
-  };
+  useEffect(() => {
+    setSearchBarRect(searchBarRef?.current?.getBoundingClientRect());
+  }, [searchBarRef?.current]);
+  useEffect(() => {
+    setSearchFilterRect(searchFilterRef?.current?.getBoundingClientRect());
+  }, [searchFilterRef?.current, active]);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => setSearchBarRect(searchBarRef?.current?.getBoundingClientRect()));
+    return () => window.removeEventListener("resize", () => setSearchBarRect(searchBarRef?.current?.getBoundingClientRect()));
+  }, [searchBarRef?.current]);
+
+  const handleSearchSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      console.log(searchRef.current.value);
+      dispatch(setSearchQuery(searchRef.current.value, searchFilter));
+      if (!searchPage) return history.push("/search");
+      if (searchMenuOpen) return toggleSearchMenu();
+    },
+    [searchRef, searchFilter, pathname, searchMenuOpen, toggleSearchMenu]
+  );
 
   return (
     <div className="h-16 w-full fixed top-0 overflow-hidden z-[1000] shadow-md">
@@ -53,22 +86,90 @@ const NavBar = ({ toggleMenu }) => {
         </Link>
 
         <form
-          className="hidden group w-2/3  max-w-xl 2xl:max-w-5xl md:flex items-center justify-center rounded-l-full"
+          ref={searchBarRef}
+          className="hidden relative group w-2/3  max-w-xl 2xl:max-w-5xl md:flex items-center justify-center rounded-l-full"
           action="post"
-          onSubmit={handleSearch}
+          onSubmit={(e) => handleSearchSubmit(e)}
         >
-          <input
-            className="h-10 w-full rounded-l-full outline-none pl-3 pr-2 text-black dark:text-gray-100 dark:placeholder-gray-200 dark:bg-gray-600 text-sm lg:text-md transition-color duration-300 border-t border-b border-l border-gray-200 dark:border-gray-700 group-hover:border-gray-400 dark:group-hover:border-gray-400"
-            type="search"
-            placeholder={userLanguage.navbar.searchPlaceholder}
-          />
+          <div className="input-wrapper relative h-10 w-full rounded-l-full">
+            <input
+              onFocus={toggleSearchMenu}
+              onClick={toggleSearchMenu}
+              // onBlur={searchMenuOpen ? toggleSearchMenu : undefined}
+              style={{ paddingLeft: searchFilterRect ? `calc(${searchFilterRect.width}px + 0.3rem)` : "" }}
+              className="h-full w-full rounded-l-full outline-none pl-3 pr-2 text-black dark:text-gray-100 dark:placeholder-gray-200 dark:bg-gray-600 text-sm lg:text-md transition-color duration-300 border-t border-b border-l border-gray-200 dark:border-gray-700 group-hover:border-gray-400 dark:group-hover:border-gray-400"
+              type="search"
+              placeholder={userLanguage.navbar.searchPlaceholder}
+              ref={searchRef}
+            />
+            {searchFilter && (
+              <div
+                ref={searchFilterRef}
+                style={{ width: searchFilterRect ? `${searchFilterRect.width}}px` : "" }}
+                className="h-full w-max px-4 flex items-center justify-center text-white bg-black dark:bg-gray-700 absolute top-0 left-0 rounded-l-full capitalize"
+              >
+                {searchFilter}:
+              </div>
+            )}
+          </div>
           <button
             type="submit"
             className="w-10 h-10 outline-none rounded-r-full bg-black dark:bg-gray-700 flex items-center justify-center border border-transparent group-hover:border-gray-400 dark:group-hover:border-gray-400"
           >
-            <SearchIcon className="h-5 w-5 text-white" />
+            <SearchIcon className="h-5 w-5 text-white pointer-events-none" />
           </button>
+          <div
+            style={{
+              width: searchBarRect ? `calc(${searchBarRect.width}px - 2.5rem)` : "0",
+              opacity: searchBarRect ? 1 : 0,
+              left: searchBarRect ? `calc(${searchBarRect.x}px + 0.25rem)` : "",
+            }}
+            className={`${
+              searchMenuOpen ? "flex z-50" : "hidden"
+            } fixed top-[3.3rem] w-full h-max bg-black rounded-md text-white items-center justify-center space-x-5 py-7 px-12`}
+          >
+            <span className="w-max text-sm text-gray-200 whitespace-nowrap underline">Recherchez par:</span>
+            <div className="h-max w-max flex items-center justify-center space-x-7">
+              <button
+                active={activeStates[0]}
+                onClick={() => {
+                  setSearchFilter(userLanguage.appearance.dark);
+                  setActive("user");
+                }}
+                type="button"
+                className={`${
+                  active === "user" ? "bg-blue-400 text-white shadow-none border-transparent" : " text-gray-200"
+                } w-max py-1 px-3 text-center text-sm hover:text-white font-bold uppercase shadow-md hover:bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none border-2 hover:border-transparent`}
+              >
+                {userLanguage.appearance.dark}
+              </button>
+              <button
+                active={activeStates[1]}
+                onClick={() => {
+                  setSearchFilter(userLanguage.feed.refreshBtn);
+                  setActive("post");
+                }}
+                type="button"
+                className={`${
+                  active === "pub" ? "bg-blue-400 text-white shadow-none border-transparent" : " text-gray-200"
+                } w-max py-1 px-3 text-center text-sm hover:text-white font-bold uppercase shadow-md hover:bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none border-2 hover:border-transparent`}
+              >
+                {userLanguage.feed.refreshBtn}
+              </button>
+              <button
+                onClick={() => {
+                  setSearchFilter(null);
+                  setActive("");
+                }}
+                type="button"
+                className={`w-max py-1 px-3 text-center self-end text-xs text-gray-200 underline hover:text-white font-bold uppercase shadow-md hover:bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none`}
+              >
+                {userLanguage.createPost.cancelBtn}
+              </button>
+            </div>
+          </div>
         </form>
+
         <button
           tabIndex="0"
           className="md:hidden w-max flex flex-col items-center justify-center -space-y-0.5 outline-none bg-transparent transform translate-y-px md:transform-none"

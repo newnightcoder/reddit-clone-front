@@ -30,6 +30,8 @@ const {
   CLEAN_PROFILE_VISIT,
   GET_USERS,
   GET_MODS,
+  SET_SEARCH_QUERY,
+  GET_SEARCH_RESULTS,
   SESSION_EXPIRED,
 } = actionType;
 
@@ -385,6 +387,28 @@ export const getFollowers = (id) => async (dispatch) => {
     const { followers, following, error } = await response.json();
     if (error) return dispatch({ type: SET_ERROR_USER, payload: "backend" });
     dispatch({ type: GET_FOLLOWERS, payload: { followers, following } });
+  } catch (error) {
+    console.log(error);
+    dispatch({ type: SET_ERROR_USER, payload: "backend" });
+  }
+};
+
+export const setSearchQuery = (query, filter) => async (dispatch) => {
+  const token = localStorage.getItem("jwt");
+  const request = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    method: "get",
+  };
+
+  try {
+    const response = await fetch(`${API_USER}/search/${query}/${filter}`, request);
+    const { results, error } = await response.json();
+    if (error) return dispatch({ type: SET_ERROR_USER, payload: "backend" });
+    dispatch({ type: GET_SEARCH_RESULTS, payload: results });
   } catch (error) {
     console.log(error);
     dispatch({ type: SET_ERROR_USER, payload: "backend" });

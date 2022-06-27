@@ -30,6 +30,8 @@ const userState = {
   following: [],
   recentUsers: [],
   mods: [],
+  searchQuery: "",
+  searchResults: null,
   sessionExpired: false,
 };
 
@@ -59,6 +61,8 @@ const {
   CLEAN_PROFILE_VISIT,
   GET_USERS,
   GET_MODS,
+  SET_SEARCH_QUERY,
+  GET_SEARCH_RESULTS,
   DELETE_USER,
   SESSION_EXPIRED,
 } = actionType;
@@ -201,6 +205,7 @@ export const userReducer = (state = userState, action) => {
             followers: updatedFollowers,
           };
         }
+
         case false: {
           const copy = [...state.followers];
           const updatedFollowers = copy.filter((follower) => follower.userId !== myId);
@@ -210,6 +215,8 @@ export const userReducer = (state = userState, action) => {
             followers: updatedFollowers,
           };
         }
+        default:
+          return;
       }
 
     case TO_COMMENT:
@@ -248,6 +255,19 @@ export const userReducer = (state = userState, action) => {
     case GET_MODS: {
       const { mods } = action.payload;
       return { ...state, mods };
+    }
+
+    case SET_SEARCH_QUERY: {
+      return {
+        ...state,
+        searchQuery: action.payload,
+      };
+    }
+    case GET_SEARCH_RESULTS: {
+      return {
+        ...state,
+        searchResults: action.payload,
+      };
     }
 
     case DELETE_USER:
