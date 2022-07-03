@@ -1,0 +1,27 @@
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import language from "../../languages";
+
+const useLanguage = () => {
+  const { language: lang } = useSelector((state) => state.user);
+  const [userLanguage, setUserLanguage] = useState(
+    lang === "de" ? language.deutsch : lang === "fr" ? language.français : language.english
+  );
+
+  useEffect(() => {
+    switch (lang) {
+      case "en":
+        return setUserLanguage(language.english);
+      case "fr":
+        return setUserLanguage(language.français);
+      case "de":
+        return setUserLanguage(language.deutsch);
+      default:
+        return setUserLanguage(language.english);
+    }
+  }, [lang]);
+
+  return userLanguage;
+};
+
+export default useLanguage;

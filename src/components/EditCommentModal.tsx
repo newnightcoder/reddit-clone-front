@@ -1,0 +1,212 @@
+import React, { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { GifModal, ImgUploadModal, PostForm, PreviewLinkModal } from ".";
+import {
+  clearErrorPostAction,
+  clearTempPreviewAction,
+  editPostAction,
+  saveImageToEditAction,
+  setErrorPostAction,
+  setPreviewDataAction,
+  toggleEditModalAction,
+} from "../store/actions/posts.action";
+import { IEdit, IPost, IScrapedPreview } from "../store/types";
+import { breakpoint } from "../utils/breakpoints";
+import { isObjectEmpty } from "../utils/helpers";
+import { useError, useToggle, useWindowSize } from "../utils/hooks";
+
+const EditCommentModal = () => {
+  const {
+    tempPostImg,
+    posts,
+    scrapedPost: preview,
+    comments,
+    replies,
+    editId,
+    editModalOpen,
+  } = useSelector((state) => state.posts);
+  const { isAuthenticated } = useSelector((state) => state?.user);
+  const [postToEdit]: IPost[] = posts.filter((post) => post.id === editId.id);
+  const [postTitle, setPostTitle] = useState(postToEdit && postToEdit.title);
+  const [postText, setPostText] = useState(postToEdit && postToEdit.text);
+  // const [postImgUrl, setPostImgUrl] = useState(postToEdit && postToEdit.imgUrl);
+  const [isPreview, setIsPreview] = useState(false);
+  const [imgDom, setImgDom] = useState<JSX.Element | null>(null);
+  const [imgUploadModalOpen, setImgUploadModalOpen] = useState(false);
+  const [gifModalOpen, setGifModalOpen] = useState(false);
+  const [linkModalOpen, setLinkModalOpen] = useState(false);
+  const [editText, setEditText] = useState("test");
+  const dispatch = useDispatch();
+  const error = useError();
+  const { width } = useWindowSize();
+
+  const setText = useCallback(() => {
+    let text = "";
+    switch (editId.type) {
+      case "post":
+        setPostTitle(postToEdit.title);
+        setEditText(postToEdit.text ? postToEdit.text : "");
+        break;
+      case "comment":
+        const comment = comments.filter((comment) => comment.id === editId.id);
+        text = comment[0].text;
+        setEditText(text);
+        break;
+      case "reply":
+        const reply = replies.filter((reply) => reply.id === editId.id);
+        text = reply[0].text;
+        setEditText(text);
+        break;
+      default:
+        return setEditText(text);
+    }
+  }, [editId.id, editId.type, comments, replies, posts]);
+
+  useEffect(() => {
+    setText();
+  }, [editId.id, editId.type, setText]);
+
+  useEffect(() => {
+    console.log("POST TO EDIT", postToEdit);
+    console.log("postToEdit.imgUrl", postToEdit?.imgUrl);
+    // console.log("postImgUrl", postImgUrl);
+    if (postToEdit?.imgUrl) {
+      dispatch(saveImageToEditAction(postToEdit.imgUrl));
+      return;
+    } else if (postToEdit?.isPreview) {
+      const postToEditPreview: IScrapedPreview = {
+        title: postToEdit?.preview?.title,
+        image: postToEdit.preview?.image,
+        description: postToEdit.preview?.description,
+        publisher: postToEdit.preview?.publisher,
+        logo: postToEdit.preview?.logo,
+        url: postToEdit.preview?.url,
+      };
+      dispatch(setPreviewDataAction(postToEditPreview));
+    }
+  }, [dispatch, postToEdit, isAuthenticated]);
+
+  useEffect(() => {
+    if (!isObjectEmpty(preview)) setIsPreview(true);
+  }, [preview]);
+
+  const toggleImgUploadModal = useToggle(imgUploadModalOpen, setImgUploadModalOpen);
+  const toggleGifModal = useToggle(gifModalOpen, setGifModalOpen);
+  const toggleLinkModal = useToggle(linkModalOpen, setLinkModalOpen);
+
+  const deletePreview = useCallback(() => {
+    setImgDom(null);
+    setIsPreview(false);
+    dispatch(clearTempPreviewAction());
+  }, [dispatch, setImgDom, setIsPreview]);
+
+  const handleEditCommentText = useCallback(
+    (e) => {
+      if (error) dispatch(clearErrorPostAction());
+      setEditText(e.currentTarget.textContent);
+    },
+    [dispatch]
+  );
+
+  const handleEditTitleInput = useCallback((e) => {
+    if (error) dispatch(clearErrorPostAction());
+    setPostTitle(e.currentTarget.value);
+  }, []);
+
+  const handleEditText = useCallback(
+    (e) => {
+      if (error) {
+        dispatch(clearErrorPostAction());
+      }
+      setPostText(e.currentTarget.textContent);
+    },
+    [error]
+  );
+
+  const handleEditCommentSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (error) return;
+      const edited: IEdit = {
+        id: editId.id,
+        text: editText,
+      };
+
+      switch (editId.type) {
+        case "comment":
+          dispatch(editPostAction("comment", edited));
+
+          break;
+        case "reply":
+          dispatch(editPostAction("reply", edited));
+
+          break;
+        default:
+          return;
+      }
+      console.log(editText);
+      dispatch(toggleEditModalAction());
+    },
+    [dispatch, editId.id, editId.type, editText]
+  );
+
+  const handleEditPostSubmit = useCallback(
+    (e) => {
+      const editedPost: IPost = {
+        ...postToEdit,
+        title: postTitle,
+        text: postText,
+        imgUrl: tempPostImg,
+        isPreview,
+        preview,
+      };
+
+      e.preventDefault();
+      if (postTitle && postTitle.length === 0) return dispatch(setErrorPostAction("emptyTitle"));
+      if (error) return;
+      console.log(isPreview);
+      dispatch(editPostAction("post", editedPost));
+      dispatch(toggleEditModalAction());
+      console.log(postText);
+    },
+    [dispatch, postToEdit, editId, postTitle, postText, tempPostImg, isPreview, preview]
+  );
+
+  return (
+    <div
+      className={`min-h-screen h-max overflow-y-auto fixed inset-0 bg-black/60 flex items-start justify-center pt-28 pb-24 transition duration-300 ${
+        editModalOpen ? "opacity-100 z-[1000]" : "opacity-0 z-[-1]"
+      }`}
+    >
+      <div className={`${width > breakpoint.md ? "max-w-[600px]" : ""} w-full`}>
+        <PostForm
+          postToEdit={postToEdit}
+          postTitle={postTitle}
+          postText={postText}
+          editText={editText}
+          imgDom={imgDom}
+          setImgDom={setImgDom}
+          setIsPreview={setIsPreview}
+          deletePreview={deletePreview}
+          handleEditTitleInput={handleEditTitleInput}
+          handleEditText={handleEditText}
+          handleEditCommentText={handleEditCommentText}
+          handleEditPostSubmit={handleEditPostSubmit}
+          handleEditCommentSubmit={handleEditCommentSubmit}
+          toggleGifModal={toggleGifModal}
+          toggleLinkModal={toggleLinkModal}
+          toggleImgUploadModal={toggleImgUploadModal}
+        />
+      </div>
+      <ImgUploadModal
+        imgUploadModalOpen={imgUploadModalOpen}
+        toggleImgUploadModal={toggleImgUploadModal}
+        deletePreview={deletePreview}
+      />
+      <GifModal gifModalOpen={gifModalOpen} toggleGifModal={toggleGifModal} deletePreview={deletePreview} />
+      <PreviewLinkModal linkModalOpen={linkModalOpen} toggleLinkModal={toggleLinkModal} />
+    </div>
+  );
+};
+
+export default EditCommentModal;

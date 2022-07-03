@@ -3,6 +3,10 @@ const colors = require("tailwindcss/colors");
 module.exports = {
   mode: "jit",
   purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/**/*.html"],
+  // content: [
+  //   // ...
+  //   "./src/**/*.{js,ts,jsx,tsx}",
+  // ],
   darkMode: "class", // or 'media' or 'class'
   theme: {
     extend: {
@@ -17,8 +21,6 @@ module.exports = {
       },
       screens: {
         "2xs": "480px",
-      },
-      screens: {
         "3xs": "362px",
       },
       gridTemplateColumns: {
