@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { picPlaceholder } from "../assets";
 import { IPost } from "../store/types";
@@ -16,7 +15,7 @@ const PostHeader = ({ post }: { post: IPost }) => {
         <button
           className="avatar-container outline-none border-[1px] dark:border-gray-600 w-11 h-11 rounded-full hover:cursor-pointer"
           style={
-            author.picUrl
+            author?.picUrl
               ? { background: `url(${author.picUrl}) no-repeat center/cover` }
               : {
                   background: `url(${picPlaceholder}) no-repeat center/cover`,
@@ -25,8 +24,8 @@ const PostHeader = ({ post }: { post: IPost }) => {
           onClick={() =>
             handleLink(
               "post-profile",
-              author.id === myId ? myId : author.id,
-              author.username === myName ? myName : author.username
+              author?.id === myId ? myId : author.id,
+              author?.username === myName ? myName : author.username
             )
           }
         ></button>
@@ -39,14 +38,14 @@ const PostHeader = ({ post }: { post: IPost }) => {
               onClick={() =>
                 handleLink(
                   "post-profile",
-                  author.id === myId ? myId : author.id,
-                  author.username === myName ? myName : author.username
+                  author?.id === myId ? myId : author.id,
+                  author?.username === myName ? myName : author.username
                 )
               }
             >
               <div className="w-full text-left overflow-hidden overflow-ellipsis">
                 <span className="text-xs">@</span>
-                <span className="w-full text-left">{author.username ? author.username : "Noname"}</span>
+                <span className="w-full text-left">{author?.username ? author.username : "Noname"}</span>
               </div>
             </button>
             <div className="w-min text-xs italic whitespace-nowrap">{formatTimestamp(date, "post", language)}</div>

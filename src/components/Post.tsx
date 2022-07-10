@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { DeleteModal, LinkPreview, Options, PostFooter, PostHeader } from ".";
@@ -13,8 +13,8 @@ const Post = ({ post, aside }: PostProps) => {
   const { title, id: postId, text, imgUrl, engagement, author, isPreview, preview } = post;
   const { likes: allLikes, lastPostAdded } = useSelector((state) => state.posts);
   const { id: userId, role } = useSelector((state) => state.user);
-  const [likesNumber, setLikesNumber] = useState(engagement!.likesCount);
-  const [commentsNumber, setcommentsNumber] = useState(engagement!.commentCount);
+  const [likesNumber, setLikesNumber] = useState(engagement?.likesCount);
+  const [commentsNumber, setcommentsNumber] = useState(engagement?.commentCount);
   const [like, setLike] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
@@ -44,10 +44,10 @@ const Post = ({ post, aside }: PostProps) => {
   const updateLikesNumber = useCallback(() => {
     switch (like) {
       case false:
-        setLikesNumber(likesNumber + 1);
+        setLikesNumber(likesNumber! + 1);
         break;
       case true:
-        setLikesNumber(likesNumber - 1);
+        setLikesNumber(likesNumber! - 1);
         break;
       default:
         setLikesNumber(likesNumber);
@@ -65,10 +65,10 @@ const Post = ({ post, aside }: PostProps) => {
 
   useEffect(() => {
     if (!isDeleted) {
-      setLikesNumber(engagement!.likesCount);
-      setcommentsNumber(engagement!.commentCount);
+      setLikesNumber(engagement?.likesCount);
+      setcommentsNumber(engagement?.commentCount);
     }
-  }, [engagement!.likesCount, engagement!.commentCount, isDeleted]);
+  }, [engagement?.likesCount, engagement?.commentCount, isDeleted]);
 
   const setCurrentUserLikes = useCallback(() => {
     allLikes?.map((like) => {
@@ -124,8 +124,8 @@ const Post = ({ post, aside }: PostProps) => {
       <PostFooter
         postId={postId!}
         like={like}
-        likesNumber={likesNumber}
-        commentsNumber={commentsNumber}
+        likesNumber={likesNumber!}
+        commentsNumber={commentsNumber!}
         optionsOpen={optionsOpen}
         // setOptionsOpen={setOptionsOpen}
         toggleOptions={toggleOptions}
@@ -134,7 +134,7 @@ const Post = ({ post, aside }: PostProps) => {
         optionsBtnRef={optionsBtnRef}
       />
       <Options
-        postUserId={author.id}
+        postUserId={author?.id}
         postId={postId}
         optionsOpen={optionsOpen}
         toggleOptions={toggleOptions}

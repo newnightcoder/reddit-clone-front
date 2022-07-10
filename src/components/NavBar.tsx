@@ -1,5 +1,5 @@
 import { SearchIcon } from "@heroicons/react/solid";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Power } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
@@ -59,8 +59,8 @@ const NavBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
   );
 
   return (
-    <div className="h-16 w-full fixed top-0 overflow-hidden z-[1000] shadow-md">
-      <div className=" h-full w-full pl-0 md:pl-2 pr-4 flex items-center justify-between md:justify-evenly space-x-1 md:space-x-2 transition duration-500 dark:text-white bg-gray-100 dark:bg-gray-900 border-b border-transparent dark:border-gray-700">
+    <div className="h-16 w-full fixed top-0 z-[1000] shadow-md">
+      <div className="overflow-hidden h-full w-full pl-0 md:pl-2 pr-4 flex items-center justify-between md:justify-evenly space-x-1 md:space-x-2 transition duration-500 dark:text-white bg-gray-100 dark:bg-gray-900 border-b border-transparent dark:border-gray-700">
         <Link
           to="/feed"
           className=" h-5/6 w-36 flex items-center justify-center ml-0 md:ml-3 mr-2"

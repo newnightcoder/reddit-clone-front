@@ -1,5 +1,5 @@
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -68,7 +68,7 @@ const Login = () => {
               className="h-full max-h-[350px] flex flex-col items-center justify-center gap-4"
               onSubmit={handleUserSubmit}
             >
-              <div className="w-64 h-max  flex flex-col items-start border-4 border-red-500">
+              <div className="w-64 h-max  flex flex-col items-start">
                 <label htmlFor="email">Email</label>
                 <input
                   className="w-full rounded p-1 border border-blue-400 bg-gray-100 dark:bg-gray-500 text-gray-900 dark:text-gray-100 outline-none focus:bg-white dark:focus:bg-gray-600"

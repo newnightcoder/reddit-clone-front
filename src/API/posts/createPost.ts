@@ -9,7 +9,7 @@ const createPost = async (post: IPost) => {
       Authorization: `Bearer ${accessToken}`,
     },
     method: "POST",
-    body: JSON.stringify(post),
+    body: JSON.stringify({ post }),
   };
   try {
     const response = await fetch(API_POST, request);

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Error, GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
 import {
@@ -28,16 +28,10 @@ const CreatePost = () => {
   const handleLink = useHandleLink();
   const error = useError();
   const userLanguage = useLanguage();
+  const toggleImgUploadModal = useToggle(imgUploadModalOpen, setImgUploadModalOpen);
+  const toggleGifModal = useToggle(gifModalOpen, setGifModalOpen);
+  const toggleLinkModal = useToggle(linkModalOpen, setLinkModalOpen);
   const creationDate = createDate();
-  const newPost: IPost = {
-    author: { id: id!, username },
-    title,
-    text: postText,
-    date: creationDate,
-    imgUrl: postImg && postImg,
-    isPreview,
-    preview,
-  };
 
   const deletePreview = useCallback(() => {
     setIsPreview(false);
@@ -72,6 +66,17 @@ const CreatePost = () => {
 
   const handlePostSubmit = useCallback(
     (e) => {
+      const newPost: IPost = {
+        author: { id: id!, username },
+        title,
+        text: postText,
+        date: creationDate,
+        imgUrl: postImg && postImg,
+        isPreview,
+        preview,
+      };
+      console.log("new post", newPost);
+
       e.preventDefault();
       if (title.length === 0) return dispatch(setErrorPostAction("emptyTitle"));
       if (!isAuthenticated) return handleLink("post");
@@ -83,10 +88,6 @@ const CreatePost = () => {
     },
     [dispatch, title, postText, id, postImg, isPreview, preview]
   );
-
-  const toggleImgUploadModal = useToggle(imgUploadModalOpen, setImgUploadModalOpen);
-  const toggleGifModal = useToggle(gifModalOpen, setGifModalOpen);
-  const toggleLinkModal = useToggle(linkModalOpen, setLinkModalOpen);
 
   return (
     <>

@@ -12,9 +12,8 @@ const deletePublication = async (postId: number, origin: string, postIdComment: 
   };
   try {
     const response = await fetch(`${API_POST}/delete`, request);
-    const { error, sessionExpired }: { error: string | null; sessionExpired: boolean } = await response.json();
-    const resStatus = response.status;
-    return { resStatus, error, sessionExpired };
+    const { msg, error, sessionExpired }: { error: string | null; sessionExpired: boolean; msg: string } = await response.json();
+    return { msg, error, sessionExpired };
   } catch (err) {
     throw err;
   }

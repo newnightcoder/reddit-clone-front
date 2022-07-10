@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { XCircle } from "react-bootstrap-icons";
 import { useDispatch } from "react-redux";
 import { getPreviewDataAction, setPreviewLoaderAction } from "../../store/actions/posts.action";
@@ -9,13 +9,16 @@ const PreviewLinkModal = ({ linkModalOpen, toggleLinkModal }: { linkModalOpen: b
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
 
-  const handleTargetUrl = useCallback((e) => {
-    e.preventDefault();
-    dispatch(getPreviewDataAction(targetUrl));
-    dispatch(setPreviewLoaderAction(true));
-    toggleLinkModal();
-    setTargetUrl("");
-  }, []);
+  const handleTargetUrl = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch(getPreviewDataAction(targetUrl));
+      dispatch(setPreviewLoaderAction(true));
+      toggleLinkModal();
+      setTargetUrl("");
+    },
+    [targetUrl]
+  );
 
   return (
     <div

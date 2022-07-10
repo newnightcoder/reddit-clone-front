@@ -1,27 +1,34 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link as LinkIcon } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 // import { useLocation } from "react-router-dom";
 import { logo_mobile_blue } from "../assets";
 import { clearErrorPostAction, clearPreviewImgAction } from "../store/actions/posts.action";
-import { ILinkPreview } from "../store/types";
+import { IScrapedPreview } from "../store/types";
 import isObjectEmpty from "../utils/helpers/isObjectEmpty";
 import useLanguage from "../utils/hooks/useLanguage";
 import { LinkPreviewProps } from "./react-app-env";
 
 const LinkPreview = ({ linkPreview, aside }: LinkPreviewProps) => {
-  const { previewTitle, previewText, previewImg, previewUrl, previewPub, previewPubLogo }: ILinkPreview = linkPreview;
-  const { title, image, description, publisher, logo, url } = useSelector((state) => state?.posts?.scrapedPost);
+  const {
+    title: previewTitle,
+    text: previewText,
+    image: previewImg,
+    url: previewUrl,
+    publisher: previewPub,
+    logo: previewPubLogo,
+  }: IScrapedPreview = linkPreview;
+  const { title, image, text, publisher, logo, url } = useSelector((state) => state.posts.scrapedPost);
   const { scrapedPost: preview } = useSelector((state) => state.posts);
   const validImg = image?.includes("http");
-  const initialState = image && validImg ? image : previewImg ? previewImg : logo_mobile_blue;
-  const [imgUrl, setImgUrl] = useState(initialState);
-  // const { pathname } = useLocation();
+  const initialImg = image && validImg ? image : previewImg ? previewImg : logo_mobile_blue;
+  const [imgUrl, setImgUrl] = useState(initialImg);
+  const [logoError, setLogoError] = useState(false);
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
 
   useEffect(() => {
-    setImgUrl(initialState);
+    setImgUrl(initialImg);
   }, [image, previewImg]);
 
   const handleImgError = useCallback(() => {
@@ -31,6 +38,10 @@ const LinkPreview = ({ linkPreview, aside }: LinkPreviewProps) => {
     }
     setImgUrl(logo_mobile_blue);
   }, [dispatch, setImgUrl, preview]);
+
+  const handleLogoError = useCallback(() => {
+    setLogoError(true);
+  }, [setLogoError, logo, previewPubLogo]);
 
   return (
     <div className="h-max w-full rounded border border-gray-300 dark:border-gray-600 pb-4 mt-1 flex flex-col items-center justify-start space-y-3 border rounded-md ">
@@ -57,7 +68,7 @@ const LinkPreview = ({ linkPreview, aside }: LinkPreviewProps) => {
           rel="noreferrer"
           className="w-full px-4 leading-4 hover:underline"
         >
-          {description ? `${description.substr(0, 100)}...` : previewText ? `${previewText.substr(0, 100)}...` : null}
+          {text ? `${text.substr(0, 100)}...` : previewText ? `${previewText.substr(0, 100)}...` : null}
         </a>
       </div>
       <div className="w-full px-4 flex items-center justify-between space-x-1 text-gray-500 dark:text-gray-300 text-xs">
@@ -74,14 +85,15 @@ const LinkPreview = ({ linkPreview, aside }: LinkPreviewProps) => {
             {!publisher && !previewPub && userLanguage.preview.linkArticle}
           </span>
         </a>
-        {logo ? (
+        {logo && !logoError ? (
           <a href={url ? url : previewUrl && previewUrl} target="_blank" rel="noreferrer" className="h-6 w-6 cursor-pointer">
-            <img src={logo} alt="publication logo" className="w-full h-full" />
+            <img onError={handleLogoError} src={logo} alt="publication logo" className="w-full h-full" />
           </a>
         ) : (
-          previewPubLogo && (
+          previewPubLogo &&
+          !logoError && (
             <a href={url ? url : previewUrl && previewUrl} target="_blank" rel="noreferrer" className="h-6 w-6 cursor-pointer">
-              <img src={previewPubLogo} width="50" alt="publication logo" />
+              <img onError={handleLogoError} src={previewPubLogo} width="50" alt="publication logo" />
             </a>
           )
         )}

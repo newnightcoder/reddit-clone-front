@@ -1,5 +1,5 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Image, Link45deg, XLg } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -15,7 +15,7 @@ import { FormProps } from "./react-app-env";
 const PreviewLoader = () => {
   return (
     <div className="absolute inset-0 h-full w-full flex items-center justify-center">
-      <BeatLoader size={25} color={"gray"} />
+      <BeatLoader size={25} color={"#60a5fa"} />
     </div>
   );
 };
@@ -50,7 +50,7 @@ const PostForm = ({
   const commentPage = pathname.includes("comments");
 
   const handleImgPostForm = useCallback(() => {
-    if (editId.type === "post") {
+    if (createPage || editId.type === "post") {
       const postImg = <img id="postImg" src={tempPostImg} alt="" className="h-max rounded max-h-[500px]" />;
       if (tempPostImg?.length !== 0) return setImgDom!(postImg);
       if (previewLoading) return setImgDom!(<PreviewLoader />);
@@ -103,7 +103,7 @@ const PostForm = ({
           </button>
         ) : null}
       </div>
-      {editId.type === "post" && (
+      {(createPage || editId.type === "post") && (
         <input
           className="h-10 w-full px-2 rounded outline-none text-gray-900 dark:text-gray-100 dark:caret-white bg-gray-100 dark:bg-gray-700 hover:bg-white active:bg-white focus:bg-white border border-gray-400 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-200 transition-all duration-200 placeholder-gray-400 dark:placeholder-[#999999]"
           type="text"
@@ -141,10 +141,10 @@ const PostForm = ({
         </div>
         <div
           className={`w-full h-max flex items-center ${
-            editId.type === "post" ? "justify-between" : "justify-end"
+            createPage || editId.type === "post" ? "justify-between" : "justify-end"
           } px-1 pb-4 overflow-y-auto space-x-6`}
         >
-          {editId.type === "post" && (
+          {(createPage || editId.type === "post") && (
             <div className="w-max h-full flex items-center justify-start space-x-2">
               <button
                 type="button"

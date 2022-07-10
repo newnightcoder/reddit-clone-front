@@ -13,11 +13,11 @@ const initialState: IPostState = {
   scrapedPost: {},
   comments: [],
   currentCommentsCount: null,
-  replies: [],
+  // replies: [],
   likes: [],
   error: "",
   lastPostAdded: null,
-  lastReplyAdded: null,
+  // lastReplyAdded: null,
   lastDeleted: null,
   sessionExpired: false,
 };
@@ -26,14 +26,8 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
   switch (action.type) {
     case actionTypes.GET_POSTS:
       const { posts, likes }: { posts: IPost[]; likes: ILike[] } = action.payload;
-      const postsInOrder = posts.sort((a, b) => {
-        if (a.id! < b.id!) return 1;
-        if (a.id! > b.id!) return -1;
-        return 0;
-      });
 
-      return { ...state, posts: postsInOrder, likes };
-
+      return { ...state, posts, likes };
     case actionTypes.GET_LIKES: {
       const likes: ILike[] = action.payload;
       return { ...state, likes };
@@ -60,7 +54,7 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
         action.payload;
       return {
         ...state,
-        scrapedPost: { title, image: image?.includes("http") ? image : "", description, publisher, logo, url },
+        scrapedPost: { title, image: image?.includes("http") ? image : "", text: description, publisher, logo, url },
       };
 
     case actionTypes.SET_PREVIEW_DATA:
@@ -70,24 +64,6 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
     case actionTypes.GET_COMMENTS: {
       const comments: IComment[] = action.payload;
       return { ...state, comments };
-    }
-
-    case actionTypes.GET_REPLIES: {
-      const replies: IReply[] = action.payload;
-      const copy = state.replies.length > 0 ? [...state.replies] : [];
-      if (replies.length > 0) {
-        replies.forEach((reply) => {
-          copy.push(reply);
-        });
-      } else return { ...state };
-      return { ...state, replies: copy };
-    }
-
-    case actionTypes.RESET_REPLIES: {
-      return {
-        ...state,
-        replies: [],
-      };
     }
 
     case actionTypes.SAVE_POST_PIC: {
@@ -126,16 +102,20 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
     }
 
     case actionTypes.CREATE_COMMENT: {
-      const count: number = action.payload;
+      const { count, newComment }: { count: number; newComment: IComment } = action.payload;
+      // const copy = [...state.comments];
+      const updatedComments = [newComment, ...state.comments];
       return {
         ...state,
         currentCommentsCount: count,
+        comments: updatedComments,
       };
     }
 
     case actionTypes.CREATE_REPLY:
-      const lastReplyAdded: number = action.payload;
-      return { ...state, lastReplyAdded };
+      const { newReply, replyId }: { newReply: IReply; replyId: number } = action.payload;
+      // const updatedReplies = [newReply, ...state.replies];
+      return { ...state };
 
     case actionTypes.EDIT_POST: {
       const { edit, origin }: { edit: IPost | IComment | IReply; origin: string } = action.payload;
@@ -151,12 +131,14 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
                 text: editedPost.text,
                 imgUrl: editedPost.imgUrl,
                 isPreview: editedPost.isPreview,
-                previewTitle: editedPost?.preview?.title,
-                previewText: editedPost?.preview?.description,
-                previewImg: editedPost?.preview?.image,
-                previewPub: editedPost?.preview?.publisher,
-                previewUrl: editedPost?.preview?.url,
-                previewPubLogo: editedPost?.preview?.logo,
+                preview: {
+                  title: editedPost.preview?.title,
+                  text: editedPost.preview?.text,
+                  image: editedPost.preview?.image,
+                  publisher: editedPost.preview?.publisher,
+                  url: editedPost.preview?.url,
+                  logo: editedPost.preview?.logo,
+                },
               };
             } else return post;
           });
@@ -166,7 +148,7 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
           const editedComment = edit as IComment;
           const copy = [...state.comments];
           const updatedComments = copy.map((comment) => {
-            if (comment.id === editedComment.id) {
+            if (comment.commentId === editedComment.commentId) {
               return {
                 ...comment,
                 text: editedComment.text,
@@ -175,19 +157,19 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
           });
           return { ...state, comments: updatedComments };
         }
-        case "reply": {
-          const editedReply = edit as IReply;
-          const copy = [...state.replies];
-          const updatedReplies = copy.map((reply) => {
-            if (reply.id === editedReply.id) {
-              return {
-                ...reply,
-                text: editedReply.text,
-              };
-            } else return reply;
-          });
-          return { ...state, replies: updatedReplies };
-        }
+        // case "reply": {
+        //   const editedReply = edit as IReply;
+        //   const copy = [...state.replies];
+        //   const updatedReplies = copy.map((reply) => {
+        //     if (reply.replyId === editedReply.replyId) {
+        //       return {
+        //         ...reply,
+        //         text: editedReply.text,
+        //       };
+        //     } else return reply;
+        //   });
+        //   return { ...state, replies: updatedReplies };
+        // }
         default:
           return { ...state };
       }
@@ -197,15 +179,43 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
       const editId: number = action.payload;
       return { ...state, editId };
 
+    case actionTypes.CLEAR_EDIT_ID:
+      return { ...state, editId: {} };
+
     case actionTypes.TOGGLE_EDIT_MODAL:
       const toggle: boolean = !state.editModalOpen;
       return { ...state, editModalOpen: toggle };
 
-    case actionTypes.DELETE_POST: {
-      const postId: number = action.payload;
-      const copy = [...state.posts];
-      const updatedPosts = copy.filter((post) => post.id !== postId);
-      return { ...state, posts: updatedPosts, lastDeleted: true };
+    case actionTypes.DELETE_POST:
+      const { postId, origin }: { postId: number; origin: string } = action.payload;
+      switch (origin) {
+        case "post":
+          const postsCopy = [...state.posts];
+          const updatedPosts = postsCopy.filter((post) => post.id !== postId);
+          return { ...state, posts: updatedPosts, lastDeleted: true };
+        case "comment":
+          const commentsCopy = [...state.comments];
+          const updatedComments = commentsCopy.filter((comment) => comment.commentId !== postId);
+          return { ...state, comments: updatedComments, lastDeleted: true };
+        // case "reply":
+        //   const repliesCopy = [...state.replies];
+        //   const updatedReplies = repliesCopy.filter((reply) => reply.replyId !== postId);
+        //   return { ...state, replies: updatedReplies, lastDeleted: true };
+        default:
+          return { ...state };
+      }
+
+    case actionTypes.RESET_COMMENTS: {
+      return {
+        ...state,
+        comments: [],
+      };
+    }
+    case actionTypes.RESET_REPLIES: {
+      return {
+        ...state,
+        replies: [],
+      };
     }
 
     case actionTypes.SET_ERROR_POST:

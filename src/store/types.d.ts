@@ -24,11 +24,11 @@ interface IPostState {
   scrapedPost: IScrapedPreview;
   comments: IComment[];
   currentCommentsCount: number | null;
-  replies: IReply[];
+  // replies: IReply[];
   likes: ILike[];
   error: string;
   lastPostAdded: number | null;
-  lastReplyAdded: number | null;
+  // lastReplyAdded: number | null;
   lastDeleted: boolean | null;
   sessionExpired: boolean;
 }
@@ -68,7 +68,7 @@ interface ILinkPreview {
 interface IScrapedPreview {
   title?: string;
   image?: string;
-  description?: string;
+  text?: string;
   publisher?: string;
   logo?: string;
   url?: string;
@@ -76,7 +76,7 @@ interface IScrapedPreview {
 }
 
 interface IComment {
-  id?: number;
+  commentId?: number;
   fk_userId_comment: number;
   fk_postId_comment: number;
   username?: string;
@@ -84,10 +84,12 @@ interface IComment {
   text: string;
   date: string;
   likesCount?: number;
+  replyCount?: number;
+  replies?: IReply[];
 }
 
 interface IReply {
-  id?: number;
+  replyId?: number;
   fk_commentId: number;
   fk_userId_reply: number;
   username?: string;

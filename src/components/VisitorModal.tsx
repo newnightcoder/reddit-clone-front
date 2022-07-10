@@ -1,17 +1,18 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleVisitorModalAction } from "../store/actions/user.action";
 
 const VisitorModal = () => {
   const { isVisitor, visitorMessage } = useSelector((state) => state?.user);
   const dispatch = useDispatch();
+  const root = window.document.documentElement;
 
   useEffect(() => {
     if (isVisitor) {
-      document.body.style.overflowY = "hidden";
+      root.classList.add("removeScroll");
     }
     return () => {
-      document.body.style.overflowY = "scroll";
+      root.classList.remove("removeScroll");
     };
   }, [isVisitor]);
 

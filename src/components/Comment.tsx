@@ -1,22 +1,23 @@
 import "draft-js/dist/Draft.css";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ChatRight, HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { DeleteModal, Options, Reply, ReplyForm } from ".";
+import { DeleteModal, Options, ReplyForm } from ".";
 import { picPlaceholder } from "../assets";
 import { clearErrorPostAction, createReplyAction, deletePostAction, setErrorPostAction } from "../store/actions/posts.action";
 import { likePostAction } from "../store/actions/user.action";
 import { IComment, IReply } from "../store/types";
 import { createDate, formatTimestamp } from "../utils/helpers/formatTime";
 import { useError, useLanguage, useToggle } from "../utils/hooks";
+import Reply from "./Reply";
 
 const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => {
-  const { fk_userId_comment: authorId, picUrl, username, text, date, id: commentId, likesCount } = comment;
-  const { likes, replies } = useSelector((state) => state?.posts);
+  const { fk_userId_comment: authorId, picUrl, username, text, date, commentId, likesCount, replyCount, replies } = comment;
+  const { likes } = useSelector((state) => state?.posts);
   const { id: myId, role, error: serverError } = useSelector((state) => state?.user);
   const [like, setLike] = useState(false);
   const [likesNumber, setLikesNumber] = useState(likesCount);
-  const [replyNumber, setReplyNumber] = useState(0);
+  const [replyNumber, setReplyNumber] = useState(replyCount);
   const [replyOpen, setReplyOpen] = useState(false);
   const [replyText, setReplyText] = useState("");
   const [optionsOpen, setOptionsOpen] = useState(false);
@@ -33,18 +34,24 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
   const toggleOptions = useToggle(optionsOpen, setOptionsOpen);
   const toggleDeleteModal = useToggle(openDeleteModal, setOpenDeleteModal);
   const toggleReply = useToggle(replyOpen, setReplyOpen);
+  const [isMounted, setIsMounted] = useState(true);
 
-  useEffect(() => {
-    const copy = replies && [...replies];
-    const replyCount = copy
-      .map((reply) => {
-        if (reply.fk_commentId === commentId) {
-          return reply.id;
-        }
-      })
-      .filter((value) => value !== undefined);
-    setReplyNumber(replyCount.length);
-  }, [replies]);
+  // useEffect(() => {
+  //   if (isMounted) {
+  //     const copy = replies && [...replies];
+  //     const replyCount = copy
+  //       .map((reply) => {
+  //         if (reply.fk_commentId === commentId) {
+  //           return reply.replyId;
+  //         }
+  //       })
+  //       .filter((value) => value !== undefined);
+  //     setReplyNumber(replyCount.length);
+  //   }
+  //   return () => {
+  //     setIsMounted(false);
+  //   };
+  // }, [replies]);
 
   useEffect(() => {
     setLikesNumber(likesCount);
@@ -219,17 +226,9 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
       />
       <div className="w-full transition-color duration-500 bg-gray-200 dark:bg-gray-800 flex flex-col items-end justify-center space-y-2">
         {replies &&
-          [...replies]
-            .sort((a, b) => {
-              if (a.id! > b.id!) {
-                return -1;
-              } else return 1;
-            })
-            .map((reply) => {
-              if (reply.fk_commentId === commentId) {
-                return <Reply key={reply.id} reply={reply} />;
-              } else return null;
-            })}
+          replies.map((reply) => {
+            return <Reply key={reply.replyId} reply={reply} />;
+          })}
       </div>
     </div>
   );

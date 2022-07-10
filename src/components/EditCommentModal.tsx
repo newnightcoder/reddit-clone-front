@@ -1,8 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GifModal, ImgUploadModal, PostForm, PreviewLinkModal } from ".";
 import {
+  clearEditId,
   clearErrorPostAction,
+  clearTempPostImgAction,
   clearTempPreviewAction,
   editPostAction,
   saveImageToEditAction,
@@ -10,6 +12,7 @@ import {
   setPreviewDataAction,
   toggleEditModalAction,
 } from "../store/actions/posts.action";
+import { clearErrorUserAction } from "../store/actions/user.action";
 import { IEdit, IPost, IScrapedPreview } from "../store/types";
 import { breakpoint } from "../utils/breakpoints";
 import { isObjectEmpty } from "../utils/helpers";
@@ -21,7 +24,7 @@ const EditCommentModal = () => {
     posts,
     scrapedPost: preview,
     comments,
-    replies,
+    // replies,
     editId,
     editModalOpen,
   } = useSelector((state) => state.posts);
@@ -40,6 +43,15 @@ const EditCommentModal = () => {
   const error = useError();
   const { width } = useWindowSize();
 
+  useEffect(() => {
+    return () => {
+      dispatch(clearTempPreviewAction);
+      dispatch(clearTempPostImgAction);
+      dispatch(clearErrorPostAction);
+      dispatch(clearErrorUserAction);
+    };
+  }, [dispatch]);
+
   const setText = useCallback(() => {
     let text = "";
     switch (editId.type) {
@@ -48,19 +60,19 @@ const EditCommentModal = () => {
         setEditText(postToEdit.text ? postToEdit.text : "");
         break;
       case "comment":
-        const comment = comments.filter((comment) => comment.id === editId.id);
-        text = comment[0].text;
+        const comment = comments.filter((comment) => comment?.commentId === editId.id);
+        text = comment[0]?.text;
         setEditText(text);
         break;
-      case "reply":
-        const reply = replies.filter((reply) => reply.id === editId.id);
-        text = reply[0].text;
-        setEditText(text);
-        break;
+      // case "reply":
+      //   const reply = replies.filter((reply) => reply?.replyId === editId.id);
+      //   text = reply[0]?.text;
+      //   setEditText(text);
+      //   break;
       default:
         return setEditText(text);
     }
-  }, [editId.id, editId.type, comments, replies, posts]);
+  }, [editId.id, editId.type, comments, posts, setPostTitle, setEditText]); // replies
 
   useEffect(() => {
     setText();
@@ -77,7 +89,7 @@ const EditCommentModal = () => {
       const postToEditPreview: IScrapedPreview = {
         title: postToEdit?.preview?.title,
         image: postToEdit.preview?.image,
-        description: postToEdit.preview?.description,
+        text: postToEdit.preview?.text,
         publisher: postToEdit.preview?.publisher,
         logo: postToEdit.preview?.logo,
         url: postToEdit.preview?.url,
@@ -167,7 +179,10 @@ const EditCommentModal = () => {
       console.log(isPreview);
       dispatch(editPostAction("post", editedPost));
       dispatch(toggleEditModalAction());
-      console.log(postText);
+      dispatch(clearEditId());
+      dispatch(clearTempPostImgAction());
+      dispatch(clearTempPreviewAction());
+      // console.log(postText);
     },
     [dispatch, postToEdit, editId, postTitle, postText, tempPostImg, isPreview, preview]
   );
@@ -182,7 +197,7 @@ const EditCommentModal = () => {
         <PostForm
           postToEdit={postToEdit}
           postTitle={postTitle}
-          postText={postText}
+          // postText={postText}
           editText={editText}
           imgDom={imgDom}
           setImgDom={setImgDom}

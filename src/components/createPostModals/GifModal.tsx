@@ -1,6 +1,6 @@
 import { Grid, SearchBar, SearchContext, SearchContextManager } from "@giphy/react-components";
 import { XIcon } from "@heroicons/react/solid";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { saveGifUrlAction } from "../../store/actions/posts.action";
 import { useLanguage, useWindowSize } from "../../utils/hooks";
@@ -51,7 +51,7 @@ const GiphyPicker = (props: IGifModalProps) => {
           <span>{userLanguage.gifModal.cancel}</span> <XIcon className="h-4" />
         </button>
       </div>
-      {pickerDiv && size && (
+      {pickerDiv && (
         <Grid
           key={searchKey}
           columns={3}

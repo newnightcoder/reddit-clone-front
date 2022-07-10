@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { HandThumbsUp, HandThumbsUpFill, ThreeDotsVertical } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { DeleteModal, Options } from ".";
@@ -10,7 +10,7 @@ import { formatTimestamp } from "../utils/helpers/formatTime";
 import { useToggle } from "../utils/hooks";
 
 const Reply = ({ reply }: { reply: IReply }) => {
-  const { id: replyId, fk_userId_reply, text, date, username, picUrl, likesCount } = reply;
+  const { replyId, fk_userId_reply, text, date, username, picUrl, likesCount } = reply;
   const likes = useSelector((state) => state?.posts.likes);
   const { id: userId, role } = useSelector((state) => state?.user);
   const [like, setLike] = useState(false);

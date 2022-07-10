@@ -13,9 +13,13 @@ const createComment = async (comment: IComment) => {
   };
   try {
     const response = await fetch(`${API_POST}/comment`, request);
-    const { error, count, sessionExpired }: { error: string | null; count: number; sessionExpired: boolean } =
-      await response.json();
-    return { error, count, sessionExpired };
+    const {
+      error,
+      count,
+      newComment,
+      sessionExpired,
+    }: { error: string | null; count: number; newComment: IComment; sessionExpired: boolean } = await response.json();
+    return { error, count, newComment, sessionExpired };
   } catch (err) {
     throw err;
   }

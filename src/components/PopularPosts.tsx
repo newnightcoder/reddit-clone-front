@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { IPost } from "../store/types";
 import { useLanguage } from "../utils/hooks";
@@ -15,8 +15,8 @@ const PopularPosts = () => {
     setTop3(
       postsCopy
         .sort((a, b) => {
-          if (a.engagement!.likesCount < b.engagement!.likesCount) return 1;
-          if (a.engagement!.likesCount > b.engagement!.likesCount) return -1;
+          if (a.engagement?.likesCount! < b.engagement?.likesCount!) return 1;
+          if (a.engagement?.likesCount! > b.engagement?.likesCount!) return -1;
           return 0;
         })
         .splice(0, 3)

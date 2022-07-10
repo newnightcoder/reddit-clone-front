@@ -1,7 +1,7 @@
 import { ChatAltIcon, ChevronDoubleLeftIcon } from "@heroicons/react/solid";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
 import { Comment, CommentForm, EditCommentModal, Layout, Post } from "../components";
 import {
@@ -9,7 +9,8 @@ import {
   createCommentAction,
   getCommentsAction,
   getLikesAction,
-  getRepliesAction,
+  // getRepliesAction,
+  resetCommentsAction,
   resetRepliesAction,
   setErrorPostAction,
 } from "../store/actions/posts.action";
@@ -19,14 +20,13 @@ import { createDate } from "../utils/helpers/formatTime";
 import { useContainerSize, useError, useLanguage } from "../utils/hooks";
 
 const CommentPage = () => {
-  const { comments } = useSelector((state) => state?.posts);
+  const { comments, posts, error: errorType } = useSelector((state) => state?.posts);
   const {
     currentComment: { postId },
     id: userId,
     liked,
     isAuthenticated,
   } = useSelector((state) => state.user);
-  const { posts, error: errorType } = useSelector((state) => state.posts);
   const post = posts.filter((post) => post.id === postId);
   const [commentsToDisplay, setCommentsToDisplay] = useState<IComment[] | null>(null);
   const [commentText, setCommentText] = useState("");
@@ -36,39 +36,28 @@ const CommentPage = () => {
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
   const error = useError();
+  const { pathname } = useLocation();
 
+  // clear comments/replies on unmount
   useEffect(() => {
-    const arr = [];
-    for (let comment of comments) {
-      arr.push(comment.id);
-    }
+    window.scrollTo(0, 0);
     return () => {
+      dispatch(resetCommentsAction());
       dispatch(resetRepliesAction());
     };
   }, []);
 
-  useEffect(() => {
-    console.log("POST ID", postId);
-    dispatch(getCommentsAction(postId!));
-  }, [dispatch, postId]);
-
+  // clear comments/replies on refresh
   useEffect(() => {
     window.addEventListener("beforeonload", () => dispatch(resetRepliesAction()));
-
     return () => {
       window.removeEventListener("beforeonload", () => dispatch(resetRepliesAction()));
-      // dispatch(resetRepliesAction());
     };
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
-    dispatch(resetRepliesAction());
-    const arr: number[] = [];
-    for (let comment of comments) {
-      arr.push(comment.id!);
-    }
-    dispatch(getRepliesAction(arr));
-  }, []);
+    dispatch(getCommentsAction(postId!));
+  }, [dispatch, postId]);
 
   useEffect(() => {
     dispatch(getLikesAction());
@@ -110,6 +99,7 @@ const CommentPage = () => {
     },
     [dispatch, commentText, commentTextRef, setCommentText]
   );
+
   return (
     <>
       {!isAuthenticated ? (
@@ -170,7 +160,7 @@ const CommentPage = () => {
                     </span>
                     <div className="w-full h-max flex flex-col space-y-1 transition-color duration-500 bg-gray-200 dark:bg-gray-800 md:rounded-bl md:rounded-br pt-1 pb-4 md:pb-2">
                       {commentsToDisplay.map((comment) => {
-                        return <Comment key={comment.id} comment={comment} postId={postId!} />;
+                        return <Comment key={comment.date} comment={comment} postId={postId!} />;
                       })}
                     </div>
                   </div>

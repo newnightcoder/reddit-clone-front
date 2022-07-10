@@ -27,17 +27,17 @@ export const setLanguageAction = (lang: string) => (dispatch: Dispatch<Action>) 
 
 export const logUserAction =
   (email: string, password: string) => async (dispatch: ThunkDispatch<IUserState, any, Action | basicAction>) => {
-    clearErrorUserAction();
+    dispatch(clearErrorUserAction());
     try {
       const { error, user, isNewUser, accessToken } = await logUser(email, password);
       if (error) {
-        setErrorUserAction(error);
-        loginFailAction();
+        dispatch(setErrorUserAction(error));
+        dispatch(loginFailAction());
         return;
       }
       dispatch({ type: actionTypes.LOG_USER, payload: { user, isNewUser } });
       localStorage.setItem("jwt", accessToken);
-      dispatch({ type: actionTypes.LOGIN_SUCCESS });
+      dispatch(loginSuccessAction());
     } catch (err) {
       dispatch(setErrorUserAction("backend"));
     }
@@ -45,29 +45,29 @@ export const logUserAction =
 
 export const createUserAction =
   (email: string, password: string, date: string) => async (dispatch: ThunkDispatch<IUserState, any, Action | basicAction>) => {
-    clearErrorUserAction();
+    dispatch(clearErrorUserAction());
     try {
       const { error, userId } = await createUser(email, password, date);
       if (error) {
-        setErrorUserAction(error);
-        userFailAction();
+        dispatch(setErrorUserAction(error));
+        dispatch(userFailAction());
         return;
       }
       dispatch({ type: actionTypes.CREATE_USER, payload: userId });
-      userCreatedAction();
+      dispatch(userCreatedAction());
     } catch (err) {
-      setErrorUserAction("backend");
+      dispatch(setErrorUserAction("backend"));
     }
   };
 
 export const saveUserNameAction =
   (id: number, name: string) => async (dispatch: ThunkDispatch<IUserState, any, Action | basicAction>) => {
-    clearErrorUserAction();
+    dispatch(clearErrorUserAction());
     try {
       const { user, error, isNewUser, accessToken } = await saveUserName(id, name);
       if (error) {
-        setErrorUserAction(error);
-        usernameFailAction();
+        dispatch(setErrorUserAction(error));
+        dispatch(usernameFailAction());
         return;
       }
       const { username, creationDate, email, role } = user;
@@ -76,23 +76,23 @@ export const saveUserNameAction =
         type: actionTypes.ADD_USERNAME,
         payload: { username, creationDate, email, role, isNewUser },
       });
-      usernameAddedAction();
-      loginSuccessAction();
+      dispatch(usernameAddedAction());
+      dispatch(loginSuccessAction());
     } catch (err) {
-      setErrorUserAction("backend");
+      dispatch(setErrorUserAction("backend"));
     }
   };
 
 export const editUsernameAction =
   (userId: number, username: string) => async (dispatch: ThunkDispatch<IUserState, any, Action | basicAction>) => {
-    clearErrorUserAction();
+    dispatch(clearErrorUserAction());
     try {
       const { newName, error } = await editUserName(userId, username);
-      if (error) return setErrorUserAction(error);
+      if (error) return dispatch(setErrorUserAction(error));
       dispatch({ type: actionTypes.EDIT_USERNAME, payload: { newName } });
-      usernameEditedAction();
+      dispatch(usernameEditedAction());
     } catch (err) {
-      setErrorUserAction("backend");
+      dispatch(setErrorUserAction("backend"));
     }
   };
 
@@ -104,27 +104,28 @@ export const saveUserPicAction =
   (blob: File, id: number, imgType: string) => async (dispatch: ThunkDispatch<IUserState, any, Action>) => {
     try {
       const { error, picUrl } = await saveUserPic(blob, id, imgType);
-      if (error) return setErrorUserAction(error);
+      if (error) return dispatch(setErrorUserAction(error));
       dispatch({ type: actionTypes.SAVE_USERPIC, payload: { picUrl, imgType } });
     } catch (err) {
-      setErrorUserAction("backend");
+      dispatch(setErrorUserAction("backend"));
     }
   };
 
 export const likePostAction =
   (origin: string, userId: number, id: number, like: boolean) => async (dispatch: ThunkDispatch<IUserState, any, Action>) => {
-    clearErrorUserAction();
+    dispatch(clearErrorUserAction());
     try {
       const { liked, sessionExpired, error } = await likePost(origin, userId, id, like);
-      if (sessionExpired) return sessionExpiredAction(sessionExpired);
-      if (error) return setErrorUserAction(error);
+      if (sessionExpired) return dispatch(sessionExpiredAction(sessionExpired));
+      if (error) return dispatch(setErrorUserAction(error));
       dispatch({ type: actionTypes.LIKE_POST, payload: liked });
     } catch (err) {
-      setErrorUserAction("backend");
+      dispatch(setErrorUserAction("backend"));
     }
   };
 
 export const toCommentAction = (postId: number) => (dispatch: Dispatch<Action | clearAction>) => {
+  // ❌
   clearErrorUserAction();
   dispatch({
     type: actionTypes.TO_COMMENT,
@@ -137,38 +138,38 @@ export const setProfileVisitIdAction = (id: number) => (dispatch: Dispatch<Actio
 };
 
 export const getRecentUsersAction = () => async (dispatch: ThunkDispatch<IUserState, any, Action>) => {
-  clearErrorUserAction();
+  dispatch(clearErrorUserAction());
   try {
     const { recentUsers, sessionExpired, error } = await getRecentUsers();
-    if (sessionExpired) return sessionExpiredAction(sessionExpired);
-    if (error) return setErrorUserAction(error);
+    if (sessionExpired) return dispatch(sessionExpiredAction(sessionExpired));
+    if (error) return dispatch(setErrorUserAction(error));
     console.log("just got recent users");
     dispatch({ type: actionTypes.GET_USERS, payload: { recentUsers } });
   } catch (err) {
     console.log("error catch", err);
-    setErrorUserAction("backend");
+    dispatch(setErrorUserAction("backend"));
   }
 };
 
 export const getModsAction = () => async (dispatch: ThunkDispatch<IUserState, any, Action>) => {
   try {
     const { mods, error, sessionExpired } = await getMods();
-    if (sessionExpired) return sessionExpiredAction(sessionExpired);
-    if (error) return setErrorUserAction(error);
+    if (sessionExpired) return dispatch(sessionExpiredAction(sessionExpired));
+    if (error) return dispatch(setErrorUserAction(error));
     dispatch({ type: actionTypes.GET_MODS, payload: { mods } });
   } catch (err) {
-    setErrorUserAction("backend");
+    dispatch(setErrorUserAction("backend"));
   }
 };
 
 export const deleteUserAction = (id: number) => async (dispatch: ThunkDispatch<IUserState, any, Action | basicAction>) => {
   try {
     const { status, error, sessionExpired } = await deleteUser(id);
-    if (sessionExpired) return sessionExpiredAction(sessionExpired);
+    if (sessionExpired) return dispatch(sessionExpiredAction(sessionExpired));
     if (error) return dispatch(setErrorUserAction(error));
     if (status === 200) return dispatch({ type: actionTypes.DELETE_USER });
   } catch (err) {
-    setErrorUserAction("backend");
+    dispatch(setErrorUserAction("backend"));
   }
 };
 
@@ -188,22 +189,22 @@ export const followUserAction =
   (myId: number, userId: number, bool: boolean) => async (dispatch: ThunkDispatch<IUserState, any, Action>) => {
     try {
       const { msg, error } = await followUser(myId, userId, bool);
-      if (error) return setErrorUserAction("backend");
+      if (error) return dispatch(setErrorUserAction("backend"));
       if (msg) {
         return dispatch({ type: actionTypes.UPDATE_FOLLOW, payload: { myId, userId, bool } });
       }
     } catch (error) {
-      setErrorUserAction("backend");
+      dispatch(setErrorUserAction("backend"));
     }
   };
 
 export const getFollowersAction = (id: number) => async (dispatch: ThunkDispatch<IUserState, any, Action>) => {
   try {
     const { followers, following, error } = await getFollowers(id);
-    if (error) return setErrorUserAction("backend");
+    if (error) return dispatch(setErrorUserAction("backend"));
     dispatch({ type: actionTypes.GET_FOLLOWERS, payload: { followers, following } });
   } catch (error) {
-    setErrorUserAction("backend");
+    dispatch(setErrorUserAction("backend"));
   }
 };
 
@@ -211,18 +212,18 @@ export const setSearchQueryAction =
   (query: string, filter: string) => async (dispatch: ThunkDispatch<IUserState, any, Action>) => {
     try {
       const { results, error } = await getSearchResults(query, filter);
-      if (error) return setErrorUserAction("backend");
+      if (error) return dispatch(setErrorUserAction("backend"));
       dispatch({ type: actionTypes.GET_SEARCH_RESULTS, payload: results });
     } catch (error) {
       console.log(error);
-      setErrorUserAction("backend");
+      dispatch(setErrorUserAction("backend"));
     }
   };
 
 export const loginFailAction = () => (dispatch: Dispatch<basicAction>) => {
   dispatch({ type: actionTypes.LOGIN_FAIL });
 };
-const loginSuccessAction = () => (dispatch: Dispatch<basicAction>) => {
+export const loginSuccessAction = () => (dispatch: Dispatch<basicAction>) => {
   dispatch({ type: actionTypes.LOGIN_SUCCESS });
 };
 export const userFailAction = () => (dispatch: Dispatch<basicAction>) => {

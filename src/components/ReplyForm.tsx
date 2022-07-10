@@ -1,5 +1,5 @@
 import { PaperAirplaneIcon, XIcon } from "@heroicons/react/solid";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useSelector } from "react-redux";
 import { useError, useLanguage } from "../utils/hooks";
 import { ReplyFormProps } from "./react-app-env";
@@ -20,7 +20,7 @@ const ReplyForm = ({
   return (
     <div
       ref={ref}
-      id={commentId.toString()}
+      id={commentId?.toString()}
       className={`w-full mb-2 rounded bg-gray-100 dark:bg-gray-700 ${replyOpen ? "inline-block" : "hidden"}`}
     >
       {error && errorType === "emptyReply" && parseInt(ref!.current!.id) === commentRefNumber && (

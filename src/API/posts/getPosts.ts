@@ -7,6 +7,7 @@ const fetchPosts = async () => {
   try {
     const response = await fetch(`${API_POST}`, request);
     const { posts, likes, error }: { posts: IPost[]; likes: ILike[]; error: string | null } = await response.json();
+    console.log("POSTS", posts, "LIKES", likes, error);
     return { posts, likes, error };
   } catch (error) {
     throw error;
