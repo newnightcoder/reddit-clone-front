@@ -1,7 +1,19 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { DeleteModal, Error, Followers, FollowersToggle, Layout, ProfileBanner, ProfileInfo, Skeleton } from "../components";
+import {
+  DeleteModal,
+  Error,
+  Followers,
+  FollowersToggle,
+  Layout,
+  ProfileBanner,
+  ProfileInfo,
+  Skeleton,
+  ToggleDiv,
+} from "../components";
+import { datasetTypes } from "../components/dataForToggleDiv";
+import { IDataSet } from "../components/react-app-env";
 import { getUserPostsAction } from "../store/actions/posts.action";
 import { deleteUserAction, getFollowersAction } from "../store/actions/user.action";
 import { IPost } from "../store/types";
@@ -10,9 +22,9 @@ import { useGetProfile, useToggle } from "../utils/hooks";
 
 const Profile = () => {
   const { id, role, followers, isAuthenticated, idCurrentProfileVisit: profileId } = useSelector((state) => state?.user);
-  const { posts, likes } = useSelector((state) => state?.posts);
+  const { posts, likes, userPosts } = useSelector((state) => state?.posts);
   const [openModal, setOpenModal] = useState(false);
-  // const [postTabOpen, setPostTabOpen] = useState(true);
+  const [postTabOpen, setPostTabOpen] = useState(true);
   const [likedPosts, setLikedPosts] = useState<IPost[]>([]);
   const dispatch = useDispatch();
   const { userData, loading } = useGetProfile(profileId!);
@@ -24,15 +36,15 @@ const Profile = () => {
   const [btnFollowStatus, setBtnFollowStatus] = useState(isFollowed);
   const toggleDeleteModal = useToggle(openModal, setOpenModal);
   const toggleFollowers = useToggle(followersOpen, setFollowersOpen);
-  // const toggleTabs = useToggle(postTabOpen, setPostTabOpen);
-  // const dataset1: IDataSet = {
-  //   name: datasetTypes.post,
-  //   data: userPosts,
-  // };
-  // const dataset2: IDataSet = {
-  //   name: datasetTypes.post,
-  //   data: likedPosts,
-  // };
+  const toggleTabs = useToggle(postTabOpen, setPostTabOpen);
+  const dataset1: IDataSet = {
+    name: datasetTypes.post,
+    data: userPosts,
+  };
+  const dataset2: IDataSet = {
+    name: datasetTypes.post,
+    data: likedPosts,
+  };
 
   const checkIsFollowed = useCallback(
     (id) => {
@@ -149,7 +161,7 @@ const Profile = () => {
                       origin={role === "admin" && userData?.id !== id ? "profile-admin" : "profile"}
                     />
                   )}
-                  {/* <ToggleDiv bool={postTabOpen} setter={setPostTabOpen} dataset1={dataset1} dataset2={dataset2} /> */}
+                  <ToggleDiv bool={postTabOpen} setter={toggleTabs} dataset1={dataset1} dataset2={dataset2} />
                 </div>
               </div>
             )}

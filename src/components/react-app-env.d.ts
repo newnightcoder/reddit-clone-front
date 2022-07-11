@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FocusEventHandler, FormEventHandler } from "react";
+import { ChangeEventHandler, FocusEventHandler, FormEventHandler, MouseEventHandler } from "react";
 import { IPost, IScrapedPreview, IUser } from "../store/types";
 
 interface IGifModalProps {
@@ -196,7 +196,8 @@ interface SignupProps {
 interface TabsContainerProps {
   user?: IUser;
   bool: boolean;
-  setter: React.Dispatch<React.SetStateAction<boolean>>;
+  setter: MouseEventHandler;
+  //React.Dispatch<React.SetStateAction<boolean>>;
   length1: number;
   length2: number;
   container: string;
@@ -204,7 +205,8 @@ interface TabsContainerProps {
 
 interface ToggleDivProps {
   bool: boolean;
-  setter: React.Dispatch<React.SetStateAction<boolean>>;
+  setter: MouseEventHandler;
+  //React.Dispatch<React.SetStateAction<boolean>>;
   dataset1: IDataSet;
   dataset2: IDataSet;
 }

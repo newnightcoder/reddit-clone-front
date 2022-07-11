@@ -13,11 +13,9 @@ const initialState: IPostState = {
   scrapedPost: {},
   comments: [],
   currentCommentsCount: null,
-  // replies: [],
   likes: [],
   error: "",
   lastPostAdded: null,
-  // lastReplyAdded: null,
   lastDeleted: null,
   sessionExpired: false,
 };
@@ -103,7 +101,6 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
 
     case actionTypes.CREATE_COMMENT: {
       const { count, newComment }: { count: number; newComment: IComment } = action.payload;
-      // const copy = [...state.comments];
       const updatedComments = [newComment, ...state.comments];
       return {
         ...state,
@@ -113,9 +110,21 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
     }
 
     case actionTypes.CREATE_REPLY:
-      const { newReply, replyId }: { newReply: IReply; replyId: number } = action.payload;
-      // const updatedReplies = [newReply, ...state.replies];
-      return { ...state };
+      const { newReply }: { newReply: IReply; replyId: number } = action.payload;
+      const copy = [...state.comments];
+
+      let comment = copy.filter((comment) => comment.commentId === newReply.fk_commentId)[0];
+      const updatedReplies = [newReply, ...comment.replies!];
+      comment = {
+        ...comment,
+        replies: updatedReplies,
+      };
+      const updatedComs = copy.map((com) => {
+        if (com.commentId === comment.commentId) {
+          return comment;
+        } else return com;
+      });
+      return { ...state, comments: updatedComs };
 
     case actionTypes.EDIT_POST: {
       const { edit, origin }: { edit: IPost | IComment | IReply; origin: string } = action.payload;
@@ -157,19 +166,28 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
           });
           return { ...state, comments: updatedComments };
         }
-        // case "reply": {
-        //   const editedReply = edit as IReply;
-        //   const copy = [...state.replies];
-        //   const updatedReplies = copy.map((reply) => {
-        //     if (reply.replyId === editedReply.replyId) {
-        //       return {
-        //         ...reply,
-        //         text: editedReply.text,
-        //       };
-        //     } else return reply;
-        //   });
-        //   return { ...state, replies: updatedReplies };
-        // }
+        case "reply": {
+          const editedReply = edit as IReply;
+          let comment = [...state.comments].filter((comment) => comment.commentId === editedReply.fk_commentId)[0];
+          const updatedReplies = comment.replies!.map((reply) => {
+            if (reply.replyId === editedReply.replyId) {
+              return {
+                ...reply,
+                text: editedReply.text,
+              };
+            } else return reply;
+          });
+          comment = {
+            ...comment,
+            replies: updatedReplies,
+          };
+          const updatedComs = [...state.comments].map((com) => {
+            if (com.commentId === comment.commentId) {
+              return comment;
+            } else return com;
+          });
+          return { ...state, comments: updatedComs };
+        }
         default:
           return { ...state };
       }
@@ -197,10 +215,21 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
           const commentsCopy = [...state.comments];
           const updatedComments = commentsCopy.filter((comment) => comment.commentId !== postId);
           return { ...state, comments: updatedComments, lastDeleted: true };
-        // case "reply":
-        //   const repliesCopy = [...state.replies];
-        //   const updatedReplies = repliesCopy.filter((reply) => reply.replyId !== postId);
-        //   return { ...state, replies: updatedReplies, lastDeleted: true };
+        case "reply":
+          let com: IComment = [...state.comments].filter((comment) =>
+            comment.replies?.find((reply) => reply.replyId === postId)
+          )[0];
+          const replies = com.replies?.filter((reply) => reply.replyId !== postId);
+          com = {
+            ...com,
+            replies,
+          };
+          const comments = [...state.comments].map((comment) => {
+            if (comment.commentId === com.commentId) {
+              return com;
+            } else return comment;
+          });
+          return { ...state, comments };
         default:
           return { ...state };
       }

@@ -34,24 +34,7 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
   const toggleOptions = useToggle(optionsOpen, setOptionsOpen);
   const toggleDeleteModal = useToggle(openDeleteModal, setOpenDeleteModal);
   const toggleReply = useToggle(replyOpen, setReplyOpen);
-  const [isMounted, setIsMounted] = useState(true);
-
-  // useEffect(() => {
-  //   if (isMounted) {
-  //     const copy = replies && [...replies];
-  //     const replyCount = copy
-  //       .map((reply) => {
-  //         if (reply.fk_commentId === commentId) {
-  //           return reply.replyId;
-  //         }
-  //       })
-  //       .filter((value) => value !== undefined);
-  //     setReplyNumber(replyCount.length);
-  //   }
-  //   return () => {
-  //     setIsMounted(false);
-  //   };
-  // }, [replies]);
+  // const [isMounted, setIsMounted] = useState(true);
 
   useEffect(() => {
     setLikesNumber(likesCount);
@@ -122,9 +105,6 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
         replyTextRef.current.value = "";
       }
       setReplyText("");
-      // setTimeout(() => {
-      //   dispatch(getRepliesAction());
-      // }, 1000);
     },
     [commentId, commentRef, dispatch, replyText, serverError, myId]
   );

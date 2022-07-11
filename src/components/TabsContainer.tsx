@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLanguage } from "../utils/hooks";
 import { TabsContainerProps } from "./react-app-env";
@@ -47,13 +47,13 @@ const TabsContainer = ({ user, bool, setter, length1, length2, container }: Tabs
     <div className="w-full h-min px-4">
       <div className="tabs-container h-max relative w-full h-full flex items-center justify-evenly">
         <button
-          onClick={!bool ? () => setter : undefined}
+          onClick={!bool ? setter : undefined}
           className="h-max py-[0.55rem] w-1/2 flex items-center justify-center rounded-tl rounded-tr outline-none font-bold hover:bg-gray-200 dark:hover:bg-gray-700"
         >
           {leftTabTitle}
         </button>
         <button
-          onClick={bool ? () => setter : undefined}
+          onClick={bool ? setter : undefined}
           className="h-max py-[0.55rem] w-1/2 flex items-center justify-center rounded-tl rounded-tr outline-none font-bold hover:bg-gray-200 dark:hover:bg-gray-700"
         >
           {rightTabTitle}

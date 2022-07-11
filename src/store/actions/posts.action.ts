@@ -93,10 +93,10 @@ export const createCommentAction =
 export const createReplyAction = (reply: IReply) => async (dispatch: ThunkDispatch<IPostState, any, Action | clearAction>) => {
   dispatch(clearErrorPostAction());
   try {
-    const { newReply, replyId, error, sessionExpired } = await createReply(reply);
+    const { newReply, error, sessionExpired } = await createReply(reply);
     if (error) return dispatch(setErrorPostAction(error));
     if (sessionExpired) return dispatch(setSessionExpiredAction(sessionExpired));
-    dispatch({ type: actionTypes.CREATE_REPLY, payload: { replyId, newReply } });
+    dispatch({ type: actionTypes.CREATE_REPLY, payload: { newReply } });
   } catch (err) {
     dispatch(setErrorPostAction("backend"));
   }
@@ -110,7 +110,6 @@ export const editPostAction =
       if (sessionExpired) return dispatch(setSessionExpiredAction(sessionExpired));
       if (error) return dispatch(setErrorPostAction(error));
       console.log(edit, origin);
-
       dispatch({ type: actionTypes.EDIT_POST, payload: { edit, origin } });
     } catch (err) {
       dispatch(setErrorPostAction("backend"));
@@ -229,6 +228,6 @@ export const setSessionExpiredAction = (sessionExpired: boolean) => (dispatch: D
 export const clearLastAddedAction = () => (dispatch: Dispatch<clearAction>) => {
   dispatch({ type: actionTypes.CLEAR_LAST_ADDED });
 };
-export const clearEditId = () => (dispatch: Dispatch<clearAction>) => {
+export const clearEditIdAction = () => (dispatch: Dispatch<clearAction>) => {
   dispatch({ type: actionTypes.CLEAR_EDIT_ID });
 };

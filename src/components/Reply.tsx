@@ -10,7 +10,7 @@ import { formatTimestamp } from "../utils/helpers/formatTime";
 import { useToggle } from "../utils/hooks";
 
 const Reply = ({ reply }: { reply: IReply }) => {
-  const { replyId, fk_userId_reply, text, date, username, picUrl, likesCount } = reply;
+  const { replyId, fk_userId_reply, fk_commentId, text, date, username, picUrl, likesCount } = reply;
   const likes = useSelector((state) => state?.posts.likes);
   const { id: userId, role } = useSelector((state) => state?.user);
   const [like, setLike] = useState(false);
@@ -66,7 +66,7 @@ const Reply = ({ reply }: { reply: IReply }) => {
   );
 
   const handleDeletePost = useCallback(() => {
-    dispatch(deletePostAction(replyId!, "reply", null));
+    dispatch(deletePostAction(replyId!, "reply", fk_commentId));
     setIsDeleted(true);
     setTimeout(() => {
       setpostIsGone(true);

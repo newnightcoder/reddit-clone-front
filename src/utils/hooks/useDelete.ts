@@ -36,7 +36,7 @@ const useDelete = (props: DeleteModalProps) => {
       case "comment":
         return handleDeletePost!(postId!, origin, postIdComment!);
       case "reply":
-        return handleDeletePost!(postId!, origin, null);
+        return handleDeletePost!(postId!, origin, postIdComment!);
       case "menu":
         return handleDeleteProfileFromMenu!(userId!);
       case "profile":

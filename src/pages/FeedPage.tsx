@@ -2,7 +2,7 @@ import { ArrowCircleUpIcon, RefreshIcon } from "@heroicons/react/solid";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { EditCommentModal, Error, FeedGreetings, Layout, Post, Skeleton } from "../components";
-import { clearEditId, clearTempPostImgAction, clearTempPreviewAction, getPostsAction } from "../store/actions/posts.action";
+import { clearEditIdAction, clearTempPostImgAction, clearTempPreviewAction, getPostsAction } from "../store/actions/posts.action";
 import { useContainerSize, useLanguage } from "../utils/hooks";
 
 const Feed = () => {
@@ -20,7 +20,7 @@ const Feed = () => {
   useEffect(() => {
     dispatch(clearTempPostImgAction());
     dispatch(clearTempPreviewAction());
-    dispatch(clearEditId());
+    dispatch(clearEditIdAction());
     dispatch(getPostsAction());
   }, [dispatch]);
 

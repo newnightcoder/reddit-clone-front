@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { GifModal, ImgUploadModal, PostForm, PreviewLinkModal } from ".";
 import {
-  clearEditId,
+  clearEditIdAction,
   clearErrorPostAction,
   clearTempPostImgAction,
   clearTempPreviewAction,
@@ -13,21 +13,14 @@ import {
   toggleEditModalAction,
 } from "../store/actions/posts.action";
 import { clearErrorUserAction } from "../store/actions/user.action";
-import { IEdit, IPost, IScrapedPreview } from "../store/types";
+import { IEdit, IPost, IReply, IScrapedPreview } from "../store/types";
 import { breakpoint } from "../utils/breakpoints";
 import { isObjectEmpty } from "../utils/helpers";
 import { useError, useToggle, useWindowSize } from "../utils/hooks";
 
 const EditCommentModal = () => {
-  const {
-    tempPostImg,
-    posts,
-    scrapedPost: preview,
-    comments,
-    // replies,
-    editId,
-    editModalOpen,
-  } = useSelector((state) => state.posts);
+  const { tempPostImg, posts, scrapedPost: preview, comments, editId, editModalOpen } = useSelector((state) => state.posts);
+  // const {replies} = comments;
   const { isAuthenticated } = useSelector((state) => state?.user);
   const [postToEdit]: IPost[] = posts.filter((post) => post.id === editId.id);
   const [postTitle, setPostTitle] = useState(postToEdit && postToEdit.title);
@@ -45,14 +38,16 @@ const EditCommentModal = () => {
 
   useEffect(() => {
     return () => {
-      dispatch(clearTempPreviewAction);
-      dispatch(clearTempPostImgAction);
-      dispatch(clearErrorPostAction);
-      dispatch(clearErrorUserAction);
+      dispatch(clearEditIdAction());
+      dispatch(clearTempPreviewAction());
+      dispatch(clearTempPostImgAction());
+      dispatch(clearErrorPostAction());
+      dispatch(clearErrorUserAction());
     };
   }, [dispatch]);
 
   const setText = useCallback(() => {
+    if (!editId.type) return;
     let text = "";
     switch (editId.type) {
       case "post":
@@ -60,15 +55,22 @@ const EditCommentModal = () => {
         setEditText(postToEdit.text ? postToEdit.text : "");
         break;
       case "comment":
-        const comment = comments.filter((comment) => comment?.commentId === editId.id);
-        text = comment[0]?.text;
+        const comment = comments.filter((comment) => comment.commentId === editId.id)[0];
+        text = comment.text;
         setEditText(text);
         break;
-      // case "reply":
-      //   const reply = replies.filter((reply) => reply?.replyId === editId.id);
-      //   text = reply[0]?.text;
-      //   setEditText(text);
-      //   break;
+      case "reply": {
+        let reply: IReply;
+        for (let i = 0; i < comments.length; i++) {
+          if (comments[i].replies?.find((reply) => reply.replyId === editId.id)) {
+            reply = comments[i]!.replies!.filter((repl) => repl.replyId === editId.id)[0];
+            break;
+          }
+        }
+        text = reply!.text;
+        setEditText(text);
+        break;
+      }
       default:
         return setEditText(text);
     }
@@ -179,7 +181,7 @@ const EditCommentModal = () => {
       console.log(isPreview);
       dispatch(editPostAction("post", editedPost));
       dispatch(toggleEditModalAction());
-      dispatch(clearEditId());
+      dispatch(clearEditIdAction());
       dispatch(clearTempPostImgAction());
       dispatch(clearTempPreviewAction());
       // console.log(postText);
