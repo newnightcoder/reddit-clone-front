@@ -1,36 +1,20 @@
 import { TrashIcon } from "@heroicons/react/solid";
-import React, { useCallback, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { EditUsernameModal, ProfileOptions } from ".";
 import { bannerPlaceholder, picPlaceholder } from "../assets";
-import { followUserAction } from "../store/actions/user.action";
 import { useLanguage, useToggle } from "../utils/hooks";
+import BtnFollow from "./BtnFollow";
 import { ProfileBannerProps } from "./react-app-env";
 
-const ProfileBanner = ({
-  user,
-  loading,
-  btnFollowStatus,
-  setBtnFollowStatus,
-  updatedFollowersCount,
-  setUpdatedFollowersCount,
-  setOpenModal,
-}: ProfileBannerProps) => {
+const ProfileBanner = ({ user, loading, updatedFollowersCount, setUpdatedFollowersCount, setOpenModal }: ProfileBannerProps) => {
   const { id, picUrl, bannerUrl, idCurrentProfileVisit: profileId, role } = useSelector((state) => state.user);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openProfileOptions, setOpenProfileOptions] = useState(false);
   const toggleEditModal = useToggle(openEditModal, setOpenEditModal);
   const toggleProfileOptions = useToggle(openProfileOptions, setOpenProfileOptions);
-  const toggleBtnTextFollow = useToggle(btnFollowStatus, setBtnFollowStatus);
   const userLanguage = useLanguage();
   const dispatch = useDispatch();
-
-  const updateCount = useCallback(
-    (bool: boolean) => {
-      bool ? setUpdatedFollowersCount(updatedFollowersCount + 1) : setUpdatedFollowersCount(updatedFollowersCount - 1);
-    },
-    [setUpdatedFollowersCount, updatedFollowersCount]
-  );
 
   return (
     <div
@@ -76,24 +60,12 @@ const ProfileBanner = ({
         }
       ></div>
       {profileId !== id && !loading && (
-        <button
-          className="z-10 followBtn absolute right-4 bottom-0 translate-y-[calc(100%+.75rem)] flex items-center justify-center space-x-1 text-md bg-blue-500 text-white text-sm px-4 py-1 rounded-full hover:drop-shadow"
-          onClick={
-            !btnFollowStatus
-              ? () => {
-                  dispatch(followUserAction(id!, profileId!, true));
-                  updateCount(true);
-                  toggleBtnTextFollow();
-                }
-              : () => {
-                  dispatch(followUserAction(id!, profileId!, false));
-                  updateCount(false);
-                  toggleBtnTextFollow();
-                }
-          }
-        >
-          <span className="capitalize">{btnFollowStatus ? userLanguage.profile.unfollow : userLanguage.profile.follow}</span>
-        </button>
+        <BtnFollow
+          profileId={profileId!}
+          count={updatedFollowersCount}
+          countSetter={setUpdatedFollowersCount}
+          container={"profile"}
+        />
       )}
       <div className="deleteBtn absolute left-4 top-4 w-10/12 pl-4">
         {role === "admin" && user?.id !== id && !loading && (

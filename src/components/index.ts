@@ -3,6 +3,7 @@ export { default as Settings } from "./AppSettings/Settings";
 export { default as SettingsContainer } from "./AppSettings/SettingsContainer";
 export { default as SettingsOptions } from "./AppSettings/SettingsOptions";
 export { default as Aside } from "./Aside";
+export { default as BtnFollow } from "./BtnFollow";
 export { default as BtnSettings } from "./BtnSettings";
 export { default as Comment } from "./Comment";
 export { default as CommentForm } from "./CommentForm";

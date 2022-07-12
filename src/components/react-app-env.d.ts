@@ -1,5 +1,5 @@
 import { ChangeEventHandler, FocusEventHandler, FormEventHandler, MouseEventHandler } from "react";
-import { IPost, IScrapedPreview, IUser } from "../store/types";
+import { IFollower, IPost, IScrapedPreview, IUser } from "../store/types";
 
 interface IGifModalProps {
   gifModalOpen: boolean;
@@ -131,7 +131,8 @@ interface DeleteModalProps {
 
 interface FollowersProps {
   bool: boolean;
-  toggleFollowers: () => void;
+  toggleFollowers?: () => void;
+  setter: MouseEventHandler;
   followersOpen: boolean;
   username: string;
   userId: number;
@@ -158,8 +159,6 @@ interface OverlayProps {
 interface ProfileBannerProps {
   user: IUser;
   loading: boolean;
-  btnFollowStatus: boolean;
-  setBtnFollowStatus: React.Dispatch<React.SetStateAction<boolean>>;
   updatedFollowersCount: number;
   setUpdatedFollowersCount: React.Dispatch<React.SetStateAction<number | undefined>>;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -175,6 +174,20 @@ interface ProfileOptionsProps {
 interface UserCardProps {
   user: IUser;
   mod?: boolean;
+}
+
+interface FollowerCardProps {
+  user: IFollower;
+  // btnFollowStatus: boolean;
+  followersCount: number;
+  followersCountSetter: React.Dispatch<React.SetStateAction<number | undefined>>;
+}
+
+interface BtnFollowProps {
+  profileId: number;
+  count: number;
+  countSetter: React.Dispatch<React.SetStateAction<number | undefined>>;
+  container: string;
 }
 
 interface ExpiredProps {
@@ -209,14 +222,26 @@ interface ToggleDivProps {
   //React.Dispatch<React.SetStateAction<boolean>>;
   dataset1: IDataSet;
   dataset2: IDataSet;
+  followersCountSetter?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  followersCount?: number;
+  container: string;
+}
+
+interface ToggleDivContentProps {
+  bool: boolean;
+  set1: IDataSet;
+  set2: IDataSet;
+  followersCountSetter?: React.Dispatch<React.SetStateAction<number | undefined>>;
+  followersCount?: number;
 }
 
 interface IDataSet {
   name: string;
-  data: IPost[] | IUser[];
+  data: IPost[] | IUser[] | IFollower[];
 }
 
 interface IDatasetTypes {
   post: string;
   user: string;
+  follower?: follower;
 }

@@ -186,6 +186,7 @@ const language = {
       userFollowers: "Followers",
       following: "I'm following",
       userFollowing: "Following",
+      back: "Back to profile",
     },
     editModal: {
       newUsername: "Enter your new username",
@@ -447,6 +448,7 @@ const language = {
       userFollowers: "Abonnés",
       following: "Mes abonnements",
       userFollowing: "Abonnements",
+      back: "Retout au profil",
     },
     editModal: {
       newUsername: "Entrez votre nouveau pseudo",
@@ -710,6 +712,7 @@ const language = {
       userFollowers: "Follower",
       following: "Folge ich",
       userFollowing: "Folge ich",
+      back: "Zurück zum Profil",
     },
     editModal: {
       newUsername: "Gib dein neuen Benutzername ein",

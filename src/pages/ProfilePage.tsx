@@ -32,11 +32,10 @@ const Profile = () => {
   const [updatedFollowersCount, setUpdatedFollowersCount] = useState(initialFollowersCount);
   const [followersOpen, setFollowersOpen] = useState(false);
   const [isFollowersClicked, setIsFollowersClicked] = useState(false);
-  const [isFollowed, setIsFollowed] = useState(false);
-  const [btnFollowStatus, setBtnFollowStatus] = useState(isFollowed);
   const toggleDeleteModal = useToggle(openModal, setOpenModal);
   const toggleFollowers = useToggle(followersOpen, setFollowersOpen);
   const toggleTabs = useToggle(postTabOpen, setPostTabOpen);
+
   const dataset1: IDataSet = {
     name: datasetTypes.post,
     data: userPosts,
@@ -45,17 +44,6 @@ const Profile = () => {
     name: datasetTypes.post,
     data: likedPosts,
   };
-
-  const checkIsFollowed = useCallback(
-    (id) => {
-      const followed = followers?.find((follower) => follower.id === id);
-      if (followed) {
-        setIsFollowed(true);
-        setBtnFollowStatus(true);
-      }
-    },
-    [followers, id]
-  );
 
   const getLikedPostArray = useCallback(() => {
     const postsArr: number[] = [];
@@ -72,8 +60,6 @@ const Profile = () => {
         }
       }
     }
-    console.log(likedPosts);
-
     return setLikedPosts(likedPostArr);
   }, [likes, posts, setLikedPosts, profileId]);
 
@@ -90,10 +76,6 @@ const Profile = () => {
   useEffect(() => {
     setUpdatedFollowersCount(initialFollowersCount);
   }, [userData, initialFollowersCount]);
-
-  useEffect(() => {
-    checkIsFollowed(id);
-  }, [followers, checkIsFollowed, id]);
 
   const handleDeleteProfile = useCallback(
     (profileId) => {
@@ -124,14 +106,15 @@ const Profile = () => {
             ) : (
               <div
                 style={{ minHeight: "calc(100vh - 7rem)" }}
-                className={`bg-white relative dark:bg-gray-900 transition duration-500 border-2 border-purple-500 w-full h-max rounded-md md:mt-8 flex items-start justify-center overflow-x-hidden`}
+                className={`bg-white relative dark:bg-gray-900 transition duration-500 border-2 border-purple-500 w-full rounded-md md:mt-8 flex items-start justify-center overflow-x-hidden`}
               >
                 <Followers
+                  setter={toggleTabs}
                   toggleFollowers={toggleFollowers}
                   followersOpen={followersOpen}
                   username={userData.username}
                   userId={userData.id}
-                  bool={isFollowersClicked}
+                  bool={postTabOpen}
                 />
                 <div
                   className={`border-2 border-red-500 w-full h-max  transition duration-300 ${
@@ -141,8 +124,6 @@ const Profile = () => {
                   <ProfileBanner
                     user={userData}
                     loading={loading}
-                    btnFollowStatus={btnFollowStatus}
-                    setBtnFollowStatus={setBtnFollowStatus}
                     setUpdatedFollowersCount={setUpdatedFollowersCount}
                     updatedFollowersCount={updatedFollowersCount!}
                     setOpenModal={setOpenModal}
@@ -161,7 +142,15 @@ const Profile = () => {
                       origin={role === "admin" && userData?.id !== id ? "profile-admin" : "profile"}
                     />
                   )}
-                  <ToggleDiv bool={postTabOpen} setter={toggleTabs} dataset1={dataset1} dataset2={dataset2} />
+                  <ToggleDiv
+                    bool={postTabOpen}
+                    setter={toggleTabs}
+                    dataset1={dataset1}
+                    dataset2={dataset2}
+                    followersCountSetter={setUpdatedFollowersCount}
+                    followersCount={updatedFollowersCount!}
+                    container={"profile"}
+                  />
                 </div>
               </div>
             )}

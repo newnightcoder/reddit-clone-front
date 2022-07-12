@@ -14,25 +14,29 @@ const TabsContainer = ({ user, bool, setter, length1, length2, container }: Tabs
       case "profile":
         {
           setLeftTabTitle(
-            user?.id === id ? `${userLanguage.profile.posts} ${length1}` : `${userLanguage.profile.userPosts} ${length1}`
+            user?.id === id ? `${userLanguage.profile.posts} (${length1})` : `${userLanguage.profile.userPosts} (${length1})`
           );
-          setRightTabTitle(`Likes ${length2}`);
+          setRightTabTitle(`Likes (${length2})`);
         }
         break;
       case "followers":
         {
           setLeftTabTitle(
-            user?.id === id ? `${userLanguage.profile.following} ${length1}` : `${userLanguage.profile.userFollowing} ${length1}`
+            user?.id === id
+              ? `${userLanguage.profile.followers} (${length1})`
+              : `${userLanguage.profile.userFollowers} (${length1})`
           );
           setRightTabTitle(
-            user?.id === id ? `${userLanguage.profile.followers} ${length2}` : `${userLanguage.profile.userFollowers} ${length2}`
+            user?.id === id
+              ? `${userLanguage.profile.following} (${length2})`
+              : `${userLanguage.profile.userFollowing} (${length2})`
           );
         }
         break;
       case "search":
         {
-          setLeftTabTitle(`${userLanguage.search.user} ${length1}`);
-          setRightTabTitle(`${userLanguage.search.post} ${length2}`);
+          setLeftTabTitle(`${userLanguage.search.user} (${length1})`);
+          setRightTabTitle(`${userLanguage.search.post} (${length2})`);
         }
         break;
       default:
