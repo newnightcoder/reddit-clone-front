@@ -32,8 +32,14 @@ const userState: IUserState = {
   following: [],
   recentUsers: [],
   mods: [],
-  searchQuery: "",
-  searchResults: null,
+  searchQuery: {
+    query: "",
+    filter: "",
+  },
+  searchResults: {
+    posts: null,
+    users: null,
+  },
   sessionExpired: false,
 };
 
@@ -215,15 +221,23 @@ export const userReducer: Reducer<IUserState, Action> = (state = userState, acti
       return { ...state, mods };
 
     case actionTypes.SET_SEARCH_QUERY:
+      const { query, filter } = action.payload;
       return {
         ...state,
-        searchQuery: action.payload,
+        searchQuery: {
+          query,
+          filter,
+        },
       };
 
     case actionTypes.GET_SEARCH_RESULTS:
+      const results = action.payload;
       return {
         ...state,
-        searchResults: action.payload,
+        searchResults: {
+          posts: results.posts,
+          users: results.users,
+        },
       };
 
     case actionTypes.DELETE_USER:

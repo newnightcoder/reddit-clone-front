@@ -24,11 +24,9 @@ interface IPostState {
   scrapedPost: IScrapedPreview;
   comments: IComment[];
   currentCommentsCount: number | null;
-  // replies: IReply[];
   likes: ILike[];
   error: string;
   lastPostAdded: number | null;
-  // lastReplyAdded: number | null;
   lastDeleted: boolean | null;
   sessionExpired: boolean;
 }
@@ -72,7 +70,6 @@ interface IScrapedPreview {
   publisher?: string;
   logo?: string;
   url?: string;
-  // logoFavicon?: string;
 }
 
 interface IComment {
@@ -163,8 +160,14 @@ interface IUserState {
   following: IFollower[];
   recentUsers: IUser[];
   mods: IUser[];
-  searchQuery: string;
-  searchResults: (IPost[] & IUser[]) | null;
+  searchQuery: {
+    query: string;
+    filter?: string;
+  };
+  searchResults: {
+    posts: IPost[] | null;
+    users: IUser[] | null;
+  };
   sessionExpired: boolean;
 }
 

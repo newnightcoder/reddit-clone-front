@@ -49,9 +49,9 @@ const NavBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
   const handleSearchSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      if (searchRef.current) {
-        dispatch(setSearchQueryAction(searchRef.current.value, searchFilter!));
-      }
+      if (searchRef?.current?.value !== "") {
+        dispatch(setSearchQueryAction(searchRef?.current?.value!, searchFilter!));
+      } else history.push("/search");
       if (!searchPage) return history.push("/search");
       if (searchMenuOpen) return toggleSearchMenu();
     },
@@ -101,11 +101,9 @@ const NavBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
         >
           <div className="input-wrapper relative h-10 w-full rounded-l-full">
             <input
-              onFocus={toggleSearchMenu}
               onClick={toggleSearchMenu}
-              // onBlur={searchMenuOpen ? toggleSearchMenu : undefined}
-              style={{ paddingLeft: searchFilterRect ? `calc(${searchFilterRect.width}px + 0.3rem)` : "" }}
-              className="h-full w-full rounded-l-full outline-none pl-3 pr-2 text-black dark:text-gray-100 dark:placeholder-gray-200 dark:bg-gray-600 text-sm lg:text-md transition-color duration-300 border-t border-b border-l border-gray-200 dark:border-gray-700 group-hover:border-gray-400 dark:group-hover:border-gray-400"
+              style={{ paddingLeft: searchFilterRect ? `calc(${searchFilterRect.width}px + 0.3rem)` : "0.75rem" }}
+              className="h-full w-full rounded-l-full outline-none  pr-2 text-black dark:text-gray-100 dark:placeholder-gray-200 dark:bg-gray-600 text-sm lg:text-md transition-color duration-300 border-t border-b border-l border-gray-200 dark:border-gray-700 group-hover:border-gray-400 dark:group-hover:border-gray-400"
               type="search"
               placeholder={userLanguage.navbar.searchPlaceholder}
               ref={searchRef}
@@ -113,8 +111,8 @@ const NavBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
             {searchFilter && (
               <div
                 ref={searchFilterRef}
-                style={{ width: searchFilterRect ? `${searchFilterRect.width}}px` : "" }}
-                className="h-full w-max px-4 flex items-center justify-center text-white bg-black dark:bg-gray-700 absolute top-0 left-0 rounded-l-full capitalize"
+                style={{ width: searchFilterRect ? `${searchFilterRect.width}}px` : "max-content" }}
+                className="h-full w-max px-4 flex items-center justify-center text-sm text-white bg-black dark:bg-gray-700 absolute top-0 left-0 rounded-l-full capitalize"
               >
                 {searchFilter}:
               </div>
@@ -134,14 +132,14 @@ const NavBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
             }}
             className={`${
               searchMenuOpen ? "flex z-50" : "hidden"
-            } fixed top-[3.3rem] w-full h-max bg-black rounded-md text-white items-center justify-center space-x-5 py-7 px-12`}
+            } fixed top-[3.3rem] w-full h-max bg-black rounded-md text-white items-center justify-center space-x-7 p-6`}
           >
-            <span className="w-max text-sm text-gray-200 whitespace-nowrap underline">Recherchez par:</span>
-            <div className="h-max w-max flex items-center justify-center space-x-7">
+            <span className="w-max text-sm text-gray-200 whitespace-nowrap underline"> {userLanguage.search.searchBy}</span>
+            <div className="h-max w-max flex items-center justify-center space-x-5">
               <button
                 data-active={activeStates[0]}
                 onClick={() => {
-                  setSearchFilter(userLanguage.appearance.dark);
+                  setSearchFilter(userLanguage.search.user);
                   setActive("user");
                 }}
                 type="button"
@@ -149,12 +147,12 @@ const NavBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
                   active === "user" ? "bg-blue-400 text-white shadow-none border-transparent" : " text-gray-200"
                 } w-max py-1 px-3 text-center text-sm hover:text-white font-bold uppercase shadow-md hover:bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none border-2 hover:border-transparent`}
               >
-                {userLanguage.appearance.dark}
+                {userLanguage.search.user}
               </button>
               <button
                 data-active={activeStates[1]}
                 onClick={() => {
-                  setSearchFilter(userLanguage.feed.refreshBtn);
+                  setSearchFilter(userLanguage.search.post);
                   setActive("post");
                 }}
                 type="button"
@@ -162,17 +160,18 @@ const NavBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
                   active === "pub" ? "bg-blue-400 text-white shadow-none border-transparent" : " text-gray-200"
                 } w-max py-1 px-3 text-center text-sm hover:text-white font-bold uppercase shadow-md hover:bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none border-2 hover:border-transparent`}
               >
-                {userLanguage.feed.refreshBtn}
+                {userLanguage.search.post}
               </button>
               <button
                 onClick={() => {
                   setSearchFilter(null);
+                  setSearchFilterRect(null);
                   setActive("");
                 }}
                 type="button"
                 className={`w-max py-1 px-3 text-center self-end text-xs text-gray-200 underline hover:text-white font-bold uppercase shadow-md hover:bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none`}
               >
-                {userLanguage.createPost.cancelBtn}
+                {userLanguage.search.cancel}
               </button>
             </div>
           </div>

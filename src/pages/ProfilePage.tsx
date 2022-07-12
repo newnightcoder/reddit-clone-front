@@ -18,13 +18,12 @@ import { getUserPostsAction } from "../store/actions/posts.action";
 import { deleteUserAction, getFollowersAction } from "../store/actions/user.action";
 import { IPost } from "../store/types";
 import { history } from "../utils/helpers";
-import { useGetProfile, useToggle } from "../utils/hooks";
+import { useGetProfile, useToggle, useToggleTabs } from "../utils/hooks";
 
 const Profile = () => {
   const { id, role, followers, isAuthenticated, idCurrentProfileVisit: profileId } = useSelector((state) => state?.user);
   const { posts, likes, userPosts } = useSelector((state) => state?.posts);
   const [openModal, setOpenModal] = useState(false);
-  const [postTabOpen, setPostTabOpen] = useState(true);
   const [likedPosts, setLikedPosts] = useState<IPost[]>([]);
   const dispatch = useDispatch();
   const { userData, loading } = useGetProfile(profileId!);
@@ -34,7 +33,7 @@ const Profile = () => {
   const [isFollowersClicked, setIsFollowersClicked] = useState(false);
   const toggleDeleteModal = useToggle(openModal, setOpenModal);
   const toggleFollowers = useToggle(followersOpen, setFollowersOpen);
-  const toggleTabs = useToggle(postTabOpen, setPostTabOpen);
+  const { toggleTabs, leftTabOpen } = useToggleTabs();
 
   const dataset1: IDataSet = {
     name: datasetTypes.post,
@@ -114,7 +113,7 @@ const Profile = () => {
                   followersOpen={followersOpen}
                   username={userData.username}
                   userId={userData.id}
-                  bool={postTabOpen}
+                  bool={leftTabOpen}
                 />
                 <div
                   className={`border-2 border-red-500 w-full h-max  transition duration-300 ${
@@ -143,7 +142,7 @@ const Profile = () => {
                     />
                   )}
                   <ToggleDiv
-                    bool={postTabOpen}
+                    bool={leftTabOpen}
                     setter={toggleTabs}
                     dataset1={dataset1}
                     dataset2={dataset2}

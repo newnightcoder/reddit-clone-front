@@ -8,4 +8,5 @@ export { default as useLanguage } from "./useLanguage";
 export { default as useLinkToProfile } from "./useLinkToProfile";
 export { default as useToggle } from "./useToggle";
 export { default as useToggleSettings } from "./useToggleSettings";
+export { default as useToggleTabs } from "./useToggleTabs";
 export { default as useWindowSize } from "./useWindowSize";

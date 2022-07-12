@@ -209,10 +209,11 @@ export const getFollowersAction = (id: number) => async (dispatch: ThunkDispatch
 };
 
 export const setSearchQueryAction =
-  (query: string, filter: string) => async (dispatch: ThunkDispatch<IUserState, any, Action>) => {
+  (query: string, filter?: string) => async (dispatch: ThunkDispatch<IUserState, any, Action>) => {
     try {
       const { results, error } = await getSearchResults(query, filter);
       if (error) return dispatch(setErrorUserAction("backend"));
+      dispatch({ type: actionTypes.SET_SEARCH_QUERY, payload: { query, filter } });
       dispatch({ type: actionTypes.GET_SEARCH_RESULTS, payload: results });
     } catch (error) {
       console.log(error);

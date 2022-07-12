@@ -84,9 +84,10 @@ const language = {
     },
     search: {
       searchBy: "Search by",
-      user: "Members",
-      post: "Publications",
+      user: "Member",
+      post: "Post",
       cancel: "cancel",
+      msg: "Looking for something?\nType in the search bar above!",
     },
     menu: {
       visitor: "No profile yet",
@@ -346,9 +347,10 @@ const language = {
     },
     search: {
       searchBy: "Rechercher par",
-      user: "Membres",
-      post: "Publications",
+      user: "Membre",
+      post: "Publication",
       cancel: "annuler",
+      msg: "Une recherche sur Forum?\nLa barre de recherche est juste au dessus!",
     },
     menu: {
       visitor: "Pas encore de profil",
@@ -613,6 +615,7 @@ const language = {
       user: "Mitglieder",
       post: "Beiträge",
       cancel: "abbrechen",
+      msg: "Beim Suchen?\nDie Suchleiste da oben ist dafür da!",
     },
     menu: {
       visitor: "Noch kein Profil",

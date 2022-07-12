@@ -177,8 +177,8 @@ interface UserCardProps {
 }
 
 interface FollowerCardProps {
-  user: IFollower;
   // btnFollowStatus: boolean;
+  user: IFollower;
   followersCount: number;
   followersCountSetter: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
@@ -210,21 +210,21 @@ interface TabsContainerProps {
   user?: IUser;
   bool: boolean;
   setter: MouseEventHandler;
-  //React.Dispatch<React.SetStateAction<boolean>>;
   length1: number;
   length2: number;
   container: string;
+  //React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface ToggleDivProps {
   bool: boolean;
   setter: MouseEventHandler;
-  //React.Dispatch<React.SetStateAction<boolean>>;
   dataset1: IDataSet;
   dataset2: IDataSet;
   followersCountSetter?: React.Dispatch<React.SetStateAction<number | undefined>>;
   followersCount?: number;
   container: string;
+  //React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface ToggleDivContentProps {

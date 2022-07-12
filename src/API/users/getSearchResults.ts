@@ -1,7 +1,7 @@
 import { API_USER } from "..";
 import { IPost, IUser } from "../../store/types";
 
-const getSearchResults = async (query: string, filter: string) => {
+const getSearchResults = async (query: string, filter?: string) => {
   const token = localStorage.getItem("jwt");
   const request = {
     headers: { Authorization: `Bearer ${token}` },

@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Switch } from "react-router-dom";
 import {
   CommentPage,
@@ -14,7 +13,7 @@ import {
 
 const AppContainer = () => {
   return (
-    <div className="min-h-screen w-full md:min-w-[320px] relative transition-color duration-500">
+    <div className="h-full w-full md:min-w-[320px] relative transition-color duration-500">
       <Switch>
         <Route path="/" exact component={HomePage} />
         <Route path="/login" component={LoginPage} />
