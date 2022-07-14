@@ -15,6 +15,16 @@ interface ImgUploaderProps {
   deletePreview?: () => void;
 }
 
+interface BtnModalProps {
+  btnModalOpen: bool;
+  setBlob: React.Dispatch<React.SetStateAction<File | null>>;
+  setBlobName: React.Dispatch<React.SetStateAction<string>>;
+  imgType: string;
+  blobName: string;
+  toggleBtnModal: () => void;
+  toggleImgModal?: () => void;
+}
+
 interface MenuProps {
   isMenuOpen: boolean;
   toggleMenu: () => void;
@@ -165,6 +175,7 @@ interface ProfileBannerProps {
 }
 
 interface ProfileOptionsProps {
+  isOpen: boolean;
   toggleProfileOptions: () => void;
   toggleEditModal: () => void;
   profileId: number;
@@ -210,8 +221,8 @@ interface TabsContainerProps {
   user?: IUser;
   bool: boolean;
   setter: MouseEventHandler;
-  length1: number;
-  length2: number;
+  set1: IDataSet;
+  set2: IDataSet;
   container: string;
   //React.Dispatch<React.SetStateAction<boolean>>;
 }

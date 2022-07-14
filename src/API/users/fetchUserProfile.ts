@@ -5,14 +5,12 @@ const fetchUserProfile = async (id: number) => {
   const token = localStorage.getItem("jwt");
   const request = {
     headers: {
-      "Content-type": "application/json",
-      authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
-    method: "post",
-    body: JSON.stringify({ id }),
+    method: "get",
   };
   try {
-    const response = await fetch(`${API_USER}/`, request);
+    const response = await fetch(`${API_USER}/${id}`, request);
     const { user, error, sessionExpired }: { user: IUser; error: string | null; sessionExpired: boolean } = await response.json();
     return { user, error, sessionExpired };
   } catch (err) {

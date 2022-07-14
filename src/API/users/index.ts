@@ -1,5 +1,6 @@
 export { default as createUser } from "./createUser";
 export { default as deleteUser } from "./deleteUser";
+export { default as deleteUserpic } from "./deleteUserpic";
 export { default as editUserName } from "./editUserName";
 export { default as fetchUserProfile } from "./fetchUserProfile";
 export { default as followUser } from "./followUser";

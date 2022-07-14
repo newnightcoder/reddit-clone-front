@@ -194,7 +194,7 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
     }
 
     case actionTypes.SET_EDIT_ID:
-      const editId: number = action.payload;
+      const editId: { id: number; type: string } = action.payload;
       return { ...state, editId };
 
     case actionTypes.CLEAR_EDIT_ID:

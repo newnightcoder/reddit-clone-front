@@ -144,13 +144,22 @@ export const userReducer: Reducer<IUserState, Action> = (state = userState, acti
         usernameAdded: false,
       };
 
-    case actionTypes.SAVE_USERPIC:
+    case actionTypes.SAVE_USERPIC: {
       const { picUrl, imgType } = action.payload;
       return {
         ...state,
         picUrl: imgType === "pic" ? picUrl : state.picUrl,
         bannerUrl: imgType === "banner" ? picUrl : state.bannerUrl,
       };
+    }
+    case actionTypes.CLEAR_USERPIC: {
+      const imgType: string = action.payload;
+      return {
+        ...state,
+        picUrl: imgType === "pic" ? null : state.picUrl,
+        bannerUrl: imgType === "banner" ? null : state.bannerUrl,
+      };
+    }
 
     case actionTypes.LIKE_POST:
       return {

@@ -1,6 +1,4 @@
 import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
-import React from "react";
-import Div100vh from "react-div-100vh";
 import { useSelector } from "react-redux";
 import { logo, picPlaceholder } from "../assets";
 import { history } from "../utils/helpers";
@@ -13,7 +11,7 @@ const StepImage = () => {
   const error = useError();
 
   return (
-    <Div100vh className="w-screen bg-gray-200 flex flex-col items-center justify-evenly absolute top-0 left-0 translate-x-full">
+    <div className="h-full w-screen bg-gray-200 flex flex-col items-center justify-evenly absolute top-0 left-0 translate-x-full px-4 overflow-hidden">
       <header className="h-1/4 flex flex-col items-center justify-center">
         <h1 className="text-center font-bold text-lg uppercase">
           {userLanguage.signup.stepImage.lastStep}
@@ -27,7 +25,7 @@ const StepImage = () => {
           {error}
         </span>
       )}
-      <div className="h-max w-screen flex flex-col items-center gap-2">
+      <div className="h-max w-full flex flex-col items-center gap-2">
         <div
           className="h-48 w-48 rounded-full border border-blue-400"
           style={{
@@ -42,7 +40,7 @@ const StepImage = () => {
           <ChevronDoubleRightIcon className="h-4 w-4 text-black" style={{ transform: "translateY(1px)" }} />
         </span>
       </button>
-    </Div100vh>
+    </div>
   );
 };
 

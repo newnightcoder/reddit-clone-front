@@ -34,20 +34,19 @@ const ProfileBanner = ({ user, loading, updatedFollowersCount, setUpdatedFollowe
     >
       <button
         className={`${
-          profileId === id && !loading ? "visible" : "invisible"
-        } absolute top-4 right-4 items-center justify-center space-x-1 text-xs opacity-0 flex italic text-white py-1 px-6 rounded-full shadow-xl bg-blue-400 dark:bg-black transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
+          profileId === id ? "flex" : "hidden"
+        } absolute top-4 right-4 items-center justify-center space-x-1 text-xs italic text-white py-1 px-6 rounded-full shadow-xl bg-blue-400 dark:bg-black transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
         onClick={toggleProfileOptions}
       >
         {userLanguage.profile.editBtn}
       </button>
-      {openProfileOptions && (
-        <ProfileOptions
-          setOpenModal={setOpenModal}
-          toggleEditModal={toggleEditModal}
-          toggleProfileOptions={toggleProfileOptions}
-          profileId={profileId!}
-        />
-      )}
+      <ProfileOptions
+        isOpen={openProfileOptions}
+        setOpenModal={setOpenModal}
+        toggleEditModal={toggleEditModal}
+        toggleProfileOptions={toggleProfileOptions}
+        profileId={profileId!}
+      />
       {openEditModal && <EditUsernameModal toggleEditModal={toggleEditModal} />}
       <div
         className="w-36 h-36 rounded-full border-4 border-white dark:border-gray-900 absolute left-4 -bottom-20"

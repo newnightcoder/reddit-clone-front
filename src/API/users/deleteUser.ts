@@ -12,8 +12,8 @@ const deleteUser = async (id: number) => {
   };
   try {
     const response = await fetch(`${API_USER}/delete`, request);
-    const { error, sessionExpired }: { error: string | null; sessionExpired: boolean } = await response.json();
-    const status = response.status;
+    const { status, error, sessionExpired }: { status: number; error: string | null; sessionExpired: boolean } =
+      await response.json();
     return { status, error, sessionExpired };
   } catch (err) {
     throw err;

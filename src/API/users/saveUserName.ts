@@ -10,12 +10,12 @@ const saveUserName = async (id: number, name: string) => {
   try {
     const response = await fetch(`${API_USER}/username`, request);
     const {
-      user,
+      result,
       error,
       isNewUser,
       accessToken,
-    }: { user: IUser; error: string | null; isNewUser: boolean; accessToken: string } = await response.json();
-    return { user, error, isNewUser, accessToken };
+    }: { result: IUser; error: string | null; isNewUser: boolean; accessToken: string } = await response.json();
+    return { result, error, isNewUser, accessToken };
   } catch (err) {
     throw err;
   }

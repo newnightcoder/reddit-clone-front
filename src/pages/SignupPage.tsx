@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { BtnSettings, Error, LoginHeader, Settings, SignupForm, StepUsername } from "../components";
-import { createUserAction } from "../store/actions/user.action";
+import { clearErrorUserAction, createUserAction } from "../store/actions/user.action";
 import { date } from "../utils/helpers/formatTime";
 import { useLanguage, useToggleSettings } from "../utils/hooks";
 
@@ -19,12 +19,15 @@ const Signup = () => {
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
   const { settingsOpen, toggleSettings } = useToggleSettings();
-  /* eslint no-control-regex: 0 */
-  const emailRegex =
-    /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+
+  useEffect(() => {
+    dispatch(clearErrorUserAction());
+  }, []);
 
   const handleNewEmail = useCallback(
     (e) => {
+      const emailRegex =
+        /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
       setNewUserEmail(e.currentTarget.value);
       if (emailRegex.test(e.currentTarget.value)) {
         setIsEmail(true);
@@ -71,7 +74,7 @@ const Signup = () => {
       e.preventDefault();
       dispatch(createUserAction(newUserEmail, newUserPass, date));
     },
-    [dispatch]
+    [dispatch, newUserEmail, newUserPass]
   );
 
   const toNextStep = userCreated ? { transform: "translateX(-100%)", transitionDelay: "300ms" } : { transform: "translateX(0%)" };

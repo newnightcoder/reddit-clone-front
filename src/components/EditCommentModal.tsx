@@ -20,12 +20,9 @@ import { useError, useToggle, useWindowSize } from "../utils/hooks";
 
 const EditCommentModal = () => {
   const { tempPostImg, posts, scrapedPost: preview, comments, editId, editModalOpen } = useSelector((state) => state.posts);
-  // const {replies} = comments;
-  const { isAuthenticated } = useSelector((state) => state?.user);
   const [postToEdit]: IPost[] = posts.filter((post) => post.id === editId.id);
   const [postTitle, setPostTitle] = useState(postToEdit && postToEdit.title);
   const [postText, setPostText] = useState(postToEdit && postToEdit.text);
-  // const [postImgUrl, setPostImgUrl] = useState(postToEdit && postToEdit.imgUrl);
   const [isPreview, setIsPreview] = useState(false);
   const [imgDom, setImgDom] = useState<JSX.Element | null>(null);
   const [imgUploadModalOpen, setImgUploadModalOpen] = useState(false);
@@ -35,6 +32,10 @@ const EditCommentModal = () => {
   const dispatch = useDispatch();
   const error = useError();
   const { width } = useWindowSize();
+
+  const toggleImgUploadModal = useToggle(imgUploadModalOpen, setImgUploadModalOpen);
+  const toggleGifModal = useToggle(gifModalOpen, setGifModalOpen);
+  const toggleLinkModal = useToggle(linkModalOpen, setLinkModalOpen);
 
   useEffect(() => {
     return () => {
@@ -80,14 +81,9 @@ const EditCommentModal = () => {
     setText();
   }, [editId.id, editId.type, setText]);
 
-  useEffect(() => {
-    console.log("POST TO EDIT", postToEdit);
-    console.log("postToEdit.imgUrl", postToEdit?.imgUrl);
-    // console.log("postImgUrl", postImgUrl);
-    if (postToEdit?.imgUrl) {
-      dispatch(saveImageToEditAction(postToEdit.imgUrl));
-      return;
-    } else if (postToEdit?.isPreview) {
+  const handleEditImg = useCallback(() => {
+    if (postToEdit?.imgUrl) return dispatch(saveImageToEditAction(postToEdit.imgUrl));
+    if (postToEdit?.isPreview) {
       const postToEditPreview: IScrapedPreview = {
         title: postToEdit?.preview?.title,
         image: postToEdit.preview?.image,
@@ -96,17 +92,19 @@ const EditCommentModal = () => {
         logo: postToEdit.preview?.logo,
         url: postToEdit.preview?.url,
       };
-      dispatch(setPreviewDataAction(postToEditPreview));
+      return dispatch(setPreviewDataAction(postToEditPreview));
     }
-  }, [dispatch, postToEdit, isAuthenticated]);
+  }, [dispatch, postToEdit?.imgUrl, postToEdit?.isPreview]);
+
+  useEffect(() => {
+    console.log("POST TO EDIT", postToEdit);
+    console.log("postToEdit.imgUrl", postToEdit?.imgUrl);
+    handleEditImg();
+  }, [postToEdit?.imgUrl, postToEdit?.isPreview]);
 
   useEffect(() => {
     if (!isObjectEmpty(preview)) setIsPreview(true);
   }, [preview]);
-
-  const toggleImgUploadModal = useToggle(imgUploadModalOpen, setImgUploadModalOpen);
-  const toggleGifModal = useToggle(gifModalOpen, setGifModalOpen);
-  const toggleLinkModal = useToggle(linkModalOpen, setLinkModalOpen);
 
   const deletePreview = useCallback(() => {
     setImgDom(null);
@@ -174,7 +172,6 @@ const EditCommentModal = () => {
         isPreview,
         preview,
       };
-
       e.preventDefault();
       if (postTitle && postTitle.length === 0) return dispatch(setErrorPostAction("emptyTitle"));
       if (error) return;

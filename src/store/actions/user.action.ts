@@ -3,6 +3,7 @@ import { ThunkDispatch } from "redux-thunk";
 import {
   createUser,
   deleteUser,
+  deleteUserpic,
   editUserName,
   followUser,
   getFollowers,
@@ -64,13 +65,13 @@ export const saveUserNameAction =
   (id: number, name: string) => async (dispatch: ThunkDispatch<IUserState, any, Action | basicAction>) => {
     dispatch(clearErrorUserAction());
     try {
-      const { user, error, isNewUser, accessToken } = await saveUserName(id, name);
+      const { result, error, isNewUser, accessToken } = await saveUserName(id, name);
       if (error) {
         dispatch(setErrorUserAction(error));
         dispatch(usernameFailAction());
         return;
       }
-      const { username, creationDate, email, role } = user;
+      const { username, creationDate, email, role } = result;
       localStorage.setItem("jwt", accessToken);
       dispatch({
         type: actionTypes.ADD_USERNAME,
@@ -111,6 +112,19 @@ export const saveUserPicAction =
     }
   };
 
+export const clearUserpicAction =
+  (id: number, imgType: string) => async (dispatch: ThunkDispatch<IUserState, any, Action | basicAction>) => {
+    try {
+      const { result, error, sessionExpired } = await deleteUserpic(id, imgType);
+      console.log(result);
+      if (sessionExpired) return dispatch(sessionExpiredAction(sessionExpired));
+      if (error) return dispatch(setErrorUserAction(error));
+      dispatch({ type: actionTypes.CLEAR_USERPIC, payload: imgType });
+    } catch (err) {
+      dispatch(setErrorUserAction("backend"));
+    }
+  };
+
 export const likePostAction =
   (origin: string, userId: number, id: number, like: boolean) => async (dispatch: ThunkDispatch<IUserState, any, Action>) => {
     dispatch(clearErrorUserAction());
@@ -142,6 +156,7 @@ export const getRecentUsersAction = () => async (dispatch: ThunkDispatch<IUserSt
   try {
     const { recentUsers, sessionExpired, error } = await getRecentUsers();
     if (sessionExpired) return dispatch(sessionExpiredAction(sessionExpired));
+    // ❌
     if (error) return dispatch(setErrorUserAction(error));
     console.log("just got recent users");
     dispatch({ type: actionTypes.GET_USERS, payload: { recentUsers } });
@@ -155,6 +170,7 @@ export const getModsAction = () => async (dispatch: ThunkDispatch<IUserState, an
   try {
     const { mods, error, sessionExpired } = await getMods();
     if (sessionExpired) return dispatch(sessionExpiredAction(sessionExpired));
+    // ❌
     if (error) return dispatch(setErrorUserAction(error));
     dispatch({ type: actionTypes.GET_MODS, payload: { mods } });
   } catch (err) {

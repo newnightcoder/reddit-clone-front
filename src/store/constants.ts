@@ -19,6 +19,7 @@ export const actionTypes = {
   USERNAME_FAIL: "USERNAME_FAIL",
   // Userpic
   SAVE_USERPIC: "SAVE_USERPIC",
+  CLEAR_USERPIC: "CLEAR_USERPIC",
   // Verbs
   GET_USERS: "GET_USERS",
   GET_MODS: "GET_MODS",
