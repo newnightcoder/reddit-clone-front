@@ -6,7 +6,9 @@ import useLanguage from "./useLanguage";
 const useDelete = (props: DeleteModalProps) => {
   const { postId, postIdComment, origin, handleDeletePost, handleDeleteProfile, handleDeleteProfileFromMenu } = props;
   const [message, setMessage] = useState("");
-  const { idCurrentProfileVisit: profileUserId } = useSelector((state) => state.user);
+  const {
+    currentProfileVisit: { id: profileId },
+  } = useSelector((state) => state.user);
   const userId = useSelector((state) => state?.user?.id);
   const userLanguage = useLanguage();
 
@@ -42,7 +44,7 @@ const useDelete = (props: DeleteModalProps) => {
       case "profile":
         return handleDeleteProfile!(userId!);
       case "profile-admin":
-        return handleDeleteProfile!(profileUserId!);
+        return handleDeleteProfile!(profileId!);
       default:
         return deleteFunction;
     }

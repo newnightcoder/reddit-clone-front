@@ -7,16 +7,21 @@ import { FollowersProps, IDataSet } from "./react-app-env";
 import ToggleDiv from "./ToggleDiv";
 
 const Followers = ({ bool, followersOpen, toggleFollowers, userId, setter }: FollowersProps) => {
-  const { id: myId, followers, following } = useSelector((state) => state?.user);
+  const {
+    id: myId,
+    followers,
+    following,
+    currentProfileVisit: { id: profileId, followers: userFollowers, following: userFollowing },
+  } = useSelector((state) => state?.user);
   const userLanguage = useLanguage();
 
   const dataset1: IDataSet = {
     name: datasetTypes.follower,
-    data: followers,
+    data: myId === profileId ? followers : userFollowers,
   };
   const dataset2: IDataSet = {
     name: datasetTypes.follower,
-    data: following,
+    data: myId === profileId ? following : userFollowing,
   };
 
   useEffect(() => {
@@ -27,7 +32,7 @@ const Followers = ({ bool, followersOpen, toggleFollowers, userId, setter }: Fol
     <div
       className={`${
         followersOpen ? "translate-x-0" : "translate-x-full"
-      } transition duration-300 absolute top-0 inset-x-0 min-h-[calc(100vh-7rem)] h-max flex flex-col items-center justify-start rounded border-2 border-green-500 z-20 overflow-y-auto bg-white`}
+      } transition duration-300 absolute top-0 inset-x-0 min-h-[calc(100vh-8rem)] flex flex-col items-center justify-start rounded z-20 overflow-y-auto bg-white`}
     >
       <div className="h-24 w-full flex items-center justify-start pl-2 md:pl-7">
         <button className="w-max flex items-center justify-center space-x-1" onClick={toggleFollowers}>

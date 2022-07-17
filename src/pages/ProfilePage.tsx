@@ -21,8 +21,13 @@ import { history } from "../utils/helpers";
 import { useGetProfile, useToggle, useToggleTabs } from "../utils/hooks";
 
 const Profile = () => {
-  const { id, role, followers, isAuthenticated, idCurrentProfileVisit: profileId } = useSelector((state) => state?.user);
-  const { posts, likes, userPosts } = useSelector((state) => state?.posts);
+  const {
+    id,
+    role,
+    isAuthenticated,
+    currentProfileVisit: { id: profileId },
+  } = useSelector((state) => state.user);
+  const { posts, likes, userPosts } = useSelector((state) => state.posts);
   const [openModal, setOpenModal] = useState(false);
   const [likedPosts, setLikedPosts] = useState<IPost[]>([]);
   const dispatch = useDispatch();
@@ -34,15 +39,23 @@ const Profile = () => {
   const toggleDeleteModal = useToggle(openModal, setOpenModal);
   const toggleFollowers = useToggle(followersOpen, setFollowersOpen);
   const { toggleTabs, leftTabOpen } = useToggleTabs();
+  const [dataset1, setDataset1] = useState<IDataSet>({ name: null, data: null });
+  const [dataset2, setDataset2] = useState<IDataSet>({ name: null, data: null });
 
-  const dataset1: IDataSet = {
-    name: datasetTypes.post,
-    data: userPosts,
-  };
-  const dataset2: IDataSet = {
-    name: datasetTypes.post,
-    data: likedPosts,
-  };
+  const setDataSets = useCallback(() => {
+    setDataset1({
+      name: datasetTypes.post,
+      data: userPosts,
+    });
+    setDataset2({
+      name: datasetTypes.post,
+      data: likedPosts,
+    });
+  }, [userPosts, likedPosts, setDataset1, setDataset2]);
+
+  useEffect(() => {
+    setDataSets();
+  }, [userData, userPosts, likedPosts]);
 
   const getLikedPostArray = useCallback(() => {
     const postsArr: number[] = [];
@@ -70,7 +83,7 @@ const Profile = () => {
     dispatch(getUserPostsAction(profileId!));
     dispatch(getFollowersAction(profileId!));
     getLikedPostArray();
-  }, [profileId, userData, dispatch]);
+  }, [profileId, id]);
 
   useEffect(() => {
     setUpdatedFollowersCount(initialFollowersCount);
@@ -105,18 +118,10 @@ const Profile = () => {
             ) : (
               <div
                 style={{ minHeight: "calc(100vh - 7rem)" }}
-                className={`bg-white relative dark:bg-gray-900 transition duration-500 border-2 border-purple-500 w-full rounded-md md:mt-8 flex items-start justify-center overflow-x-hidden`}
+                className={`bg-white relative dark:bg-gray-900 transition duration-500 w-full h-max rounded-md md:mt-8 flex items-start justify-center overflow-x-hidden overflow-y-auto`}
               >
-                <Followers
-                  setter={toggleTabs}
-                  toggleFollowers={toggleFollowers}
-                  followersOpen={followersOpen}
-                  username={userData.username}
-                  userId={userData.id}
-                  bool={leftTabOpen}
-                />
                 <div
-                  className={`border-2 border-red-500 w-full h-max  transition duration-300 ${
+                  className={`w-full h-max transition duration-300 ${
                     followersOpen ? "-translate-x-full" : "translate-x-0"
                   } rounded-md  flex flex-col items-center justify-start pb-24 md:pb-12`}
                 >
@@ -151,6 +156,14 @@ const Profile = () => {
                     container={"profile"}
                   />
                 </div>
+                <Followers
+                  setter={toggleTabs}
+                  toggleFollowers={toggleFollowers}
+                  followersOpen={followersOpen}
+                  username={userData.username}
+                  userId={userData.id}
+                  bool={leftTabOpen}
+                />
               </div>
             )}
           </div>

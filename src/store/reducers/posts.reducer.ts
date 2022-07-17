@@ -102,26 +102,37 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
     case actionTypes.CREATE_COMMENT: {
       const { count, newComment }: { count: number; newComment: IComment } = action.payload;
       const updatedComments = [newComment, ...state.comments];
+      const updatedPosts = [...state.posts].map((post) => {
+        if (post.id === newComment.fk_postId_comment) {
+          return {
+            ...post,
+            engagement: {
+              ...post.engagement!,
+              commentCount: post.engagement!.commentCount + 1,
+            },
+          };
+        } else return post;
+      });
       return {
         ...state,
         currentCommentsCount: count,
+        posts: updatedPosts,
         comments: updatedComments,
       };
     }
 
     case actionTypes.CREATE_REPLY:
       const { newReply }: { newReply: IReply; replyId: number } = action.payload;
-      const copy = [...state.comments];
-
-      let comment = copy.filter((comment) => comment.commentId === newReply.fk_commentId)[0];
+      const comment = [...state.comments].filter((comment) => comment.commentId === newReply.fk_commentId)[0];
       const updatedReplies = [newReply, ...comment.replies!];
-      comment = {
+      const updatedComment = {
         ...comment,
+        replyCount: comment.replyCount! + 1,
         replies: updatedReplies,
       };
-      const updatedComs = copy.map((com) => {
-        if (com.commentId === comment.commentId) {
-          return comment;
+      const updatedComs = [...state.comments].map((com) => {
+        if (com.commentId === updatedComment.commentId) {
+          return updatedComment;
         } else return com;
       });
       return { ...state, comments: updatedComs };

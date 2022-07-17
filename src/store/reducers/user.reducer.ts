@@ -15,6 +15,7 @@ const userState: IUserState = {
   error: "",
   isAuthenticated: false,
   isVisitor: false,
+  isPreviewImg: false,
   visitorMessage: "",
   language: "en",
   darkMode: false,
@@ -27,7 +28,11 @@ const userState: IUserState = {
     postId: null,
   },
   liked: false,
-  idCurrentProfileVisit: null,
+  currentProfileVisit: {
+    id: null,
+    followers: [],
+    following: [],
+  },
   followers: [],
   following: [],
   recentUsers: [],
@@ -160,6 +165,12 @@ export const userReducer: Reducer<IUserState, Action> = (state = userState, acti
         bannerUrl: imgType === "banner" ? null : state.bannerUrl,
       };
     }
+    case actionTypes.TOGGLE_PREVIEW_IMG:
+      const toggle = !state.isPreviewImg;
+      return {
+        ...state,
+        isPreviewImg: toggle,
+      };
 
     case actionTypes.LIKE_POST:
       return {
@@ -177,7 +188,7 @@ export const userReducer: Reducer<IUserState, Action> = (state = userState, acti
             id: null,
             username,
             picUrl: picUrl ? picUrl : "",
-            myId,
+            userId: myId,
           };
           const updatedFollowers: IFollower[] = [newFollower, ...state.followers];
           return {
@@ -208,17 +219,30 @@ export const userReducer: Reducer<IUserState, Action> = (state = userState, acti
       };
 
     case actionTypes.GET_FOLLOWERS:
-      const { followers, following } = action.payload;
-      return {
-        ...state,
-        followers,
-        following,
-      };
+      const { id, followers, following } = action.payload;
+      if (id === state.id) {
+        return {
+          ...state,
+          followers,
+          following,
+        };
+      } else
+        return {
+          ...state,
+          currentProfileVisit: {
+            ...state.currentProfileVisit,
+            followers,
+            following,
+          },
+        };
 
     case actionTypes.SET_PROFILE_ID:
       return {
         ...state,
-        idCurrentProfileVisit: action.payload,
+        currentProfileVisit: {
+          ...state.currentProfileVisit,
+          id: action.payload,
+        },
       };
 
     case actionTypes.GET_USERS:

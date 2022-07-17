@@ -20,6 +20,7 @@ export const actionTypes = {
   // Userpic
   SAVE_USERPIC: "SAVE_USERPIC",
   CLEAR_USERPIC: "CLEAR_USERPIC",
+  TOGGLE_PREVIEW_IMG: "TOGGLE_PREVIEW_IMG",
   // Verbs
   GET_USERS: "GET_USERS",
   GET_MODS: "GET_MODS",

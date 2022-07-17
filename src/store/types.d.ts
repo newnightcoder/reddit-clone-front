@@ -49,10 +49,10 @@ type PostAuthor = {
   picUrl?: string;
 };
 
-type PostEngagement = {
+interface PostEngagement {
   likesCount: number;
   commentCount: number;
-};
+}
 
 interface ILinkPreview {
   previewTitle?: string;
@@ -128,7 +128,7 @@ interface IFollower {
   id: number | null;
   username: string;
   picUrl?: string;
-  myId: number;
+  userId: number;
 }
 
 interface IUserState {
@@ -143,6 +143,7 @@ interface IUserState {
   error: string;
   isAuthenticated: boolean;
   isVisitor: boolean;
+  isPreviewImg: boolean;
   visitorMessage: string;
   language: string;
   darkMode: boolean;
@@ -155,7 +156,11 @@ interface IUserState {
     postId: number | null;
   };
   liked: boolean;
-  idCurrentProfileVisit: number | null;
+  currentProfileVisit: {
+    id: number | null;
+    followers: IFollower[];
+    following: IFollower[];
+  };
   followers: IFollower[];
   following: IFollower[];
   recentUsers: IUser[];

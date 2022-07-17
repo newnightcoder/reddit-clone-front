@@ -41,6 +41,7 @@ const language = {
       noAuthToken: "Looks like you're not authenticated...\nPlease log in again.",
       verifyAuthToken: "Sorry we're not able to authenticate you for some reason.\nPlease log in again.",
       authToken: "Sorry but your authentication went wrong for some reason.Please log in again.",
+      timeout: "Oops, your connexion to the server is taking too long...\nPlease refresh the page",
     },
     login: {
       greeting: "happy to see you again!",
@@ -211,6 +212,9 @@ const language = {
       noPic: "No pic selected yet",
       preview: "Preview",
       ok: "All good!",
+      changeBtn: "Change image",
+      save: "Save",
+      delete: "Delete pic",
     },
     postFooter: {
       comments: "Comments",
@@ -304,6 +308,7 @@ const language = {
       noAuthToken: "On dirait que vous n'êtes pas authentifié(e)...\nVeuillez vous reconnecter.",
       verifyAuthToken: "Désolé on a un petit problème avec votre authentification.\nVeuillez vous reconnecter.",
       authToken: "Oups! Votre authentification a échoué...\nVeuillez vous reconnecter.",
+      timeout: "Oops, temps de connexion au serveur trop long...\nVeuillez rafraîchir la page ou vous reconnecter",
     },
     login: {
       greeting: "content de vous revoir!",
@@ -474,6 +479,9 @@ const language = {
       noPic: "Aucune image choisie pour le moment.",
       preview: "Aperçu",
       ok: "C'est bon!",
+      changeBtn: "Changer d'image",
+      save: "Enregistrer",
+      delete: "Supprimer",
     },
     postFooter: {
       comments: "Commentaires",
@@ -569,6 +577,7 @@ const language = {
       noAuthToken: "On dirait que vous n'êtes pas authentifié(e)...\nVeuillez vous reconnecter.",
       verifyAuthToken: "Désolé on a un petit problème avec votre authentification.\nVeuillez vous reconnecter.",
       authToken: "Oups! Votre authentification a échoué...\nVeuillez vous reconnecter.",
+      timeout: "Oops, die Verbindungszeit zum Server ist zu lang...\nBitte aktualisieren Sie die Webseite",
     },
     login: {
       greeting: "Schön dich wieder zu sehen!",
@@ -739,6 +748,9 @@ const language = {
       noPic: "Kein Bild ausgewählt.",
       preview: "Vorschau",
       ok: "Alles gut!",
+      changeBtn: "Bild wechseln",
+      save: "Speichern",
+      delete: "Löschen",
     },
     postFooter: {
       comments: "Kommentare",

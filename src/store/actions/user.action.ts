@@ -125,6 +125,10 @@ export const clearUserpicAction =
     }
   };
 
+export const toggleIsPreviewImgAction = () => (dispatch: Dispatch<basicAction>) => {
+  dispatch({ type: actionTypes.TOGGLE_PREVIEW_IMG });
+};
+
 export const likePostAction =
   (origin: string, userId: number, id: number, like: boolean) => async (dispatch: ThunkDispatch<IUserState, any, Action>) => {
     dispatch(clearErrorUserAction());
@@ -218,7 +222,7 @@ export const getFollowersAction = (id: number) => async (dispatch: ThunkDispatch
   try {
     const { followers, following, error } = await getFollowers(id);
     if (error) return dispatch(setErrorUserAction("backend"));
-    dispatch({ type: actionTypes.GET_FOLLOWERS, payload: { followers, following } });
+    dispatch({ type: actionTypes.GET_FOLLOWERS, payload: { id, followers, following } });
   } catch (error) {
     dispatch(setErrorUserAction("backend"));
   }

@@ -24,6 +24,7 @@ export { default as HeroImg } from "./Homepage/HeroImg";
 export { default as HomeButtons } from "./Homepage/HomeButtons";
 export { default as HomeFooter } from "./Homepage/HomeFooter";
 export { default as ImgUploader } from "./ImgUploader";
+export { default as ImgUploaderBtnModal } from "./ImgUploaderBtnModal";
 export { default as Layout } from "./Layout";
 export { default as LinkPreview } from "./LinkPreview";
 export { default as LoginHeader } from "./LoginHeader";

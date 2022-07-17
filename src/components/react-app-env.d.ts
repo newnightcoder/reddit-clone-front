@@ -195,7 +195,8 @@ interface FollowerCardProps {
 }
 
 interface BtnFollowProps {
-  profileId: number;
+  profileId?: number;
+  userId?: number | null;
   count: number;
   countSetter: React.Dispatch<React.SetStateAction<number | undefined>>;
   container: string;
@@ -247,8 +248,8 @@ interface ToggleDivContentProps {
 }
 
 interface IDataSet {
-  name: string;
-  data: IPost[] | IUser[] | IFollower[];
+  name: string | null;
+  data: IPost[] | IUser[] | IFollower[] | null;
 }
 
 interface IDatasetTypes {

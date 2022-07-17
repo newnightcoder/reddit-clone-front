@@ -8,7 +8,13 @@ import BtnFollow from "./BtnFollow";
 import { ProfileBannerProps } from "./react-app-env";
 
 const ProfileBanner = ({ user, loading, updatedFollowersCount, setUpdatedFollowersCount, setOpenModal }: ProfileBannerProps) => {
-  const { id, picUrl, bannerUrl, idCurrentProfileVisit: profileId, role } = useSelector((state) => state.user);
+  const {
+    id,
+    picUrl,
+    bannerUrl,
+    currentProfileVisit: { id: profileId },
+    role,
+  } = useSelector((state) => state.user);
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openProfileOptions, setOpenProfileOptions] = useState(false);
   const toggleEditModal = useToggle(openEditModal, setOpenEditModal);
@@ -30,7 +36,7 @@ const ProfileBanner = ({ user, loading, updatedFollowersCount, setUpdatedFollowe
         }
      no-repeat center/cover`,
       }}
-      className="top-section mb-2 relative h-48 w-full pb-2 flex flex-col items-center justify-center space-y-2 md:rounded-tl-md md:rounded-tr-md"
+      className="top-section mb-3 relative h-48 w-full pb-2 flex flex-col items-center justify-center md:rounded-tl-md md:rounded-tr-md"
     >
       <button
         className={`${
@@ -40,14 +46,6 @@ const ProfileBanner = ({ user, loading, updatedFollowersCount, setUpdatedFollowe
       >
         {userLanguage.profile.editBtn}
       </button>
-      <ProfileOptions
-        isOpen={openProfileOptions}
-        setOpenModal={setOpenModal}
-        toggleEditModal={toggleEditModal}
-        toggleProfileOptions={toggleProfileOptions}
-        profileId={profileId!}
-      />
-      {openEditModal && <EditUsernameModal toggleEditModal={toggleEditModal} />}
       <div
         className="w-36 h-36 rounded-full border-4 border-white dark:border-gray-900 absolute left-4 -bottom-20"
         style={
@@ -60,6 +58,7 @@ const ProfileBanner = ({ user, loading, updatedFollowersCount, setUpdatedFollowe
       ></div>
       {profileId !== id && !loading && (
         <BtnFollow
+          userId={null}
           profileId={profileId!}
           count={updatedFollowersCount}
           countSetter={setUpdatedFollowersCount}
@@ -77,6 +76,14 @@ const ProfileBanner = ({ user, loading, updatedFollowersCount, setUpdatedFollowe
           </button>
         )}
       </div>
+      <ProfileOptions
+        isOpen={openProfileOptions}
+        setOpenModal={setOpenModal}
+        toggleEditModal={toggleEditModal}
+        toggleProfileOptions={toggleProfileOptions}
+        profileId={profileId!}
+      />
+      {openEditModal && <EditUsernameModal toggleEditModal={toggleEditModal} />}
     </div>
   );
 };

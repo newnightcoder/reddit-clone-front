@@ -17,7 +17,7 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
   const { id: myId, role, error: serverError } = useSelector((state) => state?.user);
   const [like, setLike] = useState(false);
   const [likesNumber, setLikesNumber] = useState(likesCount);
-  const [replyNumber, setReplyNumber] = useState(replyCount);
+  // const [replyNumber, setReplyNumber] = useState(replyCount!);
   const [replyOpen, setReplyOpen] = useState(false);
   const [replyText, setReplyText] = useState("");
   const [optionsOpen, setOptionsOpen] = useState(false);
@@ -170,7 +170,7 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
             <button className="outline-none w-max flex items-center justify-center gap-2" onClick={toggleReply}>
               <ChatRight size={14} />
               <span className="capitalize">
-                {replyNumber} {userLanguage.commentPage.comment.reply}
+                {replyCount} {userLanguage.commentPage.comment.reply}
               </span>
             </button>
             <button className="outline-none w-max flex items-center justify-center" onClick={() => handleLike(commentId)}>

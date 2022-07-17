@@ -1,5 +1,5 @@
 import { CheckIcon, EyeIcon, EyeOffIcon, XIcon } from "@heroicons/react/solid";
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLanguage } from "../utils/hooks";
 import { SignupProps } from "./react-app-env";
@@ -45,6 +45,7 @@ const SignupForm = ({
       method="post"
       className="h-full w-full flex flex-col items-center justify-center space-y-2"
       onSubmit={handleNewUserSubmit}
+      // autoComplete="disabled"
     >
       <div className="flex flex-col items-center gap-4">
         <div className="w-64 flex flex-col items-start">
@@ -54,6 +55,8 @@ const SignupForm = ({
             type="email"
             id="email"
             onChange={handleNewEmail}
+            name="usrname"
+            autoComplete="new-password"
           ></input>
         </div>
         <div className="flex flex-col items-center gap-2">
@@ -65,6 +68,8 @@ const SignupForm = ({
                 type={passwordType}
                 id="password"
                 onChange={handleNewPass}
+                name="pass"
+                autoComplete="new-password"
               ></input>
               <button type="button" className="h-max w-8 absolute right-0 pr-1 outline-none">
                 {passwordType === "password" ? (

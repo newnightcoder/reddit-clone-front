@@ -1,10 +1,15 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { useSelector } from "react-redux";
 import { useLanguage } from "../utils/hooks";
 import { FollowersToggleProps } from "./react-app-env";
 
 const FollowersToggle = ({ setIsFollowersClicked, toggleFollowers, user, updatedFollowersCount }: FollowersToggleProps) => {
-  const { id, followingCount, followersCount, idCurrentProfileVisit: profileId } = useSelector((state) => state.user);
+  const {
+    id,
+    followingCount,
+    followersCount,
+    currentProfileVisit: { id: profileId },
+  } = useSelector((state) => state.user);
   const userLanguage = useLanguage();
   const formatNumber = useCallback((number: number) => {
     const thousand = 1000;
