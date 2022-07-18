@@ -1,4 +1,3 @@
-import React from "react";
 import { useSelector } from "react-redux";
 import { picPlaceholder } from "../assets";
 import { formatTimestamp } from "../utils/helpers/formatTime";
@@ -7,9 +6,9 @@ import { UserCardProps } from "./react-app-env";
 
 const UserCard = ({ user, mod }: UserCardProps) => {
   const { id: userId, username, picUrl, creationDate } = user;
+  const { id: myId, username: myName, language } = useSelector((state) => state?.user);
   const handleLink = useHandleLink();
   const userLanguage = useLanguage();
-  const { id: myId, username: myName, language } = useSelector((state) => state?.user);
 
   return (
     <div className="w-full py-2 px-3 border-b transition-color duration-500 border-gray-200 dark:border-gray-700 bg-white hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800 text-sm text-gray-800 dark:text-gray-200">

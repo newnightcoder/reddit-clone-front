@@ -17,15 +17,14 @@ const TabsContainer = ({ user, bool, setter, set1, set2, container }: TabsContai
     switch (container) {
       case "profile":
         {
-          setLeftTabTitle(`test (${leftLength})`);
-          //   user?.id === id
-          //     ? `${userLanguage.profile.posts} (${leftLength})`
-          //     : `${userLanguage.profile.userPosts} (${leftLength})`
-          // );
-          setRightTabTitle(`Likes (${rightLength})`);
+          user?.id === id
+            ? setLeftTabTitle(`${userLanguage.profile.posts} (${set1!.data!.length!})`)
+            : setLeftTabTitle(`${userLanguage.profile.userPosts} (${set1!.data!.length!})`);
+
+          setRightTabTitle(`Likes (${rightLength!})`);
         }
         break;
-      case "followers":
+      case "followerCard":
         {
           setLeftTabTitle(
             user?.id === id
@@ -46,21 +45,22 @@ const TabsContainer = ({ user, bool, setter, set1, set2, container }: TabsContai
         }
         break;
       default:
+        return;
     }
-  }, [container, user?.id, id, leftLength, rightLength, setLeftTabTitle, setRightTabTitle, userLanguage]);
+  }, [container, user, id, set1, set2, setLeftTabTitle, setRightTabTitle, userLanguage]);
 
   useEffect(() => {
-    setLeftLength(leftLength);
-    setRightLength(rightLength);
+    setLeftLength(set1!.data!.length);
+    setRightLength(set2!.data!.length);
     return () => {
       setLeftLength(null);
       setRightLength(null);
     };
-  }, []);
+  }, [user, set1, set2]);
 
   useEffect(() => {
     setTabTitles();
-  }, []);
+  }, [container, user, set1, set2]);
 
   return (
     <div className="w-full h-min px-4">

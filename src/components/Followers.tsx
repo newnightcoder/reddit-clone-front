@@ -6,7 +6,7 @@ import { datasetTypes } from "./dataForToggleDiv";
 import { FollowersProps, IDataSet } from "./react-app-env";
 import ToggleDiv from "./ToggleDiv";
 
-const Followers = ({ bool, followersOpen, toggleFollowers, userId, setter }: FollowersProps) => {
+const Followers = ({ bool, followersOpen, toggleFollowers, userId, setter, followersCountSetter }: FollowersProps) => {
   const {
     id: myId,
     followers,
@@ -40,7 +40,14 @@ const Followers = ({ bool, followersOpen, toggleFollowers, userId, setter }: Fol
           <span className="uppercase text-sm underline font-bold">{userLanguage.profile.back}</span>
         </button>
       </div>
-      <ToggleDiv bool={bool} setter={setter} dataset1={dataset1} dataset2={dataset2} container={"followers"} />
+      <ToggleDiv
+        bool={bool}
+        setter={setter}
+        followersCountSetter={followersCountSetter}
+        dataset1={dataset1}
+        dataset2={dataset2}
+        container={"followerCard"}
+      />
     </div>
   );
 };

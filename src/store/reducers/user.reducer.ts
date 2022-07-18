@@ -179,7 +179,7 @@ export const userReducer: Reducer<IUserState, Action> = (state = userState, acti
       };
 
     case actionTypes.UPDATE_FOLLOW:
-      const { myId, bool } = action.payload;
+      const { myId, userId, bool, origin }: { myId: number; userId: number; bool: boolean; origin: string } = action.payload;
       switch (bool) {
         case true: {
           const username = state.username;
@@ -190,20 +190,26 @@ export const userReducer: Reducer<IUserState, Action> = (state = userState, acti
             picUrl: picUrl ? picUrl : "",
             userId: myId,
           };
-          const updatedFollowers: IFollower[] = [newFollower, ...state.followers];
+          const updatedFollowers: IFollower[] = [newFollower, ...state.currentProfileVisit.followers];
           return {
             ...state,
             followingCount: state.followingCount + 1,
-            followers: updatedFollowers,
+            currentProfileVisit: {
+              ...state.currentProfileVisit,
+              followers: origin === "profile" ? updatedFollowers : state.followers,
+            },
           };
         }
         case false: {
-          const copy = [...state.followers];
-          const updatedFollowers = copy.filter((follower) => follower.id !== myId);
+          const updatedFollowers = [...state.currentProfileVisit.followers].filter((follower) => follower.id !== myId);
           return {
             ...state,
             followingCount: state.followingCount - 1,
-            followers: updatedFollowers,
+            following: state.following.filter((follow) => follow.userId !== userId),
+            currentProfileVisit: {
+              ...state.currentProfileVisit,
+              followers: origin === "profile" ? updatedFollowers : state.followers,
+            },
           };
         }
         default:

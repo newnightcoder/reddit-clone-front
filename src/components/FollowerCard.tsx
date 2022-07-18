@@ -4,7 +4,7 @@ import { useLanguage } from "../utils/hooks";
 import BtnFollow from "./BtnFollow";
 import { FollowerCardProps } from "./react-app-env";
 
-const FollowerCard = ({ user: { id: userId, username, picUrl }, followersCount, followersCountSetter }: FollowerCardProps) => {
+const FollowerCard = ({ user: { userId, username, picUrl }, followersCount, followersCountSetter }: FollowerCardProps) => {
   const userLanguage = useLanguage();
   const dispatch = useDispatch();
 
@@ -18,7 +18,7 @@ const FollowerCard = ({ user: { id: userId, username, picUrl }, followersCount, 
         <span className="text-xs">@</span>
         {username}
       </span>
-      <BtnFollow userId={userId!} count={followersCount} countSetter={followersCountSetter} container={"follower"} />
+      <BtnFollow userId={userId!} count={followersCount} countSetter={followersCountSetter} container={"followerCard"} />
     </div>
   );
 };

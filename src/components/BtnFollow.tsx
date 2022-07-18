@@ -14,17 +14,14 @@ const BtnFollow = ({ userId, profileId, countSetter, count, container }: BtnFoll
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
   // const [isFollowed, setIsFollowed] = useState(false);
-  const statusBtnProfile = container === "profile" && userFollowers.some((follower) => follower.userId === id);
-  const statusBtnFollowerCard = container === "follower" && following.some((follow) => follow.userId === userId);
+  const statusBtnProfile = container === "profile" && userFollowers.some((follower) => follower.userId === id) ? true : false;
+  const statusBtnFollowerCard =
+    container === "followerCard" && following.some((follow) => follow.userId === userId) ? true : false;
   const [btnFollowStatusProfile, setBtnFollowStatusProfile] = useState(statusBtnProfile);
   const [btnFollowStatusFollowerCard, setBtnFollowStatusFollowerCard] = useState(statusBtnFollowerCard);
   const toggleBtnProfileTextFollow = useToggle(btnFollowStatusProfile, setBtnFollowStatusProfile);
   const toggleBtnFollowerCardTextFollow = useToggle(btnFollowStatusFollowerCard, setBtnFollowStatusFollowerCard);
-
-  const checkIsFollowed = useCallback(() => {
-    setBtnFollowStatusProfile(userFollowers.some((follower) => follower.userId === id));
-    setBtnFollowStatusFollowerCard(following.some((follow) => follow.userId === userId));
-  }, [userFollowers, following, userId, id, setBtnFollowStatusProfile, setBtnFollowStatusFollowerCard]);
+  const [isMounted, setIsMounted] = useState(false);
 
   const updateCount = useCallback(
     (bool: boolean) => {
@@ -33,47 +30,106 @@ const BtnFollow = ({ userId, profileId, countSetter, count, container }: BtnFoll
     [countSetter, count]
   );
 
+  const checkIsFollowed = useCallback(() => {
+    if (container === "profile") {
+      setBtnFollowStatusProfile(userFollowers.some((follower) => follower.userId === id));
+      console.log(btnFollowStatusProfile);
+      return;
+    }
+    if (container === "followerCard") {
+      setBtnFollowStatusFollowerCard(following.some((follow) => follow.userId === userId));
+      console.log(btnFollowStatusProfile);
+      return;
+    }
+  }, [
+    setBtnFollowStatusProfile,
+    setBtnFollowStatusFollowerCard,
+    statusBtnProfile,
+    statusBtnFollowerCard,
+    container,
+    userFollowers,
+    following,
+    userId,
+    id,
+  ]);
+
   useEffect(() => {
-    checkIsFollowed();
-    console.log("container", container);
-  }, []);
+    setIsMounted(false);
+    if (container === "profile") {
+      setBtnFollowStatusProfile(userFollowers.some((follower) => follower.userId === id));
+      console.log(btnFollowStatusProfile);
+    }
+    if (container === "FollowerCard") {
+      setBtnFollowStatusFollowerCard(following.some((follow) => follow.userId === userId));
+      console.log(btnFollowStatusProfile);
+    }
+    setIsMounted(true);
+    console.log("mounted", container, userId);
+    return () => {
+      console.log("dismounting", container, userId);
+      setIsMounted(false);
+    };
+  }, [userFollowers]);
+
   // useEffect(() => {
   //   return () => {
   //     setBtnFollowStatusProfile(false);
   //     setBtnFollowStatusFollowerCard(false);
   //   };
-  // }, []);
+  // }, [profileId]);
+
+  const handleFollow = useCallback(() => {
+    if (container === "profile") {
+      if (!btnFollowStatusProfile) {
+        dispatch(followUserAction(id!, profileId!, true, "profile"));
+        updateCount(true);
+      } else {
+        dispatch(followUserAction(id!, profileId!, false, "profile"));
+        updateCount(false);
+      }
+    }
+    if (container === "followerCard") {
+      if (!btnFollowStatusFollowerCard) {
+        dispatch(followUserAction(id!, userId!, true, "followerCard"));
+        updateCount(true);
+      } else {
+        dispatch(followUserAction(id!, userId!, false, "followerCard"));
+        updateCount(false);
+      }
+    }
+    toggleBtnProfileTextFollow();
+    toggleBtnFollowerCardTextFollow();
+  }, [
+    container,
+    btnFollowStatusProfile,
+    btnFollowStatusFollowerCard,
+    dispatch,
+    updateCount,
+    toggleBtnProfileTextFollow,
+    toggleBtnFollowerCardTextFollow,
+    id,
+    profileId,
+    userId,
+  ]);
 
   return (
     <button
       className={`z-10 followBtn ${
         container === "profile"
           ? "absolute right-4 bottom-0 translate-y-[calc(100%+.8rem)]"
-          : container === "follower"
+          : container === "followerCard"
           ? "relative"
           : ""
       }  flex items-center justify-center space-x-1 text-md bg-blue-500 text-white text-sm px-4 py-1 rounded-full hover:drop-shadow`}
-      onClick={
-        !btnFollowStatusProfile
-          ? () => {
-              dispatch(followUserAction(id!, profileId!, true));
-              updateCount(true);
-              toggleBtnProfileTextFollow();
-              toggleBtnFollowerCardTextFollow();
-            }
-          : () => {
-              dispatch(followUserAction(id!, profileId!, false));
-              updateCount(false);
-              toggleBtnProfileTextFollow();
-              toggleBtnFollowerCardTextFollow();
-            }
-      }
+      onClick={handleFollow}
     >
-      <span className="capitalize">
-        {(container === "profile" && btnFollowStatusProfile) || (container === "follower" && btnFollowStatusFollowerCard)
-          ? userLanguage.profile.unfollow
-          : userLanguage.profile.follow}
-      </span>
+      {isMounted && (
+        <span className="capitalize">
+          {(container === "profile" && btnFollowStatusProfile) || (container === "followerCard" && btnFollowStatusFollowerCard)
+            ? userLanguage.profile.unfollow
+            : userLanguage.profile.follow}
+        </span>
+      )}
     </button>
   );
 };

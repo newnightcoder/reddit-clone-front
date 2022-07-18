@@ -86,8 +86,8 @@ const Profile = () => {
   }, [profileId, id]);
 
   useEffect(() => {
-    setUpdatedFollowersCount(initialFollowersCount);
-  }, [userData, initialFollowersCount]);
+    setUpdatedFollowersCount(userData?.followersCount);
+  }, [userData]);
 
   const handleDeleteProfile = useCallback(
     (profileId) => {
@@ -158,6 +158,7 @@ const Profile = () => {
                 </div>
                 <Followers
                   setter={toggleTabs}
+                  followersCountSetter={setUpdatedFollowersCount}
                   toggleFollowers={toggleFollowers}
                   followersOpen={followersOpen}
                   username={userData.username}

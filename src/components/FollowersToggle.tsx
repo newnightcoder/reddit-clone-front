@@ -11,6 +11,7 @@ const FollowersToggle = ({ setIsFollowersClicked, toggleFollowers, user, updated
     currentProfileVisit: { id: profileId },
   } = useSelector((state) => state.user);
   const userLanguage = useLanguage();
+
   const formatNumber = useCallback((number: number) => {
     const thousand = 1000;
     const million = 1000000;

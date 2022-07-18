@@ -146,6 +146,7 @@ interface FollowersProps {
   followersOpen: boolean;
   username: string;
   userId: number;
+  followersCountSetter: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
 interface FollowersToggleProps {
