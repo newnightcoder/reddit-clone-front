@@ -172,12 +172,6 @@ export const userReducer: Reducer<IUserState, Action> = (state = userState, acti
         isPreviewImg: toggle,
       };
 
-    case actionTypes.LIKE_POST:
-      return {
-        ...state,
-        liked: action.payload,
-      };
-
     case actionTypes.UPDATE_FOLLOW:
       const { myId, userId, bool, origin }: { myId: number; userId: number; bool: boolean; origin: string } = action.payload;
       switch (bool) {
@@ -190,10 +184,18 @@ export const userReducer: Reducer<IUserState, Action> = (state = userState, acti
             picUrl: picUrl ? picUrl : "",
             userId: myId,
           };
+          const tempFollower = {
+            userId: userId,
+            username: "",
+            picUrl: "",
+            id: null,
+          };
           const updatedFollowers: IFollower[] = [newFollower, ...state.currentProfileVisit.followers];
+          const updatedFollowing: IFollower[] = [tempFollower, ...state.following];
           return {
             ...state,
             followingCount: state.followingCount + 1,
+            following: updatedFollowing,
             currentProfileVisit: {
               ...state.currentProfileVisit,
               followers: origin === "profile" ? updatedFollowers : state.followers,
@@ -201,7 +203,7 @@ export const userReducer: Reducer<IUserState, Action> = (state = userState, acti
           };
         }
         case false: {
-          const updatedFollowers = [...state.currentProfileVisit.followers].filter((follower) => follower.id !== myId);
+          const updatedFollowers = [...state.currentProfileVisit.followers].filter((follower) => follower.userId !== myId);
           return {
             ...state,
             followingCount: state.followingCount - 1,

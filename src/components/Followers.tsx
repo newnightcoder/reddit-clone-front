@@ -32,7 +32,7 @@ const Followers = ({ bool, followersOpen, toggleFollowers, userId, setter, follo
     <div
       className={`${
         followersOpen ? "translate-x-0" : "translate-x-full"
-      } transition duration-300 absolute top-0 inset-x-0 min-h-[calc(100vh-8rem)] flex flex-col items-center justify-start rounded z-20 overflow-y-auto bg-white`}
+      } transition duration-300 absolute top-0 inset-x-0 min-h-[calc(100vh-8rem)] flex flex-col items-center justify-start rounded z-20 overflow-y-auto bg-white dark:bg-gray-900`}
     >
       <div className="h-24 w-full flex items-center justify-start pl-2 md:pl-7">
         <button className="w-max flex items-center justify-center space-x-1" onClick={toggleFollowers}>

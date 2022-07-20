@@ -65,13 +65,12 @@ const Post = ({ post, aside }: PostProps) => {
   useEffect(() => {
     if (!isDeleted) {
       setLikesNumber(engagement!.likesCount);
-      // setcommentsNumber(engagement?.commentCount);
     }
   }, [engagement!.likesCount, isDeleted]);
 
   const setCurrentUserLikes = useCallback(() => {
     allLikes?.map((like) => {
-      if (like.fk_userId_like === userId && like.fk_postId_like === postId) {
+      if (like.userId === userId && like.postId === postId) {
         return setLike(true);
       }
     });

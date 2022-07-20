@@ -35,8 +35,8 @@ const Reply = ({ reply }: { reply: IReply }) => {
 
   useEffect(() => {
     likes?.map((like) => {
-      if (like.fk_userId_like === userId! && like.fk_replyId_like === replyId!) {
-        return sameUserReply.push(like.fk_replyId_like);
+      if (like.userId === userId! && like.replyId === replyId!) {
+        return sameUserReply.push(like.replyId);
       }
       return sameUserReply;
     });

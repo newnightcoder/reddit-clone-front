@@ -137,6 +137,135 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
       });
       return { ...state, comments: updatedComs };
 
+    case actionTypes.LIKE_POST: {
+      const { userId, id, like, origin }: { userId: number; id: number; like: boolean; origin: string } = action.payload;
+      switch (like) {
+        case true:
+          switch (origin) {
+            case "post":
+              const updatedPosts = [...state.posts].map((post) => {
+                if (post.id === id) {
+                  return {
+                    ...post,
+                    engagement: {
+                      ...post.engagement!,
+                      likesCount: post.engagement!.likesCount + 1,
+                    },
+                  };
+                } else return post;
+              });
+              return {
+                ...state,
+                posts: updatedPosts,
+                likes: [{ userId, postId: id }, ...state.likes],
+              };
+            case "comment":
+              const updatedComments = [...state.comments].map((comment) => {
+                if (comment.commentId === id) {
+                  return {
+                    ...comment,
+                    likesCount: comment.likesCount! + 1,
+                  };
+                } else return comment;
+              });
+              return {
+                ...state,
+                comments: updatedComments,
+                likes: [{ userId, commentId: id }, ...state.likes],
+              };
+            case "reply": {
+              const comment = [...state.comments].find((comment) => {
+                comment.replies?.find((reply) => reply.replyId === id);
+              });
+              const updatedComments = [...state.comments].map((com) => {
+                if (com.commentId === comment!.commentId) {
+                  return {
+                    ...com,
+                    replies: com.replies?.map((reply) => {
+                      if (reply.replyId === id) {
+                        return {
+                          ...reply,
+                          likesCount: reply.likesCount! - 1,
+                        };
+                      } else return reply;
+                    }),
+                  };
+                } else return com;
+              });
+              return {
+                ...state,
+                comments: updatedComments,
+                likes: [{ userId, replyId: id }, ...state.likes],
+              };
+            }
+            default:
+              return { ...state };
+          }
+        case false:
+          switch (origin) {
+            case "post": {
+              const updatedPosts = [...state.posts].map((post) => {
+                if (post.id === id) {
+                  return {
+                    ...post,
+                    engagement: {
+                      ...post.engagement!,
+                      likesCount: post.engagement!.likesCount - 1,
+                    },
+                  };
+                } else return post;
+              });
+              return {
+                ...state,
+                posts: updatedPosts,
+                likes: state.likes.filter((like) => like.postId !== id),
+              };
+            }
+            case "comment": {
+              const updatedComments = [...state.comments].map((comment) => {
+                if (comment.commentId === id) {
+                  return {
+                    ...comment,
+                    likesCount: comment.likesCount! + 1,
+                  };
+                } else return comment;
+              });
+              return {
+                ...state,
+                comments: updatedComments,
+                likes: state.likes.filter((like) => like.commentId !== id),
+              };
+            }
+            case "reply": {
+              const comment = [...state.comments].find((comment) => {
+                comment.replies?.find((reply) => reply.replyId === id);
+              });
+              const updatedComments = [...state.comments].map((com) => {
+                if (com.commentId === comment!.commentId) {
+                  return {
+                    ...com,
+                    replies: com.replies?.map((reply) => {
+                      if (reply.replyId === id) {
+                        return {
+                          ...reply,
+                          likesCount: reply.likesCount! - 1,
+                        };
+                      } else return reply;
+                    }),
+                  };
+                } else return com;
+              });
+              return {
+                ...state,
+                likes: state.likes.filter((like) => like.replyId !== id),
+              };
+            }
+            default:
+              return { ...state };
+          }
+      }
+    }
+
     case actionTypes.EDIT_POST: {
       const { edit, origin }: { edit: IPost | IComment | IReply; origin: string } = action.payload;
       switch (origin) {

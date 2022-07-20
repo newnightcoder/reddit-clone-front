@@ -1,6 +1,6 @@
 import { HomeIcon, PencilIcon, UserIcon, XIcon } from "@heroicons/react/solid";
 import { GearFill, Power } from "react-bootstrap-icons";
-import React, { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
 import { Link, NavLink } from "react-router-dom";
 import { breakpoint } from "../utils/breakpoints";
@@ -76,11 +76,11 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen, toggleMenu }: navbarProps
         </button>
         <button
           style={settingsOpen ? { border: isDarkMode ? "2px solid #3B82F6" : "2px solid rgb(96 165 250)" } : undefined}
-          className="xl:w-full relative outline-none ring-none flex items-center justify-center rounded-full xl:justify-start xl:space-x-2 xl:pl-2 xl:pr-4 border-2 border-transparent bg-transparent md:bg-white md:dark:bg-transparent xl:bg-transparent xl:dark:bg-transparent md:dark:bg-gray-600 transition duration-300 text-gray-500 md:text-black dark:text-white border-2 border-transparent hover:bg-blue-400 dark:hover:bg-blue-500 hover:text-black md:hover:text-white xl:hover:border-blue-400 xl:dark:hover:border-blue-500  xl:dark:hover:text-white"
+          className="xl:w-full relative group outline-none ring-none flex items-center justify-center rounded-full xl:justify-start xl:space-x-2 xl:pl-2 xl:pr-4 border-2 border-transparent bg-transparent md:bg-white md:dark:bg-transparent xl:bg-transparent xl:dark:bg-transparent md:dark:bg-gray-600 transition duration-300 text-gray-500 md:text-black dark:text-white border-2 border-transparent hover:bg-blue-400 dark:hover:bg-blue-500 hover:text-black md:hover:text-white xl:hover:border-blue-400 xl:dark:hover:border-blue-500  xl:dark:hover:text-white"
           onClick={toggleSettings}
         >
           <div className="w-10 h-10 xl:w-max  xl:border-0 rounded-full relative flex items-center justify-center">
-            <GearFill size={22} className={`w-8 ${settingsOpen && width < breakpoint.xl && "animate-iconOff"}`} />
+            <GearFill size={22} className={`w-8 group-hover:rotate-180 transition-transform duration-300 `} />
           </div>
           <span className="hidden xl:inline-block font-bold">{userLanguage.navbarDesktop.settings}</span>
           {settingsOpen && (

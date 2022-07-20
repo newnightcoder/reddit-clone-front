@@ -102,10 +102,10 @@ interface IEdit {
 }
 
 interface ILike {
-  fk_userId_like: number;
-  fk_postId_like?: number;
-  fk_commentId_like?: number;
-  fk_replyId_like?: number;
+  userId: number;
+  postId?: number;
+  commentId?: number;
+  replyId?: number;
 }
 
 ///////////////////////

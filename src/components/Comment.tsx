@@ -42,8 +42,8 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
 
   useEffect(() => {
     likes?.map((like) => {
-      if (like.fk_userId_like === myId && like.fk_commentId_like === commentId) {
-        return sameUserComment.push(like.fk_commentId_like!);
+      if (like.userId === myId && like.commentId === commentId) {
+        return sameUserComment.push(like.commentId!);
       }
       return sameUserComment;
     });

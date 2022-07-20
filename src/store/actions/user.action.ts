@@ -136,7 +136,7 @@ export const likePostAction =
       const { liked, sessionExpired, error } = await likePost(origin, userId, id, like);
       if (sessionExpired) return dispatch(sessionExpiredAction(sessionExpired));
       if (error) return dispatch(setErrorUserAction(error));
-      dispatch({ type: actionTypes.LIKE_POST, payload: liked });
+      dispatch({ type: actionTypes.LIKE_POST, payload: { userId, id, like, origin, liked } });
     } catch (err) {
       dispatch(setErrorUserAction("backend"));
     }

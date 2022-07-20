@@ -13,7 +13,6 @@ const BtnFollow = ({ userId, profileId, countSetter, count, container }: BtnFoll
   } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
-  // const [isFollowed, setIsFollowed] = useState(false);
   const statusBtnProfile = container === "profile" && userFollowers.some((follower) => follower.userId === id) ? true : false;
   const statusBtnFollowerCard =
     container === "followerCard" && following.some((follow) => follow.userId === userId) ? true : false;
@@ -30,28 +29,28 @@ const BtnFollow = ({ userId, profileId, countSetter, count, container }: BtnFoll
     [countSetter, count]
   );
 
-  const checkIsFollowed = useCallback(() => {
-    if (container === "profile") {
-      setBtnFollowStatusProfile(userFollowers.some((follower) => follower.userId === id));
-      console.log(btnFollowStatusProfile);
-      return;
-    }
-    if (container === "followerCard") {
-      setBtnFollowStatusFollowerCard(following.some((follow) => follow.userId === userId));
-      console.log(btnFollowStatusProfile);
-      return;
-    }
-  }, [
-    setBtnFollowStatusProfile,
-    setBtnFollowStatusFollowerCard,
-    statusBtnProfile,
-    statusBtnFollowerCard,
-    container,
-    userFollowers,
-    following,
-    userId,
-    id,
-  ]);
+  // const checkIsFollowed = useCallback(() => {
+  //   if (container === "profile") {
+  //     setBtnFollowStatusProfile(userFollowers.some((follower) => follower.userId === id));
+  //     console.log(btnFollowStatusProfile);
+  //     return;
+  //   }
+  //   if (container === "followerCard") {
+  //     setBtnFollowStatusFollowerCard(following.some((follow) => follow.userId === userId));
+  //     console.log(btnFollowStatusProfile);
+  //     return;
+  //   }
+  // }, [
+  //   setBtnFollowStatusProfile,
+  //   setBtnFollowStatusFollowerCard,
+  //   statusBtnProfile,
+  //   statusBtnFollowerCard,
+  //   container,
+  //   userFollowers,
+  //   following,
+  //   userId,
+  //   id,
+  // ]);
 
   useEffect(() => {
     setIsMounted(false);

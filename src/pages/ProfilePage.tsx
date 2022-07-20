@@ -61,8 +61,8 @@ const Profile = () => {
     const postsArr: number[] = [];
     const likedPostArr: IPost[] = [];
     likes?.forEach((like) => {
-      if (like.fk_userId_like === profileId && like.fk_postId_like !== null) {
-        postsArr.push(like.fk_postId_like!);
+      if (like.userId === profileId && like.postId !== null) {
+        postsArr.push(like.postId!);
       }
     });
     for (let post of posts) {
