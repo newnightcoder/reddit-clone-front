@@ -13,8 +13,6 @@ const Post = ({ post, aside }: PostProps) => {
   const { title, id: postId, text, imgUrl, engagement, author, isPreview, preview } = post;
   const { likes: allLikes, lastPostAdded } = useSelector((state) => state.posts);
   const { id: userId, role } = useSelector((state) => state.user);
-  const [likesNumber, setLikesNumber] = useState(engagement!.likesCount);
-  // const [commentsNumber, setcommentsNumber] = useState(engagement?.commentCount);
   const [like, setLike] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
@@ -27,6 +25,7 @@ const Post = ({ post, aside }: PostProps) => {
   const profilePage = pathname.includes("/profile");
   const toggleOptions = useToggle(optionsOpen, setOptionsOpen);
   const toggleDeleteModal = useToggle(openDeleteModal, setOpenDeleteModal);
+
   const handleDeletePost = useCallback(() => {
     console.log("pre dispatsch delete");
     dispatch(deletePostAction(postId!, "post", null));
@@ -40,47 +39,25 @@ const Post = ({ post, aside }: PostProps) => {
     history.push(`/comments/${formattedTitle}`);
   }, [dispatch, postId, post.title]);
 
-  const updateLikesNumber = useCallback(() => {
-    switch (like) {
-      case false:
-        setLikesNumber(likesNumber! + 1);
-        break;
-      case true:
-        setLikesNumber(likesNumber! - 1);
-        break;
-      default:
-        setLikesNumber(likesNumber);
-    }
-  }, [like, setLikesNumber, likesNumber]);
-
   const handleLike = useCallback(
     (postId) => {
       setLike((prevState) => !prevState);
-      updateLikesNumber();
       dispatch(likePostAction("post", userId!, postId, like));
     },
-    [postId, setLike, like, dispatch, updateLikesNumber]
+    [setLike, dispatch, userId, postId, like]
   );
 
-  useEffect(() => {
-    if (!isDeleted) {
-      setLikesNumber(engagement!.likesCount);
-    }
-  }, [engagement!.likesCount, isDeleted]);
-
-  const setCurrentUserLikes = useCallback(() => {
-    allLikes?.map((like) => {
+  const setUserLikes = useCallback(() => {
+    allLikes.forEach((like) => {
       if (like.userId === userId && like.postId === postId) {
         return setLike(true);
       }
     });
-  }, [allLikes, userId, postId]);
+  }, [allLikes, userId, postId, setLike]);
 
   useEffect(() => {
-    if (!isDeleted) {
-      setCurrentUserLikes();
-    }
-  }, [allLikes, isDeleted]);
+    setUserLikes();
+  }, []);
 
   return (
     <div
@@ -122,10 +99,9 @@ const Post = ({ post, aside }: PostProps) => {
       <PostFooter
         postId={postId!}
         like={like}
-        likesNumber={likesNumber!}
         commentsNumber={engagement!.commentCount}
+        likesNumber={engagement!.likesCount}
         optionsOpen={optionsOpen}
-        // setOptionsOpen={setOptionsOpen}
         toggleOptions={toggleOptions}
         handleLike={handleLike}
         toCommentPage={toCommentPage}

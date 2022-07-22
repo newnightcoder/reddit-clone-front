@@ -91,11 +91,11 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
       };
 
     case actionTypes.CREATE_POST: {
-      const post: IPost = action.payload;
+      const newPost: IPost = action.payload;
       return {
         ...state,
-        posts: [post, ...state.posts],
-        lastPostAdded: post.id!,
+        posts: [newPost, ...state.posts],
+        lastPostAdded: newPost.id!,
       };
     }
 
@@ -140,7 +140,7 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
     case actionTypes.LIKE_POST: {
       const { userId, id, like, origin }: { userId: number; id: number; like: boolean; origin: string } = action.payload;
       switch (like) {
-        case true:
+        case false:
           switch (origin) {
             case "post":
               const updatedPosts = [...state.posts].map((post) => {
@@ -174,23 +174,23 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
                 likes: [{ userId, commentId: id }, ...state.likes],
               };
             case "reply": {
-              const comment = [...state.comments].find((comment) => {
+              const parentComment = [...state.comments].find((comment) => {
                 comment.replies?.find((reply) => reply.replyId === id);
-              });
-              const updatedComments = [...state.comments].map((com) => {
-                if (com.commentId === comment!.commentId) {
+              }) as IComment;
+              const updatedComments = [...state.comments].map((comment) => {
+                if (comment.commentId === parentComment!.commentId) {
                   return {
-                    ...com,
-                    replies: com.replies?.map((reply) => {
+                    ...parentComment,
+                    replies: parentComment.replies?.map((reply) => {
                       if (reply.replyId === id) {
                         return {
                           ...reply,
-                          likesCount: reply.likesCount! - 1,
+                          likesCount: reply.likesCount! + 1,
                         };
                       } else return reply;
                     }),
                   };
-                } else return com;
+                } else return comment;
               });
               return {
                 ...state,
@@ -201,7 +201,7 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
             default:
               return { ...state };
           }
-        case false:
+        case true:
           switch (origin) {
             case "post": {
               const updatedPosts = [...state.posts].map((post) => {
@@ -226,7 +226,7 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
                 if (comment.commentId === id) {
                   return {
                     ...comment,
-                    likesCount: comment.likesCount! + 1,
+                    likesCount: comment.likesCount! - 1,
                   };
                 } else return comment;
               });
@@ -257,6 +257,7 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
               });
               return {
                 ...state,
+                comments: updatedComments,
                 likes: state.likes.filter((like) => like.replyId !== id),
               };
             }
@@ -345,31 +346,43 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
       return { ...state, editModalOpen: toggle };
 
     case actionTypes.DELETE_POST:
-      const { postId, origin }: { postId: number; origin: string } = action.payload;
+      const { postId, postIdComment, origin }: { postId: number; postIdComment: number; origin: string } = action.payload;
       switch (origin) {
         case "post":
-          const postsCopy = [...state.posts];
-          const updatedPosts = postsCopy.filter((post) => post.id !== postId);
-          return { ...state, posts: updatedPosts, lastDeleted: true };
-        case "comment":
-          const commentsCopy = [...state.comments];
-          const updatedComments = commentsCopy.filter((comment) => comment.commentId !== postId);
-          return { ...state, comments: updatedComments, lastDeleted: true };
-        case "reply":
-          let com: IComment = [...state.comments].filter((comment) =>
+          return { ...state, posts: state.posts.filter((post) => post.id !== postId), lastDeleted: true };
+        case "comment": {
+          const parentPost = [...state.posts].find((post) => post.id === postIdComment);
+          const updatedPosts = [...state.posts].map((post) => {
+            if (post.id === parentPost!.id) {
+              return {
+                ...post,
+                engagement: {
+                  ...post.engagement!,
+                  commentCount: post.engagement!.commentCount - 1,
+                },
+              };
+            } else return post;
+          });
+          const updatedComments = [...state.comments].filter((comment) => comment.commentId !== postId);
+          return { ...state, posts: updatedPosts, comments: updatedComments, lastDeleted: true };
+        }
+        case "reply": {
+          let parentComment = [...state.comments].find((comment) =>
             comment.replies?.find((reply) => reply.replyId === postId)
-          )[0];
-          const replies = com.replies?.filter((reply) => reply.replyId !== postId);
-          com = {
-            ...com,
+          ) as IComment;
+          const replies = parentComment!.replies?.filter((reply) => reply.replyId !== postId);
+          parentComment = {
+            ...parentComment,
+            replyCount: parentComment.replyCount! - 1,
             replies,
           };
-          const comments = [...state.comments].map((comment) => {
-            if (comment.commentId === com.commentId) {
-              return com;
-            } else return comment;
+          const comments = [...state.comments].map((com) => {
+            if (com.commentId === parentComment.commentId) {
+              return parentComment;
+            } else return com;
           });
           return { ...state, comments };
+        }
         default:
           return { ...state };
       }

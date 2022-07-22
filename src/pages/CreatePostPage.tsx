@@ -18,7 +18,7 @@ const CreatePost = () => {
   const [title, setTitle] = useState("");
   const [postText, setPostText] = useState("");
   const { tempPostImg: postImg, scrapedPost: preview } = useSelector((state) => state.posts);
-  const { isAuthenticated, id, username } = useSelector((state) => state.user);
+  const { isAuthenticated, id, username, picUrl } = useSelector((state) => state.user);
   const [imgDom, setImgDom] = useState<JSX.Element | null>(null);
   const [imgUploadModalOpen, setImgUploadModalOpen] = useState(false);
   const [gifModalOpen, setGifModalOpen] = useState(false);
@@ -67,13 +67,17 @@ const CreatePost = () => {
   const handlePostSubmit = useCallback(
     (e) => {
       const newPost: IPost = {
-        author: { id: id!, username },
+        author: { id: id!, username, picUrl: picUrl ? picUrl : "" },
         title,
         text: postText,
         date: creationDate,
         imgUrl: postImg && postImg,
         isPreview,
         preview,
+        engagement: {
+          likesCount: 0,
+          commentCount: 0,
+        },
       };
       console.log("new post", newPost);
 
@@ -86,7 +90,7 @@ const CreatePost = () => {
       dispatch(clearTempPreviewAction());
       history.push("/feed");
     },
-    [dispatch, title, postText, id, postImg, isPreview, preview]
+    [dispatch, title, postText, id, username, picUrl, postImg, isPreview, preview]
   );
 
   return (
