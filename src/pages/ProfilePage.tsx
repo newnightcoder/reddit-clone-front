@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import {
+  BtnFollow,
   DeleteModal,
   Error,
   Followers,
@@ -41,6 +42,8 @@ const Profile = () => {
   const { toggleTabs, leftTabOpen } = useToggleTabs();
   const [dataset1, setDataset1] = useState<IDataSet>({ name: null, data: null });
   const [dataset2, setDataset2] = useState<IDataSet>({ name: null, data: null });
+  const btnFollowRef = useRef<HTMLButtonElement>(null);
+  const [btnFollowWidth, setBtnFollowWidth] = useState<number | null>(null);
 
   const setDataSets = useCallback(() => {
     setDataset1({
@@ -56,6 +59,12 @@ const Profile = () => {
   useEffect(() => {
     setDataSets();
   }, [userData, userPosts, likedPosts]);
+
+  useEffect(() => {
+    if (btnFollowRef.current) {
+      setBtnFollowWidth(btnFollowRef.current.getBoundingClientRect().width);
+    }
+  }, [btnFollowRef.current]);
 
   const getLikedPostArray = useCallback(() => {
     const postsArr: number[] = [];
@@ -83,6 +92,12 @@ const Profile = () => {
     dispatch(getUserPostsAction(profileId!));
     dispatch(getFollowersAction(profileId!));
     getLikedPostArray();
+    if (followersOpen) {
+      toggleFollowers();
+    }
+    if (!leftTabOpen) {
+      toggleTabs();
+    }
   }, [profileId, id]);
 
   useEffect(() => {
@@ -118,7 +133,7 @@ const Profile = () => {
             ) : (
               <div
                 style={{ minHeight: "calc(100vh - 7rem)" }}
-                className={`bg-white relative dark:bg-gray-900 transition duration-500 w-full h-max rounded-md md:mt-8 flex items-start justify-center overflow-x-hidden overflow-y-auto`}
+                className={`bg-white relative dark:bg-gray-900 transition duration-500 w-full h-max rounded-md md:mt-8 flex items-start justify-center overflow-x-hidden`}
               >
                 <div
                   className={`w-full h-max transition duration-300 ${
@@ -132,7 +147,17 @@ const Profile = () => {
                     updatedFollowersCount={updatedFollowersCount!}
                     setOpenModal={setOpenModal}
                   />
-                  <ProfileInfo user={userData} />
+                  {profileId !== id && !loading && (
+                    <BtnFollow
+                      userId={null}
+                      profileId={profileId!}
+                      count={updatedFollowersCount!}
+                      countSetter={setUpdatedFollowersCount}
+                      container={"profile"}
+                      btnFollowRef={btnFollowRef}
+                    />
+                  )}
+                  <ProfileInfo user={userData} btnFollowWidth={btnFollowWidth} />
                   <FollowersToggle
                     user={userData}
                     setIsFollowersClicked={setIsFollowersClicked}

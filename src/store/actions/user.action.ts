@@ -241,6 +241,10 @@ export const setSearchQueryAction =
     }
   };
 
+export const clearSearchResults = () => (dispatch: Dispatch<clearAction>) => {
+  dispatch({ type: actionTypes.CLEAR_SEARCH_QUERY });
+};
+
 export const loginFailAction = () => (dispatch: Dispatch<basicAction>) => {
   dispatch({ type: actionTypes.LOGIN_FAIL });
 };

@@ -1,7 +1,7 @@
 import { Reducer } from "redux";
 import { PURGE } from "redux-persist";
 import { actionTypes } from "../constants";
-import { Action, IComment, ILike, IPost, IPostState, IReply, IScrapedPreview } from "../types";
+import { Action, IComment, ILike, IPost, IPostState, IReply, ScrapedPost } from "../types";
 
 const initialState: IPostState = {
   posts: [],
@@ -56,7 +56,7 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
       };
 
     case actionTypes.SET_PREVIEW_DATA:
-      const scrapedPost: IScrapedPreview = action.payload;
+      const scrapedPost: ScrapedPost = action.payload;
       return { ...state, scrapedPost };
 
     case actionTypes.GET_COMMENTS: {
@@ -268,12 +268,11 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
     }
 
     case actionTypes.EDIT_POST: {
-      const { edit, origin }: { edit: IPost | IComment | IReply; origin: string } = action.payload;
+      const { edit, origin, profile }: { edit: IPost | IComment | IReply; origin: string; profile: boolean } = action.payload;
       switch (origin) {
         case "post": {
           const editedPost = edit as IPost;
-          const copy = [...state.posts];
-          const updatedPosts = copy.map((post) => {
+          const updatedPosts = [...state.posts].map((post) => {
             if (post.id === editedPost.id) {
               return {
                 ...post,
@@ -292,7 +291,27 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
               };
             } else return post;
           });
-          return { ...state, posts: updatedPosts };
+          const updatedUserPosts = [...state.userPosts].map((post) => {
+            if (post.id === editedPost.id) {
+              return {
+                ...post,
+                title: editedPost.title,
+                text: editedPost.text,
+                imgUrl: editedPost.imgUrl,
+                isPreview: editedPost.isPreview,
+                preview: {
+                  title: editedPost.preview?.title,
+                  text: editedPost.preview?.text,
+                  image: editedPost.preview?.image,
+                  publisher: editedPost.preview?.publisher,
+                  url: editedPost.preview?.url,
+                  logo: editedPost.preview?.logo,
+                },
+              };
+            } else return post;
+          });
+
+          return { ...state, posts: updatedPosts, userPosts: profile ? updatedUserPosts : state.userPosts };
         }
         case "comment": {
           const editedComment = edit as IComment;

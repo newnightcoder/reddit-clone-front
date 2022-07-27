@@ -4,10 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { EditUsernameModal, ProfileOptions } from ".";
 import { bannerPlaceholder, picPlaceholder } from "../assets";
 import { useLanguage, useToggle } from "../utils/hooks";
-import BtnFollow from "./BtnFollow";
 import { ProfileBannerProps } from "./react-app-env";
 
-const ProfileBanner = ({ user, loading, updatedFollowersCount, setUpdatedFollowersCount, setOpenModal }: ProfileBannerProps) => {
+const ProfileBanner = ({ user, loading, setOpenModal }: ProfileBannerProps) => {
   const {
     id,
     picUrl,
@@ -56,15 +55,7 @@ const ProfileBanner = ({ user, loading, updatedFollowersCount, setUpdatedFollowe
             : { background: `url(${picPlaceholder}) no-repeat center/cover` }
         }
       ></div>
-      {profileId !== id && !loading && (
-        <BtnFollow
-          userId={null}
-          profileId={profileId!}
-          count={updatedFollowersCount}
-          countSetter={setUpdatedFollowersCount}
-          container={"profile"}
-        />
-      )}
+
       <div className="deleteBtn absolute left-4 top-4 w-10/12 pl-4">
         {role === "admin" && user?.id !== id && !loading && (
           <button

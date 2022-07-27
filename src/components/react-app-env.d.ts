@@ -1,5 +1,5 @@
 import { ChangeEventHandler, FocusEventHandler, FormEventHandler, MouseEventHandler } from "react";
-import { IFollower, IPost, IScrapedPreview, IUser } from "../store/types";
+import { IFollower, IPost, IUser, ScrapedPost } from "../store/types";
 
 interface IGifModalProps {
   gifModalOpen: boolean;
@@ -92,6 +92,7 @@ interface FormProps {
   handleEditTitleInput?: ChangeEventHandler;
   handleEditText?: ChangeEventHandler;
   handleEditCommentText?: ChangeEventHandler;
+  textRef?: React.RefObject<HTMLSpanElement>;
 }
 
 interface CommentFormProps {
@@ -105,13 +106,13 @@ interface ReplyFormProps {
   replyOpen: boolean;
   setReplyOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleChange: ChangeEventHandler;
-  replyTextRef: React.RefObject<HTMLTextAreaElement>;
+  replyTextRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   commentRefNumber: number;
   commentId: number;
 }
 
 interface LinkPreviewProps {
-  linkPreview: IPreview & IScrapedPreview;
+  linkPreview: ScrapedPost;
   aside?: boolean;
 }
 
@@ -125,7 +126,7 @@ interface OptionsProps {
   toggleOptions: () => void;
   toggleDeleteModal: () => void;
   optionsOpen: boolean;
-  optionsRef?: LegacyRef<HTMLDivElement> | undefined;
+  optionsRef?: React.RefObject<HTMLDivElement> | undefined;
 }
 
 interface DeleteModalProps {
@@ -201,6 +202,7 @@ interface BtnFollowProps {
   count: number;
   countSetter: React.Dispatch<React.SetStateAction<number | undefined>>;
   container: string;
+  btnFollowRef?: React.RefObject<HTMLButtonElement>;
 }
 
 interface ExpiredProps {

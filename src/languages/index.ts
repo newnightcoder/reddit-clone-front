@@ -41,7 +41,7 @@ const language = {
       noAuthToken: "Looks like you're not authenticated...\nPlease log in again.",
       verifyAuthToken: "Sorry we're not able to authenticate you for some reason.\nPlease log in again.",
       authToken: "Sorry but your authentication went wrong for some reason.Please log in again.",
-      timeout: "Oops, your connexion to the server is taking too long...\nPlease refresh the page",
+      timeout: "Oops, connexion to the server may have been lost...\nPlease refresh the page",
     },
     login: {
       greeting: "happy to see you again!",
@@ -73,9 +73,10 @@ const language = {
     },
     navbar: {
       searchPlaceholder: "Search on Forum...",
+      searchPlaceholderMobile: "Search...",
       connected: "Logged in",
       visitor: "Visitor mode",
-      logout: "log out",
+      logout: "Log out",
     },
     navbarDesktop: {
       publish: "Write a post",
@@ -307,8 +308,8 @@ const language = {
         "Bizarre... Une erreur s'est produite en allant chercher votre article.\nVeuillez rafraîchir et réessayer ou utilisez un autre lien.",
       noAuthToken: "On dirait que vous n'êtes pas authentifié(e)...\nVeuillez vous reconnecter.",
       verifyAuthToken: "Désolé on a un petit problème avec votre authentification.\nVeuillez vous reconnecter.",
-      authToken: "Oups! Votre authentification a échoué...\nVeuillez vous reconnecter.",
-      timeout: "Oops, temps de connexion au serveur trop long...\nVeuillez rafraîchir la page ou vous reconnecter",
+      authToken: "Votre authentification a échoué...\nVeuillez vous reconnecter.",
+      timeout: "Oups, la connexion au serveur fait des siennes...\nVeuillez rafraîchir la page ou vous reconnecter",
     },
     login: {
       greeting: "content de vous revoir!",
@@ -340,6 +341,7 @@ const language = {
     },
     navbar: {
       searchPlaceholder: "Rechercher sur Forum...",
+      searchPlaceholderMobile: "Recherche...",
       connected: "Connecté(e)",
       visitor: "mode visiteur",
       logout: "Déconnexion",
@@ -577,7 +579,7 @@ const language = {
       noAuthToken: "On dirait que vous n'êtes pas authentifié(e)...\nVeuillez vous reconnecter.",
       verifyAuthToken: "Désolé on a un petit problème avec votre authentification.\nVeuillez vous reconnecter.",
       authToken: "Oups! Votre authentification a échoué...\nVeuillez vous reconnecter.",
-      timeout: "Oops, die Verbindungszeit zum Server ist zu lang...\nBitte aktualisieren Sie die Webseite",
+      timeout: "Sorry, die Verbindungszeit zum Server ist zu lange...\nBitte aktualisieren Sie die Webseite",
     },
     login: {
       greeting: "Schön dich wieder zu sehen!",
@@ -609,15 +611,16 @@ const language = {
     },
     navbar: {
       searchPlaceholder: "Forum durchsuchen...",
+      searchPlaceholderMobile: "Suchen...",
       connected: "Angemeldet",
       visitor: "Besuchermodus",
-      logout: "abmelden",
+      logout: "Abmelden",
     },
     navbarDesktop: {
       publish: "Beitrag erstellen",
       profile: "Mein Profil",
       settings: "Einstellungen",
-      logout: "abmelden",
+      logout: "Abmelden",
     },
     search: {
       searchBy: "Suchen durch",

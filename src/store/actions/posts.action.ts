@@ -15,7 +15,7 @@ import {
 } from "../../API/posts";
 
 import { actionTypes } from "../constants";
-import { Action, clearAction, IComment, IEdit, IPost, IPostState, IReply, IScrapedPreview, toggleAction } from "../types";
+import { Action, clearAction, IComment, IEdit, IPost, IPostState, IReply, ScrapedPost, toggleAction } from "../types";
 
 export const getPostsAction = () => async (dispatch: ThunkDispatch<IPostState, any, Action>) => {
   dispatch(clearErrorPostAction());
@@ -103,14 +103,15 @@ export const createReplyAction = (reply: IReply) => async (dispatch: ThunkDispat
 };
 
 export const editPostAction =
-  (origin: string, post: IPost | IEdit) => async (dispatch: ThunkDispatch<IPostState, any, Action | clearAction>) => {
+  (origin: string, post: IPost | IEdit, profile?: boolean) =>
+  async (dispatch: ThunkDispatch<IPostState, any, Action | clearAction>) => {
     dispatch(clearErrorPostAction());
     try {
       const { edit, error, sessionExpired } = await editPost(post, origin);
       if (sessionExpired) return dispatch(setSessionExpiredAction(sessionExpired));
       if (error) return dispatch(setErrorPostAction(error));
       console.log(edit, origin);
-      dispatch({ type: actionTypes.EDIT_POST, payload: { edit, origin } });
+      dispatch({ type: actionTypes.EDIT_POST, payload: { edit, origin, profile } });
     } catch (err) {
       dispatch(setErrorPostAction("backend"));
     }
@@ -190,7 +191,7 @@ export const getPreviewDataAction =
     }
   };
 
-export const setPreviewDataAction = (preview: IScrapedPreview) => (dispatch: Dispatch<Action>) => {
+export const setPreviewDataAction = (preview: ScrapedPost) => (dispatch: Dispatch<Action>) => {
   dispatch({ type: actionTypes.SET_PREVIEW_DATA, payload: preview });
 };
 

@@ -21,7 +21,7 @@ const FollowersToggle = ({ setIsFollowersClicked, toggleFollowers, user, updated
   }, []);
 
   return (
-    <div className="w-full flex items-center justify-start space-x-2 text-sm translate-x-40 pl-2 mb-4">
+    <div className="w-full flex items-center justify-start space-x-2 text-sm translate-x-40 pl-6 mb-4">
       <button
         className="outline-none"
         onClick={() => {
@@ -30,7 +30,7 @@ const FollowersToggle = ({ setIsFollowersClicked, toggleFollowers, user, updated
         }}
       >
         <span className="font-bold font-sans">{profileId === id ? followingCount : user?.followingCount}</span>
-        {userLanguage.profile.userFollowing}
+        <span> {userLanguage.profile.userFollowing}</span>
       </button>
       <button
         className="outline-none"
@@ -42,7 +42,7 @@ const FollowersToggle = ({ setIsFollowersClicked, toggleFollowers, user, updated
         <span className="font-bold font-sans">
           {profileId === id ? formatNumber(followersCount) : formatNumber(updatedFollowersCount)}
         </span>
-        {userLanguage.profile.userFollowers}
+        <span> {userLanguage.profile.userFollowers}</span>
       </button>
     </div>
   );

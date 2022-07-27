@@ -1,8 +1,8 @@
 import { ArrowCircleUpIcon, RefreshIcon } from "@heroicons/react/solid";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { EditCommentModal, Error, FeedGreetings, Layout, Post, Skeleton } from "../components";
-import { clearEditIdAction, clearTempPostImgAction, clearTempPreviewAction, getPostsAction } from "../store/actions/posts.action";
+import { Error, FeedGreetings, Layout, Post, Skeleton } from "../components";
+import { getPostsAction } from "../store/actions/posts.action";
 import { useContainerSize, useLanguage } from "../utils/hooks";
 
 const Feed = () => {
@@ -13,20 +13,9 @@ const Feed = () => {
   const postsContainer = useRef<HTMLDivElement>(null);
   const size = useContainerSize(postsContainer);
 
-  // useEffect(() => {
-  //   window.scrollTo(0, 0);
-  // }, []);
-
   useEffect(() => {
-    dispatch(clearTempPostImgAction());
-    dispatch(clearTempPreviewAction());
-    dispatch(clearEditIdAction());
     dispatch(getPostsAction());
   }, [dispatch]);
-
-  // useEffect(() => {
-  //   dispatch(getLikesAction());
-  // }, [liked]);
 
   return (
     <Layout>
@@ -68,7 +57,6 @@ const Feed = () => {
               </button>
             </div>
           </div>
-          <EditCommentModal />
         </div>
       </div>
     </Layout>

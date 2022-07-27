@@ -21,7 +21,7 @@ interface IPostState {
   editId: Edit;
   editModalOpen: boolean;
   previewLoading: boolean;
-  scrapedPost: IScrapedPreview;
+  scrapedPost: IScrapedPost;
   comments: IComment[];
   currentCommentsCount: number | null;
   likes: ILike[];
@@ -35,11 +35,11 @@ interface IPost {
   id?: number;
   author: PostAuthor;
   title: string;
-  text?: string;
+  text: string | null;
   date: string;
   imgUrl?: string;
   isPreview: boolean;
-  preview?: IScrapedPreview;
+  preview?: ScrapedPost;
   engagement?: PostEngagement;
 }
 
@@ -54,23 +54,14 @@ interface PostEngagement {
   commentCount: number;
 }
 
-interface ILinkPreview {
-  previewTitle?: string;
-  previewText?: string;
-  previewImg?: string;
-  previewPub?: string;
-  previewUrl?: string;
-  previewPubLogo?: string;
-}
-
-interface IScrapedPreview {
+type ScrapedPost = {
   title?: string;
   image?: string;
   text?: string;
   publisher?: string;
   logo?: string;
   url?: string;
-}
+};
 
 interface IComment {
   commentId?: number;

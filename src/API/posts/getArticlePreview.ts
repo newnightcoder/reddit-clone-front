@@ -1,5 +1,5 @@
 import { API_POST } from "..";
-import { IScrapedPreview } from "../../store/types";
+import { ScrapedPost } from "../../store/types";
 
 const fetchArticlePreview = async (targetUrl: string) => {
   const request = {
@@ -12,7 +12,7 @@ const fetchArticlePreview = async (targetUrl: string) => {
 
   try {
     const response = await fetch(`${API_POST}/post-link`, request);
-    const { article, error }: { article: IScrapedPreview; error?: string } = await response.json();
+    const { article, error }: { article: ScrapedPost; error?: string } = await response.json();
     return { article, error };
   } catch (error) {
     throw error;

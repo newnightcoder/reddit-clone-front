@@ -70,7 +70,6 @@ const useError = () => {
 
   useEffect(() => {
     if (userError.length === 0 && postError.length === 0) return setError("");
-
     if (userError.length > 0) {
       return setMatchingError(userError);
     } else if (postError.length > 0) {

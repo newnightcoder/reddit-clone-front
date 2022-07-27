@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 // import { useLocation } from "react-router-dom";
 import { logo_mobile_blue } from "../assets";
 import { clearErrorPostAction, clearPreviewImgAction } from "../store/actions/posts.action";
-import { IScrapedPreview } from "../store/types";
 import isObjectEmpty from "../utils/helpers/isObjectEmpty";
 import useLanguage from "../utils/hooks/useLanguage";
 import { LinkPreviewProps } from "./react-app-env";
@@ -17,11 +16,11 @@ const LinkPreview = ({ linkPreview, aside }: LinkPreviewProps) => {
     url: previewUrl,
     publisher: previewPub,
     logo: previewPubLogo,
-  }: IScrapedPreview = linkPreview;
+  } = linkPreview;
   const { title, image, text, publisher, logo, url } = useSelector((state) => state.posts.scrapedPost);
   const { scrapedPost: preview } = useSelector((state) => state.posts);
   const validImg = image?.includes("http");
-  const initialImg = image && validImg ? image : previewImg ? previewImg : logo_mobile_blue;
+  const initialImg: string = previewImg ? previewImg : image && validImg ? image : logo_mobile_blue;
   const [imgUrl, setImgUrl] = useState(initialImg);
   const [logoError, setLogoError] = useState(false);
   const dispatch = useDispatch();

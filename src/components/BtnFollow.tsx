@@ -4,7 +4,7 @@ import { followUserAction } from "../store/actions/user.action";
 import { useLanguage, useToggle } from "../utils/hooks";
 import { BtnFollowProps } from "./react-app-env";
 
-const BtnFollow = ({ userId, profileId, countSetter, count, container }: BtnFollowProps) => {
+const BtnFollow = ({ userId, profileId, countSetter, count, container, btnFollowRef }: BtnFollowProps) => {
   const {
     id,
     followers,
@@ -56,26 +56,15 @@ const BtnFollow = ({ userId, profileId, countSetter, count, container }: BtnFoll
     setIsMounted(false);
     if (container === "profile") {
       setBtnFollowStatusProfile(userFollowers.some((follower) => follower.userId === id));
-      console.log(btnFollowStatusProfile);
     }
     if (container === "FollowerCard") {
       setBtnFollowStatusFollowerCard(following.some((follow) => follow.userId === userId));
-      console.log(btnFollowStatusProfile);
     }
     setIsMounted(true);
-    console.log("mounted", container, userId);
     return () => {
-      console.log("dismounting", container, userId);
       setIsMounted(false);
     };
   }, [userFollowers]);
-
-  // useEffect(() => {
-  //   return () => {
-  //     setBtnFollowStatusProfile(false);
-  //     setBtnFollowStatusFollowerCard(false);
-  //   };
-  // }, [profileId]);
 
   const handleFollow = useCallback(() => {
     if (container === "profile") {
@@ -113,12 +102,9 @@ const BtnFollow = ({ userId, profileId, countSetter, count, container }: BtnFoll
 
   return (
     <button
+      ref={btnFollowRef}
       className={`z-10 followBtn ${
-        container === "profile"
-          ? "absolute right-4 bottom-0 translate-y-[calc(100%+.8rem)]"
-          : container === "followerCard"
-          ? "relative"
-          : ""
+        container === "profile" ? "absolute right-4 top-0 translate-y-[12.8rem]" : container === "followerCard" ? "relative" : ""
       }  flex items-center justify-center space-x-1 text-md bg-blue-500 text-white text-sm px-4 py-1 rounded-full hover:drop-shadow`}
       onClick={handleFollow}
     >

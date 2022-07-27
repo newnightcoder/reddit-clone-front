@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { GifModal, ImgUploadModal, PostForm, PreviewLinkModal } from ".";
 import {
   clearEditIdAction,
@@ -13,25 +14,34 @@ import {
   toggleEditModalAction,
 } from "../store/actions/posts.action";
 import { clearErrorUserAction } from "../store/actions/user.action";
-import { IEdit, IPost, IReply, IScrapedPreview } from "../store/types";
+import { IEdit, IPost, IReply, ScrapedPost } from "../store/types";
 import { breakpoint } from "../utils/breakpoints";
 import { isObjectEmpty } from "../utils/helpers";
-import { useError, useToggle, useWindowSize } from "../utils/hooks";
+import { useToggle, useWindowSize } from "../utils/hooks";
+import Error from "./Error";
 
-const EditCommentModal = () => {
-  const { tempPostImg, posts, scrapedPost: preview, comments, editId, editModalOpen } = useSelector((state) => state.posts);
+const EditPostModal = () => {
+  const {
+    tempPostImg,
+    posts,
+    scrapedPost: preview,
+    comments,
+    editId,
+    editModalOpen,
+    error,
+  } = useSelector((state) => state.posts);
   const [postToEdit]: IPost[] = posts.filter((post) => post.id === editId.id);
   const [postTitle, setPostTitle] = useState(postToEdit && postToEdit.title);
-  const [postText, setPostText] = useState(postToEdit && postToEdit.text);
+  const [editText, setEditText] = useState("test");
   const [isPreview, setIsPreview] = useState(false);
   const [imgDom, setImgDom] = useState<JSX.Element | null>(null);
   const [imgUploadModalOpen, setImgUploadModalOpen] = useState(false);
   const [gifModalOpen, setGifModalOpen] = useState(false);
   const [linkModalOpen, setLinkModalOpen] = useState(false);
-  const [editText, setEditText] = useState("test");
   const dispatch = useDispatch();
-  const error = useError();
+  const { pathname } = useLocation();
   const { width } = useWindowSize();
+  const profilePage = pathname.includes("profile");
 
   const toggleImgUploadModal = useToggle(imgUploadModalOpen, setImgUploadModalOpen);
   const toggleGifModal = useToggle(gifModalOpen, setGifModalOpen);
@@ -73,66 +83,97 @@ const EditCommentModal = () => {
         break;
       }
       default:
-        return setEditText(text);
+        return setEditText(text.replace(/<br>/g, "\n"));
     }
   }, [editId.id, editId.type, comments, posts, setPostTitle, setEditText]); // replies
 
+  const dispatchEditImg = useCallback(() => {
+    if (editId.type === "comment" || editId.type === "reply") return;
+    if (editId.type === "post") {
+      if (postToEdit?.imgUrl!.length > 0) return dispatch(saveImageToEditAction(postToEdit.imgUrl!));
+      if (postToEdit?.isPreview) {
+        const postToEditPreview: ScrapedPost = {
+          title: postToEdit?.preview?.title,
+          image: postToEdit.preview?.image,
+          text: postToEdit.preview?.text,
+          publisher: postToEdit.preview?.publisher,
+          logo: postToEdit.preview?.logo,
+          url: postToEdit.preview?.url,
+        };
+        return dispatch(setPreviewDataAction(postToEditPreview));
+      }
+    }
+  }, [dispatch, editId.type, postToEdit?.imgUrl, postToEdit?.isPreview, postToEdit?.preview]);
+
   useEffect(() => {
     setText();
-  }, [editId.id, editId.type, setText]);
-
-  const handleEditImg = useCallback(() => {
-    if (postToEdit?.imgUrl) return dispatch(saveImageToEditAction(postToEdit.imgUrl));
-    if (postToEdit?.isPreview) {
-      const postToEditPreview: IScrapedPreview = {
-        title: postToEdit?.preview?.title,
-        image: postToEdit.preview?.image,
-        text: postToEdit.preview?.text,
-        publisher: postToEdit.preview?.publisher,
-        logo: postToEdit.preview?.logo,
-        url: postToEdit.preview?.url,
-      };
-      return dispatch(setPreviewDataAction(postToEditPreview));
-    }
-  }, [dispatch, postToEdit?.imgUrl, postToEdit?.isPreview]);
+  }, [editId.id, editId.type]);
 
   useEffect(() => {
-    console.log("POST TO EDIT", postToEdit);
-    console.log("postToEdit.imgUrl", postToEdit?.imgUrl);
-    handleEditImg();
-  }, [postToEdit?.imgUrl, postToEdit?.isPreview]);
+    dispatchEditImg();
+  }, [editId.id, postToEdit?.imgUrl, postToEdit?.isPreview]);
 
   useEffect(() => {
     if (!isObjectEmpty(preview)) setIsPreview(true);
   }, [preview]);
 
-  const deletePreview = useCallback(() => {
+  const handleDeletePreview = useCallback(() => {
     setImgDom(null);
     setIsPreview(false);
     dispatch(clearTempPreviewAction());
   }, [dispatch, setImgDom, setIsPreview]);
 
-  const handleEditCommentText = useCallback(
+  const handleEditTitleInput = useCallback(
     (e) => {
       if (error) dispatch(clearErrorPostAction());
-      setEditText(e.currentTarget.textContent);
+      setPostTitle(e.currentTarget.value);
     },
-    [dispatch]
+    [error, dispatch, setPostTitle]
   );
-
-  const handleEditTitleInput = useCallback((e) => {
-    if (error) dispatch(clearErrorPostAction());
-    setPostTitle(e.currentTarget.value);
-  }, []);
 
   const handleEditText = useCallback(
     (e) => {
       if (error) {
         dispatch(clearErrorPostAction());
       }
-      setPostText(e.currentTarget.textContent);
+      setEditText(e.currentTarget.textContent);
     },
-    [error]
+    [dispatch, error, setEditText]
+  );
+
+  const handleEditCommentText = useCallback(
+    (e) => {
+      if (error) {
+        dispatch(clearErrorPostAction());
+      }
+      console.log(e.currentTarget.textContent);
+      setEditText(e.currentTarget.textContent);
+    },
+    [dispatch, setEditText, error]
+  );
+
+  const handleEditPostSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const editedPost: IPost = {
+        ...postToEdit,
+        title: postTitle,
+        text: editText,
+        imgUrl: tempPostImg,
+        isPreview,
+        preview,
+      };
+      console.log("edited post front", editedPost);
+      if (postTitle && postTitle.length === 0) return dispatch(setErrorPostAction("emptyTitle"));
+      if (error) return;
+      console.log(isPreview);
+      dispatch(editPostAction("post", editedPost, profilePage ? true : false));
+      dispatch(toggleEditModalAction());
+      dispatch(clearEditIdAction());
+      dispatch(clearTempPostImgAction());
+      dispatch(clearTempPreviewAction());
+    },
+    [dispatch, postToEdit, editId, postTitle, editText, tempPostImg, isPreview, preview]
   );
 
   const handleEditCommentSubmit = useCallback(
@@ -143,15 +184,14 @@ const EditCommentModal = () => {
         id: editId.id,
         text: editText,
       };
-
       switch (editId.type) {
         case "comment":
+          if (editText.length === 0) return dispatch(setErrorPostAction("emptyComment"));
           dispatch(editPostAction("comment", edited));
-
           break;
         case "reply":
+          if (editText.length === 0) return dispatch(setErrorPostAction("emptyReply"));
           dispatch(editPostAction("reply", edited));
-
           break;
         default:
           return;
@@ -159,31 +199,7 @@ const EditCommentModal = () => {
       console.log(editText);
       dispatch(toggleEditModalAction());
     },
-    [dispatch, editId.id, editId.type, editText]
-  );
-
-  const handleEditPostSubmit = useCallback(
-    (e) => {
-      const editedPost: IPost = {
-        ...postToEdit,
-        title: postTitle,
-        text: postText,
-        imgUrl: tempPostImg,
-        isPreview,
-        preview,
-      };
-      e.preventDefault();
-      if (postTitle && postTitle.length === 0) return dispatch(setErrorPostAction("emptyTitle"));
-      if (error) return;
-      console.log(isPreview);
-      dispatch(editPostAction("post", editedPost));
-      dispatch(toggleEditModalAction());
-      dispatch(clearEditIdAction());
-      dispatch(clearTempPostImgAction());
-      dispatch(clearTempPreviewAction());
-      // console.log(postText);
-    },
-    [dispatch, postToEdit, editId, postTitle, postText, tempPostImg, isPreview, preview]
+    [error, dispatch, editId.id, editId.type, editText]
   );
 
   return (
@@ -192,16 +208,16 @@ const EditCommentModal = () => {
         editModalOpen ? "opacity-100 z-[1000]" : "opacity-0 z-[-1]"
       }`}
     >
+      <Error />
       <div className={`${width > breakpoint.md ? "max-w-[600px]" : ""} w-full`}>
         <PostForm
           postToEdit={postToEdit}
           postTitle={postTitle}
-          // postText={postText}
           editText={editText}
           imgDom={imgDom}
           setImgDom={setImgDom}
           setIsPreview={setIsPreview}
-          deletePreview={deletePreview}
+          deletePreview={handleDeletePreview}
           handleEditTitleInput={handleEditTitleInput}
           handleEditText={handleEditText}
           handleEditCommentText={handleEditCommentText}
@@ -215,12 +231,12 @@ const EditCommentModal = () => {
       <ImgUploadModal
         imgUploadModalOpen={imgUploadModalOpen}
         toggleImgUploadModal={toggleImgUploadModal}
-        deletePreview={deletePreview}
+        deletePreview={handleDeletePreview}
       />
-      <GifModal gifModalOpen={gifModalOpen} toggleGifModal={toggleGifModal} deletePreview={deletePreview} />
+      <GifModal gifModalOpen={gifModalOpen} toggleGifModal={toggleGifModal} deletePreview={handleDeletePreview} />
       <PreviewLinkModal linkModalOpen={linkModalOpen} toggleLinkModal={toggleLinkModal} />
     </div>
   );
 };
 
-export default EditCommentModal;
+export default EditPostModal;

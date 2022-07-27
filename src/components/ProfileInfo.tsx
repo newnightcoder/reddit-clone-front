@@ -4,7 +4,7 @@ import { IUser } from "../store/types";
 import { formatTimestamp } from "../utils/helpers/formatTime";
 import { useLanguage } from "../utils/hooks";
 
-const ProfileInfo = ({ user }: { user: IUser }) => {
+const ProfileInfo = ({ user, btnFollowWidth }: { user: IUser; btnFollowWidth: number | null }) => {
   const {
     id,
     username,
@@ -13,9 +13,13 @@ const ProfileInfo = ({ user }: { user: IUser }) => {
     creationDate,
   } = useSelector((state) => state.user);
   const userLanguage = useLanguage();
+
   return (
     <div className="username-member mb-2  relative h-max w-full self-start transform flex flex-col items-start justify-start">
-      <span className="translate-x-40 text-xl font-bold capitalize w-[calc(100vw-12rem)] md:w-[68%] overflow-x-hidden overflow-ellipsis pl-1 pr-4">
+      <span
+        style={{ width: `calc(100% - 11rem - ${btnFollowWidth}px)` }}
+        className="translate-x-40 text-xl font-bold capitalize overflow-x-hidden overflow-ellipsis pl-1 pr-4"
+      >
         {id === profileId && username
           ? username
           : id === profileId && !username

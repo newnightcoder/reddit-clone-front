@@ -3,13 +3,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useLocation } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
-import { Comment, CommentForm, EditCommentModal, Layout, Post } from "../components";
+import { Comment, CommentForm, Layout, Post } from "../components";
 import {
   clearErrorPostAction,
   createCommentAction,
   getCommentsAction,
   getLikesAction,
-  // getRepliesAction,
   resetCommentsAction,
   resetRepliesAction,
   setErrorPostAction,
@@ -64,9 +63,7 @@ const CommentPage = () => {
   }, [liked]);
 
   useEffect(() => {
-    // setTimeout(() => {
     setCommentsToDisplay(comments);
-    // }, 500);
   }, [comments]);
 
   const handleChange = useCallback(
@@ -76,7 +73,7 @@ const CommentPage = () => {
       }
       setCommentText(e.target.value);
     },
-    [error]
+    [error, dispatch, setCommentText]
   );
 
   const handleCommentSubmit = useCallback(
@@ -97,7 +94,7 @@ const CommentPage = () => {
       }
       setCommentText("");
     },
-    [dispatch, commentText, commentTextRef, setCommentText]
+    [dispatch, userId, postId, commentText, commentTextRef, error, setCommentText]
   );
 
   return (
@@ -178,7 +175,6 @@ const CommentPage = () => {
                 )}
               </div>
             </div>
-            <EditCommentModal />
           </div>
         </Layout>
       )}

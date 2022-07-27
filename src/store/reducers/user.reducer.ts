@@ -198,7 +198,7 @@ export const userReducer: Reducer<IUserState, Action> = (state = userState, acti
             following: updatedFollowing,
             currentProfileVisit: {
               ...state.currentProfileVisit,
-              followers: origin === "profile" ? updatedFollowers : state.followers,
+              followers: origin === "profile" ? updatedFollowers : state.currentProfileVisit.followers,
             },
           };
         }
@@ -210,7 +210,7 @@ export const userReducer: Reducer<IUserState, Action> = (state = userState, acti
             following: state.following.filter((follow) => follow.userId !== userId),
             currentProfileVisit: {
               ...state.currentProfileVisit,
-              followers: origin === "profile" ? updatedFollowers : state.followers,
+              followers: origin === "profile" ? updatedFollowers : state.currentProfileVisit.followers,
             },
           };
         }
@@ -270,6 +270,14 @@ export const userReducer: Reducer<IUserState, Action> = (state = userState, acti
           filter,
         },
       };
+    case actionTypes.CLEAR_SEARCH_QUERY:
+      return {
+        ...state,
+        searchResults: {
+          posts: null,
+          users: null,
+        },
+      };
 
     case actionTypes.GET_SEARCH_RESULTS:
       const results = action.payload;
@@ -299,7 +307,10 @@ export const userReducer: Reducer<IUserState, Action> = (state = userState, acti
       return { ...state, sessionExpired: action.payload };
 
     case PURGE:
-      return userState;
+      return {
+        ...userState,
+        darkMode: state.darkMode,
+      };
 
     default:
       return state;

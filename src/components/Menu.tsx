@@ -1,8 +1,10 @@
 import { CogIcon, PencilIcon, TrashIcon, UserIcon } from "@heroicons/react/solid";
-import React, { useState } from "react";
+import { useState } from "react";
+import { Power } from "react-bootstrap-icons";
 import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 import { DeleteModal } from ".";
 import { logo_mobile_blue, picPlaceholder } from "../assets";
 import { deleteUserAction } from "../store/actions/user.action";
@@ -32,7 +34,7 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
 
   return (
     <Div100vh
-      className="menu-container overflow-y-auto h-full lg:hidden flex flex-col items-center justify-start gap-2 fixed top-0 left-0 w-9/12 pt-5 pb-6 bg-gray-100 dark:bg-gray-800 dark:text-white  transition-transform duration-300"
+      className="menu-container overflow-y-auto h-full lg:hidden flex flex-col items-center justify-start gap-2 fixed top-0 left-0 w-9/12 pt-5 pb-6 bg-gray-100 dark:bg-gray-700 dark:text-white  transition-transform duration-300"
       style={{ transform: isMenuOpen ? "translateX(0)" : "translateX(-100%)", zIndex: 1100 }}
     >
       <div className="top-section h-max w-10/12 pb-2 flex flex-col items-center justify-center gap-2 border-b border-gray-300">
@@ -110,6 +112,17 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
               <TrashIcon className="h-6 text-gray-500 dark:text-gray-200" />
               <span className="whitespace-nowrap">{userLanguage.menu.delete}</span>
             </button>
+          </li>
+          <li>
+            <Link
+              className="flex items-center justify-center space-x-2 px-3 py-1 border-2 border-transparent transition-color duration-100 hover:border-blue-400 rounded-full"
+              to="/"
+            >
+              <Power size={25} className="text-gray-500 dark:text-gray-200" />
+              <span className="whitespace-nowrap">{userLanguage.navbar.logout}</span>
+
+              <span className="hidden xl:inline-block font-bold">{userLanguage.navbarDesktop.logout}</span>
+            </Link>
           </li>
         </ul>
       </div>

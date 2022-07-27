@@ -26,6 +26,9 @@ const Post = ({ post, aside }: PostProps) => {
   const toggleOptions = useToggle(optionsOpen, setOptionsOpen);
   const toggleDeleteModal = useToggle(openDeleteModal, setOpenDeleteModal);
 
+  // const formatWithLineBreaks = (str)=>{
+  // }
+
   const handleDeletePost = useCallback(() => {
     console.log("pre dispatsch delete");
     dispatch(deletePostAction(postId!, "post", null));
@@ -73,7 +76,11 @@ const Post = ({ post, aside }: PostProps) => {
         <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"post"} postId={postId!} />
       ) : null}
       <PostHeader post={post} />
-      {text && <div className="w-full text-left px-4 pt-2 transition duration-500 text-sm break-words">{text}</div>}
+      {text && (
+        <div className="w-full text-left px-4 pt-2 transition duration-500 text-sm whitespace-pre-line">
+          {text.replace(/<br>/g, "\n")}
+        </div>
+      )}
 
       {isPreview ? (
         <div className="w-full flex items-center justify-center px-4 pt-2 pb-4">

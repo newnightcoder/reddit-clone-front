@@ -136,7 +136,7 @@ const ImgUploaderBtnModal = ({
           <span className="flex items-center justify-center">
             <span>{createPostPage || editModal ? "ok" : userLanguage.imgUploader.save}</span>
             <ChevronDoubleRightIcon
-              className={`${profilePage ? "h-3 translate-y-[0.05rem]" : "h-4 translate-y-px"} w-4 text-black font-bold`}
+              className={`${profilePage ? "h-3 translate-y-[0.05rem]" : "h-4 translate-y-px"} w-4 text-white font-bold`}
             />
           </span>
         </button>

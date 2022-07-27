@@ -1,8 +1,8 @@
-import { HomeIcon, PencilIcon, UserIcon, XIcon } from "@heroicons/react/solid";
+import { HomeIcon, PencilIcon, SearchIcon, UserIcon, XIcon } from "@heroicons/react/solid";
 import { GearFill, Power } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { breakpoint } from "../utils/breakpoints";
 import { history } from "../utils/helpers";
 import { useDarkMode, useHandleLink, useLanguage, useWindowSize } from "../utils/hooks";
@@ -16,6 +16,8 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen, toggleMenu }: navbarProps
   const handleLink = useHandleLink();
   const userLanguage = useLanguage();
   const { isDarkMode } = useDarkMode();
+  const myProfile = pathname.includes("/profile") && pathname.includes(username);
+  const createPage = pathname === "/create";
 
   return (
     <div
@@ -37,13 +39,13 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen, toggleMenu }: navbarProps
           to={"/feed"}
           className="h-10 w-10 md:h-16 md:w-16 xl:h-10 xl:w-full space-x-1 font-bold flex items-center justify-center xl:justify-start p-2 rounded-full transition duration-300 border-2 border-transparent text-gray-500 md:bg-white md:dark:bg-transparent md:text-black dark:text-white bg-transparent md:dark:bg-gray-600 xl:bg-transparent xl:dark:bg-transparent hover:bg-blue-400 dark:hover:bg-blue-500 hover:text-black md:hover:text-white"
         >
-          <HomeIcon className="h-8 w-8 xl:h-6 transform -translate-y-px" />
+          <HomeIcon className="h-12 md:h-8 w-8 xl:h-6 transform -translate-y-px" />
           <span className="capitalize hidden xl:inline-block">forum</span>
         </NavLink>
         <button
           onClick={() => history.push("/create")}
           style={
-            pathname === "/create"
+            createPage
               ? { border: isDarkMode ? "2px solid #3B82F6" : "2px solid rgb(96 165 250)", color: isDarkMode ? "white" : "black" }
               : undefined
           }
@@ -59,7 +61,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen, toggleMenu }: navbarProps
         </button>
         <button
           style={
-            pathname.includes("/profile") && pathname.includes(username)
+            myProfile
               ? {
                   border: isDarkMode ? "2px solid #3B82F6" : "2px solid rgb(96 165 250)",
                   color: isDarkMode ? "white" : "black",
@@ -70,10 +72,23 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen, toggleMenu }: navbarProps
           onClick={width > breakpoint.md ? () => handleLink("profile", id!, username) : toggleMenu}
         >
           <div className="w-10 h-10 xl:w-max  xl:border-0 rounded-full relative flex items-center justify-center">
-            <UserIcon className="h-6 w-8" />
+            <UserIcon className="h-7 md:h-6 w-8" />
           </div>
           <span className="hidden xl:inline-block font-bold">{userLanguage.navbarDesktop.profile}</span>
         </button>
+        <NavLink
+          activeStyle={{
+            border: isDarkMode ? "2px solid #3B82F6" : "2px solid rgb(96 165 250)",
+            color: isDarkMode ? "white" : "black",
+          }}
+          to="/search"
+          className="md:hidden outline-none ring-none flex items-center justify-center rounded-full border-2 border-transparent bg-transparenttransition duration-300 text-gray-500 md:text-black dark:text-white hover:bg-blue-400 dark:hover:bg-blue-500 hover:text-black"
+        >
+          <div className="w-10 h-10 xl:w-max  xl:border-0 rounded-full relative flex items-center justify-center">
+            <SearchIcon className="h-6 w-8" />
+          </div>
+          <span className="hidden xl:inline-block font-bold">{userLanguage.navbarDesktop.profile}</span>
+        </NavLink>
         <button
           style={settingsOpen ? { border: isDarkMode ? "2px solid #3B82F6" : "2px solid rgb(96 165 250)" } : undefined}
           className="xl:w-full relative group outline-none ring-none flex items-center justify-center rounded-full xl:justify-start xl:space-x-2 xl:pl-2 xl:pr-4 border-2 border-transparent bg-transparent md:bg-white md:dark:bg-transparent xl:bg-transparent xl:dark:bg-transparent md:dark:bg-gray-600 transition duration-300 text-gray-500 md:text-black dark:text-white border-2 border-transparent hover:bg-blue-400 dark:hover:bg-blue-500 hover:text-black md:hover:text-white xl:hover:border-blue-400 xl:dark:hover:border-blue-500  xl:dark:hover:text-white"
@@ -84,18 +99,18 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen, toggleMenu }: navbarProps
           </div>
           <span className="hidden xl:inline-block font-bold">{userLanguage.navbarDesktop.settings}</span>
           {settingsOpen && (
-            <XIcon className="h-7 xl:h-4 absolute animate-iconOn z-10 my-auto ml-0  xl:right-2 xl:hover:bg-gray-300 xl:dark:hover:bg-gray-700 rounded-full" />
+            <XIcon className="hidden xl:block xl:h-4 absolute animate-iconOn z-10 my-auto ml-0 xl:right-2 rounded-full" />
           )}
         </button>
-        <Link
-          className="xl:w-full flex items-center justify-center rounded-full xl:justify-start space-x-1 xl:pl-2 xl:pr-4 bg-transparent md:bg-white md:dark:bg-transparent xl:bg-transparent xl:dark:bg-transparent md:dark:bg-gray-600 transition duration-300 text-gray-500 md:text-black dark:text-white hover:bg-blue-400 dark:hover:bg-blue-500 hover:text-black md:hover:text-white"
+        <NavLink
+          className="hidden xl:w-full md:flex items-center justify-center rounded-full xl:justify-start space-x-1 xl:pl-2 xl:pr-4 bg-transparent md:bg-white md:dark:bg-transparent xl:bg-transparent xl:dark:bg-transparent md:dark:bg-gray-600 transition duration-300 text-gray-500 md:text-black dark:text-white hover:bg-blue-400 dark:hover:bg-blue-500 hover:text-black md:hover:text-white"
           to="/"
         >
           <div className="w-10 h-10 xl:w-max  xl:border-0 rounded-full relative flex items-center justify-center">
             <Power size={25} className="w-8" />
           </div>
           <span className="hidden xl:inline-block font-bold">{userLanguage.navbarDesktop.logout}</span>
-        </Link>
+        </NavLink>
         <Settings settingsOpen={settingsOpen} />
       </div>
     </div>

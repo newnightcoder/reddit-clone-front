@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Error, GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
 import {
@@ -23,6 +23,7 @@ const CreatePost = () => {
   const [imgUploadModalOpen, setImgUploadModalOpen] = useState(false);
   const [gifModalOpen, setGifModalOpen] = useState(false);
   const [linkModalOpen, setLinkModalOpen] = useState(false);
+  const textRef = useRef<HTMLSpanElement>(null);
   const [isPreview, setIsPreview] = useState(false);
   const dispatch = useDispatch();
   const handleLink = useHandleLink();
@@ -60,9 +61,12 @@ const CreatePost = () => {
     [error]
   );
 
-  const handlePostInput = useCallback((e) => {
-    setPostText(e.currentTarget.textContent);
-  }, []);
+  const handlePostInput = useCallback(() => {
+    let text = textRef.current?.innerHTML.toString();
+    const length = text!.length;
+    text = text!.slice(0, length - 4); // to remove the default <br> element in contenteditable span
+    setPostText(text.toString());
+  }, [setPostText, textRef]);
 
   const handlePostSubmit = useCallback(
     (e) => {
@@ -103,15 +107,17 @@ const CreatePost = () => {
             {userLanguage.createPost.heading2}
           </span>
           <PostForm
+            textRef={textRef}
             title={title}
-            handlePostSubmit={handlePostSubmit}
             handleTitleInput={handleTitleInput}
-            toggleImgUploadModal={toggleImgUploadModal}
-            toggleGifModal={toggleGifModal}
-            toggleLinkModal={toggleLinkModal}
+            postText={postText}
             handlePostInput={handlePostInput}
             imgDom={imgDom}
             setImgDom={setImgDom}
+            handlePostSubmit={handlePostSubmit}
+            toggleImgUploadModal={toggleImgUploadModal}
+            toggleGifModal={toggleGifModal}
+            toggleLinkModal={toggleLinkModal}
           />
           <ImgUploadModal
             imgUploadModalOpen={imgUploadModalOpen}

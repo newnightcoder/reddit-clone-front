@@ -5,7 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { BeatLoader } from "react-spinners";
 import { giphyDark } from "../assets";
-import { clearTempPostImgAction, clearTempPreviewAction, toggleEditModalAction } from "../store/actions/posts.action";
+import {
+  clearEditIdAction,
+  clearTempPostImgAction,
+  clearTempPreviewAction,
+  toggleEditModalAction,
+} from "../store/actions/posts.action";
 import { breakpoint } from "../utils/breakpoints";
 import { history, isObjectEmpty } from "../utils/helpers";
 import { useLanguage, useWindowSize } from "../utils/hooks";
@@ -21,6 +26,7 @@ const PreviewLoader = () => {
 };
 
 const PostForm = ({
+  textRef,
   title,
   handlePostSubmit,
   handleTitleInput,
@@ -41,7 +47,7 @@ const PostForm = ({
   handleEditText,
   handleEditCommentText,
 }: FormProps) => {
-  const { tempPostImg, scrapedPost, previewLoading, editId } = useSelector((state) => state.posts);
+  const { tempPostImg, scrapedPost, previewLoading, editId, editModalOpen } = useSelector((state) => state.posts);
   const { pathname } = useLocation();
   const { width } = useWindowSize();
   const dispatch = useDispatch();
@@ -49,19 +55,32 @@ const PostForm = ({
   const createPage = pathname === "/create";
   const commentPage = pathname.includes("comments");
 
-  const handleImgPostForm = useCallback(() => {
-    if (createPage || editId.type === "post") {
-      const postImg = <img id="postImg" src={tempPostImg} alt="" className="h-max rounded max-h-[500px]" />;
-      if (tempPostImg?.length !== 0) return setImgDom!(postImg);
-      if (previewLoading) return setImgDom!(<PreviewLoader />);
-      if (!isObjectEmpty(scrapedPost)) return setImgDom!(<LinkPreview linkPreview={scrapedPost} />);
-      return setImgDom!(null);
+  const handleCancelBtn = useCallback(() => {
+    if (createPage) {
+      dispatch(clearTempPostImgAction());
+      dispatch(clearTempPreviewAction());
+      return history.push("/feed");
     }
-  }, [tempPostImg, setImgDom, scrapedPost, previewLoading]);
+    if (editModalOpen) {
+      dispatch(clearTempPostImgAction());
+      dispatch(clearTempPreviewAction());
+      dispatch(clearEditIdAction());
+      return dispatch(toggleEditModalAction());
+    }
+  }, [dispatch, createPage, editModalOpen]);
+
+  const handleImgPost = useCallback(() => {
+    if (editId.type === "comment" || editId.type === "reply") return setImgDom!(null);
+    const postImg = <img id="postImg" src={tempPostImg} alt="" className="h-max rounded max-h-[500px]" />;
+    if (tempPostImg?.length !== 0) return setImgDom!(postImg);
+    if (previewLoading) return setImgDom!(<PreviewLoader />);
+    if (!isObjectEmpty(scrapedPost)) return setImgDom!(<LinkPreview linkPreview={scrapedPost} />);
+    return setImgDom!(null);
+  }, [createPage, editId.type, tempPostImg, setImgDom, scrapedPost, previewLoading]);
 
   useEffect(() => {
-    handleImgPostForm();
-  }, [tempPostImg, postToEdit, scrapedPost, previewLoading]);
+    handleImgPost();
+  }, [editId.type, tempPostImg, postToEdit, scrapedPost, previewLoading]);
 
   return (
     <form
@@ -80,7 +99,7 @@ const PostForm = ({
       <div className="w-full flex items-center justify-between">
         <button
           type="button"
-          onClick={createPage ? () => history.push("/feed") : () => dispatch(toggleEditModalAction())}
+          onClick={handleCancelBtn}
           className="w-8 h-8 outline-none mb-2 md:mb-0 md:w-max md:h-max self-start flex items-center justify-center md:space-x-2 text-white md:px-4 md:py-2 rounded-full shadow-xl bg-gray-500 dark:bg-gray-600 transition duration-300 hover:bg-black dark:hover:bg-black  hover:shadow-none dark:border dark:border-gray-600"
         >
           <span className="hidden md:inline-block text-xs capitalize">{userLanguage.createPost.cancelBtn}</span> <XLg size={12} />
@@ -97,7 +116,7 @@ const PostForm = ({
                 ? () => deletePreview!()
                 : undefined
             }
-            className="h-8 w-max rounded-full px-2  border whitespace-wrap text-xs text-gray-500 flex items-center justify-end text-right"
+            className="h-8 w-max rounded-full px-2  border whitespace-wrap text-xs text-gray-500 dark:text-gray-200 flex items-center justify-end text-right"
           >
             {userLanguage.createPost.deleteImgBtn}
           </button>
@@ -111,7 +130,7 @@ const PostForm = ({
           id="title"
           placeholder={createPage ? userLanguage.createPost.titlePlaceholder : undefined}
           onChange={editId.type === "post" ? (e) => handleEditTitleInput!(e) : (e) => handleTitleInput!(e)}
-          value={editId.type === "post" ? postTitle : title}
+          value={editId.type === "post" ? postTitle : title ? title : ""}
         />
       )}
       <div className="form-container h-full w-full flex flex-col items-center justify-start space-y-6">
@@ -130,7 +149,14 @@ const PostForm = ({
               contentEditable="true"
               suppressContentEditableWarning={true}
               placeholder={userLanguage.createPost.textPlaceholder}
-              onBlur={editId.type === "post" ? handleEditText : commentPage ? handleEditCommentText : handlePostInput}
+              onBlur={(e) =>
+                editId.type === "post"
+                  ? handleEditText!(e)
+                  : editId.type === "comment" || editId.type === "reply"
+                  ? handleEditCommentText!(e)
+                  : handlePostInput!(e)
+              }
+              ref={textRef}
             >
               {postText ? postText : editText}
             </span>

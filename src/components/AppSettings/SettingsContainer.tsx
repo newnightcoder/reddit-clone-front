@@ -1,4 +1,3 @@
-import React from "react";
 import { useLocation } from "react-router-dom";
 import { breakpoint } from "../../utils/breakpoints";
 import { useWindowSize } from "../../utils/hooks";
@@ -30,7 +29,7 @@ const SettingsContainer = (props: SettingsProps) => {
       : props.isMenuOpen
       ? "left-0"
       : width < breakpoint.xxs
-      ? "right-4"
+      ? "right-1"
       : width < breakpoint.md
       ? "left-1/2"
       : width < breakpoint.xl

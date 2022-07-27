@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { Aside, Menu, NavBar, NavBarDesktop, Overlay, SessionExpiredModal, VisitorModal } from ".";
+import { Aside, EditPostModal, Menu, NavBar, NavBarDesktop, Overlay, SessionExpiredModal, VisitorModal } from ".";
 import { useToggle, useToggleSettings } from "../utils/hooks";
 
 const Layout = ({ children }: { children: JSX.Element }) => {
@@ -41,6 +41,7 @@ const Layout = ({ children }: { children: JSX.Element }) => {
       </div>
       <Overlay isMenuOpen={isMenuOpen} close={closeMenu} />
       <Menu isMenuOpen={isMenuOpen} toggleMenu={toggleMenu} />
+      <EditPostModal />
       <SessionExpiredModal isExpired={isExpired} close={closeExpirationModal} />
       <VisitorModal />
     </>

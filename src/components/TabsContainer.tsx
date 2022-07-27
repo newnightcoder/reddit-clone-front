@@ -5,7 +5,7 @@ import { useLanguage } from "../utils/hooks";
 import { TabsContainerProps } from "./react-app-env";
 
 const TabsContainer = ({ user, bool, setter, set1, set2, container }: TabsContainerProps) => {
-  const { id } = useSelector((state) => state.user);
+  const { id, searchResults } = useSelector((state) => state.user);
   const { pathname } = useLocation();
   const userLanguage = useLanguage();
   const [leftTabTitle, setLeftTabTitle] = useState<string>("");
@@ -56,11 +56,11 @@ const TabsContainer = ({ user, bool, setter, set1, set2, container }: TabsContai
       setLeftLength(null);
       setRightLength(null);
     };
-  }, [user, set1, set2]);
+  }, [user, searchResults.posts, searchResults.users, set1, set2]);
 
   useEffect(() => {
     setTabTitles();
-  }, [container, user, set1, set2]);
+  }, [container, user, searchResults, set1, set2]);
 
   return (
     <div className="w-full h-min px-4">
