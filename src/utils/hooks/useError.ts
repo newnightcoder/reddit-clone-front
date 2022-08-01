@@ -25,6 +25,7 @@ const useError = () => {
       verifyToken: "tokenVerifyError",
       authToken: "authTokenError",
       timeout: "timeout",
+      sizeLimit: "sizeLimit",
     };
   }, []);
 
@@ -61,6 +62,8 @@ const useError = () => {
           return setError(userLanguage.error.authToken);
         case errorType.timeout:
           return setError(userLanguage.error.timeout);
+        case errorType.sizeLimit:
+          return setError(userLanguage.error.sizeLimit);
         default:
           return setError(userError.length > 0 ? userError : postError.length > 0 ? postError : "");
       }

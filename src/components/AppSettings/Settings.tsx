@@ -1,5 +1,5 @@
 import { ChevronRightIcon, TranslateIcon } from "@heroicons/react/solid";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { LifePreserver, ToggleOn } from "react-bootstrap-icons";
 import language from "../../languages";
 import { useLanguage } from "../../utils/hooks";
@@ -28,7 +28,6 @@ const Settings = (props: SettingsProps) => {
 
   useEffect(() => {
     getLangOptions();
-    console.log(optionTitle);
   }, []);
 
   const toggleOption = useCallback(

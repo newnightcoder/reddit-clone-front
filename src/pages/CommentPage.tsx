@@ -148,14 +148,14 @@ const CommentPage = () => {
                         <PulseLoader size={6} color={"#ffffff"} />
                       </div>
                     </span>
-                    <div className="h-20 w-full animate-pulse transition-color duration-500 bg-gray-200 dark:bg-gray-800 flex flex-col items-center justify-center gap-2 md:rounded-bl md:rounded-br"></div>
+                    <div className="h-20 w-full animate-pulse transition-color duration-500 bg-gray-200 dark:bg-black flex flex-col items-center justify-center gap-2 md:rounded-bl md:rounded-br"></div>
                   </div>
                 ) : commentsToDisplay.length > 0 ? (
                   <div className="w-full h-max flex flex-col items-center justify-center mt-3 md:rounded">
                     <span className="w-full uppercase italic md:rounded text-white text-center px-2 py-1 bg-[#ef5350]">
                       {userLanguage.commentPage.comments}
                     </span>
-                    <div className="w-full h-max flex flex-col space-y-1 transition-color duration-500 bg-gray-200 dark:bg-gray-800 md:rounded-bl md:rounded-br pt-1 pb-4 md:pb-2">
+                    <div className="w-full h-max flex flex-col space-y-1 transition-color duration-500 bg-gray-200 dark:bg-black md:rounded-bl md:rounded-br pt-1 pb-4 md:pb-2">
                       {commentsToDisplay.map((comment) => {
                         return <Comment key={comment.date} comment={comment} postId={postId!} />;
                       })}
@@ -167,7 +167,7 @@ const CommentPage = () => {
                       <span className="w-full uppercase italic md:rounded text-white text-center px-2 py-1 bg-[#ef5350]">
                         {userLanguage.commentPage.noComments}
                       </span>
-                      <div className="w-full flex flex-col items-center justify-center space-y-2 transition-color duration-500 bg-gray-200 dark:bg-gray-800">
+                      <div className="w-full flex flex-col items-center justify-center space-y-2 transition-color duration-500 bg-gray-200 dark:bg-black">
                         <ChatAltIcon className="h-20 transition-color duration-500 text-gray-300 dark:text-gray-700" />
                       </div>
                     </div>

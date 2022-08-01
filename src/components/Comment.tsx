@@ -204,7 +204,7 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
         // commentRef={commentRef}
         commentRefNumber={commentRefNumber!}
       />
-      <div className="w-full transition-color duration-500 bg-gray-200 dark:bg-gray-800 flex flex-col items-end justify-center space-y-2">
+      <div className="w-full transition-color duration-500 bg-gray-200 dark:bg-black flex flex-col items-end justify-center space-y-2">
         {replies &&
           replies.map((reply) => {
             return <Reply key={reply.replyId} reply={reply} />;

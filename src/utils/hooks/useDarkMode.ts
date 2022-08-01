@@ -26,7 +26,6 @@ const useDarkMode = () => {
   );
 
   const toggleMode = useCallback(() => {
-    console.log("hook darkmode");
     dispatch(toggleDarkModeAction());
     setIsDarkMode((prevState) => !prevState);
     handleClassList(isDarkMode ? true : false);

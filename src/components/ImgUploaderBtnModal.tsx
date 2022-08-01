@@ -22,7 +22,8 @@ const ImgUploaderBtnModal = ({
   const userLanguage = useLanguage();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
-  const profilePage = pathname.includes("/profile");
+  const profilePage = pathname.includes("profile");
+  const profileOptions = imgType === "pic" || imgType === "banner";
   const signupPage = pathname === "/signup";
   const createPostPage = pathname === "/create";
   const editModal = editId.id ? true : false;
@@ -81,14 +82,14 @@ const ImgUploaderBtnModal = ({
 
   return (
     <div
-      className={`${btnModalOpen ? "flex z-100" : "hidden -z-10"}  ${
+      className={`${btnModalOpen ? "flex z-[100]" : "hidden -z-10"}  ${
         signupPage ? "w-max bg-gray-200 dark:bg-gray-700 px-4" : " w-full px-2 bg-black"
       } absolute inset-0 mx-auto h-full flex-col items-center justify-center  space-y-2 pb-2`}
     >
       <button
         type="button"
         onClick={toggleBtnModal}
-        className="h-max absolute top-2 right-2 flex items-center justify-center outline-none"
+        className={`h-max absolute top-2 right-2 flex items-center justify-center outline-none`}
       >
         <XIcon className="h-5 text-white" />
       </button>
@@ -96,22 +97,24 @@ const ImgUploaderBtnModal = ({
         className={`${
           signupPage
             ? "w-full text-sm text-black dark:text-white"
-            : profilePage
+            : profileOptions
             ? "h-8 w-[19ch] self-start pl-2 truncate text-xs text-white"
+            : imgType === "post"
+            ? "border w-2/3 text-center text-xs truncate"
             : "text-xs text-white"
         } italic text-center`}
       >
         {blobName}
       </span>
       <div
-        className={` w-full h-full flex flex-col items-center justify-center ${
+        className={`${imgType === "post" ? " h-1/2 w-48" : " h-full w-full"} flex flex-col items-center justify-center ${
           signupPage || createPostPage || editModal ? "space-y-4" : "space-y-2"
         }`}
       >
         <button
           type="submit"
           className={`block text-white ${
-            profilePage ? "w-full text-xs" : "md:w-48 text-sm"
+            profileOptions ? "w-full text-xs" : "w-48 text-sm"
           } py-2 px-4 rounded-full shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
         >
           {userLanguage.imgUploader.preview}
@@ -120,7 +123,7 @@ const ImgUploaderBtnModal = ({
           htmlFor={imgType}
           onClick={() => dispatch(toggleIsPreviewImgAction())}
           className={`flex items-center justify-center text-white ${
-            profilePage ? "w-full text-xs" : "md:w-48 text-sm"
+            profileOptions ? "w-full text-xs" : "w-48 text-sm"
           } py-2 px-4 rounded-full shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
         >
           <span className="whitespace-nowrap">{userLanguage.imgUploader.changeBtn}</span>
@@ -129,7 +132,7 @@ const ImgUploaderBtnModal = ({
           type="button"
           disabled={!isPreviewImg}
           className={`disabled:opacity-50 block ${
-            profilePage ? "w-full text-xs" : "md:w-48 text-sm"
+            profileOptions ? "w-full text-xs" : "w-48 text-sm"
           } font-bold py-2 px-4 rounded-full shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
           onClick={handleSaveBtn}
         >
@@ -144,9 +147,10 @@ const ImgUploaderBtnModal = ({
       <button
         type="button"
         onClick={handleDeleteBtn}
-        className={`block ${
-          profilePage ? "w-full text-xs" : "md:w-48 text-sm"
-        } font-bold py-2 px-4 rounded-full shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
+        className={`block 
+          ${
+            imgType === "post" ? "w-48 text-sm" : profileOptions ? "w-full text-xs" : "w-48 text-sm"
+          } py-2 px-4 rounded-full shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
       >
         {userLanguage.imgUploader.delete}
       </button>

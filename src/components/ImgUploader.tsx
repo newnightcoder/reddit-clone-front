@@ -52,6 +52,12 @@ const ImgUploader = (props: ImgUploaderProps) => {
     fileInputRef.current!.value! = "";
   }, [setBlob, setBlobName, fileInputRef, profilePage, toggleBtnModal]);
 
+  const handleImgPost = useCallback(() => {
+    dispatch(savePostImageAction(fileInputRef?.current?.files?.[0]!));
+    props.deletePreview!();
+    props.toggleImgUploadModal!();
+  }, [dispatch, fileInputRef?.current?.files, props]);
+
   useEffect(() => {
     if (!imgUrl) setBlobName("");
   }, [imgUrl]);
@@ -70,7 +76,7 @@ const ImgUploader = (props: ImgUploaderProps) => {
       {/* LABEL */}
       <label
         style={{
-          width: profilePage ? "100%" : "12rem",
+          width: props.imgType === "post" ? "12rem" : "100%",
           padding: profilePage ? ".5rem 1rem" : ".5rem",
         }}
         className="block text-center text-white text-xs rounded-full shadow-xl cursor-pointer bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
@@ -92,7 +98,7 @@ const ImgUploader = (props: ImgUploaderProps) => {
         id={props.imgType}
         name="image"
         ref={fileInputRef}
-        onChange={handleChange}
+        onChange={createPostPage || editModal ? handleImgPost : handleChange}
       />
       {profilePage
         ? null

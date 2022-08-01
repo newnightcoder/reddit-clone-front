@@ -41,7 +41,9 @@ const language = {
       noAuthToken: "Looks like you're not authenticated...\nPlease log in again.",
       verifyAuthToken: "Sorry we're not able to authenticate you for some reason.\nPlease log in again.",
       authToken: "Sorry but your authentication went wrong for some reason.Please log in again.",
-      timeout: "Oops, connexion to the server may have been lost...\nPlease refresh the page",
+      timeout:
+        "Looks like the connexion is too slow or may have been lost...\nPlease check your internet connexion and refresh the page ",
+      sizeLimit: "This image is too heavy! Maximum size is 2MB.\n Please choose a lighter image.",
     },
     login: {
       greeting: "happy to see you again!",
@@ -310,6 +312,7 @@ const language = {
       verifyAuthToken: "Désolé on a un petit problème avec votre authentification.\nVeuillez vous reconnecter.",
       authToken: "Votre authentification a échoué...\nVeuillez vous reconnecter.",
       timeout: "Oups, la connexion au serveur fait des siennes...\nVeuillez rafraîchir la page ou vous reconnecter",
+      sizeLimit: "Cette image est trop lourde! La taille max est 2MB.\n Veuillez choisir une image moins lourde.",
     },
     login: {
       greeting: "content de vous revoir!",
@@ -580,6 +583,7 @@ const language = {
       verifyAuthToken: "Désolé on a un petit problème avec votre authentification.\nVeuillez vous reconnecter.",
       authToken: "Oups! Votre authentification a échoué...\nVeuillez vous reconnecter.",
       timeout: "Sorry, die Verbindungszeit zum Server ist zu lange...\nBitte aktualisieren Sie die Webseite",
+      sizeLimit: "Dieses Bild ist zu gross! Max Grösse is 2MB.\n Bitte wählen Sie ein leichteres Bild aus.",
     },
     login: {
       greeting: "Schön dich wieder zu sehen!",
