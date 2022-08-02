@@ -5,7 +5,7 @@ import { DeleteModal, LinkPreview, Options, PostFooter, PostHeader } from ".";
 import "../index.css";
 import { deletePostAction } from "../store/actions/posts.action";
 import { likePostAction, toCommentAction } from "../store/actions/user.action";
-import { history } from "../utils/helpers";
+import { fromCDN, history } from "../utils/helpers";
 import { useToggle } from "../utils/hooks";
 import { PostProps } from "./react-app-env";
 
@@ -25,6 +25,7 @@ const Post = ({ post, aside }: PostProps) => {
   const profilePage = pathname.includes("/profile");
   const toggleOptions = useToggle(optionsOpen, setOptionsOpen);
   const toggleDeleteModal = useToggle(openDeleteModal, setOpenDeleteModal);
+  const isFromS3Bucket = imgUrl?.includes("forum-s3-bucket");
 
   // const formatWithLineBreaks = (str)=>{
   // }
@@ -91,7 +92,7 @@ const Post = ({ post, aside }: PostProps) => {
           <div className={"w-full flex items-center justify-center px-4 pt-3 pb-4"}>
             {imgUrl !== "" ? (
               <img
-                src={imgUrl}
+                src={isFromS3Bucket ? fromCDN(imgUrl!) : imgUrl}
                 alt={imgUrl?.includes(".gif") ? "gif" : "picture"}
                 className="rounded w-auto"
                 style={{

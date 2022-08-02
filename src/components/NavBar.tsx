@@ -6,7 +6,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { picPlaceholder } from "../assets";
 import { setSearchQueryAction } from "../store/actions/user.action";
 import { breakpoint } from "../utils/breakpoints";
-import { history } from "../utils/helpers";
+import { fromCDN, history } from "../utils/helpers";
 import { useHandleLink, useLanguage, useToggle, useWindowSize } from "../utils/hooks";
 
 const NavBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
@@ -268,7 +268,9 @@ const NavBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
               className="w-10 h-10 rounded-full border border-gray-600"
               style={
                 picUrl
-                  ? { background: `url(${picUrl}) no-repeat center/cover` }
+                  ? {
+                      background: `url(${fromCDN(picUrl)}) no-repeat center/cover`,
+                    }
                   : {
                       background: `url(${picPlaceholder}) no-repeat center/cover`,
                     }

@@ -1,8 +1,9 @@
 import { TrashIcon } from "@heroicons/react/solid";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { EditUsernameModal, ProfileOptions } from ".";
 import { bannerPlaceholder, picPlaceholder } from "../assets";
+import { fromCDN } from "../utils/helpers";
 import { useLanguage, useToggle } from "../utils/hooks";
 import { ProfileBannerProps } from "./react-app-env";
 
@@ -19,18 +20,17 @@ const ProfileBanner = ({ user, loading, setOpenModal }: ProfileBannerProps) => {
   const toggleEditModal = useToggle(openEditModal, setOpenEditModal);
   const toggleProfileOptions = useToggle(openProfileOptions, setOpenProfileOptions);
   const userLanguage = useLanguage();
-  const dispatch = useDispatch();
 
   return (
     <div
       style={{
         background: `${
           user?.id === id && bannerUrl
-            ? `url(${bannerUrl})`
+            ? `url(${fromCDN(bannerUrl)})`
             : user?.id === id && !bannerUrl
             ? `url(${bannerPlaceholder})`
             : user?.id !== id && user?.bannerUrl
-            ? `url(${user?.bannerUrl})`
+            ? `url(${fromCDN(user?.bannerUrl)})`
             : `url(${bannerPlaceholder})`
         }
      no-repeat center/cover`,
@@ -49,9 +49,9 @@ const ProfileBanner = ({ user, loading, setOpenModal }: ProfileBannerProps) => {
         className="w-36 h-36 rounded-full border-4 border-white dark:border-gray-900 absolute left-4 -bottom-20"
         style={
           user?.id === id && picUrl !== null
-            ? { background: `url(${picUrl}) no-repeat center/cover` }
+            ? { background: `url(${fromCDN(picUrl)}) no-repeat center/cover` }
             : user?.id !== id && user?.picUrl !== null
-            ? { background: `url(${user?.picUrl}) no-repeat center/cover` }
+            ? { background: `url(${fromCDN(user?.picUrl)}) no-repeat center/cover` }
             : { background: `url(${picPlaceholder}) no-repeat center/cover` }
         }
       ></div>

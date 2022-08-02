@@ -164,7 +164,7 @@ const EditPostModal = () => {
         preview,
       };
       console.log("edited post front", editedPost);
-      if (postTitle && postTitle.length === 0) return dispatch(setErrorPostAction("emptyTitle"));
+      if (postTitle.length === 0) return dispatch(setErrorPostAction("emptyTitle"));
       if (error) return;
       console.log(isPreview);
       dispatch(editPostAction("post", editedPost, profilePage ? true : false));

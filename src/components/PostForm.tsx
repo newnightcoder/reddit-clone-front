@@ -47,7 +47,7 @@ const PostForm = ({
   handleEditText,
   handleEditCommentText,
 }: FormProps) => {
-  const { tempPostImg, scrapedPost, previewLoading, editId, editModalOpen } = useSelector((state) => state.posts);
+  const { tempPostImg, scrapedPost, previewLoading, editId, editModalOpen, error } = useSelector((state) => state.posts);
   const { pathname } = useLocation();
   const { width } = useWindowSize();
   const dispatch = useDispatch();
@@ -77,6 +77,18 @@ const PostForm = ({
     if (!isObjectEmpty(scrapedPost)) return setImgDom!(<LinkPreview linkPreview={scrapedPost} />);
     return setImgDom!(null);
   }, [createPage, editId.type, tempPostImg, setImgDom, scrapedPost, previewLoading]);
+
+  const handleBlur = useCallback(
+    (e) => {
+      if (error) return;
+      editId.type === "post"
+        ? handleEditText!(e)
+        : editId.type === "comment" || editId.type === "reply"
+        ? handleEditCommentText!(e)
+        : handlePostInput!(e);
+    },
+    [editId.type, handleEditText, handleEditCommentText, handlePostInput]
+  );
 
   useEffect(() => {
     handleImgPost();
@@ -149,13 +161,7 @@ const PostForm = ({
               contentEditable="true"
               suppressContentEditableWarning={true}
               placeholder={userLanguage.createPost.textPlaceholder}
-              onBlur={(e) =>
-                editId.type === "post"
-                  ? handleEditText!(e)
-                  : editId.type === "comment" || editId.type === "reply"
-                  ? handleEditCommentText!(e)
-                  : handlePostInput!(e)
-              }
+              onBlur={(e) => handleBlur(e)}
               ref={textRef}
             >
               {postText ? postText : editText}
