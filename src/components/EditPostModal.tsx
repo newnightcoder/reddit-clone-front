@@ -173,7 +173,7 @@ const EditPostModal = () => {
       dispatch(clearTempPostImgAction());
       dispatch(clearTempPreviewAction());
     },
-    [dispatch, postToEdit, editId, postTitle, editText, tempPostImg, isPreview, preview]
+    [dispatch, error, postToEdit, editId, postTitle, editText, tempPostImg, isPreview, preview]
   );
 
   const handleEditCommentSubmit = useCallback(

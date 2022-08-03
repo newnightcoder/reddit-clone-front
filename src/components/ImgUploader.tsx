@@ -55,10 +55,9 @@ const ImgUploader = (props: ImgUploaderProps) => {
   const handleImgPost = useCallback(() => {
     dispatch(savePostImageAction(fileInputRef?.current?.files?.[0]!));
     props.deletePreview!();
-    setBlob(null);
-    setBlobName("");
+    fileInputRef.current!.value = "";
     props.toggleImgUploadModal!();
-  }, [dispatch, fileInputRef?.current?.files, props, setBlob, setBlobName]);
+  }, [dispatch, fileInputRef?.current, props.deletePreview, props.toggleImgUploadModal]);
 
   useEffect(() => {
     if (!imgUrl) setBlobName("");
