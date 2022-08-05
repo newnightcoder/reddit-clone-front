@@ -15,7 +15,6 @@ const AppContainer = () => {
   return (
     <div className="h-full w-full md:min-w-[320px] relative transition-color duration-500">
       <Switch>
-        <Route path="/" exact component={HomePage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/signup" component={SignupPage} />
         <Route path="/feed" component={FeedPage} />
@@ -24,6 +23,7 @@ const AppContainer = () => {
         <Route path="/profile" component={ProfilePage} />
         <Route path="/search" component={SearchPage} />
         <Route path="/fin" component={DeletedProfilePage} />
+        <Route path="/" exact component={HomePage} />
       </Switch>
     </div>
   );

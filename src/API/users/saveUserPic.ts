@@ -6,7 +6,6 @@ const saveUserPic = async (blob: File, id: number, imgType: string) => {
   formData.append("id", id.toString());
   formData.append("imgType", imgType);
   const request = {
-    // headers: { "Content-Type": "application/json" },
     method: "POST",
     body: formData,
   };

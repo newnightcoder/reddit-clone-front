@@ -1,27 +1,35 @@
 import { Grid, SearchBar, SearchContext, SearchContextManager } from "@giphy/react-components";
 import { XIcon } from "@heroicons/react/solid";
 import { useContext, useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { saveGifUrlAction } from "../../store/actions/posts.action";
 import { useLanguage, useWindowSize } from "../../utils/hooks";
 import { IGifModalProps } from "../react-app-env";
 
 const GifModal = (props: IGifModalProps) => {
-  return (
-    <div
-      style={{ opacity: props.gifModalOpen ? 1 : 0, zIndex: props.gifModalOpen ? 2000 : -1 }}
-      className="fixed w-full md:w-2/3 h-full top-0 inset-0 mx-auto flex flex-col items-center justify-center space-y-2 bg-black text-white transition-opacity duration-300"
-    >
-      <SearchExperience {...props} />
-    </div>
-  );
-};
+  const { pathname } = useLocation();
+  const { editId } = useSelector((state) => state.posts);
+  const createPostPage = pathname.includes("create");
+  const editPostModal = editId.type === "post";
 
-const SearchExperience = (props: IGifModalProps) => (
-  <SearchContextManager apiKey={process.env.REACT_APP_GIPHY_API_KEY as string} theme={{ mode: "dark", smallSearchbarHeight: 35 }}>
-    <GiphyPicker {...props} />
-  </SearchContextManager>
-);
+  if (!(createPostPage || editPostModal)) {
+    return null;
+  } else
+    return (
+      <div
+        style={{ opacity: props.gifModalOpen ? 1 : 0, zIndex: props.gifModalOpen ? 2000 : -1 }}
+        className="fixed w-full md:w-2/3 h-full top-0 inset-0 mx-auto flex flex-col items-center justify-center space-y-2 bg-black text-white transition-opacity duration-300"
+      >
+        <SearchContextManager
+          apiKey={process.env.REACT_APP_GIPHY_API_KEY as string}
+          theme={{ mode: "dark", smallSearchbarHeight: 35 }}
+        >
+          <GiphyPicker {...props} />
+        </SearchContextManager>
+      </div>
+    );
+};
 
 const GiphyPicker = (props: IGifModalProps) => {
   const { width } = useWindowSize();

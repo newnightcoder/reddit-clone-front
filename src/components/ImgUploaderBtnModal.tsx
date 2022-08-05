@@ -107,13 +107,15 @@ const ImgUploaderBtnModal = ({
         {blobName}
       </span>
       <div
-        className={`${imgType === "post" ? " h-1/2 w-48" : " h-full w-full"} flex flex-col items-center justify-center ${
+        className={`${
+          imgType === "post" ? " h-1/2 w-48" : " h-full w-full"
+        } flex flex-col items-center justify-center text-white ${
           signupPage || createPostPage || editModal ? "space-y-4" : "space-y-2"
         }`}
       >
         <button
           type="submit"
-          className={`block text-white ${
+          className={`block ${
             profileOptions ? "w-full text-xs" : "w-48 text-sm"
           } py-2 px-4 rounded-full shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
         >
@@ -122,7 +124,7 @@ const ImgUploaderBtnModal = ({
         <label
           htmlFor={imgType}
           onClick={() => dispatch(toggleIsPreviewImgAction())}
-          className={`flex items-center justify-center text-white ${
+          className={`flex items-center justify-center ${
             profileOptions ? "w-full text-xs" : "w-48 text-sm"
           } py-2 px-4 rounded-full shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
         >
@@ -130,29 +132,29 @@ const ImgUploaderBtnModal = ({
         </label>
         <button
           type="button"
-          disabled={!isPreviewImg}
-          className={`disabled:opacity-50 block ${
-            profileOptions ? "w-full text-xs" : "w-48 text-sm"
-          } font-bold py-2 px-4 rounded-full shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
-          onClick={handleSaveBtn}
+          onClick={handleDeleteBtn}
+          className={`block
+          ${
+            imgType === "post" ? "w-48 text-sm" : profileOptions ? "w-full text-xs" : "w-48 text-sm"
+          } py-2 px-4 rounded-full shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
         >
-          <span className="flex items-center justify-center">
-            <span>{createPostPage || editModal ? "ok" : userLanguage.imgUploader.save}</span>
-            <ChevronDoubleRightIcon
-              className={`${profilePage ? "h-3 translate-y-[0.05rem]" : "h-4 translate-y-px"} w-4 text-white font-bold`}
-            />
-          </span>
+          {userLanguage.imgUploader.delete}
         </button>
       </div>
       <button
         type="button"
-        onClick={handleDeleteBtn}
-        className={`block 
-          ${
-            imgType === "post" ? "w-48 text-sm" : profileOptions ? "w-full text-xs" : "w-48 text-sm"
-          } py-2 px-4 rounded-full shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
+        disabled={!isPreviewImg}
+        className={`disabled:opacity-50 block ${
+          profileOptions ? "w-full text-xs" : "w-48 text-sm"
+        }  text-white font-bold py-2 px-4 rounded-full shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
+        onClick={handleSaveBtn}
       >
-        {userLanguage.imgUploader.delete}
+        <span className="flex items-center justify-center">
+          <span>{createPostPage || editModal ? "ok" : userLanguage.imgUploader.save}</span>
+          <ChevronDoubleRightIcon
+            className={`${profilePage ? "h-3 translate-y-[0.05rem]" : "h-4 translate-y-px"} w-4 font-bold`}
+          />
+        </span>
       </button>
     </div>
   );

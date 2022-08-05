@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { FooterAside, ModsContainer, PopularPosts, RecentUsers, Rules } from ".";
@@ -21,11 +21,11 @@ const Aside = () => {
   const profilePage = pathname.includes("profile");
 
   useEffect(() => {
-    if (feedPage || profilePage) {
+    if ((feedPage || profilePage) && width > breakpoint.md) {
       dispatch(getRecentUsersAction());
       dispatch(getModsAction());
     }
-  }, [dispatch, profilePage, feedPage]);
+  }, [dispatch, profilePage, feedPage, width]);
 
   useEffect(() => {
     if (width >= breakpoint.lg) {
@@ -35,28 +35,31 @@ const Aside = () => {
     }
   }, [posts, asideContainerRef, width]);
 
-  return (
-    <div className={`hidden lg:block w-72 h-full`}>
-      <div
-        ref={asideContainerRef}
-        style={{ top: feedPage ? `calc(100vh - ${asideContainerSize?.height}px - 15px)` : "6rem" }}
-        className="sticky pathname w-full h-max flex flex-col items-center justify-start mt-[6rem] gap-2"
-      >
-        {feedPage ? (
-          <>
+  if (width < breakpoint.md) {
+    return null;
+  } else
+    return (
+      <div className={`hidden lg:block min-w-[14rem] max-w-[18rem] h-full`}>
+        <div
+          ref={asideContainerRef}
+          style={{ top: feedPage ? `calc(100vh - ${asideContainerSize?.height}px - 15px)` : "6rem" }}
+          className="sticky pathname w-full h-max flex flex-col items-center justify-start mt-[6rem] gap-2"
+        >
+          {feedPage ? (
+            <>
+              <RecentUsers />
+              <ModsContainer />
+              <PopularPosts />
+              <FooterAside />
+            </>
+          ) : profilePage || searchPage ? (
             <RecentUsers />
-            <ModsContainer />
-            <PopularPosts />
-            <FooterAside />
-          </>
-        ) : profilePage || searchPage ? (
-          <RecentUsers />
-        ) : (
-          (createPostPage || editPostPage || commentPage) && <Rules />
-        )}
+          ) : (
+            (createPostPage || editPostPage || commentPage) && <Rules />
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
 };
 
 export default Aside;

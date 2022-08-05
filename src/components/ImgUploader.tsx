@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { savePostImageAction } from "../store/actions/posts.action";
+import { savePostImageAction, setErrorPostAction } from "../store/actions/posts.action";
 import { saveUserPicAction, toggleIsPreviewImgAction } from "../store/actions/user.action";
 import { useLanguage, useToggle } from "../utils/hooks";
 import ImgUploaderBtnModal from "./ImgUploaderBtnModal";
@@ -10,10 +10,11 @@ import { ImgUploaderProps } from "./react-app-env";
 const ImgUploader = (props: ImgUploaderProps) => {
   const [blob, setBlob] = useState<File | null>(null);
   const [blobName, setBlobName] = useState<string>("");
+  const form = useRef<HTMLFormElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   // const fileSelected = fileInputRef?.current?.files?.[0];
   const { id } = useSelector((state) => state.user);
-  const { tempPostImg: imgUrl, editId } = useSelector((state) => state.posts);
+  const { tempPostImg: imgUrl, editId, error } = useSelector((state) => state.posts);
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
@@ -27,41 +28,76 @@ const ImgUploader = (props: ImgUploaderProps) => {
   const handleImgSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      if (!blob || !id) return;
-      if (profilePage || signupPage) {
-        dispatch(saveUserPicAction(blob, id, props.imgType!));
-      }
+      const maxSize = Math.pow(10, 2);
       if (createPostPage || editModal) {
-        dispatch(savePostImageAction(blob));
+        console.log("submitting for post");
+        const imgBlob = fileInputRef?.current?.files?.[0]!;
+        console.log("file", imgBlob);
+        if (imgBlob.size > maxSize) return dispatch(setErrorPostAction("sizeLimit"));
+        dispatch(savePostImageAction(fileInputRef?.current?.files?.[0]!));
         props.deletePreview!();
+        fileInputRef.current!.value = "";
+        props.toggleImgUploadModal!();
+        return;
       }
-      setBlob(null);
-      setBlobName("");
-      dispatch(toggleIsPreviewImgAction());
+      if (profilePage || signupPage) {
+        if (!blob || !id) return;
+        if (blob.size > maxSize) return dispatch(setErrorPostAction("sizeLimit"));
+        dispatch(saveUserPicAction(blob!, id!, props.imgType!));
+        fileInputRef.current!.value = "";
+        dispatch(toggleIsPreviewImgAction());
+        setBlob(null);
+        setBlobName("");
+      }
     },
-    [blob, dispatch, id, props.imgType, props.deletePreview, signupPage, profilePage, createPostPage, editModal]
+    [
+      dispatch,
+      id,
+      blob,
+      setBlob,
+      setBlobName,
+      fileInputRef.current,
+      props.imgType,
+      props.deletePreview,
+      props.toggleImgUploadModal,
+      createPostPage,
+      editModal,
+      signupPage,
+      profilePage,
+    ]
   );
 
   const handleChange = useCallback(() => {
-    console.log("file selected", fileInputRef?.current?.files?.[0]);
+    console.log("file selected handleChange", fileInputRef?.current?.files?.[0]);
     setBlob(fileInputRef?.current?.files?.[0]!);
     setBlobName(fileInputRef?.current?.files?.[0]?.name!);
     if (!btnModalOpen) {
       toggleBtnModal();
     }
     fileInputRef.current!.value! = "";
-  }, [setBlob, setBlobName, fileInputRef, profilePage, toggleBtnModal]);
+  }, [setBlob, setBlobName, fileInputRef, btnModalOpen, toggleBtnModal]);
 
-  const handleImgPost = useCallback(() => {
-    dispatch(savePostImageAction(fileInputRef?.current?.files?.[0]!));
-    props.deletePreview!();
-    fileInputRef.current!.value = "";
-    props.toggleImgUploadModal!();
-  }, [dispatch, fileInputRef?.current, props.deletePreview, props.toggleImgUploadModal]);
+  const handleImgPost = useCallback(
+    (e) => {
+      e.preventDefault();
+      form.current!.requestSubmit();
+      // console.log("file sent", fileInputRef?.current?.files?.[0]!);
+      // // setBlob(fileInputRef?.current?.files?.[0]!);
+      // dispatch(savePostImageAction(fileInputRef?.current?.files?.[0]!));
+      // props.deletePreview!();
+      // fileInputRef.current!.value = "";
+    },
+    [form.current]
+  );
 
   useEffect(() => {
     if (!imgUrl) setBlobName("");
   }, [imgUrl]);
+
+  useEffect(() => {
+    if (error === "sizeLimit") return;
+    if (props.imgUploadModalOpen && imgUrl.length > 0) return props.toggleImgUploadModal;
+  }, [error, imgUrl, props.imgUploadModalOpen, props.toggleImgUploadModal]);
 
   return (
     <form
@@ -72,6 +108,7 @@ const ImgUploader = (props: ImgUploaderProps) => {
       method="POST"
       encType="multipart/form-data"
       onSubmit={(e) => handleImgSubmit(e)}
+      ref={form}
     >
       {signupPage && <span>{userLanguage.imgUploader.chooseBtn}</span>}
       {/* LABEL */}

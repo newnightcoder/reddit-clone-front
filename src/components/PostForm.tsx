@@ -1,5 +1,5 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Image, Link45deg, XLg } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -12,7 +12,7 @@ import {
   toggleEditModalAction,
 } from "../store/actions/posts.action";
 import { breakpoint } from "../utils/breakpoints";
-import { history, isObjectEmpty } from "../utils/helpers";
+import { fromCDN, history, isObjectEmpty } from "../utils/helpers";
 import { useLanguage, useWindowSize } from "../utils/hooks";
 import LinkPreview from "./LinkPreview";
 import { FormProps } from "./react-app-env";
@@ -54,6 +54,7 @@ const PostForm = ({
   const userLanguage = useLanguage();
   const createPage = pathname === "/create";
   const commentPage = pathname.includes("comments");
+  const [titleInputValue, setTitleInputValue] = useState("");
 
   const handleCancelBtn = useCallback(() => {
     if (createPage) {
@@ -71,7 +72,7 @@ const PostForm = ({
 
   const handleImgPost = useCallback(() => {
     if (editId.type === "comment" || editId.type === "reply") return setImgDom!(null);
-    const postImg = <img id="postImg" src={tempPostImg} alt="" className="h-max rounded max-h-[500px]" />;
+    const postImg = <img id="postImg" src={fromCDN(tempPostImg)} alt="" className="h-max rounded max-h-[500px]" />;
     if (tempPostImg?.length !== 0) return setImgDom!(postImg);
     if (previewLoading) return setImgDom!(<PreviewLoader />);
     if (!isObjectEmpty(scrapedPost)) return setImgDom!(<LinkPreview linkPreview={scrapedPost} />);
@@ -89,6 +90,10 @@ const PostForm = ({
     },
     [editId.type, handleEditText, handleEditCommentText, handlePostInput]
   );
+
+  // useEffect(() => {
+  //   setTitleInputValue();
+  // }, []);
 
   useEffect(() => {
     handleImgPost();
@@ -142,7 +147,7 @@ const PostForm = ({
           id="title"
           placeholder={createPage ? userLanguage.createPost.titlePlaceholder : undefined}
           onChange={editId.type === "post" ? (e) => handleEditTitleInput!(e) : (e) => handleTitleInput!(e)}
-          value={editId.type === "post" ? postTitle : title ? title : ""}
+          value={editId.type === "post" ? (postTitle as string) : (title as string)}
         />
       )}
       <div className="form-container h-full w-full flex flex-col items-center justify-start space-y-6">

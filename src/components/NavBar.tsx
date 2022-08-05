@@ -76,7 +76,7 @@ const NavBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
       >
         <NavLink
           to="/feed"
-          className={`${searchPageMobile ? "w-min ml-4" : "w-36  mr-2"} h-5/6 flex items-center justify-center md:ml-3`}
+          className={`${searchPageMobile ? "w-min ml-4" : "w-36  mr-2"} h-[70%] flex items-center justify-center md:ml-3`}
           style={{
             transform: searchPageMobile ? "translateY(0)" : width < breakpoint.md ? "translateY(-3px)" : "translateY(-5px)",
           }}

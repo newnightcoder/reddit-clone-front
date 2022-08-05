@@ -1,4 +1,3 @@
-import React from "react";
 import { useLanguage } from "../utils/hooks";
 
 const Rules = () => {
@@ -7,7 +6,7 @@ const Rules = () => {
     userLanguage.aside.rules;
 
   return (
-    <div className="h-max w-72 flex flex-col rounded transition-color duration-500 text-gray-900 dark:text-gray-100">
+    <div className="h-max w-full flex flex-col rounded transition-color duration-500 text-gray-900 dark:text-gray-100">
       <div className="header h-24 w-full bg-blue-400 rounded-tl rounded-tr relative border-l border-r border-t border-transparent">
         <span className="w-full text-center absolute bottom-0 mb-2 text-white text-lg font-bold">{rules}</span>
       </div>

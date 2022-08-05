@@ -14,12 +14,17 @@ const Feed = () => {
   const size = useContainerSize(postsContainer);
 
   useEffect(() => {
+    console.log("mounting FeedPage");
+
     dispatch(getPostsAction());
   }, [dispatch]);
 
   return (
     <Layout>
-      <div className="feed-container  lg:border-r lg:border-l lg:border-[#ededed] dark:md:border-gray-900 transition duration-500 md:px-12 h-full w-full flex flex-col items-center justify-start space-y-2 transition-color text-black dark:text-gray-100 duration-500 relative">
+      <div
+        //
+        className="feed-container h-full w-full md:px-4 lg:px-0 transition duration-300 flex flex-col items-center justify-start space-y-2 transition-color text-black dark:text-gray-100 duration-500 relative"
+      >
         <Error />
         <FeedGreetings />
         <div className="w-full h-full flex flex-col items-center justify-center space-y-4">
