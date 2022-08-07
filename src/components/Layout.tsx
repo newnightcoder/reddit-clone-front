@@ -32,7 +32,7 @@ const Layout = ({ children }: { children: JSX.Element }) => {
       <NavBar toggleMenu={toggleMenu} />
       <div className="h-full w-full mt-16 relative flex items-start justify-center transition-colors duration-500 bg-gray-200 dark:bg-black">
         <div
-          className={`h-full w-full 2xl:w-3/4 md:px-16 xl:px-12 grid grid-cols-1 md:grid-cols-layout md:gap-x-12 justify-items-center transition-color duration-500 dark:border-gray-800 relative`}
+          className={`h-full w-full md:w-max 2xl:w-3/4 md:px-16 xl:px-12 grid grid-cols-1 md:grid-cols-layout_lg md:gap-x-12 justify-items-center transition-color duration-500 dark:border-gray-800 relative`}
         >
           <NavBarDesktop toggleSettings={toggleSettings} toggleMenu={toggleMenu} settingsOpen={settingsOpen} />
           <div className={`${createPostPage || editPostPage ? "md:min-w-[500px]" : ""} w-full`}>{children}</div>

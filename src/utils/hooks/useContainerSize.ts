@@ -5,13 +5,13 @@ const useContainerSize = (domElementRef: React.MutableRefObject<HTMLDivElement |
 
   useEffect(() => {
     if (domElementRef.current) {
-      setSize(`${domElementRef?.current?.getBoundingClientRect().width}px`);
+      return setSize(`${domElementRef?.current?.getBoundingClientRect().width}px`);
     }
   }, [domElementRef]);
 
   const resizeDomElement = useCallback(() => {
     setSize(`${domElementRef?.current?.getBoundingClientRect().width}px`);
-  }, [domElementRef, setSize]);
+  }, [domElementRef.current, setSize]);
 
   useEffect(() => {
     window.addEventListener("resize", resizeDomElement);

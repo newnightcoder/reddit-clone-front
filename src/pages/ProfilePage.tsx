@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { createRef, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import {
@@ -44,27 +44,8 @@ const Profile = () => {
   const [dataset2, setDataset2] = useState<IDataSet>({ name: null, data: null });
   const btnFollowRef = useRef<HTMLButtonElement>(null);
   const [btnFollowWidth, setBtnFollowWidth] = useState<number | null>(null);
-
-  const setDataSets = useCallback(() => {
-    setDataset1({
-      name: datasetTypes.post,
-      data: userPosts,
-    });
-    setDataset2({
-      name: datasetTypes.post,
-      data: likedPosts,
-    });
-  }, [userPosts, likedPosts, setDataset1, setDataset2]);
-
-  useEffect(() => {
-    setDataSets();
-  }, [userData, userPosts, likedPosts]);
-
-  useEffect(() => {
-    if (btnFollowRef.current) {
-      setBtnFollowWidth(btnFollowRef.current.getBoundingClientRect().width);
-    }
-  }, [btnFollowRef.current]);
+  const ref = createRef<HTMLDivElement>();
+  const [divFollowersHeight, setDivFollowersHeight] = useState(0);
 
   const getLikedPostArray = useCallback(() => {
     const postsArr: number[] = [];
@@ -83,6 +64,30 @@ const Profile = () => {
     }
     return setLikedPosts(likedPostArr);
   }, [likes, posts, setLikedPosts, profileId]);
+
+  const handleDeleteProfile = useCallback(
+    (profileId) => {
+      if (profileId === id) {
+        dispatch(deleteUserAction(id!));
+        history.push("/fin");
+      } else if (profileId === userData?.id) {
+        dispatch(deleteUserAction(userData?.id!));
+        history.push("/fin");
+      }
+    },
+    [dispatch, id, userData]
+  );
+
+  const setDataSets = useCallback(() => {
+    setDataset1({
+      name: datasetTypes.post,
+      data: userPosts,
+    });
+    setDataset2({
+      name: datasetTypes.post,
+      data: likedPosts,
+    });
+  }, [userPosts, likedPosts, setDataset1, setDataset2]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -104,18 +109,20 @@ const Profile = () => {
     setUpdatedFollowersCount(userData?.followersCount);
   }, [userData]);
 
-  const handleDeleteProfile = useCallback(
-    (profileId) => {
-      if (profileId === id) {
-        dispatch(deleteUserAction(id!));
-        history.push("/fin");
-      } else if (profileId === userData?.id) {
-        dispatch(deleteUserAction(userData?.id!));
-        history.push("/fin");
-      }
-    },
-    [dispatch, id, userData]
-  );
+  useEffect(() => {
+    setDataSets();
+  }, [userData, userPosts, likedPosts]);
+
+  useEffect(() => {
+    if (btnFollowRef.current) {
+      setBtnFollowWidth(btnFollowRef.current.getBoundingClientRect().width);
+    }
+  }, [btnFollowRef.current]);
+
+  useEffect(() => {
+    console.log(ref.current?.getBoundingClientRect());
+    setDivFollowersHeight(ref.current?.getBoundingClientRect().height!);
+  }, [ref.current, leftTabOpen, !leftTabOpen]);
 
   return (
     <>
@@ -124,7 +131,7 @@ const Profile = () => {
       ) : (
         <Layout>
           <div
-            className="page-container relative h-max w-full flex items-start justify-center md:rounded-md text-gray-900 dark:text-gray-100 transition duration-500 lg:border-r lg:border-l lg:border-[#ededed] dark:md:border-gray-900 md:px-12"
+            className="page-container relative h-max w-full flex items-start justify-center md:rounded-md text-gray-900 dark:text-gray-100 transition duration-500 lg:border-r lg:border-l lg:border-[#ededed] dark:md:border-gray-900 md:px-12 pb-4"
             style={{ minHeight: "calc(100vh - 4rem)" }}
           >
             <Error />
@@ -132,8 +139,11 @@ const Profile = () => {
               <Skeleton element="profile" number={1} />
             ) : (
               <div
-                style={{ minHeight: "calc(100vh - 7rem)" }}
-                className={`bg-white relative dark:bg-gray-900 transition duration-500 w-full h-max rounded-md md:mt-8 flex items-start justify-center overflow-x-hidden`}
+                style={{
+                  minHeight: "calc(100vh - 7rem)",
+                  height: followersOpen ? `${divFollowersHeight}px` : "max-content",
+                }}
+                className={`w-full overflow-hidden relative bg-white dark:bg-gray-900 transition duration-500 rounded-md md:mt-8 flex items-start justify-center`}
               >
                 <div
                   className={`w-full h-max transition duration-300 ${
@@ -189,6 +199,7 @@ const Profile = () => {
                   username={userData.username}
                   userId={userData.id}
                   bool={leftTabOpen}
+                  ref={ref}
                 />
               </div>
             )}

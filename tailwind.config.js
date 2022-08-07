@@ -24,7 +24,8 @@ module.exports = {
         "3xs": "362px",
       },
       gridTemplateColumns: {
-        layout: "min-content minmax(240px, 600px) min-content",
+        layout_lg: "min-content minmax(240px, 700px) min-content",
+        layout_xl: "min-content minmax(600px, 900px) min-content",
         login: "70% 30%",
       },
       gridTemplateRows: {

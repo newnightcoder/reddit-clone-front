@@ -21,11 +21,10 @@ const Aside = () => {
   const profilePage = pathname.includes("profile");
 
   useEffect(() => {
-    if ((feedPage || profilePage) && width > breakpoint.md) {
-      dispatch(getRecentUsersAction());
-      dispatch(getModsAction());
-    }
-  }, [dispatch, profilePage, feedPage, width]);
+    if ((feedPage || profilePage) && width < breakpoint.lg) return;
+    dispatch(getRecentUsersAction());
+    dispatch(getModsAction());
+  }, [dispatch, profilePage, feedPage, breakpoint.lg]);
 
   useEffect(() => {
     if (width >= breakpoint.lg) {
@@ -35,7 +34,7 @@ const Aside = () => {
     }
   }, [posts, asideContainerRef, width]);
 
-  if (width < breakpoint.md) {
+  if (width < breakpoint.lg) {
     return null;
   } else
     return (

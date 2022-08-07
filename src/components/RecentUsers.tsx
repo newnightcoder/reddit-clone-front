@@ -5,11 +5,8 @@ import { useLanguage } from "../utils/hooks";
 
 const RecentUsers = () => {
   const { recentUsers: users } = useSelector((state) => state?.user);
-  // const recentUsers = [...users];
-  // const dispatch = useDispatch();
   const { pathname } = useLocation();
   const userLanguage = useLanguage();
-  // const { width } = useWindowSize();
 
   return (
     <div className="w-full h-max flex flex-col rounded transition-color duration-500 bg-white dark:bg-gray-900">

@@ -24,47 +24,67 @@ const ImgUploader = (props: ImgUploaderProps) => {
   const signupPage = pathname === "/signup";
   const createPostPage = pathname === "/create";
   const editModal = editId.id ? true : false;
+  const forPost = createPostPage || editModal;
 
-  const handleImgSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      const maxSize = Math.pow(10, 2);
-      if (createPostPage || editModal) {
-        console.log("submitting for post");
-        const imgBlob = fileInputRef?.current?.files?.[0]!;
-        console.log("file", imgBlob);
-        if (imgBlob.size > maxSize) return dispatch(setErrorPostAction("sizeLimit"));
-        dispatch(savePostImageAction(fileInputRef?.current?.files?.[0]!));
-        props.deletePreview!();
-        fileInputRef.current!.value = "";
-        props.toggleImgUploadModal!();
-        return;
-      }
-      if (profilePage || signupPage) {
-        if (!blob || !id) return;
-        if (blob.size > maxSize) return dispatch(setErrorPostAction("sizeLimit"));
-        dispatch(saveUserPicAction(blob!, id!, props.imgType!));
-        fileInputRef.current!.value = "";
-        dispatch(toggleIsPreviewImgAction());
-        setBlob(null);
-        setBlobName("");
+  const checkFileSize = useCallback(
+    (origin) => {
+      const KILO_OCTET = Math.pow(10, 3);
+      const MEGA_OCTET = Math.pow(10, 6);
+      const MAX_SIZE = 5 * MEGA_OCTET;
+      switch (origin) {
+        case "post":
+          const imgBlob = fileInputRef?.current?.files?.[0]!;
+          console.log(`${origin} - checkFileSize of:`, imgBlob);
+          if (imgBlob.size > MAX_SIZE) {
+            dispatch(setErrorPostAction("sizeLimit"));
+            return false;
+          } else return true;
+        case "profile":
+          console.log(`${origin} - checkFileSize of:`, blob);
+          if (blob!.size > MAX_SIZE) {
+            dispatch(setErrorPostAction("sizeLimit"));
+            return false;
+          } else return true;
+        default:
+          return false;
       }
     },
-    [
-      dispatch,
-      id,
-      blob,
-      setBlob,
-      setBlobName,
-      fileInputRef.current,
-      props.imgType,
-      props.deletePreview,
-      props.toggleImgUploadModal,
-      createPostPage,
-      editModal,
-      signupPage,
-      profilePage,
-    ]
+    [dispatch, fileInputRef.current, blob]
+  );
+
+  const resetUploaderPost = useCallback(() => {
+    props.deletePreview!();
+    fileInputRef.current!.value = "";
+    props.toggleImgUploadModal!();
+  }, [props.deletePreview, props.toggleImgUploadModal, fileInputRef.current]);
+
+  const resetUploaderProfile = useCallback(() => {
+    fileInputRef.current!.value = "";
+    dispatch(toggleIsPreviewImgAction());
+    setBlob(null);
+    setBlobName("");
+  }, [fileInputRef.current, dispatch, setBlob, setBlobName]);
+
+  const handleImgSubmit = useCallback(
+    (e, origin) => {
+      e.preventDefault();
+      if (!checkFileSize(origin)) return;
+      switch (origin) {
+        case "post":
+          if (!fileInputRef?.current?.files?.[0]) return;
+          dispatch(savePostImageAction(fileInputRef.current.files[0]));
+          resetUploaderPost();
+          break;
+        case "profile":
+          if (!blob || !id) return;
+          dispatch(saveUserPicAction(blob, id, props.imgType!));
+          resetUploaderProfile();
+          break;
+        default:
+          return;
+      }
+    },
+    [checkFileSize, dispatch, resetUploaderPost, resetUploaderProfile, id, blob, fileInputRef.current, props.imgType]
   );
 
   const handleChange = useCallback(() => {
@@ -77,15 +97,10 @@ const ImgUploader = (props: ImgUploaderProps) => {
     fileInputRef.current!.value! = "";
   }, [setBlob, setBlobName, fileInputRef, btnModalOpen, toggleBtnModal]);
 
-  const handleImgPost = useCallback(
+  const handleChangePost = useCallback(
     (e) => {
       e.preventDefault();
       form.current!.requestSubmit();
-      // console.log("file sent", fileInputRef?.current?.files?.[0]!);
-      // // setBlob(fileInputRef?.current?.files?.[0]!);
-      // dispatch(savePostImageAction(fileInputRef?.current?.files?.[0]!));
-      // props.deletePreview!();
-      // fileInputRef.current!.value = "";
     },
     [form.current]
   );
@@ -107,7 +122,9 @@ const ImgUploader = (props: ImgUploaderProps) => {
       action=""
       method="POST"
       encType="multipart/form-data"
-      onSubmit={(e) => handleImgSubmit(e)}
+      onSubmit={(e) => {
+        forPost ? handleImgSubmit(e, "post") : handleImgSubmit(e, "profile");
+      }}
       ref={form}
     >
       {signupPage && <span>{userLanguage.imgUploader.chooseBtn}</span>}
@@ -136,7 +153,7 @@ const ImgUploader = (props: ImgUploaderProps) => {
         id={props.imgType}
         name="image"
         ref={fileInputRef}
-        onChange={createPostPage || editModal ? handleImgPost : handleChange}
+        onChange={forPost ? handleChangePost : handleChange}
       />
       {profilePage
         ? null

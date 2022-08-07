@@ -48,8 +48,12 @@ const SearchPage = () => {
 
   return (
     <Layout>
-      <div className="min-h-[calc(100vh-8rem)] md:min-h-[calc(100vh-7rem)] md:mt-8  w-full flex items-start justify-center  border2 border-red-500 lg:border-r lg:border-l lg:border-[#ededed] dark:md:border-gray-900 transition duration-500 md:px-12">
-        <div className="min-h-[calc(100vh-8rem)] md:min-h-[calc(100vh-7rem)] md:rounded-md w-full bg-white dark:bg-gray-900 flex flex-col items-center justify-start space-y-4 text-black dark:text-gray-100 transition duration-500">
+      <div className="min-h-[calc(100vh-8rem)] md:min-h-[calc(100vh-7rem)] md:mt-8  w-full flex items-start justify-center  lg:border-r lg:border-l lg:border-[#ededed] dark:md:border-gray-900 transition duration-500 md:px-12 pb-4">
+        <div
+          className={`min-h-[calc(100vh-8rem)] md:min-h-[calc(100vh-7rem)] md:rounded-md w-full bg-white dark:bg-gray-900 flex flex-col items-center ${
+            isResults ? "justify-start" : "justify-center"
+          } space-y-4 text-black dark:text-gray-100 transition duration-500 pb-4`}
+        >
           <span
             className={`${
               isResults ? "h-20 uppercase flex items-center justify-center" : "italic text-sm pt-4"
