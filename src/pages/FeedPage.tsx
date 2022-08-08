@@ -6,7 +6,7 @@ import { getPostsAction } from "../store/actions/posts.action";
 import { useContainerSize, useLanguage } from "../utils/hooks";
 
 const Feed = () => {
-  const { liked } = useSelector((state) => state.user);
+  const { greetingsAnimationPlayed } = useSelector((state) => state.user);
   const posts = useSelector((state) => state?.posts?.posts);
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
@@ -15,20 +15,20 @@ const Feed = () => {
 
   useEffect(() => {
     console.log("mounting FeedPage");
-
     dispatch(getPostsAction());
   }, [dispatch]);
 
   return (
     <Layout>
-      <div
-        //
-        className="feed-container h-full w-full md:px-4 lg:px-0 transition duration-300 flex flex-col items-center justify-start space-y-2 transition-color text-black dark:text-gray-100 duration-500 relative"
-      >
+      <div className="feed-container h-full w-full md:px-4 lg:px-0 transition duration-300 flex flex-col items-center justify-start space-y-2 transition-color text-black dark:text-gray-100 duration-500 relative">
         <Error />
-        <FeedGreetings />
+        {!greetingsAnimationPlayed && <FeedGreetings />}
         <div className="w-full h-full flex flex-col items-center justify-center space-y-4">
-          <div className="posts-aside-container w-full flex items-start justify-center pt-2 md:space-x-8 -translate-y-6">
+          <div
+            className={`posts-aside-container w-full flex items-start justify-center pt-2 md:space-x-8 ${
+              greetingsAnimationPlayed ? "translate-y-14" : "translate-y-12"
+            }`}
+          >
             <div className="posts-section-container w-full flex flex-col items-center justify-center pb-20 relative">
               <div
                 style={{ width: `${size}` }}

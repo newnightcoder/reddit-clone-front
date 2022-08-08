@@ -100,32 +100,37 @@ const CreatePost = () => {
   return (
     <>
       <Layout>
-        <div className="w-full flex flex-col items-center justify-start pb-32 md:pb-16 pt-20 md:pt-24 lg:border-r lg:border-l lg:border-[#ededed] dark:md:border-gray-900 transition duration-500 md:px-12">
+        <div
+          // lg:border-r lg:border-l lg:border-[#ededed]
+          className="w-full flex flex-col items-center justify-start md:px-4 lg:px-0 pb-32 md:pb-16 pt-20 md:pt-24 dark:md:border-gray-900 transition duration-500"
+        >
           <Error />
           <span className="absolute top-5 md:top-8 mx-auto font-bold text-sm italic text-gray-900 dark:text-blue-400 text-center whitespace-nowrap">
             {userLanguage.createPost.heading1} <br />
             {userLanguage.createPost.heading2}
           </span>
-          <PostForm
-            textRef={textRef}
-            title={title}
-            handleTitleInput={handleTitleInput}
-            postText={postText}
-            handlePostInput={handlePostInput}
-            imgDom={imgDom}
-            setImgDom={setImgDom}
-            handlePostSubmit={handlePostSubmit}
-            toggleImgUploadModal={toggleImgUploadModal}
-            toggleGifModal={toggleGifModal}
-            toggleLinkModal={toggleLinkModal}
-          />
-          <ImgUploadModal
-            imgUploadModalOpen={imgUploadModalOpen}
-            toggleImgUploadModal={toggleImgUploadModal}
-            deletePreview={deletePreview}
-          />
-          <GifModal gifModalOpen={gifModalOpen} toggleGifModal={toggleGifModal} deletePreview={deletePreview} />
-          <PreviewLinkModal linkModalOpen={linkModalOpen} toggleLinkModal={toggleLinkModal} />
+          <div className="relative w-full h-full">
+            <PostForm
+              textRef={textRef}
+              title={title}
+              handleTitleInput={handleTitleInput}
+              postText={postText}
+              handlePostInput={handlePostInput}
+              imgDom={imgDom}
+              setImgDom={setImgDom}
+              handlePostSubmit={handlePostSubmit}
+              toggleImgUploadModal={toggleImgUploadModal}
+              toggleGifModal={toggleGifModal}
+              toggleLinkModal={toggleLinkModal}
+            />
+            <ImgUploadModal
+              imgUploadModalOpen={imgUploadModalOpen}
+              toggleImgUploadModal={toggleImgUploadModal}
+              deletePreview={deletePreview}
+            />
+            <GifModal gifModalOpen={gifModalOpen} toggleGifModal={toggleGifModal} deletePreview={deletePreview} />
+            <PreviewLinkModal linkModalOpen={linkModalOpen} toggleLinkModal={toggleLinkModal} />
+          </div>
         </div>
       </Layout>
     </>

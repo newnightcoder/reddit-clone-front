@@ -41,9 +41,9 @@ const SettingsContainer = (props: SettingsProps) => {
   const rightStyle = landingPage || loginPage || signupPage ? "right-4" : "";
   return (
     <div
-      className={`${props.settingsOpen ? "inline-block" : "hidden"} ${topStyle} ${leftStyle} ${rightStyle} w-52 h-max ${
+      className={`${props.settingsOpen ? "inline-block z-2000" : "hidden"} ${topStyle} ${leftStyle} ${rightStyle} w-52 h-max ${
         props.isMenuOpen ? "relative" : "absolute"
-      } transition duration-500 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-700 py-3 rounded-lg shadow-xl z-[1300]`}
+      } transition duration-500 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-700 py-3 rounded-lg shadow-xl`}
     >
       {props.children}
     </div>

@@ -29,29 +29,6 @@ const BtnFollow = ({ userId, profileId, countSetter, count, container, btnFollow
     [countSetter, count]
   );
 
-  // const checkIsFollowed = useCallback(() => {
-  //   if (container === "profile") {
-  //     setBtnFollowStatusProfile(userFollowers.some((follower) => follower.userId === id));
-  //     console.log(btnFollowStatusProfile);
-  //     return;
-  //   }
-  //   if (container === "followerCard") {
-  //     setBtnFollowStatusFollowerCard(following.some((follow) => follow.userId === userId));
-  //     console.log(btnFollowStatusProfile);
-  //     return;
-  //   }
-  // }, [
-  //   setBtnFollowStatusProfile,
-  //   setBtnFollowStatusFollowerCard,
-  //   statusBtnProfile,
-  //   statusBtnFollowerCard,
-  //   container,
-  //   userFollowers,
-  //   following,
-  //   userId,
-  //   id,
-  // ]);
-
   useEffect(() => {
     setIsMounted(false);
     if (container === "profile") {

@@ -17,10 +17,6 @@ const PostFooter = ({
   const handleLink = useHandleLink();
   const userLanguage = useLanguage();
 
-  // useEffect(() => {
-  //   console.log(postId, like);
-  // }, []);
-
   return (
     <div className="bottom h-9 w-full flex items-center justify-end px-2 pb-2 md:pb-0 md:rounded-bl md:rounded-br transition-color duration-500 bg-white dark:bg-gray-900 md:bg-gray-100 md:dark:bg-[#131316]">
       <div className="icons-container h-full w-max flex items-center justify-end space-x-4 text-xs text-gray-500 dark:text-gray-300 font-bold md:rounded-bl md:rounded-br">

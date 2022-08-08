@@ -100,15 +100,12 @@ const Signup = () => {
             handleNewUserSubmit={handleNewUserSubmit}
           />
         </div>
-        <div className="bottom-section  md:bg-blue-400 md:dark:bg-blue-500 md:bg-featherLight md:dark:bg-featherDark bg-no-repeat bg-center bg-90 h-min md:h-max w-4/5 md:w-full flex items-center justify-start self-end md:self-auto text-center border-t md:border-none border-black dark:border-white py-2 md:py-20">
-          <div className="md:h-full md:max-h-[500px] w-full flex flex-col items-center justify-center space-x-2 md:px-16">
-            <span className="whitespace-nowrap text-gray-900 dark:text-white transition-colors duration-500">
+        <div className="bottom-section relative h-min w-4/5 md:h-full md:w-full md:bg-login bg-no-repeat bg-center bg-cover flex items-center md:items-start justify-center border-t md:border-none border-black dark:border-white py-2 md:py-20">
+          <div className="h-full w-full md:h-[max-content] md:absolute md:top-[39%] flex flex-col items-center justify-center space-x-2 md:px-16">
+            <span className="whitespace-nowrap text-gray-900 dark:text-white md:text-white transition-colors duration-500">
               {userLanguage.signup.already}
             </span>
-            <Link
-              to="/login"
-              className="font-bold underline uppercase  text-black dark:text-white  transition duration-300 hover:text-blue-500"
-            >
+            <Link to="/login" className="font-bold underline uppercase text-blue-500 transition duration-300 hover:text-blue-500">
               {userLanguage.signup.alreadyBtn}
             </Link>
           </div>

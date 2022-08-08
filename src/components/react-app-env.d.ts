@@ -176,6 +176,14 @@ interface ProfileBannerProps {
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+interface ProfileInfoProps {
+  user: IUser;
+  btnFollowWidth: number | null;
+  setIsFollowersClicked: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleFollowers: () => void;
+  updatedFollowersCount: number;
+}
+
 interface ProfileOptionsProps {
   isOpen: boolean;
   toggleProfileOptions: () => void;

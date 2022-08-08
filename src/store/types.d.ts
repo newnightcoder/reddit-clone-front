@@ -142,6 +142,7 @@ interface IUserState {
   usernameAdded: boolean;
   usernameEdited: boolean;
   isNewUser: boolean;
+  greetingsAnimationPlayed: boolean;
   role: string | null;
   currentComment: {
     postId: number | null;

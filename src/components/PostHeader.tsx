@@ -34,7 +34,7 @@ const PostHeader = ({ post }: { post: IPost }) => {
         <div className="username-title-container h-max w-full flex flex-col items-start justify-center">
           <div className="username-date w-full flex items-center justify-between">
             <button
-              className="w-full md:w-[75%] overflow-x-hidden overflow-ellipsis pr-10 outline-none capitalize hover:cursor-pointer hover:underline"
+              className="w-full md:w-[75%] overflow-x-hidden overflow-ellipsis whitespace-nowrap pr-10 outline-none capitalize hover:cursor-pointer hover:underline"
               onClick={() =>
                 handleLink(
                   "post-profile",

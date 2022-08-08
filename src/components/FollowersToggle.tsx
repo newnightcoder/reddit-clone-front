@@ -21,7 +21,7 @@ const FollowersToggle = ({ setIsFollowersClicked, toggleFollowers, user, updated
   }, []);
 
   return (
-    <div className="w-full flex items-center justify-start space-x-2 text-sm translate-x-40 pl-6 mb-4">
+    <div className="w-full flex items-center justify-start space-x-2 text-sm pl-6">
       <button
         className="outline-none"
         onClick={() => {

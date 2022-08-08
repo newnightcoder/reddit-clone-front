@@ -38,7 +38,7 @@ const Aside = () => {
     return null;
   } else
     return (
-      <div className={`hidden lg:block min-w-[14rem] max-w-[18rem] h-full`}>
+      <div className={`hidden lg:block w-[16rem] xl:w-[18rem] h-full`}>
         <div
           ref={asideContainerRef}
           style={{ top: feedPage ? `calc(100vh - ${asideContainerSize?.height}px - 15px)` : "6rem" }}

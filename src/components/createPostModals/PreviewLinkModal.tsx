@@ -23,7 +23,7 @@ const PreviewLinkModal = ({ linkModalOpen, toggleLinkModal }: { linkModalOpen: b
   return (
     <div
       style={{ opacity: linkModalOpen ? 1 : 0, zIndex: linkModalOpen ? 1500 : -1 }}
-      className="fixed w-full md:w-2/3 inset-0 m-auto h-full flex flex-col items-center justify-center space-y-4 bg-black text-white transition-opacity duration-300 overflow-y-auto"
+      className="md:rounded-md fixed md:absolute w-full h-full md:w-[95%] md:h-[95%] inset-0 m-auto flex flex-col items-center justify-center space-y-4 bg-black text-white transition-opacity duration-300 overflow-y-auto"
     >
       <span className="inline-block md:text-sm w-2/3">{userLanguage.previewLinkModal.label}</span>
       <form

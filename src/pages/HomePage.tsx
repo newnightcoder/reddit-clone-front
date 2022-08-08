@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Div100vh from "react-div-100vh";
 import { BtnSettings, DownloadAppSection, Header, HeroImg, HomeButtons, HomeFooter, Settings } from "../components";
 import { persistor } from "../store/storeConfig";
@@ -23,7 +23,7 @@ const Homepage = () => {
             <HomeButtons />
           </div>
         </div>
-        <div className="bottom-section w-full h-max flex flex-col items-center justify-center md:space-y-4 md:pt-4">
+        <div className="bottom-section w-full h-max flex flex-col items-center justify-center md:space-y-2">
           <DownloadAppSection />
           <HomeFooter />
         </div>

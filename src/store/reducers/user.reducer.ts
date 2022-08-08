@@ -23,6 +23,7 @@ const userState: IUserState = {
   usernameAdded: false,
   usernameEdited: false,
   isNewUser: false,
+  greetingsAnimationPlayed: false,
   role: null,
   currentComment: {
     postId: null,
@@ -87,6 +88,12 @@ export const userReducer: Reducer<IUserState, Action> = (state = userState, acti
       return {
         ...state,
         isAuthenticated: true,
+      };
+
+    case actionTypes.GREETINGS_ANIMATION_PLAYED:
+      return {
+        ...state,
+        greetingsAnimationPlayed: true,
       };
 
     case actionTypes.LOGIN_FAIL:

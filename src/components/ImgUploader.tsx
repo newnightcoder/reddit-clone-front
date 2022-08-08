@@ -63,7 +63,7 @@ const ImgUploader = (props: ImgUploaderProps) => {
     dispatch(toggleIsPreviewImgAction());
     setBlob(null);
     setBlobName("");
-  }, [fileInputRef.current, dispatch, setBlob, setBlobName]);
+  }, [fileInputRef.current, dispatch, setBlob, setBlobName, toggleBtnModal]);
 
   const handleImgSubmit = useCallback(
     (e, origin) => {
@@ -117,7 +117,7 @@ const ImgUploader = (props: ImgUploaderProps) => {
   return (
     <form
       className={`${
-        signupPage ? "h-[15rem] w-10/12 pt-2 relative" : profilePage ? "h-max w-full" : "h-full w-full"
+        signupPage ? "h-[15rem] w-10/12 pt-2 relative" : profilePage ? "h-max w-full" : "h-max w-full"
       } flex flex-col items-center justify-start`}
       action=""
       method="POST"
@@ -155,7 +155,7 @@ const ImgUploader = (props: ImgUploaderProps) => {
         ref={fileInputRef}
         onChange={forPost ? handleChangePost : handleChange}
       />
-      {profilePage
+      {profilePage || createPostPage || editModal
         ? null
         : blobName || imgUrl
         ? blobName

@@ -42,80 +42,10 @@ const EditPostModal = () => {
   const { pathname } = useLocation();
   const { width } = useWindowSize();
   const profilePage = pathname.includes("profile");
-
   const toggleImgUploadModal = useToggle(imgUploadModalOpen, setImgUploadModalOpen);
   const toggleGifModal = useToggle(gifModalOpen, setGifModalOpen);
   const toggleLinkModal = useToggle(linkModalOpen, setLinkModalOpen);
-
-  useEffect(() => {
-    return () => {
-      dispatch(clearEditIdAction());
-      dispatch(clearTempPreviewAction());
-      dispatch(clearTempPostImgAction());
-      dispatch(clearErrorPostAction());
-      dispatch(clearErrorUserAction());
-    };
-  }, [dispatch]);
-
-  const setText = useCallback(() => {
-    if (!editId.type) return;
-    let text = "";
-    switch (editId.type) {
-      case "post":
-        setPostTitle(postToEdit.title);
-        setEditText(postToEdit.text ? postToEdit.text : "");
-        break;
-      case "comment":
-        const comment = comments.filter((comment) => comment.commentId === editId.id)[0];
-        text = comment.text;
-        setEditText(text);
-        break;
-      case "reply": {
-        let reply: IReply;
-        for (let i = 0; i < comments.length; i++) {
-          if (comments[i].replies?.find((reply) => reply.replyId === editId.id)) {
-            reply = comments[i]!.replies!.filter((repl) => repl.replyId === editId.id)[0];
-            break;
-          }
-        }
-        text = reply!.text;
-        setEditText(text);
-        break;
-      }
-      default:
-        return setEditText(text.replace(/<br>/g, "\n"));
-    }
-  }, [editId.id, editId.type, comments, posts, setPostTitle, setEditText]); // replies
-
-  const dispatchEditImg = useCallback(() => {
-    if (editId.type === "comment" || editId.type === "reply") return;
-    if (editId.type === "post") {
-      if (postToEdit?.imgUrl!.length > 0) return dispatch(saveImageToEditAction(postToEdit.imgUrl!));
-      if (postToEdit?.isPreview) {
-        const postToEditPreview: ScrapedPost = {
-          title: postToEdit?.preview?.title,
-          image: postToEdit.preview?.image,
-          text: postToEdit.preview?.text,
-          publisher: postToEdit.preview?.publisher,
-          logo: postToEdit.preview?.logo,
-          url: postToEdit.preview?.url,
-        };
-        return dispatch(setPreviewDataAction(postToEditPreview));
-      }
-    }
-  }, [dispatch, editId.type, postToEdit?.imgUrl, postToEdit?.isPreview, postToEdit?.preview]);
-
-  useEffect(() => {
-    setText();
-  }, [editId.id, editId.type]);
-
-  useEffect(() => {
-    dispatchEditImg();
-  }, [editId.id, postToEdit?.imgUrl, postToEdit?.isPreview]);
-
-  useEffect(() => {
-    if (!isObjectEmpty(preview)) setIsPreview(true);
-  }, [preview]);
+  const root = window.document.documentElement;
 
   const handleDeletePreview = useCallback(() => {
     setImgDom(null);
@@ -202,14 +132,93 @@ const EditPostModal = () => {
     [error, dispatch, editId.id, editId.type, editText]
   );
 
+  const setText = useCallback(() => {
+    if (!editId.type) return;
+    let text = "";
+    switch (editId.type) {
+      case "post":
+        setPostTitle(postToEdit.title);
+        setEditText(postToEdit.text ? postToEdit.text : "");
+        break;
+      case "comment":
+        const comment = comments.filter((comment) => comment.commentId === editId.id)[0];
+        text = comment.text;
+        setEditText(text);
+        break;
+      case "reply": {
+        let reply: IReply;
+        for (let i = 0; i < comments.length; i++) {
+          if (comments[i].replies?.find((reply) => reply.replyId === editId.id)) {
+            reply = comments[i]!.replies!.filter((repl) => repl.replyId === editId.id)[0];
+            break;
+          }
+        }
+        text = reply!.text;
+        setEditText(text);
+        break;
+      }
+      default:
+        return setEditText(text.replace(/<br>/g, "\n"));
+    }
+  }, [editId.id, editId.type, comments, posts, setPostTitle, setEditText]); // replies
+
+  const dispatchEditImg = useCallback(() => {
+    if (editId.type === "comment" || editId.type === "reply") return;
+    if (editId.type === "post") {
+      if (postToEdit?.imgUrl!.length > 0) return dispatch(saveImageToEditAction(postToEdit.imgUrl!));
+      if (postToEdit?.isPreview) {
+        const postToEditPreview: ScrapedPost = {
+          title: postToEdit?.preview?.title,
+          image: postToEdit.preview?.image,
+          text: postToEdit.preview?.text,
+          publisher: postToEdit.preview?.publisher,
+          logo: postToEdit.preview?.logo,
+          url: postToEdit.preview?.url,
+        };
+        return dispatch(setPreviewDataAction(postToEditPreview));
+      }
+    }
+  }, [dispatch, editId.type, postToEdit?.imgUrl, postToEdit?.isPreview, postToEdit?.preview]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearEditIdAction());
+      dispatch(clearTempPreviewAction());
+      dispatch(clearTempPostImgAction());
+      dispatch(clearErrorPostAction());
+      dispatch(clearErrorUserAction());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    setText();
+  }, [editId.id, editId.type]);
+
+  useEffect(() => {
+    dispatchEditImg();
+  }, [editId.id, postToEdit?.imgUrl, postToEdit?.isPreview]);
+
+  useEffect(() => {
+    if (editModalOpen) {
+      root.classList.add("removeScroll");
+    }
+    return () => {
+      root.classList.remove("removeScroll");
+    };
+  }, [editModalOpen]);
+
+  useEffect(() => {
+    if (!isObjectEmpty(preview)) setIsPreview(true);
+  }, [preview]);
+
   return (
     <div
-      className={`min-h-screen h-max overflow-y-auto fixed inset-0 bg-black/60 flex items-start justify-center pt-28 pb-24 transition duration-300 ${
+      className={`min-h-screen h-max overflow-y-auto fixed inset-0 bg-black/60 flex items-start justify-center transition duration-300 ${
         editModalOpen ? "opacity-100 z-[1000]" : "opacity-0 z-[-1]"
       }`}
     >
       <Error />
-      <div className={`${width > breakpoint.md ? "max-w-[600px]" : ""} w-full`}>
+      <div className={`${width > breakpoint.md ? "max-w-[600px]" : ""} w-full relative`}>
         <PostForm
           postToEdit={postToEdit}
           postTitle={postTitle}
@@ -227,14 +236,14 @@ const EditPostModal = () => {
           toggleLinkModal={toggleLinkModal}
           toggleImgUploadModal={toggleImgUploadModal}
         />
+        <ImgUploadModal
+          imgUploadModalOpen={imgUploadModalOpen}
+          toggleImgUploadModal={toggleImgUploadModal}
+          deletePreview={handleDeletePreview}
+        />
+        <GifModal gifModalOpen={gifModalOpen} toggleGifModal={toggleGifModal} deletePreview={handleDeletePreview} />
+        <PreviewLinkModal linkModalOpen={linkModalOpen} toggleLinkModal={toggleLinkModal} />
       </div>
-      <ImgUploadModal
-        imgUploadModalOpen={imgUploadModalOpen}
-        toggleImgUploadModal={toggleImgUploadModal}
-        deletePreview={handleDeletePreview}
-      />
-      <GifModal gifModalOpen={gifModalOpen} toggleGifModal={toggleGifModal} deletePreview={handleDeletePreview} />
-      <PreviewLinkModal linkModalOpen={linkModalOpen} toggleLinkModal={toggleLinkModal} />
     </div>
   );
 };

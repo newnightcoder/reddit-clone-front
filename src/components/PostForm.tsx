@@ -91,10 +91,6 @@ const PostForm = ({
     [editId.type, handleEditText, handleEditCommentText, handlePostInput]
   );
 
-  // useEffect(() => {
-  //   setTitleInputValue();
-  // }, []);
-
   useEffect(() => {
     handleImgPost();
   }, [editId.type, tempPostImg, postToEdit, scrapedPost, previewLoading]);

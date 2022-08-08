@@ -3,10 +3,6 @@ const colors = require("tailwindcss/colors");
 module.exports = {
   mode: "jit",
   purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/**/*.html"],
-  // content: [
-  //   // ...
-  //   "./src/**/*.{js,ts,jsx,tsx}",
-  // ],
   darkMode: "class", // or 'media' or 'class'
   theme: {
     extend: {
@@ -26,7 +22,7 @@ module.exports = {
       gridTemplateColumns: {
         layout_lg: "min-content minmax(240px, 700px) min-content",
         layout_xl: "min-content minmax(600px, 900px) min-content",
-        login: "70% 30%",
+        login: "65% 35%",
       },
       gridTemplateRows: {
         homepage: "1fr 5rem",
@@ -60,10 +56,16 @@ module.exports = {
         featherBlue: "url('/src/assets/feather-blue.svg')",
         byebye: "url('/src/assets/bye.gif')",
         expired: "url('/src/assets/expired.gif')",
+        login: "url('/src/assets/test3.png')",
       },
       backgroundSize: {
         90: "110%",
         10: "10%",
+      },
+      zIndex: {
+        1000: "1000",
+        2000: "2000",
+        3000: "3000",
       },
     },
   },

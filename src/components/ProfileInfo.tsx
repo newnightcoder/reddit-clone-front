@@ -1,10 +1,17 @@
 import { useSelector } from "react-redux";
 import { logo_mobile_blue } from "../assets";
-import { IUser } from "../store/types";
 import { formatTimestamp } from "../utils/helpers/formatTime";
 import { useLanguage } from "../utils/hooks";
+import FollowersToggle from "./FollowersToggle";
+import { ProfileInfoProps } from "./react-app-env";
 
-const ProfileInfo = ({ user, btnFollowWidth }: { user: IUser; btnFollowWidth: number | null }) => {
+const ProfileInfo = ({
+  user,
+  // btnFollowWidth,
+  setIsFollowersClicked,
+  toggleFollowers,
+  updatedFollowersCount,
+}: ProfileInfoProps) => {
   const {
     id,
     username,
@@ -15,10 +22,10 @@ const ProfileInfo = ({ user, btnFollowWidth }: { user: IUser; btnFollowWidth: nu
   const userLanguage = useLanguage();
 
   return (
-    <div className="username-member mb-2  relative h-max w-full self-start transform flex flex-col items-start justify-start">
+    <div className="md:pl-6 username-member relative h-24 w-full self-start transform flex flex-col items-start justify-start mb-4">
       <span
-        style={{ width: `calc(100% - 11rem - ${btnFollowWidth}px)` }}
-        className="translate-x-40 text-xl font-bold capitalize overflow-x-hidden overflow-ellipsis pl-1 pr-4"
+        // style={{ width: `calc(100% - 11rem - ${btnFollowWidth}px)` }}
+        className="h-max w-full py-1 pl-6 flex items-center justify-start text-xl font-bold capitalize overflow-x-hidden overflow-ellipsis whitespace-nowrap pl-1 pr-4"
       >
         {id === profileId && username
           ? username
@@ -28,8 +35,9 @@ const ProfileInfo = ({ user, btnFollowWidth }: { user: IUser; btnFollowWidth: nu
           ? user.username
           : "Noname"}
       </span>
-      <div className="italic text-sm flex items-center justify-center space-x-1 transform translate-x-40 mt-1">
-        <img src={logo_mobile_blue} className="h-6" alt="forum logo" />
+
+      <div className="italic text-xs md:text-sm flex items-center justify-center transform py-1 pl-6">
+        <img src={logo_mobile_blue} className="h-5 -translate-y-1 " alt="forum logo" />
         <span>{userLanguage.menu.member}</span>
         <span>
           {user?.creationDate
@@ -39,6 +47,12 @@ const ProfileInfo = ({ user, btnFollowWidth }: { user: IUser; btnFollowWidth: nu
             : null}
         </span>
       </div>
+      <FollowersToggle
+        user={user}
+        setIsFollowersClicked={setIsFollowersClicked}
+        toggleFollowers={toggleFollowers}
+        updatedFollowersCount={updatedFollowersCount!}
+      />
     </div>
   );
 };

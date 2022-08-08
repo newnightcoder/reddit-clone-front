@@ -1,18 +1,7 @@
 import { createRef, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import {
-  BtnFollow,
-  DeleteModal,
-  Error,
-  Followers,
-  FollowersToggle,
-  Layout,
-  ProfileBanner,
-  ProfileInfo,
-  Skeleton,
-  ToggleDiv,
-} from "../components";
+import { BtnFollow, DeleteModal, Error, Followers, Layout, ProfileBanner, ProfileInfo, Skeleton, ToggleDiv } from "../components";
 import { datasetTypes } from "../components/dataForToggleDiv";
 import { IDataSet } from "../components/react-app-env";
 import { getUserPostsAction } from "../store/actions/posts.action";
@@ -131,7 +120,7 @@ const Profile = () => {
       ) : (
         <Layout>
           <div
-            className="page-container relative h-max w-full flex items-start justify-center md:rounded-md text-gray-900 dark:text-gray-100 transition duration-500 lg:border-r lg:border-l lg:border-[#ededed] dark:md:border-gray-900 md:px-12 pb-4"
+            className="page-container relative h-max w-full flex items-start justify-center md:rounded-md text-gray-900 dark:text-gray-100 transition duration-500 dark:md:border-gray-900 md:px-4 lg:px-0 pb-4"
             style={{ minHeight: "calc(100vh - 4rem)" }}
           >
             <Error />
@@ -167,13 +156,14 @@ const Profile = () => {
                       btnFollowRef={btnFollowRef}
                     />
                   )}
-                  <ProfileInfo user={userData} btnFollowWidth={btnFollowWidth} />
-                  <FollowersToggle
+                  <ProfileInfo
                     user={userData}
+                    btnFollowWidth={btnFollowWidth}
                     setIsFollowersClicked={setIsFollowersClicked}
                     toggleFollowers={toggleFollowers}
                     updatedFollowersCount={updatedFollowersCount!}
                   />
+
                   {openModal && (
                     <DeleteModal
                       toggleDeleteModal={toggleDeleteModal}

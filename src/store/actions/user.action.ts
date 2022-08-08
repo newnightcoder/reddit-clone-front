@@ -44,6 +44,10 @@ export const logUserAction =
     }
   };
 
+export const playGreetingsAnimationAction = () => (dispatch: Dispatch<basicAction>) => {
+  dispatch({ type: actionTypes.GREETINGS_ANIMATION_PLAYED });
+};
+
 export const createUserAction =
   (email: string, password: string, date: string) => async (dispatch: ThunkDispatch<IUserState, any, Action | basicAction>) => {
     dispatch(clearErrorUserAction());

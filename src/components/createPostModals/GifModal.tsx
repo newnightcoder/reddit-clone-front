@@ -13,22 +13,25 @@ const GifModal = (props: IGifModalProps) => {
   const createPostPage = pathname.includes("create");
   const editPostModal = editId.type === "post";
 
-  if (!(createPostPage || editPostModal)) {
-    return null;
-  } else
-    return (
-      <div
-        style={{ opacity: props.gifModalOpen ? 1 : 0, zIndex: props.gifModalOpen ? 2000 : -1 }}
-        className="fixed w-full md:w-2/3 h-full top-0 inset-0 mx-auto flex flex-col items-center justify-center space-y-2 bg-black text-white transition-opacity duration-300"
-      >
-        <SearchContextManager
-          apiKey={process.env.REACT_APP_GIPHY_API_KEY as string}
-          theme={{ mode: "dark", smallSearchbarHeight: 35 }}
+  return (
+    <>
+      {createPostPage || editPostModal ? (
+        <div
+          style={{ opacity: props.gifModalOpen ? 1 : 0, zIndex: props.gifModalOpen ? 1001 : -1 }}
+          className="md:rounded-md fixed md:absolute w-full h-full inset-0 m-auto flex flex-col items-center justify-center space-y-2 bg-black text-white transition-opacity duration-300"
         >
-          <GiphyPicker {...props} />
-        </SearchContextManager>
-      </div>
-    );
+          <SearchContextManager
+            apiKey={process.env.REACT_APP_GIPHY_API_KEY as string}
+            theme={{ mode: "dark", smallSearchbarHeight: 35 }}
+          >
+            <GiphyPicker {...props} />
+          </SearchContextManager>
+        </div>
+      ) : (
+        <div></div>
+      )}
+    </>
+  );
 };
 
 const GiphyPicker = (props: IGifModalProps) => {

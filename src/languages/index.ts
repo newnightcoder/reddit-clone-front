@@ -140,7 +140,7 @@ const language = {
       },
     },
     feed: {
-      greetingVisitorMode: "Welcome to Forum - Take a look around",
+      greetingVisitorMode: "Welcome to Forum - Take a look around!",
       greetingVisitorLine1: "Welcome to Forum",
       greetingVisitorLine2: "Share and discuss with the community.",
       greetingUser: "Happy to see you again",
@@ -680,7 +680,7 @@ const language = {
       },
     },
     feed: {
-      greetingVisitorMode: "Wilkommen auf Forum!\nViel Spaß bei den Rundgang",
+      greetingVisitorMode: "Wilkommen auf Forum!\nViel Spaß bei den Rundgang!",
       greetingVisitorLine1: "Wilkommen auf Forum",
       greetingVisitorLine2: "Teile und diskutiere mit der Community",
       greetingUser: "Schön dich wiederzusehen",
