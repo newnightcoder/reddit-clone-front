@@ -16,9 +16,9 @@ const BtnSettings = (props: SettingsProps) => {
         } transition-color duration-500 ${props.settingsOpen ? "animate-iconOff" : "animate-iconOn"}`}
       />
       <XIcon
-        className={`h-7 absolute m-auto text-gray-900 dark:text-gray-100 transition-color duration-500 ${
-          props.settingsOpen ? "animate-iconOn" : "animate-iconOff"
-        }`}
+        className={`h-7 absolute m-auto z-10 ${
+          isIntroScreens ? "text-white" : "text-gray-900  dark:text-gray-100"
+        } transition-color duration-500 ${props.settingsOpen ? "animate-iconOn" : "animate-iconOff"}`}
       />
     </button>
   );

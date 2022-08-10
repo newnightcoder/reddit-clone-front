@@ -86,6 +86,5 @@ input[type="search"]::-webkit-search-results-decoration {
 @keyframes disappear {
   100% {
     transform: translateY(-200%);
-    display: none;
   }
 }

@@ -47,11 +47,11 @@ const EditPostModal = () => {
   const toggleLinkModal = useToggle(linkModalOpen, setLinkModalOpen);
   const root = window.document.documentElement;
 
-  const handleDeletePreview = useCallback(() => {
-    setImgDom(null);
+  const deletePostPreview = useCallback(() => {
+    // setImgDom(null);
     setIsPreview(false);
     dispatch(clearTempPreviewAction());
-  }, [dispatch, setImgDom, setIsPreview]);
+  }, [dispatch, setIsPreview]);
 
   const handleEditTitleInput = useCallback(
     (e) => {
@@ -226,7 +226,7 @@ const EditPostModal = () => {
           imgDom={imgDom}
           setImgDom={setImgDom}
           setIsPreview={setIsPreview}
-          deletePreview={handleDeletePreview}
+          deletePostPreview={deletePostPreview}
           handleEditTitleInput={handleEditTitleInput}
           handleEditText={handleEditText}
           handleEditCommentText={handleEditCommentText}
@@ -239,9 +239,9 @@ const EditPostModal = () => {
         <ImgUploadModal
           imgUploadModalOpen={imgUploadModalOpen}
           toggleImgUploadModal={toggleImgUploadModal}
-          deletePreview={handleDeletePreview}
+          deletePostPreview={deletePostPreview}
         />
-        <GifModal gifModalOpen={gifModalOpen} toggleGifModal={toggleGifModal} deletePreview={handleDeletePreview} />
+        <GifModal gifModalOpen={gifModalOpen} toggleGifModal={toggleGifModal} deletePostPreview={deletePostPreview} />
         <PreviewLinkModal linkModalOpen={linkModalOpen} toggleLinkModal={toggleLinkModal} />
       </div>
     </div>

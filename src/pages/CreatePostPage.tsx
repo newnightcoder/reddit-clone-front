@@ -34,7 +34,7 @@ const CreatePost = () => {
   const toggleLinkModal = useToggle(linkModalOpen, setLinkModalOpen);
   const creationDate = createDate();
 
-  const deletePreview = useCallback(() => {
+  const deletePostPreview = useCallback(() => {
     setIsPreview(false);
     dispatch(clearTempPreviewAction());
   }, [dispatch, setIsPreview]);
@@ -122,13 +122,14 @@ const CreatePost = () => {
               toggleImgUploadModal={toggleImgUploadModal}
               toggleGifModal={toggleGifModal}
               toggleLinkModal={toggleLinkModal}
+              deletePostPreview={deletePostPreview}
             />
             <ImgUploadModal
               imgUploadModalOpen={imgUploadModalOpen}
               toggleImgUploadModal={toggleImgUploadModal}
-              deletePreview={deletePreview}
+              deletePostPreview={deletePostPreview}
             />
-            <GifModal gifModalOpen={gifModalOpen} toggleGifModal={toggleGifModal} deletePreview={deletePreview} />
+            <GifModal gifModalOpen={gifModalOpen} toggleGifModal={toggleGifModal} deletePostPreview={deletePostPreview} />
             <PreviewLinkModal linkModalOpen={linkModalOpen} toggleLinkModal={toggleLinkModal} />
           </div>
         </div>

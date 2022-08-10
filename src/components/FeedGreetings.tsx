@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { CheckCircleFill } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { playGreetingsAnimationAction } from "../store/actions/user.action";
@@ -10,14 +10,27 @@ const FeedGreetings = () => {
   const dispatch = useDispatch();
   const ref = useRef<HTMLDivElement>(null);
 
+  const animateGreeting = useCallback(() => {
+    const addClass = () => {
+      if (ref.current) return ref.current.classList.add("disappear");
+    };
+    return new Promise((resolve) =>
+      setTimeout(() => {
+        resolve(addClass());
+      }, 2500)
+    );
+  }, [dispatch, ref.current]);
+
   useEffect(() => {
-    setTimeout(() => {
-      if (ref.current) {
-        ref.current.classList.add("disappear");
-      }
-      dispatch(playGreetingsAnimationAction());
-    }, 2500);
-  }, [dispatch]);
+    const animate = () => {
+      animateGreeting().then(() => {
+        setTimeout(() => {
+          dispatch(playGreetingsAnimationAction());
+        }, 2500);
+      });
+    };
+    animate();
+  }, []);
 
   return (
     <div

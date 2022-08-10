@@ -184,7 +184,7 @@ export const getPreviewDataAction =
         return;
       }
       dispatch({ type: actionTypes.GET_PREVIEW_DATA, payload: article });
-      dispatch({ type: actionTypes.SET_PREVIEW_LOADER, payload: false });
+      dispatch(setPreviewLoaderAction(false));
     } catch (err) {
       dispatch(setErrorPostAction("backend"));
       dispatch(setPreviewLoaderAction(false));

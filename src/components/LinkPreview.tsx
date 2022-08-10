@@ -25,6 +25,16 @@ const LinkPreview = ({ linkPreview, aside }: LinkPreviewProps) => {
   const [logoError, setLogoError] = useState(false);
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
+  const publisherName =
+    publisher && publisher.includes("logo")
+      ? publisher.replace(/logo/gi, "")
+      : previewPub && previewPub.includes("logo")
+      ? previewPub.replace(/logo/gi, "")
+      : publisher
+      ? publisher
+      : previewPub
+      ? previewPub
+      : !publisher && !previewPub && userLanguage.preview.linkArticle;
 
   useEffect(() => {
     setImgUrl(initialImg);
@@ -77,12 +87,7 @@ const LinkPreview = ({ linkPreview, aside }: LinkPreviewProps) => {
           rel="noreferrer"
           className="w-3/4 flex items-center justify-start space-x-1 cursor-pointer hover:underline"
         >
-          <LinkIcon size={18} style={{ transform: "translateY(-0.03rem)" }} />{" "}
-          <span>
-            {publisher && publisher.includes("logo") ? publisher.replace(/logo/gi, "") : publisher}
-            {previewPub && previewPub.includes("logo") ? previewPub.replace(/logo/gi, "") : previewPub}
-            {!publisher && !previewPub && userLanguage.preview.linkArticle}
-          </span>
+          <LinkIcon size={18} style={{ transform: "translateY(-0.03rem)" }} /> <div> {publisherName} </div>
         </a>
         {logo && !logoError ? (
           <a href={url ? url : previewUrl && previewUrl} target="_blank" rel="noreferrer" className="h-6 w-6 cursor-pointer">

@@ -40,7 +40,8 @@ const PostForm = ({
   editText,
   imgDom,
   setImgDom,
-  deletePreview,
+  deletePostPreview,
+  // deleteEditPreview,
   handleEditPostSubmit,
   handleEditCommentSubmit,
   handleEditTitleInput,
@@ -73,7 +74,7 @@ const PostForm = ({
   const handleImgPost = useCallback(() => {
     if (editId.type === "comment" || editId.type === "reply") return setImgDom!(null);
     const postImg = <img id="postImg" src={fromCDN(tempPostImg)} alt="" className="h-max rounded max-h-[500px]" />;
-    if (tempPostImg?.length !== 0) return setImgDom!(postImg);
+    if (tempPostImg?.length > 0) return setImgDom!(postImg);
     if (previewLoading) return setImgDom!(<PreviewLoader />);
     if (!isObjectEmpty(scrapedPost)) return setImgDom!(<LinkPreview linkPreview={scrapedPost} />);
     return setImgDom!(null);
@@ -120,13 +121,11 @@ const PostForm = ({
         {tempPostImg || !isObjectEmpty(scrapedPost) || postToEdit?.isPreview ? (
           <button
             type="button"
-            onClick={
-              tempPostImg
-                ? () => dispatch(clearTempPostImgAction())
+            onClick={() =>
+              tempPostImg.length > 0
+                ? dispatch(clearTempPostImgAction())
                 : !isObjectEmpty(scrapedPost)
-                ? () => dispatch(clearTempPreviewAction())
-                : postToEdit?.isPreview
-                ? () => deletePreview!()
+                ? deletePostPreview!()
                 : undefined
             }
             className="h-8 w-max rounded-full px-2  border whitespace-wrap text-xs text-gray-500 dark:text-gray-200 flex items-center justify-end text-right"

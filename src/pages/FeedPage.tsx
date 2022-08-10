@@ -14,7 +14,6 @@ const Feed = () => {
   const size = useContainerSize(postsContainer);
 
   useEffect(() => {
-    console.log("mounting FeedPage");
     dispatch(getPostsAction());
   }, [dispatch]);
 

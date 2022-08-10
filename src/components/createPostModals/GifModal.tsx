@@ -72,7 +72,7 @@ const GiphyPicker = (props: IGifModalProps) => {
           hideAttribution={true}
           onGifClick={(gif, e) => {
             dispatch(saveGifUrlAction(gif.images.downsized.url));
-            props.deletePreview();
+            props.deletePostPreview!();
             props.toggleGifModal(e);
           }}
         />

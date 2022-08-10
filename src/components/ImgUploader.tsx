@@ -53,10 +53,10 @@ const ImgUploader = (props: ImgUploaderProps) => {
   );
 
   const resetUploaderPost = useCallback(() => {
-    props.deletePreview!();
+    props.deletePostPreview!();
     fileInputRef.current!.value = "";
     props.toggleImgUploadModal!();
-  }, [props.deletePreview, props.toggleImgUploadModal, fileInputRef.current]);
+  }, [props.deletePostPreview, props.toggleImgUploadModal, fileInputRef.current]);
 
   const resetUploaderProfile = useCallback(() => {
     fileInputRef.current!.value = "";

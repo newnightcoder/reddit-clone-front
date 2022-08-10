@@ -4,7 +4,7 @@ import { IFollower, IPost, IUser, ScrapedPost } from "../store/types";
 interface IGifModalProps {
   gifModalOpen: boolean;
   toggleGifModal: (e) => void;
-  deletePreview: () => void;
+  deletePostPreview: () => void;
 }
 
 interface ImgUploaderProps {
@@ -12,7 +12,7 @@ interface ImgUploaderProps {
   imgType?: string;
   imgUploadModalOpen?: boolean;
   toggleImgUploadModal?: () => void;
-  deletePreview?: () => void;
+  deletePostPreview?: () => void;
 }
 
 interface BtnModalProps {
@@ -86,7 +86,7 @@ interface FormProps {
   imgDom?: JSX.Element | null;
   setIsPreview?: React.Dispatch<React.SetStateAction<boolean>>;
   setImgDom?: React.Dispatch<React.SetStateAction<JSX.Element | null>>;
-  deletePreview?: () => void;
+  deletePostPreview: () => void;
   handleEditPostSubmit?: FormEventHandler;
   handleEditCommentSubmit?: FormEventHandler;
   handleEditTitleInput?: ChangeEventHandler;
