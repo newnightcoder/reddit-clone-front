@@ -83,7 +83,7 @@ const ImgUploaderBtnModal = ({
   return (
     <div
       className={`${btnModalOpen ? "flex z-[100]" : "hidden -z-10"}  ${
-        signupPage ? "w-max bg-gray-200 dark:bg-gray-700 px-4" : " w-full px-2 bg-black"
+        signupPage ? "w-[12rem] bg-gray-200 dark:bg-gray-700 px-4" : " w-full px-2 bg-black"
       } absolute inset-0 mx-auto h-full flex-col items-center justify-center  space-y-2 pb-2`}
     >
       <button
@@ -91,7 +91,7 @@ const ImgUploaderBtnModal = ({
         onClick={toggleBtnModal}
         className={`h-max absolute top-2 right-2 flex items-center justify-center outline-none`}
       >
-        <XIcon className="h-5 text-white" />
+        <XIcon className="h-5 text-black dark:text-white" />
       </button>
       <span
         className={`${

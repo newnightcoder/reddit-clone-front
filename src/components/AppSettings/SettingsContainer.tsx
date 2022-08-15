@@ -28,10 +28,10 @@ const SettingsContainer = (props: SettingsProps) => {
       ? "left-auto"
       : props.isMenuOpen
       ? "left-0"
-      : width < breakpoint.xxs
+      : width < breakpoint.sm
       ? "right-1"
       : width < breakpoint.md
-      ? "left-1/2"
+      ? "left-1/2 translate-x-1/2"
       : width < breakpoint.xl
       ? "left-16"
       : width >= breakpoint.xl

@@ -133,10 +133,8 @@ export const deletePostAction =
     dispatch(clearErrorPostAction());
     try {
       const { msg, error, sessionExpired } = await deletePost(postId, origin, postIdComment);
-      console.log(msg);
       if (sessionExpired) return dispatch(setSessionExpiredAction(sessionExpired));
       if (error) return dispatch(setErrorPostAction(error));
-      console.log("post id deleted", postId);
       dispatch({ type: actionTypes.DELETE_POST, payload: { postId, origin, postIdComment } });
     } catch (err) {
       dispatch(setErrorPostAction("backend"));

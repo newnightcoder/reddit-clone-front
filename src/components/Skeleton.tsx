@@ -1,4 +1,3 @@
-import React from "react";
 import { SkeletonProps } from "./react-app-env";
 
 const PostSkeleton = ({ aside }: { aside: boolean }) => {
@@ -35,7 +34,7 @@ const PostSkeleton = ({ aside }: { aside: boolean }) => {
 
 const UserCardSkeleton = ({ mod }: { mod: boolean }) => {
   return (
-    <div className="w-72 h-24 lg:flex flex-col items-center justify-start gap-2 animate-pulse px-3 py-2">
+    <div className="w-[16rem] xl:w-[18rem] h-24 lg:flex flex-col items-center justify-start gap-2 animate-pulse px-3 py-2">
       <div className="w-full flex gap-2 items-center justify-start hover:underline hover:font-bold">
         <div className="h-14 w-14 rounded-full flex items-center justify-center border-2 border-blue-400 p-1 hover:border-red-400 transition duration-300">
           <div className="h-11 w-11 rounded-full bg-gray-300"></div>

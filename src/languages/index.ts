@@ -1,3 +1,34 @@
+// A- VISITOR
+// --en
+// greetingVisitor: "Welcome to Forum - Take a look around!" = 38
+// greetingVisitor_mob: "Welcome to Forum\nTake a look around!" = 16 + 19 (35)
+// --fr
+// greetingVisitor: "Bienvenue sur Forum - Bonne visite!" = 35
+// greetingVisitor_mob: "Bienvenue sur Forum\nBonne visite!" = 19 + 13 (32)
+// --de
+// greetingVisitor: "Wilkommen auf Forum - Viel Spaß bei den Rundgang!" = 49
+// greetingVisitor: "Wilkommen auf Forum\nViel Spaß bei den Rundgang!" = 19 + 27 (46)
+
+// B- NEW USER
+// --en
+// greetingNewUserLine1: "Welcome to Forum" + username = 16 + ?
+// greetingNewUserLine2: "Share and discuss with the community." = 37
+// --fr
+// greetingNewUserLine1: "Bienvenue sur Forum" + username = 19 + ?
+// greetingNewUserLine2: "Echangez et discutez avec la communauté." = 40
+// --de
+// greetingNewUserLine1: "Wilkommen auf Forum" + username = 19 + ?
+// greetingNewUserLine2: "Teile und diskutiere mit der Community" = 39
+//
+
+// C- USER
+// --en
+// greetingUser: "Happy to see you again" + username = 22 + ?
+// --fr
+// greetingUser: "Content de vous revoir" + username = 22 + ?
+// --de
+//  greetingUser: "Schön dich wiederzusehen" + username = 24 + ?
+
 const language = {
   ////////////////
   //  ENGLISH  //
@@ -139,9 +170,11 @@ const language = {
       },
     },
     feed: {
-      greetingVisitorMode: "Welcome to Forum - Take a look around!",
-      greetingVisitorLine1: "Welcome to Forum",
-      greetingVisitorLine2: "Share and discuss with the community.",
+      greetingVisitor: "Welcome to Forum - Take a look around!",
+      greetingVisitor_mob: "Welcome to Forum\nTake a look around!",
+      greetingNewUserLine1: "Welcome",
+      greetingNewUserLine2: "Share and discuss with the community!",
+      greetingNewUserLine2_mob: "Share with the community.",
       greetingUser: "Happy to see you again",
       refreshBtn: "refresh",
       backTopBtn: "Back to top",
@@ -408,9 +441,11 @@ const language = {
       },
     },
     feed: {
-      greetingVisitorMode: "Bienvenue sur le fil du Forum, visiteur!",
-      greetingVisitorLine1: "Bienvenue sur Forum",
-      greetingVisitorLine2: "Echangez et discutez avec la communauté.",
+      greetingVisitor: "Bienvenue sur Forum - Bonne visite!",
+      greetingVisitor_mob: "Bienvenue sur Forum\nBonne visite!",
+      greetingNewUserLine1: "Bienvenue",
+      greetingNewUserLine2: "Echangez et discutez avec la communauté!",
+      greetingNewUserLine2_mob: "Echangez avec la communauté!",
       greetingUser: "Content de vous revoir",
       refreshBtn: "rafraîchir",
       backTopBtn: "Revenir en haut",
@@ -679,9 +714,11 @@ const language = {
       },
     },
     feed: {
-      greetingVisitorMode: "Wilkommen auf Forum!\nViel Spaß bei den Rundgang!",
-      greetingVisitorLine1: "Wilkommen auf Forum",
-      greetingVisitorLine2: "Teile und diskutiere mit der Community",
+      greetingVisitor: "Wilkommen auf Forum - Viel Spaß bei den Rundgang!",
+      greetingVisitor_mob: "Wilkommen auf Forum\nViel Spaß bei den Rundgang!",
+      greetingNewUserLine1: "Wilkommen",
+      greetingNewUserLine2: "Teile und diskutiere mit der Community!",
+      greetingNewUserLine2_mob: "Teile mit der Community!",
       greetingUser: "Schön dich wiederzusehen",
       refreshBtn: "aktualisieren",
       backTopBtn: "Zurück nach oben",

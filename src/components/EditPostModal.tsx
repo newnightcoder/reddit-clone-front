@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { GifModal, ImgUploadModal, PostForm, PreviewLinkModal } from ".";
@@ -32,7 +32,7 @@ const EditPostModal = () => {
   } = useSelector((state) => state.posts);
   const [postToEdit]: IPost[] = posts.filter((post) => post.id === editId.id);
   const [postTitle, setPostTitle] = useState(postToEdit && postToEdit.title);
-  const [editText, setEditText] = useState("test");
+  const [editText, setEditText] = useState<string>("test");
   const [isPreview, setIsPreview] = useState(false);
   const [imgDom, setImgDom] = useState<JSX.Element | null>(null);
   const [imgUploadModalOpen, setImgUploadModalOpen] = useState(false);
@@ -46,17 +46,20 @@ const EditPostModal = () => {
   const toggleGifModal = useToggle(gifModalOpen, setGifModalOpen);
   const toggleLinkModal = useToggle(linkModalOpen, setLinkModalOpen);
   const root = window.document.documentElement;
+  const editTitleRef = useRef<HTMLInputElement>(null);
+  const editTextRef = useRef<HTMLSpanElement>(null);
 
   const deletePostPreview = useCallback(() => {
-    // setImgDom(null);
     setIsPreview(false);
     dispatch(clearTempPreviewAction());
   }, [dispatch, setIsPreview]);
 
   const handleEditTitleInput = useCallback(
     (e) => {
-      if (error) dispatch(clearErrorPostAction());
-      setPostTitle(e.currentTarget.value);
+      if (error) {
+        dispatch(clearErrorPostAction());
+      }
+      setPostTitle(e.target.innerText);
     },
     [error, dispatch, setPostTitle]
   );
@@ -66,7 +69,7 @@ const EditPostModal = () => {
       if (error) {
         dispatch(clearErrorPostAction());
       }
-      setEditText(e.currentTarget.textContent);
+      setEditText(e.target.innerText);
     },
     [dispatch, error, setEditText]
   );
@@ -76,15 +79,13 @@ const EditPostModal = () => {
       if (error) {
         dispatch(clearErrorPostAction());
       }
-      console.log(e.currentTarget.textContent);
-      setEditText(e.currentTarget.textContent);
+      setEditText(e.target.innerText);
     },
     [dispatch, setEditText, error]
   );
 
   const handleEditPostSubmit = useCallback(
     (e) => {
-      e.preventDefault();
       const editedPost: IPost = {
         ...postToEdit,
         title: postTitle,
@@ -93,10 +94,9 @@ const EditPostModal = () => {
         isPreview,
         preview,
       };
-      console.log("edited post front", editedPost);
+      e.preventDefault();
       if (postTitle.length === 0) return dispatch(setErrorPostAction("emptyTitle"));
       if (error) return;
-      console.log(isPreview);
       dispatch(editPostAction("post", editedPost, profilePage ? true : false));
       dispatch(toggleEditModalAction());
       dispatch(clearEditIdAction());
@@ -108,12 +108,12 @@ const EditPostModal = () => {
 
   const handleEditCommentSubmit = useCallback(
     (e) => {
-      e.preventDefault();
-      if (error) return;
       const edited: IEdit = {
         id: editId.id,
         text: editText,
       };
+      e.preventDefault();
+      if (error) return;
       switch (editId.type) {
         case "comment":
           if (editText.length === 0) return dispatch(setErrorPostAction("emptyComment"));
@@ -137,13 +137,17 @@ const EditPostModal = () => {
     let text = "";
     switch (editId.type) {
       case "post":
-        setPostTitle(postToEdit.title);
-        setEditText(postToEdit.text ? postToEdit.text : "");
+        setPostTitle(postToEdit?.title);
+        if (editTextRef.current) {
+          editTextRef.current.innerText = postToEdit.text ? postToEdit.text : ""; // to keep linebreaks/innerText
+        }
         break;
       case "comment":
         const comment = comments.filter((comment) => comment.commentId === editId.id)[0];
         text = comment.text;
-        setEditText(text);
+        if (editTextRef.current) {
+          editTextRef.current.innerText = text;
+        }
         break;
       case "reply": {
         let reply: IReply;
@@ -154,13 +158,15 @@ const EditPostModal = () => {
           }
         }
         text = reply!.text;
-        setEditText(text);
+        if (editTextRef.current) {
+          editTextRef.current.innerText = text;
+        }
         break;
       }
       default:
-        return setEditText(text.replace(/<br>/g, "\n"));
+        setEditText(text);
     }
-  }, [editId.id, editId.type, comments, posts, setPostTitle, setEditText]); // replies
+  }, [editId.id, editId.type, comments, posts, setPostTitle, setEditText, postToEdit?.text, postToEdit?.title]); // replies
 
   const dispatchEditImg = useCallback(() => {
     if (editId.type === "comment" || editId.type === "reply") return;
@@ -192,7 +198,9 @@ const EditPostModal = () => {
 
   useEffect(() => {
     setText();
-  }, [editId.id, editId.type]);
+    console.log(postToEdit?.text);
+    console.log(editText);
+  }, [editId.id, editId.type, postToEdit?.text, editText]);
 
   useEffect(() => {
     dispatchEditImg();
@@ -208,7 +216,7 @@ const EditPostModal = () => {
   }, [editModalOpen]);
 
   useEffect(() => {
-    if (!isObjectEmpty(preview)) setIsPreview(true);
+    if (!isObjectEmpty(preview)) return setIsPreview(true);
   }, [preview]);
 
   return (
@@ -235,6 +243,8 @@ const EditPostModal = () => {
           toggleGifModal={toggleGifModal}
           toggleLinkModal={toggleLinkModal}
           toggleImgUploadModal={toggleImgUploadModal}
+          editTitleRef={editTitleRef}
+          editTextRef={editTextRef}
         />
         <ImgUploadModal
           imgUploadModalOpen={imgUploadModalOpen}

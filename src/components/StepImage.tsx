@@ -11,7 +11,7 @@ const StepImage = () => {
   const error = useError();
 
   return (
-    <div className="h-full w-screen bg-gray-200 flex flex-col items-center justify-evenly absolute top-0 left-0 translate-x-full px-4 overflow-hidden">
+    <div className="h-full w-full bg-gray-200 flex flex-col items-center justify-evenly absolute top-0 left-0 translate-x-full px-4 overflow-hidden">
       <header className="h-1/4 flex flex-col items-center justify-center">
         <h1 className="text-center font-bold text-lg uppercase">
           {userLanguage.signup.stepImage.lastStep}
@@ -27,7 +27,7 @@ const StepImage = () => {
       )}
       <div className="h-max w-full flex flex-col items-center gap-2">
         <div
-          className="h-48 w-48 rounded-full border border-blue-400"
+          className="h-[10rem] w-[10rem] rounded-full border border-blue-400"
           style={{
             background: `url(${picUrl !== null ? picUrl : picPlaceholder}) no-repeat center/cover`,
           }}

@@ -27,13 +27,8 @@ const Post = ({ post, aside }: PostProps) => {
   const toggleDeleteModal = useToggle(openDeleteModal, setOpenDeleteModal);
   const isFromS3Bucket = imgUrl?.includes("forum-s3-bucket");
 
-  // const formatWithLineBreaks = (str)=>{
-  // }
-
   const handleDeletePost = useCallback(() => {
-    console.log("pre dispatsch delete");
     dispatch(deletePostAction(postId!, "post", null));
-    console.log("post dispatsch delete");
     setIsDeleted(true);
   }, [dispatch, postId]);
 
@@ -61,6 +56,7 @@ const Post = ({ post, aside }: PostProps) => {
 
   useEffect(() => {
     setUserLikes();
+    console.log(text);
   }, []);
 
   return (
@@ -76,11 +72,9 @@ const Post = ({ post, aside }: PostProps) => {
       {(openDeleteModal && userId === author.id) || (openDeleteModal && role === "admin") ? (
         <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"post"} postId={postId!} />
       ) : null}
-      <PostHeader post={post} />
+      <PostHeader post={post} aside={aside!} />
       {text && (
-        <div className="w-full text-left px-4 pt-2 transition duration-500 text-sm whitespace-pre-line">
-          {text.replace(/<br>/g, "\n")}
-        </div>
+        <div className="w-full text-left px-4 pt-2 transition duration-500 text-sm break-words whitespace-pre-line">{text}</div>
       )}
 
       {isPreview ? (

@@ -131,7 +131,7 @@ const ImgUploader = (props: ImgUploaderProps) => {
       {/* LABEL */}
       <label
         style={{
-          width: props.imgType === "post" ? "12rem" : "100%",
+          width: signupPage || props.imgType === "post" ? "12rem" : "100%",
           padding: profilePage ? ".5rem 1rem" : ".5rem",
         }}
         className="block text-center text-white text-xs rounded-full shadow-xl cursor-pointer bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"

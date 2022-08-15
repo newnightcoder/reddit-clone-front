@@ -92,7 +92,8 @@ interface FormProps {
   handleEditTitleInput?: ChangeEventHandler;
   handleEditText?: ChangeEventHandler;
   handleEditCommentText?: ChangeEventHandler;
-  textRef?: React.RefObject<HTMLSpanElement>;
+  editTitleRef?: React.RefObject<HTMLInputElement>;
+  editTextRef?: React.RefObject<HTMLSpanElement>;
 }
 
 interface CommentFormProps {

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { logo } from "../assets";
@@ -38,7 +38,7 @@ const StepUsername = () => {
 
   return (
     <Div100vh
-      className="w-screen bg-gray-200 flex flex-col items-center justify-center space-y-2 transition-transform duration-500 absolute top-0 left-0"
+      className="w-full h-full bg-gray-200 flex flex-col items-center justify-center space-y-2 transition-transform duration-500 absolute top-0 left-0"
       style={toNextStep}
     >
       <header className="h-1/3 flex items-center justify-center">

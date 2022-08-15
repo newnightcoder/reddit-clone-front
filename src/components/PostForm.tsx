@@ -26,22 +26,22 @@ const PreviewLoader = () => {
 };
 
 const PostForm = ({
-  textRef,
-  title,
   handlePostSubmit,
   handleTitleInput,
   toggleImgUploadModal,
   toggleGifModal,
   toggleLinkModal,
   handlePostInput,
+  title,
   postToEdit,
   postTitle,
   postText,
   editText,
+  editTitleRef,
+  editTextRef,
   imgDom,
   setImgDom,
   deletePostPreview,
-  // deleteEditPreview,
   handleEditPostSubmit,
   handleEditCommentSubmit,
   handleEditTitleInput,
@@ -96,6 +96,10 @@ const PostForm = ({
     handleImgPost();
   }, [editId.type, tempPostImg, postToEdit, scrapedPost, previewLoading]);
 
+  useEffect(() => {
+    console.log("editText form", editText);
+  }, []);
+
   return (
     <form
       className={`${
@@ -140,6 +144,7 @@ const PostForm = ({
           type="text"
           name="Title"
           id="title"
+          ref={editTitleRef}
           placeholder={createPage ? userLanguage.createPost.titlePlaceholder : undefined}
           onChange={editId.type === "post" ? (e) => handleEditTitleInput!(e) : (e) => handleTitleInput!(e)}
           value={editId.type === "post" ? (postTitle as string) : (title as string)}
@@ -162,9 +167,9 @@ const PostForm = ({
               suppressContentEditableWarning={true}
               placeholder={userLanguage.createPost.textPlaceholder}
               onBlur={(e) => handleBlur(e)}
-              ref={textRef}
+              ref={editTextRef}
             >
-              {postText ? postText : editText}
+              {postText ? postText : editText ? editText : ""}
             </span>
             <div id="imgContainer" className="px-2 flex items-start justify-center">
               {imgDom}

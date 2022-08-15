@@ -15,7 +15,6 @@ const Reply = ({ reply }: { reply: IReply }) => {
   const { id: userId, role } = useSelector((state) => state?.user);
   const [like, setLike] = useState(false);
   const [likesNumber, setLikesNumber] = useState(likesCount);
-  // const [replyOpen, setReplyOpen] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
@@ -24,39 +23,44 @@ const Reply = ({ reply }: { reply: IReply }) => {
   const dispatch = useDispatch();
   const toggleOptions = useToggle(optionsOpen, setOptionsOpen);
   const toggleDeleteModal = useToggle(openDeleteModal, setOpenDeleteModal);
-
-  // const toggleReply = useCallback(() => {
-  //   return setReplyOpen((replyOpen) => !replyOpen);
-  // }, []);
+  const [isMounted, setIsMounted] = useState(true);
 
   useEffect(() => {
-    setLikesNumber(likesCount);
+    if (isMounted) {
+      setLikesNumber(likesCount);
+    }
   }, [likesCount]);
 
   useEffect(() => {
-    likes?.map((like) => {
-      if (like.userId === userId! && like.replyId === replyId!) {
-        return sameUserReply.push(like.replyId);
-      }
-      return sameUserReply;
-    });
-    sameUserReply.forEach((id) => {
-      if (id === replyId) {
-        setLike(true);
-      }
-    });
+    if (isMounted) {
+      likes?.map((like) => {
+        if (like.userId === userId! && like.replyId === replyId!) {
+          return sameUserReply.push(like.replyId);
+        }
+        return sameUserReply;
+      });
+      sameUserReply.forEach((id) => {
+        if (id === replyId) {
+          setLike(true);
+        }
+      });
+    }
   }, [replyId, likes, userId]);
+
+  useEffect(() => {
+    return () => {
+      setIsMounted(false);
+    };
+  }, []);
 
   const handleLike = useCallback(
     (replyId) => {
       setLike((like) => !like);
       switch (like) {
         case false:
-          setLikesNumber(likesNumber! + 1);
-          break;
+          return setLikesNumber(likesNumber! + 1);
         case true:
-          setLikesNumber(likesNumber! - 1);
-          break;
+          return setLikesNumber(likesNumber! - 1);
         default:
           break;
       }
@@ -106,7 +110,7 @@ const Reply = ({ reply }: { reply: IReply }) => {
           </div>
         </div>
       </div>
-      <div className="text w-full text-left px-3 py-2 text-sm break-words">{text}</div>
+      <div className="text w-full text-left px-3 py-2 text-sm break-words whitespace-pre-line">{text}</div>
       <div className="bottom w-full flex items-center justify-end px-2 py-2">
         <div className="icons-container w-max flex items-center justify-end space-x-4 text-xs">
           <div className="w-max flex items-center justify-center">

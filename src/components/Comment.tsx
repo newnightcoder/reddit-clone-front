@@ -17,7 +17,6 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
   const { id: myId, role, error: serverError } = useSelector((state) => state?.user);
   const [like, setLike] = useState(false);
   const [likesNumber, setLikesNumber] = useState(likesCount);
-  // const [replyNumber, setReplyNumber] = useState(replyCount!);
   const [replyOpen, setReplyOpen] = useState(false);
   const [replyText, setReplyText] = useState("");
   const [optionsOpen, setOptionsOpen] = useState(false);
@@ -34,7 +33,6 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
   const toggleOptions = useToggle(optionsOpen, setOptionsOpen);
   const toggleDeleteModal = useToggle(openDeleteModal, setOpenDeleteModal);
   const toggleReply = useToggle(replyOpen, setReplyOpen);
-  // const [isMounted, setIsMounted] = useState(true);
 
   useEffect(() => {
     setLikesNumber(likesCount);
@@ -59,11 +57,9 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
       setLike((like) => !like);
       switch (like) {
         case false:
-          setLikesNumber(likesNumber! + 1);
-          break;
+          return setLikesNumber(likesNumber! + 1);
         case true:
-          setLikesNumber(likesNumber! - 1);
-          break;
+          return setLikesNumber(likesNumber! - 1);
         default:
           break;
       }
@@ -77,21 +73,20 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
       if (error) {
         dispatch(clearErrorPostAction());
       }
+
       setReplyText(e.target.value);
     },
-    [error]
+    [error, dispatch, setReplyText]
   );
 
   const handleReplySubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      console.log(`reply du comment ${commentId}`);
-      if (e.target.parentElement.id == commentId) {
-        console.log("ok");
-        setcommentRefNumber(commentId!);
-      }
       if (replyText.length === 0) return dispatch(setErrorPostAction("emptyReply"));
       if (error) return;
+      if (e.target.parentElement.id == commentId) {
+        setcommentRefNumber(commentId!);
+      }
       const date: string = createDate();
       const newReply: IReply = {
         fk_userId_reply: myId!,
@@ -164,7 +159,7 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
             </div>
           </div>
         </div>
-        <div className="text w-full text-left px-3 py-2 text-sm break-words">{text}</div>
+        <div className="text w-full text-left px-3 py-2 text-sm break-words whitespace-pre-line">{text}</div>
         <div className="bottom w-full flex items-center justify-end px-2 py-2">
           <div className="icons-container w-max flex items-center justify-end gap-4 text-xs">
             <button className="outline-none w-max flex items-center justify-center gap-2" onClick={toggleReply}>
@@ -197,11 +192,9 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
         handleReplySubmit={handleReplySubmit}
         replyOpen={replyOpen}
         setReplyOpen={setReplyOpen}
-        // replyText={replyText}
         handleChange={handleChange}
         replyTextRef={replyTextRef}
         commentId={commentId!}
-        // commentRef={commentRef}
         commentRefNumber={commentRefNumber!}
       />
       <div className="w-full transition-color duration-500 bg-gray-200 dark:bg-black flex flex-col items-end justify-center space-y-2">

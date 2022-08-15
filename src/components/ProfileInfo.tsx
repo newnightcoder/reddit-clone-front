@@ -5,13 +5,7 @@ import { useLanguage } from "../utils/hooks";
 import FollowersToggle from "./FollowersToggle";
 import { ProfileInfoProps } from "./react-app-env";
 
-const ProfileInfo = ({
-  user,
-  // btnFollowWidth,
-  setIsFollowersClicked,
-  toggleFollowers,
-  updatedFollowersCount,
-}: ProfileInfoProps) => {
+const ProfileInfo = ({ user, setIsFollowersClicked, toggleFollowers, updatedFollowersCount }: ProfileInfoProps) => {
   const {
     id,
     username,
@@ -22,11 +16,8 @@ const ProfileInfo = ({
   const userLanguage = useLanguage();
 
   return (
-    <div className="md:pl-6 username-member relative h-24 w-full self-start transform flex flex-col items-start justify-start mb-4">
-      <span
-        // style={{ width: `calc(100% - 11rem - ${btnFollowWidth}px)` }}
-        className="h-max w-full py-1 pl-6 flex items-center justify-start text-xl font-bold capitalize overflow-x-hidden overflow-ellipsis whitespace-nowrap pl-1 pr-4"
-      >
+    <div className="username-member relative h-24 w-full flex flex-col items-start justify-start mb-4">
+      <span className="border border-red-500 h-max w-[100%] py-1 pl-6 pr-4 text-left text-xl font-bold capitalize truncate">
         {id === profileId && username
           ? username
           : id === profileId && !username

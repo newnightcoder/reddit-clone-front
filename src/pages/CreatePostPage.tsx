@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Error, GifModal, ImgUploadModal, Layout, PostForm, PreviewLinkModal } from "../components";
 import {
@@ -23,7 +23,6 @@ const CreatePost = () => {
   const [imgUploadModalOpen, setImgUploadModalOpen] = useState(false);
   const [gifModalOpen, setGifModalOpen] = useState(false);
   const [linkModalOpen, setLinkModalOpen] = useState(false);
-  const textRef = useRef<HTMLSpanElement>(null);
   const [isPreview, setIsPreview] = useState(false);
   const dispatch = useDispatch();
   const handleLink = useHandleLink();
@@ -56,17 +55,17 @@ const CreatePost = () => {
       if (error) {
         dispatch(clearErrorPostAction());
       }
-      setTitle(e.currentTarget.value);
+      setTitle(e.target.value);
     },
-    [error]
+    [error, dispatch, setTitle]
   );
 
-  const handlePostInput = useCallback(() => {
-    let text = textRef.current?.innerHTML.toString();
-    const length = text!.length;
-    text = text!.slice(0, length - 4); // to remove the default <br> element in contenteditable span
-    setPostText(text.toString());
-  }, [setPostText, textRef]);
+  const handlePostInput = useCallback(
+    (e) => {
+      setPostText(e.target.innerText);
+    },
+    [setPostText]
+  );
 
   const handlePostSubmit = useCallback(
     (e) => {
@@ -83,8 +82,6 @@ const CreatePost = () => {
           commentCount: 0,
         },
       };
-      console.log("new post", newPost);
-
       e.preventDefault();
       if (title.length === 0) return dispatch(setErrorPostAction("emptyTitle"));
       if (!isAuthenticated) return handleLink("post");
@@ -111,7 +108,6 @@ const CreatePost = () => {
           </span>
           <div className="relative w-full h-full">
             <PostForm
-              textRef={textRef}
               title={title}
               handleTitleInput={handleTitleInput}
               postText={postText}

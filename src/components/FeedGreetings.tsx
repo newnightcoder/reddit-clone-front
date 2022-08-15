@@ -2,14 +2,16 @@ import { useCallback, useEffect, useRef } from "react";
 import { CheckCircleFill } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { playGreetingsAnimationAction } from "../store/actions/user.action";
+import { breakpoint } from "../utils/breakpoints";
 import { useLanguage } from "../utils/hooks";
+import useWindowSize from "../utils/hooks/useWindowSize";
 
 const FeedGreetings = () => {
   const { isAuthenticated, isNewUser, username } = useSelector((state) => state.user);
   const userLanguage = useLanguage();
   const dispatch = useDispatch();
   const ref = useRef<HTMLDivElement>(null);
-
+  const { width } = useWindowSize();
   const animateGreeting = useCallback(() => {
     const addClass = () => {
       if (ref.current) return ref.current.classList.add("disappear");
@@ -29,7 +31,7 @@ const FeedGreetings = () => {
         }, 2500);
       });
     };
-    animate();
+    // animate();
   }, []);
 
   return (
@@ -37,23 +39,31 @@ const FeedGreetings = () => {
       ref={ref}
       className={`bienvenueMsg-newcomer absolute ${
         ref.current ? "translate-y-0" : "-translate-y-16"
-      } rounded-xl pl-4 md:pl-10 border border-blue-400 bg-blue-50 dark:bg-blue-500/20 text-blue-500 dark:text-white font-bold w-10/12 md:w-max md:max-w-1/2 h-[3rem] flex items-center justify-center space-x-2 text-sm whitespace-pre mt-2 mb-4 uppercase transition duration-300`}
+      } w-max max-w-[95%] sm:w-max md:max-w-1/2 h-[3rem]  px-8 flex items-center justify-center space-x-3 md:space-x-2 mt-2 mb-4 rounded-xl text-blue-500 dark:text-white font-bold text-sm whitespace-pre border border-blue-400 bg-blue-50 dark:bg-blue-500/20 transition duration-300`}
     >
       <CheckCircleFill size={18} className="text-blue-500" />
       {!isAuthenticated ? (
-        <span className="pr-4 md:pr-10">{userLanguage?.feed.greetingVisitorMode}&nbsp;</span>
+        <span className="flex items-center justify-center text-center whitespace-pre">
+          {width < breakpoint.sm ? userLanguage?.feed.greetingVisitor_mob : userLanguage?.feed.greetingVisitor}&nbsp;
+        </span>
       ) : isNewUser ? (
-        <div className="w-full flex flex-col items-center justify-center">
-          <span className="w-full flex items-center justify-center pr-4 md:pr-10">
-            <span className="">{userLanguage?.feed.greetingVisitorLine1}&nbsp;</span>
-            <span className="text-left overflow-hidden overflow-ellipsis">{username ? username : "Noname"}!</span>
+        <div className="w-max flex flex-col items-center justify-center">
+          <span className="w-full flex items-center justify-center">
+            <span className="">{userLanguage?.feed.greetingNewUserLine1}&nbsp;</span>
+            <span className="w-max max-w-[20ch] sm:w-full sm:max-w-[12rem] truncate">{username ? username : "Noname"}</span>
           </span>
-          <span className="inline-block">{userLanguage?.feed.greetingVisitorLine2}</span>
+          <span className="inline-block">
+            {width < breakpoint.sm ? userLanguage?.feed.greetingNewUserLine2_mob : userLanguage?.feed.greetingNewUserLine2}
+          </span>
         </div>
       ) : (
-        <span className="overflow-x-hidden overflow-ellipsis pr-4 md:pr-10">
-          {userLanguage?.feed.greetingUser}&nbsp;
-          <span className="w-full text-left">{username ? username : "Noname"}!</span>
+        <span
+          className={`flex ${
+            username.length >= 10 && width < breakpoint.sm ? "flex-col" : "flex-row"
+          } items-center justify-center`}
+        >
+          <span>{userLanguage?.feed.greetingUser}&nbsp;</span>
+          <span className="w-max max-w-[30ch] sm:w-full sm:max-w-[14rem] truncate">{username ? username : "Noname"}</span>
         </span>
       )}
     </div>

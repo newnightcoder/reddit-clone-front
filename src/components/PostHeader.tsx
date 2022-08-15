@@ -4,7 +4,7 @@ import { IPost } from "../store/types";
 import { formatTimestamp } from "../utils/helpers/formatTime";
 import { useHandleLink } from "../utils/hooks";
 
-const PostHeader = ({ post }: { post: IPost }) => {
+const PostHeader = ({ post, aside }: { post: IPost; aside: boolean }) => {
   const { title, date, author } = post;
   const { id: myId, username: myName, language } = useSelector((state) => state.user);
   const handleLink = useHandleLink();
@@ -34,7 +34,9 @@ const PostHeader = ({ post }: { post: IPost }) => {
         <div className="username-title-container h-max w-full flex flex-col items-start justify-center">
           <div className="username-date w-full flex items-center justify-between">
             <button
-              className="w-full md:w-[75%] overflow-x-hidden overflow-ellipsis whitespace-nowrap pr-10 outline-none capitalize hover:cursor-pointer hover:underline"
+              className={` ${
+                aside ? "w-full pr-2" : "w-[80%] pr-10"
+              } outline-none capitalize hover:cursor-pointer hover:underline`}
               onClick={() =>
                 handleLink(
                   "post-profile",
@@ -43,12 +45,12 @@ const PostHeader = ({ post }: { post: IPost }) => {
                 )
               }
             >
-              <div className="w-full text-left overflow-hidden overflow-ellipsis">
+              <div className="w-full text-left truncate">
                 <span className="text-xs">@</span>
                 <span className="w-full text-left">{author?.username ? author.username : "Noname"}</span>
               </div>
             </button>
-            <div className="w-min text-xs italic whitespace-nowrap">{formatTimestamp(date, "post", language)}</div>
+            {!aside && <div className="w-min text-xs italic whitespace-nowrap">{formatTimestamp(date, "post", language)}</div>}
           </div>
           <div className="title text-lg font-bold h-max w-full pl-1 break-words leading-5">{title}</div>
         </div>

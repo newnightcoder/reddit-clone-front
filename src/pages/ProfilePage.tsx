@@ -132,12 +132,12 @@ const Profile = () => {
                   minHeight: "calc(100vh - 7rem)",
                   height: followersOpen ? `${divFollowersHeight}px` : "max-content",
                 }}
-                className={`w-full overflow-hidden relative bg-white dark:bg-gray-900 transition duration-500 rounded-md md:mt-8 flex items-start justify-center`}
+                className={`w-full overflow-hidden relative bg-white dark:bg-gray-900 transition duration-500 md:rounded-md md:mt-8 flex items-start justify-center`}
               >
                 <div
                   className={`w-full h-max transition duration-300 ${
                     followersOpen ? "-translate-x-full" : "translate-x-0"
-                  } rounded-md  flex flex-col items-center justify-start pb-24 md:pb-12`}
+                  } md:rounded-md  flex flex-col items-center justify-start pb-24 md:pb-12`}
                 >
                   <ProfileBanner
                     user={userData}

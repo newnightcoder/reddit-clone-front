@@ -17,6 +17,7 @@ const ReplyForm = ({
   const userLanguage = useLanguage();
   const error = useError();
   const ref = useRef<HTMLDivElement>(null);
+
   return (
     <div
       ref={ref}
