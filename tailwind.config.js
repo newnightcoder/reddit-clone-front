@@ -50,13 +50,10 @@ module.exports = {
         iconOff: "iconDisappear 150ms forwards",
       },
       backgroundImage: {
-        hero: "url('/src/assets/mockup-1000.png')",
-        featherDark: "url('/src/assets/feather.svg')",
-        featherLight: "url('/src/assets/feather-lightgray.svg')",
         featherBlue: "url('/src/assets/feather-blue.svg')",
         byebye: "url('/src/assets/bye.gif')",
         expired: "url('/src/assets/expired.gif')",
-        login: "url('/src/assets/test3.png')",
+        login: "url('/src/assets/hero_2.png')",
       },
       backgroundSize: {
         90: "110%",

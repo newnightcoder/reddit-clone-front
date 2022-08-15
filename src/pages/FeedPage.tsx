@@ -28,10 +28,10 @@ const Feed = () => {
               greetingsAnimationPlayed ? "translate-y-14" : "translate-y-12"
             }`}
           >
-            <div className="posts-section-container w-full flex flex-col items-center justify-center pb-20 relative">
+            <div className="posts-section-container w-full flex flex-col items-center justify-center pb-20 md:pb-10 relative">
               <div
                 style={{ width: `${size}` }}
-                className="h-6 flex items-center justify-end mb-2 pr-4 md:pr-2 -translate-y-0.5 md:-translate-y-1"
+                className="h-6 flex items-center justify-end mb-2 pr-4 md:pr-1 -translate-y-0.5 md:-translate-y-1"
               >
                 <button
                   className="h-6 refreshBtn outline-none hover:cursor-pointer	bg-blue-500 text-white rounded-full flex items-center justify-center space-x-1 pl-2 pr-3 py-1 shadow transition duration-300 hover:bg-black hover:shadow-none group"
@@ -54,7 +54,7 @@ const Feed = () => {
               </div>
               <button
                 onClick={() => window.scrollTo(0, 0)}
-                className="h-max mt-4 mr-4 md:mr-1 self-end outline-none hover:cursor-pointer	bg-blue-500 text-white text-sm rounded-full flex items-center justify-center space-x-1 pl-2 pr-3 py-1 shadow transition duration-300 hover:bg-black hover:shadow-none group"
+                className="h-max md:mt-4 mr-4 md:mr-1 self-end outline-none hover:cursor-pointer	bg-blue-500 text-white text-sm rounded-full flex items-center justify-center space-x-1 pl-2 pr-3 py-1 shadow transition duration-300 hover:bg-black hover:shadow-none group"
               >
                 <ArrowCircleUpIcon className="h-5" />
                 <span>{userLanguage.feed.backTopBtn}</span>

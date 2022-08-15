@@ -200,8 +200,8 @@ export const resetRepliesAction = () => (dispatch: Dispatch<clearAction>) => {
   dispatch({ type: actionTypes.RESET_REPLIES });
 };
 
-export const clearPreviewImgAction = () => (dispatch: Dispatch<clearAction>) => {
-  dispatch({ type: actionTypes.CLEAR_PREVIEW_IMG });
+export const clearPreviewImgAction = (str: string) => (dispatch: Dispatch<Action>) => {
+  dispatch({ type: actionTypes.CLEAR_PREVIEW_IMG, payload: str });
 };
 
 export const setErrorPostAction = (error: string) => (dispatch: Dispatch<Action>) => {

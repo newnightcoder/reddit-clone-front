@@ -11,7 +11,7 @@ const useContainerSize = (domElementRef: React.MutableRefObject<HTMLDivElement |
 
   const resizeDomElement = useCallback(() => {
     setSize(`${domElementRef?.current?.getBoundingClientRect().width}px`);
-  }, [domElementRef.current, setSize]);
+  }, [domElementRef, setSize]);
 
   useEffect(() => {
     window.addEventListener("resize", resizeDomElement);

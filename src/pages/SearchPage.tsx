@@ -3,9 +3,9 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { Layout, ToggleDiv } from "../components";
-import { datasetTypes } from "../components/dataForToggleDiv";
 import { IDataSet } from "../components/react-app-env";
 import { clearErrorUserAction, clearSearchResults } from "../store/actions/user.action";
+import { datasetTypes } from "../utils/dataForToggleDiv";
 import { useLanguage, useToggleTabs } from "../utils/hooks";
 
 const SearchPage = () => {

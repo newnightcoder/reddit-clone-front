@@ -180,6 +180,7 @@ export const getModsAction = () => async (dispatch: ThunkDispatch<IUserState, an
     if (sessionExpired) return dispatch(sessionExpiredAction(sessionExpired));
     // ❌
     if (error) return dispatch(setErrorUserAction(error));
+    console.log("just got mods");
     dispatch({ type: actionTypes.GET_MODS, payload: { mods } });
   } catch (err) {
     dispatch(setErrorUserAction("backend"));

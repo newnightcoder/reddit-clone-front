@@ -47,7 +47,7 @@ const CreatePost = () => {
   }, []);
 
   useEffect(() => {
-    if (!isObjectEmpty(preview)) setIsPreview(true);
+    if (!isObjectEmpty(preview)) return setIsPreview(true);
   }, [preview]);
 
   const handleTitleInput = useCallback(
@@ -97,10 +97,7 @@ const CreatePost = () => {
   return (
     <>
       <Layout>
-        <div
-          // lg:border-r lg:border-l lg:border-[#ededed]
-          className="w-full flex flex-col items-center justify-start md:px-4 lg:px-0 pb-32 md:pb-16 pt-20 md:pt-24 dark:md:border-gray-900 transition duration-500"
-        >
+        <div className="w-full flex flex-col items-center justify-start md:px-4 lg:px-0 pb-32 md:pb-16 pt-20 md:pt-24 dark:md:border-gray-900 transition duration-500">
           <Error />
           <span className="absolute top-5 md:top-8 mx-auto font-bold text-sm italic text-gray-900 dark:text-blue-400 text-center whitespace-nowrap">
             {userLanguage.createPost.heading1} <br />

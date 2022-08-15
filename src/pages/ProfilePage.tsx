@@ -2,11 +2,11 @@ import { createRef, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { BtnFollow, DeleteModal, Error, Followers, Layout, ProfileBanner, ProfileInfo, Skeleton, ToggleDiv } from "../components";
-import { datasetTypes } from "../components/dataForToggleDiv";
 import { IDataSet } from "../components/react-app-env";
 import { getUserPostsAction } from "../store/actions/posts.action";
 import { deleteUserAction, getFollowersAction } from "../store/actions/user.action";
 import { IPost } from "../store/types";
+import { datasetTypes } from "../utils/dataForToggleDiv";
 import { history } from "../utils/helpers";
 import { useGetProfile, useToggle, useToggleTabs } from "../utils/hooks";
 
@@ -28,13 +28,13 @@ const Profile = () => {
   const [isFollowersClicked, setIsFollowersClicked] = useState(false);
   const toggleDeleteModal = useToggle(openModal, setOpenModal);
   const toggleFollowers = useToggle(followersOpen, setFollowersOpen);
+  const [divFollowersHeight, setDivFollowersHeight] = useState(0);
   const { toggleTabs, leftTabOpen } = useToggleTabs();
   const [dataset1, setDataset1] = useState<IDataSet>({ name: null, data: null });
   const [dataset2, setDataset2] = useState<IDataSet>({ name: null, data: null });
   const btnFollowRef = useRef<HTMLButtonElement>(null);
   const [btnFollowWidth, setBtnFollowWidth] = useState<number | null>(null);
   const ref = createRef<HTMLDivElement>();
-  const [divFollowersHeight, setDivFollowersHeight] = useState(0);
 
   const getLikedPostArray = useCallback(() => {
     const postsArr: number[] = [];
@@ -86,13 +86,19 @@ const Profile = () => {
     dispatch(getUserPostsAction(profileId!));
     dispatch(getFollowersAction(profileId!));
     getLikedPostArray();
-    if (followersOpen) {
-      toggleFollowers();
-    }
+  }, [profileId, id]);
+
+  useEffect(() => {
     if (!leftTabOpen) {
       toggleTabs();
     }
-  }, [profileId, id]);
+  }, [followersOpen]);
+
+  useEffect(() => {
+    if (followersOpen) {
+      toggleFollowers();
+    }
+  }, []);
 
   useEffect(() => {
     setUpdatedFollowersCount(userData?.followersCount);
@@ -109,7 +115,6 @@ const Profile = () => {
   }, [btnFollowRef.current]);
 
   useEffect(() => {
-    console.log(ref.current?.getBoundingClientRect());
     setDivFollowersHeight(ref.current?.getBoundingClientRect().height!);
   }, [ref.current, leftTabOpen, !leftTabOpen]);
 

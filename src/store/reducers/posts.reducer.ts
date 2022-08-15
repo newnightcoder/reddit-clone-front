@@ -82,11 +82,13 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
       return { ...state, scrapedPost: {} };
 
     case actionTypes.CLEAR_PREVIEW_IMG:
+      const str = action.payload;
       return {
         ...state,
         scrapedPost: {
           ...state.scrapedPost,
-          image: "",
+          image: str === "image" ? null : state.scrapedPost.image,
+          logo: str === "logo" ? null : state.scrapedPost.logo,
         },
       };
 
