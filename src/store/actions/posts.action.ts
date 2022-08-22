@@ -128,14 +128,14 @@ export const toggleEditModalAction = () => (dispatch: Dispatch<toggleAction>) =>
 };
 
 export const deletePostAction =
-  (postId: number, origin: string, postIdComment: number | null) =>
+  (postId: number, origin: string, postIdComment: number | null, profile?: boolean) =>
   async (dispatch: ThunkDispatch<IPostState, any, Action | clearAction>) => {
     dispatch(clearErrorPostAction());
     try {
       const { msg, error, sessionExpired } = await deletePost(postId, origin, postIdComment);
       if (sessionExpired) return dispatch(setSessionExpiredAction(sessionExpired));
       if (error) return dispatch(setErrorPostAction(error));
-      dispatch({ type: actionTypes.DELETE_POST, payload: { postId, origin, postIdComment } });
+      dispatch({ type: actionTypes.DELETE_POST, payload: { postId, origin, postIdComment, profile } });
     } catch (err) {
       dispatch(setErrorPostAction("backend"));
     }

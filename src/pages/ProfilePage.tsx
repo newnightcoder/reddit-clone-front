@@ -89,6 +89,10 @@ const Profile = () => {
   }, [profileId, id]);
 
   useEffect(() => {
+    getLikedPostArray();
+  }, [profileId, id, likes]);
+
+  useEffect(() => {
     if (!leftTabOpen) {
       toggleTabs();
     }

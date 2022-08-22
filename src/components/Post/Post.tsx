@@ -23,14 +23,18 @@ const Post = ({ post, aside }: PostProps) => {
   const optionsBtnRef = useRef<HTMLButtonElement>(null);
   const { pathname } = useLocation();
   const profilePage = pathname.includes("/profile");
+  const profile = profilePage ? true : false;
   const toggleOptions = useToggle(optionsOpen, setOptionsOpen);
   const toggleDeleteModal = useToggle(openDeleteModal, setOpenDeleteModal);
   const isFromS3Bucket = imgUrl?.includes("forum-s3-bucket");
 
-  const handleDeletePost = useCallback(() => {
-    dispatch(deletePostAction(postId!, "post", null));
-    setIsDeleted(true);
-  }, [dispatch, postId]);
+  const handleDeletePost = useCallback(
+    (postId: number | undefined, origin: string, commentId: number | null | undefined, profile?: boolean | undefined) => {
+      dispatch(deletePostAction(postId!, origin, commentId!, profile));
+      setIsDeleted(true);
+    },
+    [dispatch, setIsDeleted]
+  );
 
   const toCommentPage = useCallback(() => {
     dispatch(toCommentAction(postId!));
@@ -58,6 +62,10 @@ const Post = ({ post, aside }: PostProps) => {
     setUserLikes();
   }, []);
 
+  useEffect(() => {
+    console.log(postId, "isDeleted? :", isDeleted);
+  }, [postId, isDeleted]);
+
   return (
     <div
       id="postContainer"
@@ -69,7 +77,14 @@ const Post = ({ post, aside }: PostProps) => {
       } md:hover:border-gray-900 dark:md:hover:border-gray-400 transition duration-500 bg-white dark:bg-gray-900 pt-2`}
     >
       {(openDeleteModal && userId === author.id) || (openDeleteModal && role === "admin") ? (
-        <DeleteModal toggleDeleteModal={toggleDeleteModal} handleDeletePost={handleDeletePost} origin={"post"} postId={postId!} />
+        <DeleteModal
+          toggleDeleteModal={toggleDeleteModal}
+          handleDeletePost={handleDeletePost}
+          origin={"post"}
+          profile={profile}
+          postId={postId!}
+          postIdComment={null}
+        />
       ) : null}
       <PostHeader post={post} aside={aside!} />
       {text && (

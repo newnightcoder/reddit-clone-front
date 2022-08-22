@@ -34,7 +34,7 @@ const PostForm = ({
   handlePostInput,
   title,
   postToEdit,
-  postTitle,
+  editTitle,
   postText,
   editText,
   editTitleRef,
@@ -146,8 +146,8 @@ const PostForm = ({
           id="title"
           ref={editTitleRef}
           placeholder={createPage ? userLanguage.createPost.titlePlaceholder : undefined}
-          onChange={editId.type === "post" ? (e) => handleEditTitleInput!(e) : (e) => handleTitleInput!(e)}
-          value={editId.type === "post" ? (postTitle as string) : (title as string)}
+          onChange={editId.type === "post" ? handleEditTitleInput! : (e) => handleTitleInput!(e)}
+          value={editTitle ? editTitle : title ? title : ""}
         />
       )}
       <div className="form-container h-full w-full flex flex-col items-center justify-start space-y-6">

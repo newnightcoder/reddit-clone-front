@@ -367,10 +367,20 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
       return { ...state, editModalOpen: toggle };
 
     case actionTypes.DELETE_POST:
-      const { postId, postIdComment, origin }: { postId: number; postIdComment: number; origin: string } = action.payload;
+      const {
+        postId,
+        postIdComment,
+        origin,
+        profile,
+      }: { postId: number; postIdComment: number; origin: string; profile: boolean } = action.payload;
       switch (origin) {
         case "post":
-          return { ...state, posts: state.posts.filter((post) => post.id !== postId), lastDeleted: true };
+          return {
+            ...state,
+            posts: state.posts.filter((post) => post.id !== postId),
+            userPosts: profile ? state.userPosts.filter((post) => post.id !== postId) : state.userPosts,
+            lastDeleted: true,
+          };
         case "comment": {
           const parentPost = [...state.posts].find((post) => post.id === postIdComment);
           const updatedPosts = [...state.posts].map((post) => {

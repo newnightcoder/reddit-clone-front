@@ -1,6 +1,6 @@
 import { RootState } from "./reducers/root.reducer";
 
-/* This is called module augmentation - as explained in node_modules/@types/react-redux/index.d.ts : 
+/* The line of code below is called module augmentation - as explained in node_modules/@types/react-redux/index.d.ts : 
 To be able to use redux hooks (useDispatch, useSelector) 
 without having to type the state each time or type useDispatch into useAppDispatch etc...😎
 Thank you stackoverflow! 🚀👌🏾 

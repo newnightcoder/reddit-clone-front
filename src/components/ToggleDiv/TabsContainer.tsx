@@ -47,7 +47,7 @@ const TabsContainer = ({ user, bool, setter, set1, set2, container }: TabsContai
       default:
         return;
     }
-  }, [container, user, id, set1, set2, setLeftTabTitle, setRightTabTitle, userLanguage]);
+  }, [container, user?.id, id, set1, set2, setLeftTabTitle, setRightTabTitle, userLanguage, leftLength, rightLength]);
 
   useEffect(() => {
     setLeftLength(set1!.data!.length);
@@ -56,11 +56,11 @@ const TabsContainer = ({ user, bool, setter, set1, set2, container }: TabsContai
       setLeftLength(null);
       setRightLength(null);
     };
-  }, [user, searchResults.posts, searchResults.users, set1, set2]);
+  }, [user, searchResults.posts, searchResults.users, set1?.data?.length, set2?.data?.length]);
 
   useEffect(() => {
     setTabTitles();
-  }, [container, user, searchResults, set1, set2]);
+  }, [container, user, searchResults, set1, set2, leftLength, rightLength]);
 
   return (
     <div className="w-full h-min px-4">

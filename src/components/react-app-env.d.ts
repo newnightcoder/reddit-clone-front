@@ -16,13 +16,13 @@ interface ImgUploaderProps {
 }
 
 interface BtnModalProps {
-  btnModalOpen: bool;
-  setBlob: React.Dispatch<React.SetStateAction<File | null>>;
-  setBlobName: React.Dispatch<React.SetStateAction<string>>;
-  imgType: string;
   blobName: string;
+  imgType: string;
+  btnModalOpen: bool;
   toggleBtnModal: () => void;
   toggleImgModal?: () => void;
+  setBlob: React.Dispatch<React.SetStateAction<File | null>>;
+  setBlobName: React.Dispatch<React.SetStateAction<string>>;
 }
 
 interface MenuProps {
@@ -35,16 +35,16 @@ interface SettingsOptionsProps {
   isMenuOpen?: boolean;
   langOptions: string[];
   modeOptions: string[];
-  toggleOption?: (option: string) => void;
   isActive?: string;
+  toggleOption?: (option: string) => void;
   setIsSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface SettingsProps {
   settingsOpen?: boolean;
   isMenuOpen?: boolean;
-  toggleSettings?: () => void;
   children?: JSX.Element;
+  toggleSettings?: () => void;
 }
 
 interface SkeletonProps {
@@ -60,56 +60,56 @@ interface PostProps {
 }
 
 interface PostFooterProps {
-  toggleOptions: () => void;
-  toCommentPage: () => void;
   likesNumber: number;
   commentsNumber: number;
-  handleLike: (id: number) => void;
   postId: number;
   like: boolean;
   optionsOpen?: boolean;
   optionsBtnRef: React.MutableRefObject<HTMLButtonElement | null>;
+  toCommentPage: () => void;
+  toggleOptions: () => void;
+  handleLike: (id: number) => void;
 }
 
 interface FormProps {
   title?: string;
-  handlePostSubmit?: FormEventHandler;
-  handleTitleInput?: ChangeEventHandler;
+  postToEdit?: IPost;
+  postText?: string;
+  editTitle?: string;
+  editText?: string;
+  imgDom?: JSX.Element | null;
+  editTitleRef?: React.RefObject<HTMLInputElement>;
+  editTextRef?: React.RefObject<HTMLSpanElement>;
   toggleImgUploadModal?: () => void;
   toggleGifModal?: () => void;
   toggleLinkModal?: () => void;
-  handlePostInput?: FocusEventHandler;
-  postToEdit?: IPost;
-  postTitle?: string;
-  postText?: string;
-  editText?: string;
-  imgDom?: JSX.Element | null;
-  setIsPreview?: React.Dispatch<React.SetStateAction<boolean>>;
-  setImgDom?: React.Dispatch<React.SetStateAction<JSX.Element | null>>;
   deletePostPreview: () => void;
+  handlePostInput?: FocusEventHandler;
+  handlePostSubmit?: FormEventHandler;
   handleEditPostSubmit?: FormEventHandler;
   handleEditCommentSubmit?: FormEventHandler;
+  handleTitleInput?: ChangeEventHandler;
   handleEditTitleInput?: ChangeEventHandler;
   handleEditText?: ChangeEventHandler;
   handleEditCommentText?: ChangeEventHandler;
-  editTitleRef?: React.RefObject<HTMLInputElement>;
-  editTextRef?: React.RefObject<HTMLSpanElement>;
+  setIsPreview?: React.Dispatch<React.SetStateAction<boolean>>;
+  setImgDom?: React.Dispatch<React.SetStateAction<JSX.Element | null>>;
 }
 
 interface CommentFormProps {
+  commentTextRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   handleCommentSubmit: FormEventHandler;
   handleChange: ChangeEventHandler;
-  commentTextRef: React.MutableRefObject<HTMLTextAreaElement | null>;
 }
 
 interface ReplyFormProps {
-  handleReplySubmit: FormEventHandler;
   replyOpen: boolean;
-  setReplyOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  handleChange: ChangeEventHandler;
   replyTextRef: React.MutableRefObject<HTMLTextAreaElement | null>;
   commentRefNumber: number;
   commentId: number;
+  handleReplySubmit: FormEventHandler;
+  handleChange: ChangeEventHandler;
+  setReplyOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface LinkPreviewProps {
@@ -124,44 +124,50 @@ interface OptionsProps {
   commentId?: number;
   replyUserId?: number;
   replyId?: number;
-  toggleOptions: () => void;
-  toggleDeleteModal: () => void;
   optionsOpen: boolean;
   optionsRef?: React.RefObject<HTMLDivElement> | undefined;
+  toggleOptions: () => void;
+  toggleDeleteModal: () => void;
 }
 
 interface DeleteModalProps {
-  toggleDeleteModal: () => void;
-  origin: string;
-  handleDeletePost?: (postId: number, origin: string, id: number | null) => void;
   postId?: number;
-  postIdComment?: number;
-  handleDeleteProfile?: (id: number) => void;
-  handleDeleteProfileFromMenu?: (id: number) => void;
+  origin: string;
+  postIdComment?: number | null;
+  profile?: boolean;
+  toggleDeleteModal: () => void;
   toggleMenu?: () => void;
+  handleDeleteProfileFromMenu?: (id: number) => void;
+  handleDeleteProfile?: (id: number) => void;
+  handleDeletePost?: (
+    postId: DeleteModalProps["postId"],
+    origin: DeleteModalProps["origin"],
+    commentId: DeleteModalProps["postIdComment"],
+    profile?: DeleteModalProps["profile"]
+  ) => void;
 }
 
 interface FollowersProps {
   bool: boolean;
-  toggleFollowers?: () => void;
-  setter: MouseEventHandler;
   followersOpen: boolean;
   username: string;
   userId: number;
+  toggleFollowers?: () => void;
+  setter: MouseEventHandler;
   followersCountSetter: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
 interface FollowersToggleProps {
-  setIsFollowersClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  toggleFollowers: () => void;
   user: IUser;
   updatedFollowersCount: number;
+  toggleFollowers: () => void;
+  setIsFollowersClicked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface navbarProps {
-  toggleSettings: () => void;
   settingsOpen: boolean;
   toggleMenu: () => void;
+  toggleSettings: () => void;
 }
 
 interface OverlayProps {
@@ -173,23 +179,23 @@ interface ProfileBannerProps {
   user: IUser;
   loading: boolean;
   updatedFollowersCount: number;
-  setUpdatedFollowersCount: React.Dispatch<React.SetStateAction<number | undefined>>;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setUpdatedFollowersCount: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
 interface ProfileInfoProps {
   user: IUser;
-  btnFollowWidth: number | null;
-  setIsFollowersClicked: React.Dispatch<React.SetStateAction<boolean>>;
-  toggleFollowers: () => void;
   updatedFollowersCount: number;
+  btnFollowWidth: number | null;
+  toggleFollowers: () => void;
+  setIsFollowersClicked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface ProfileOptionsProps {
   isOpen: boolean;
+  profileId: number;
   toggleProfileOptions: () => void;
   toggleEditModal: () => void;
-  profileId: number;
   setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -199,7 +205,6 @@ interface UserCardProps {
 }
 
 interface FollowerCardProps {
-  // btnFollowStatus: boolean;
   user: IFollower;
   followersCount: number;
   followersCountSetter: React.Dispatch<React.SetStateAction<number | undefined>>;
@@ -209,9 +214,9 @@ interface BtnFollowProps {
   profileId?: number;
   userId?: number | null;
   count: number;
-  countSetter: React.Dispatch<React.SetStateAction<number | undefined>>;
   container: string;
   btnFollowRef?: React.RefObject<HTMLButtonElement>;
+  countSetter: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
 interface ExpiredProps {
@@ -220,43 +225,41 @@ interface ExpiredProps {
 }
 
 interface SignupProps {
-  handleNewEmail: ChangeEventHandler;
-  handleNewPass: ChangeEventHandler;
-  handleNewUserSubmit: FormEventHandler;
   isEmail: boolean;
   isLong: boolean;
   isLowercase: boolean;
   isUppercase: boolean;
   isNumber: boolean;
+  handleNewUserSubmit: FormEventHandler;
+  handleNewEmail: ChangeEventHandler;
+  handleNewPass: ChangeEventHandler;
 }
 
 interface TabsContainerProps {
   user?: IUser;
-  bool: boolean;
-  setter: MouseEventHandler;
   set1: IDataSet;
   set2: IDataSet;
   container: string;
-  //React.Dispatch<React.SetStateAction<boolean>>;
+  bool: boolean;
+  setter: MouseEventHandler;
 }
 
 interface ToggleDivProps {
-  bool: boolean;
-  setter: MouseEventHandler;
   dataset1: IDataSet;
   dataset2: IDataSet;
-  followersCountSetter?: React.Dispatch<React.SetStateAction<number | undefined>>;
   followersCount?: number;
   container: string;
-  //React.Dispatch<React.SetStateAction<boolean>>;
+  bool: boolean;
+  setter: MouseEventHandler;
+  followersCountSetter?: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
 interface ToggleDivContentProps {
-  bool: boolean;
   set1: IDataSet;
   set2: IDataSet;
-  followersCountSetter?: React.Dispatch<React.SetStateAction<number | undefined>>;
   followersCount?: number;
+  bool: boolean;
+  followersCountSetter?: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
 interface IDataSet {

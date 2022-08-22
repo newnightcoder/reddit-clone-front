@@ -4,7 +4,7 @@ import { DeleteModalProps } from "../../components/react-app-env";
 import useLanguage from "./useLanguage";
 
 const useDelete = (props: DeleteModalProps) => {
-  const { postId, postIdComment, origin, handleDeletePost, handleDeleteProfile, handleDeleteProfileFromMenu } = props;
+  const { postId, postIdComment, origin, handleDeletePost, handleDeleteProfile, handleDeleteProfileFromMenu, profile } = props;
   const [message, setMessage] = useState("");
   const {
     currentProfileVisit: { id: profileId },
@@ -31,10 +31,10 @@ const useDelete = (props: DeleteModalProps) => {
     }
   }, [setMessage, userLanguage, message, origin]);
 
-  const deleteFunction = () => {
+  const deleteFunction = useCallback(() => {
     switch (origin) {
       case "post":
-        return handleDeletePost!(postId!, origin, null);
+        return handleDeletePost!(postId!, origin, null, profile);
       case "comment":
         return handleDeletePost!(postId!, origin, postIdComment!);
       case "reply":
@@ -46,9 +46,9 @@ const useDelete = (props: DeleteModalProps) => {
       case "profile-admin":
         return handleDeleteProfile!(profileId!);
       default:
-        return deleteFunction;
+        return;
     }
-  };
+  }, [origin, postId, origin, profile, postIdComment, userId, profileId]);
 
   useEffect(() => {
     toggleMessage();

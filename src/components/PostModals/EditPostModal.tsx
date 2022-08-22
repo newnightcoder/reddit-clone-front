@@ -31,8 +31,8 @@ const EditPostModal = () => {
     error,
   } = useSelector((state) => state.posts);
   const [postToEdit]: IPost[] = posts.filter((post) => post.id === editId.id);
-  const [postTitle, setPostTitle] = useState(postToEdit ? postToEdit.title : "");
-  const [editText, setEditText] = useState<string>("test");
+  const [editTitle, setEditTitle] = useState(postToEdit ? postToEdit.title : "");
+  const [editText, setEditText] = useState<string>(postToEdit?.text ? postToEdit.text : "");
   const [isPreview, setIsPreview] = useState(false);
   const [imgDom, setImgDom] = useState<JSX.Element | null>(null);
   const [imgUploadModalOpen, setImgUploadModalOpen] = useState(false);
@@ -55,24 +55,24 @@ const EditPostModal = () => {
     dispatch(clearTempPreviewAction());
   }, [dispatch, setIsPreview]);
 
-  const handleEditTitleInput = useCallback(
-    (e) => {
-      if (error) {
-        dispatch(clearErrorPostAction());
-      }
-      setPostTitle(e.target.innerText);
-    },
-    [error, dispatch, setPostTitle]
-  );
+  const handleEditTitleInput = useCallback(() => {
+    if (error) {
+      dispatch(clearErrorPostAction());
+    }
+    setEditTitle(editTitleRef?.current?.value!);
+  }, [error, dispatch, setEditTitle, editTitleRef.current]);
 
   const handleEditText = useCallback(
     (e) => {
       if (error) {
         dispatch(clearErrorPostAction());
       }
-      setEditText(e.target.innerText);
+      console.log(e.target.innerText);
+      if (editTextRef.current) {
+        editTextRef.current.innerText = e.target.innerText;
+      }
     },
-    [dispatch, error, setEditText]
+    [dispatch, error, editTextRef?.current?.innerText]
   );
 
   const handleEditCommentText = useCallback(
@@ -89,14 +89,16 @@ const EditPostModal = () => {
     (e) => {
       const editedPost: IPost = {
         ...postToEdit,
-        title: postTitle,
-        text: editText,
+        title: editTitle,
+        text: editTextRef?.current?.innerText ? editTextRef?.current?.innerText : "",
         imgUrl: tempPostImg,
         isPreview,
         preview,
       };
+      console.log(editedPost);
+
       e.preventDefault();
-      if (postTitle.length === 0) return dispatch(setErrorPostAction("emptyTitle"));
+      if (editTitle.length === 0) return dispatch(setErrorPostAction("emptyTitle"));
       if (error) return;
       dispatch(editPostAction("post", editedPost, profilePage ? true : false));
       dispatch(toggleEditModalAction());
@@ -104,7 +106,7 @@ const EditPostModal = () => {
       dispatch(clearTempPostImgAction());
       dispatch(clearTempPreviewAction());
     },
-    [dispatch, error, postToEdit, editId, postTitle, editText, tempPostImg, isPreview, preview]
+    [dispatch, error, postToEdit, editId, editTitle, editText, tempPostImg, isPreview, preview]
   );
 
   const handleEditCommentSubmit = useCallback(
@@ -135,19 +137,20 @@ const EditPostModal = () => {
 
   const setText = useCallback(() => {
     if (!editId.type) return;
-    let text = "";
     switch (editId.type) {
       case "post":
-        setPostTitle(postToEdit.title);
+        setEditTitle(postToEdit.title);
         if (editTextRef.current) {
-          editTextRef.current.innerText = postToEdit.text ? postToEdit.text : ""; // to keep linebreaks/innerText
+          editTextRef.current.innerText = postToEdit?.text || ""; // to keep linebreaks/innerText
+          // setEditText(editTextRef.current.innerText);
         }
         break;
       case "comment":
         const comment = comments.filter((comment) => comment.commentId === editId.id)[0];
-        text = comment.text;
+        let text = comment.text;
         if (editTextRef.current) {
           editTextRef.current.innerText = text;
+          // setEditText(text);
         }
         break;
       case "reply": {
@@ -158,16 +161,17 @@ const EditPostModal = () => {
             break;
           }
         }
-        text = reply!.text;
+        let text = reply!.text;
         if (editTextRef.current) {
           editTextRef.current.innerText = text;
+          // setEditText(text);
         }
         break;
       }
       default:
-        setEditText(text);
+        setEditText("");
     }
-  }, [editId.id, editId.type, comments, posts, setPostTitle, setEditText, postToEdit?.text, postToEdit?.title]); // replies
+  }, [editId.id, editId.type, editTextRef, comments, posts, setEditTitle, setEditText, postToEdit?.text, postToEdit?.title]);
 
   const dispatchEditImg = useCallback(() => {
     if (editId.type === "comment" || editId.type === "reply") return;
@@ -199,7 +203,8 @@ const EditPostModal = () => {
 
   useEffect(() => {
     setText();
-  }, [editId.id, editId.type, postToEdit?.text, editText]);
+    console.log("setting text useEffect!");
+  }, [editId.id, editId.type, postToEdit?.text]);
 
   useEffect(() => {
     dispatchEditImg();
@@ -236,7 +241,7 @@ const EditPostModal = () => {
       <div className={`${width > breakpoint.md ? "max-w-[600px]" : ""} w-full relative`}>
         <PostForm
           postToEdit={postToEdit}
-          postTitle={postTitle}
+          editTitle={editTitle}
           editText={editText}
           imgDom={imgDom}
           setImgDom={setImgDom}
