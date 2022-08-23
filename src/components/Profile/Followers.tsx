@@ -1,5 +1,5 @@
 import { ChevronDoubleLeftIcon } from "@heroicons/react/solid";
-import { ForwardedRef, forwardRef, useEffect } from "react";
+import { ForwardedRef, forwardRef } from "react";
 import { useSelector } from "react-redux";
 import { ToggleDiv } from "../../components";
 import { datasetTypes } from "../../utils/dataForToggleDiv";
@@ -13,8 +13,8 @@ const Followers = (props: FollowersProps, ref: ForwardedRef<HTMLDivElement>) => 
     following,
     currentProfileVisit: { id: profileId, followers: userFollowers, following: userFollowing },
   } = useSelector((state) => state?.user);
-
   const userLanguage = useLanguage();
+
   const dataset1: IDataSet = {
     name: datasetTypes.follower,
     data: myId === profileId ? followers : userFollowers,
@@ -23,10 +23,6 @@ const Followers = (props: FollowersProps, ref: ForwardedRef<HTMLDivElement>) => 
     name: datasetTypes.follower,
     data: myId === profileId ? following : userFollowing,
   };
-
-  useEffect(() => {
-    console.log("userId", props.userId, "myId", myId);
-  }, []);
 
   return (
     <div

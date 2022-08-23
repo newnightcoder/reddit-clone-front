@@ -4,7 +4,8 @@ import useHandleLink from "../../utils/hooks/useHandleLink";
 import { FollowerCardProps } from "../react-app-env";
 import BtnFollow from "./BtnFollow";
 
-const FollowerCard = ({ user: { userId, username, picUrl }, followersCount, followersCountSetter }: FollowerCardProps) => {
+const FollowerCard = ({ user, followersCount, followersCountSetter }: FollowerCardProps) => {
+  const { userId, username, picUrl } = user;
   const { id: myId, username: myName } = useSelector((state) => state.user);
   const handleLink = useHandleLink();
   return (
@@ -24,7 +25,13 @@ const FollowerCard = ({ user: { userId, username, picUrl }, followersCount, foll
       </button>
       <div className="w-max">
         {userId !== myId ? (
-          <BtnFollow userId={userId!} count={followersCount} countSetter={followersCountSetter} container={"followerCard"} />
+          <BtnFollow
+            user={user!}
+            userId={userId}
+            count={followersCount}
+            countSetter={followersCountSetter}
+            container={"followerCard"}
+          />
         ) : (
           <button
             className={`flex items-center justify-center space-x-1 text-md bg-blue-500 text-white text-sm px-4 py-1 rounded-full hover:drop-shadow whitespace-nowrap`}

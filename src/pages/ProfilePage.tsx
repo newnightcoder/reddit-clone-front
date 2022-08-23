@@ -1,6 +1,6 @@
 import { createRef, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
 import { BtnFollow, DeleteModal, Error, Followers, Layout, ProfileBanner, ProfileInfo, Skeleton, ToggleDiv } from "../components";
 import { IDataSet } from "../components/react-app-env";
 import { getUserPostsAction } from "../store/actions/posts.action";
@@ -35,6 +35,8 @@ const Profile = () => {
   const btnFollowRef = useRef<HTMLButtonElement>(null);
   const [btnFollowWidth, setBtnFollowWidth] = useState<number | null>(null);
   const ref = createRef<HTMLDivElement>();
+  const { pathname } = useLocation();
+  const [isMounted, setIsMounted] = useState(false);
 
   const getLikedPostArray = useCallback(() => {
     const postsArr: number[] = [];
@@ -83,6 +85,14 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
+    setTimeout(() => {
+      if (followersOpen) toggleFollowers();
+      if (!leftTabOpen) toggleTabs();
+      setIsMounted(true);
+    }, 1000);
+  }, [profileId]);
+
+  useEffect(() => {
     dispatch(getUserPostsAction(profileId!));
     dispatch(getFollowersAction(profileId!));
     getLikedPostArray();
@@ -93,18 +103,6 @@ const Profile = () => {
   }, [profileId, id, likes]);
 
   useEffect(() => {
-    if (!leftTabOpen) {
-      toggleTabs();
-    }
-  }, [followersOpen]);
-
-  useEffect(() => {
-    if (followersOpen) {
-      toggleFollowers();
-    }
-  }, []);
-
-  useEffect(() => {
     setUpdatedFollowersCount(userData?.followersCount);
   }, [userData]);
 
@@ -113,14 +111,20 @@ const Profile = () => {
   }, [userData, userPosts, likedPosts]);
 
   useEffect(() => {
+    setDivFollowersHeight(ref.current?.getBoundingClientRect().height!);
+  }, [ref.current, leftTabOpen, !leftTabOpen]);
+
+  useEffect(() => {
+    return () => {
+      setIsMounted(false);
+    };
+  }, [profileId]);
+
+  useEffect(() => {
     if (btnFollowRef.current) {
       setBtnFollowWidth(btnFollowRef.current.getBoundingClientRect().width);
     }
   }, [btnFollowRef.current]);
-
-  useEffect(() => {
-    setDivFollowersHeight(ref.current?.getBoundingClientRect().height!);
-  }, [ref.current, leftTabOpen, !leftTabOpen]);
 
   return (
     <>
@@ -133,7 +137,7 @@ const Profile = () => {
             style={{ minHeight: "calc(100vh - 4rem)" }}
           >
             <Error />
-            {userData === undefined || !userData || loading ? (
+            {!isMounted || userData === undefined || !userData || loading ? (
               <Skeleton element="profile" number={1} />
             ) : (
               <div
@@ -158,6 +162,7 @@ const Profile = () => {
                   {profileId !== id && !loading && (
                     <BtnFollow
                       userId={null}
+                      user={userData}
                       profileId={profileId!}
                       count={updatedFollowersCount!}
                       countSetter={setUpdatedFollowersCount}

@@ -153,7 +153,7 @@ interface FollowersProps {
   username: string;
   userId: number;
   toggleFollowers?: () => void;
-  setter: MouseEventHandler;
+  setter: () => void;
   followersCountSetter: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
@@ -213,6 +213,7 @@ interface FollowerCardProps {
 interface BtnFollowProps {
   profileId?: number;
   userId?: number | null;
+  user: IUser | IFollower;
   count: number;
   container: string;
   btnFollowRef?: React.RefObject<HTMLButtonElement>;
@@ -250,7 +251,7 @@ interface ToggleDivProps {
   followersCount?: number;
   container: string;
   bool: boolean;
-  setter: MouseEventHandler;
+  setter: () => void;
   followersCountSetter?: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 

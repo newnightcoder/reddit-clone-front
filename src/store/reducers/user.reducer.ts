@@ -1,7 +1,7 @@
 import { Reducer } from "redux";
 import { PURGE } from "redux-persist";
 import { actionTypes } from "../constants";
-import { Action, IFollower, IUserState } from "../types";
+import { Action, IFollower, IUser, IUserState } from "../types";
 
 const userState: IUserState = {
   id: null,
@@ -180,7 +180,13 @@ export const userReducer: Reducer<IUserState, Action> = (state = userState, acti
       };
 
     case actionTypes.UPDATE_FOLLOW:
-      const { myId, userId, bool, origin }: { myId: number; userId: number; bool: boolean; origin: string } = action.payload;
+      const {
+        myId,
+        userId,
+        user,
+        bool,
+        origin,
+      }: { myId: number; userId: number; user: IUser | IFollower; bool: boolean; origin: string } = action.payload;
       switch (bool) {
         case true: {
           const username = state.username;
@@ -193,8 +199,8 @@ export const userReducer: Reducer<IUserState, Action> = (state = userState, acti
           };
           const tempFollower = {
             userId: userId,
-            username: "",
-            picUrl: "",
+            username: user.username,
+            picUrl: user.picUrl ? user.picUrl : "",
             id: null,
           };
           const updatedFollowers: IFollower[] = [newFollower, ...state.currentProfileVisit.followers];

@@ -16,7 +16,7 @@ import {
   saveUserPic,
 } from "../../API/users";
 import { actionTypes } from "../constants";
-import { Action, basicAction, clearAction, IUserState } from "../types";
+import { Action, basicAction, clearAction, IFollower, IUser, IUserState } from "../types";
 
 export const toggleVisitorModalAction = (message: string) => (dispatch: Dispatch<Action>) => {
   dispatch({ type: actionTypes.TOGGLE_VISITOR, payload: message });
@@ -211,12 +211,13 @@ export const toggleDarkModeAction = () => (dispatch: Dispatch<basicAction>) => {
 };
 
 export const followUserAction =
-  (myId: number, userId: number, bool: boolean, origin: string) => async (dispatch: ThunkDispatch<IUserState, any, Action>) => {
+  (myId: number, userId: number, user: IUser | IFollower, bool: boolean, origin: string) =>
+  async (dispatch: ThunkDispatch<IUserState, any, Action>) => {
     try {
       const { msg, error } = await followUser(myId, userId, bool);
       if (error) return dispatch(setErrorUserAction("backend"));
       if (msg) {
-        return dispatch({ type: actionTypes.UPDATE_FOLLOW, payload: { myId, userId, bool, origin } });
+        return dispatch({ type: actionTypes.UPDATE_FOLLOW, payload: { myId, userId, user, bool, origin } });
       }
     } catch (error) {
       dispatch(setErrorUserAction("backend"));

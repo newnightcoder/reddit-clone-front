@@ -62,10 +62,6 @@ const Post = ({ post, aside }: PostProps) => {
     setUserLikes();
   }, []);
 
-  useEffect(() => {
-    console.log(postId, "isDeleted? :", isDeleted);
-  }, [postId, isDeleted]);
-
   return (
     <div
       id="postContainer"

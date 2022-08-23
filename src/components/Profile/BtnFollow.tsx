@@ -4,7 +4,7 @@ import { followUserAction } from "../../store/actions/user.action";
 import { useLanguage, useToggle } from "../../utils/hooks";
 import { BtnFollowProps } from "../react-app-env";
 
-const BtnFollow = ({ userId, profileId, countSetter, count, container, btnFollowRef }: BtnFollowProps) => {
+const BtnFollow = ({ userId, profileId, user, countSetter, count, container, btnFollowRef }: BtnFollowProps) => {
   const {
     id,
     followers,
@@ -46,19 +46,19 @@ const BtnFollow = ({ userId, profileId, countSetter, count, container, btnFollow
   const handleFollow = useCallback(() => {
     if (container === "profile") {
       if (!btnFollowStatusProfile) {
-        dispatch(followUserAction(id!, profileId!, true, "profile"));
+        dispatch(followUserAction(id!, profileId!, user, true, "profile"));
         updateCount(true);
       } else {
-        dispatch(followUserAction(id!, profileId!, false, "profile"));
+        dispatch(followUserAction(id!, profileId!, user, false, "profile"));
         updateCount(false);
       }
     }
     if (container === "followerCard") {
       if (!btnFollowStatusFollowerCard) {
-        dispatch(followUserAction(id!, userId!, true, "followerCard"));
+        dispatch(followUserAction(id!, userId!, user, true, "followerCard"));
         updateCount(true);
       } else {
-        dispatch(followUserAction(id!, userId!, false, "followerCard"));
+        dispatch(followUserAction(id!, userId!, user, false, "followerCard"));
         updateCount(false);
       }
     }
