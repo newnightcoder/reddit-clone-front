@@ -3,6 +3,7 @@ import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { BtnSettings, Error, LoginHeader, Settings, SignupForm, StepUsername } from "../components";
+import { clearErrorPostAction } from "../store/actions/posts.action";
 import { clearErrorUserAction, createUserAction } from "../store/actions/user.action";
 import { date } from "../utils/helpers/formatTime";
 import { useLanguage, useToggleSettings } from "../utils/hooks";
@@ -22,6 +23,11 @@ const Signup = () => {
 
   useEffect(() => {
     dispatch(clearErrorUserAction());
+    dispatch(clearErrorPostAction());
+  }, [dispatch]);
+
+  useEffect(() => {
+    console.log("mounting SignupPage!!!");
   }, []);
 
   const handleNewEmail = useCallback(

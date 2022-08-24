@@ -85,6 +85,10 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
+    console.log("mounting ProfilePage!!!");
+  }, []);
+
+  useEffect(() => {
     setTimeout(() => {
       if (followersOpen) toggleFollowers();
       if (!leftTabOpen) toggleTabs();

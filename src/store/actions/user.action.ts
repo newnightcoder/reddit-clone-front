@@ -275,3 +275,6 @@ export const usernameEditedAction = () => (dispatch: Dispatch<basicAction>) => {
 export const sessionExpiredAction = (bool: boolean) => (dispatch: Dispatch<basicAction>) => {
   dispatch({ type: actionTypes.SESSION_EXPIRED, payload: bool });
 };
+// export const purgeUser = () => (dispatch: ThunkDispatch<IUserState, any, clearAction>) => {
+//   dispatch({ type: PURGE });
+// };

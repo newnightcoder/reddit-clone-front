@@ -230,3 +230,7 @@ export const clearLastAddedAction = () => (dispatch: Dispatch<clearAction>) => {
 export const clearEditIdAction = () => (dispatch: Dispatch<clearAction>) => {
   dispatch({ type: actionTypes.CLEAR_EDIT_ID });
 };
+
+// export const purgePosts = () => (dispatch: ThunkDispatch<IPostState, any, clearAction>) => {
+//   dispatch({ type: PURGE });
+// };

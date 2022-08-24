@@ -40,6 +40,7 @@ const CreatePost = () => {
 
   useEffect(() => {
     window.scroll(0, 0);
+    console.log("mounting CreatePostPage!!!");
     dispatch(clearTempPostImgAction());
     dispatch(clearTempPreviewAction());
     dispatch(clearErrorPostAction());

@@ -6,6 +6,7 @@ import {
   FeedPage,
   HomePage,
   LoginPage,
+  PageNotFound,
   ProfilePage,
   SearchPage,
   SignupPage,
@@ -17,6 +18,7 @@ const App = () => {
     <div className="h-full w-full md:min-w-[320px] relative transition-color duration-500">
       <Router history={history}>
         <Switch>
+          <Route path="/" exact component={HomePage} />
           <Route path="/login" component={LoginPage} />
           <Route path="/signup" component={SignupPage} />
           <Route path="/feed" component={FeedPage} />
@@ -25,7 +27,7 @@ const App = () => {
           <Route path="/profile" component={ProfilePage} />
           <Route path="/search" component={SearchPage} />
           <Route path="/fin" component={DeletedProfilePage} />
-          <Route path="/" exact component={HomePage} />
+          <Route path="*" component={PageNotFound} />
         </Switch>
       </Router>
     </div>

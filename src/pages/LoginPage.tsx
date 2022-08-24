@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import { BtnSettings, Error, LoginHeader, Settings } from "../components";
+import { clearErrorPostAction } from "../store/actions/posts.action";
 import { clearErrorUserAction, logUserAction } from "../store/actions/user.action";
 import { history } from "../utils/helpers";
 import { useError, useLanguage, useToggleSettings } from "../utils/hooks";
@@ -53,7 +54,12 @@ const Login = () => {
 
   useEffect(() => {
     dispatch(clearErrorUserAction());
+    dispatch(clearErrorPostAction());
   }, [dispatch]);
+
+  useEffect(() => {
+    console.log("mounting LoginPage!!!");
+  }, []);
 
   return (
     <Div100vh className="w-full relative flex flex-col items-center justify-start pt-16 md:pt-0 pb-3 md:pb-0 transition-colors duration-500 md:bg-gray-100 md:dark:bg-gray-600 text-gray-900 dark:text-gray-200">

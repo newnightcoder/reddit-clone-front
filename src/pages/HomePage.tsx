@@ -9,6 +9,11 @@ const Homepage = () => {
 
   useEffect(() => {
     persistor.purge();
+    localStorage.clear();
+  }, []);
+
+  useEffect(() => {
+    console.log("mounting HomePage!!!");
   }, []);
 
   return (

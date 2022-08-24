@@ -40,6 +40,7 @@ const CommentPage = () => {
   // clear comments/replies on unmount
   useEffect(() => {
     window.scrollTo(0, 0);
+    console.log("mounting CommentPage!!!");
     return () => {
       dispatch(resetCommentsAction());
       dispatch(resetRepliesAction());
