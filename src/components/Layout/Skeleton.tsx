@@ -50,18 +50,22 @@ const ProfileSkeleton = () => {
   return (
     <div
       style={{ height: "calc(100vh - 7rem)" }}
-      className="bg-white dark:bg-gray-900 w-full rounded md:mt-8 flex flex-col items-center justify-start gap-2 pb-12"
+      className="w-full flex flex-col items-center justify-start rounded md:mt-8  bg-white dark:bg-gray-900 relative"
     >
-      <div className="animate-pulse banner h-48 relative bg-gray-300 dark:bg-gray-700 w-full flex flex-col rounded-tl rounded-tr items-center justify-start gap-2 pb-24 md:pb-12">
-        <div className="w-36 h-36 rounded-full bg-gray-200 dark:bg-gray-700 border-4 border-white dark:border-gray-900 absolute left-4 -bottom-20"></div>
+      <div className="h-[17rem] w-full">
+        <div className="animate-pulse banner h-48 relative bg-gray-300 dark:bg-gray-700 w-full flex flex-col rounded-tl rounded-tr items-center justify-start gap-2 pb-24 md:pb-12">
+          <div className="w-36 h-36 rounded-full bg-gray-200 dark:bg-gray-700 border-4 border-white dark:border-gray-900 absolute left-4 -bottom-20"></div>
+        </div>
       </div>
-      <div className="username-member animate-pulse relative h-max w-full self-start flex flex-col items-start justify-start space-y-1">
-        <span className="h-6 w-max  max-w-[12rem] min-w-[7.5rem] translate-x-[10.5rem] rounded bg-gray-300 dark:bg-gray-700 "></span>
-        <span className="h-4 w-max  max-w-[12rem] min-w-[7.5rem] translate-x-[10.5rem] rounded bg-gray-300 dark:bg-gray-700 "></span>
+      <span className="btn-follow h-6 w-max max-w-[12rem] min-w-[7.5rem] absolute right-4 top-0 translate-y-[12.8rem] rounded-full bg-gray-200 dark:bg-gray-700"></span>
+      <div className="info w-full h-24 pl-6 flex flex-col items-start justify-center space-y-2">
+        <span className="h-6 w-max max-w-[60%] min-w-[50%] rounded bg-gray-200 dark:bg-gray-700"></span>
+        <span className="h-3 w-max max-w-[12rem] min-w-[7.5rem] rounded bg-gray-200 dark:bg-gray-700"></span>
+        <span className="h-3 w-max max-w-[12rem] min-w-[7.5rem] rounded bg-gray-200 dark:bg-gray-700"></span>
       </div>
-      <div className="animate-pulse w-10/12 flex  items-center justify-center space-x-6">
-        <h2 className="h-6 w-1/2 max-w-[12rem] bg-gray-300 dark:bg-gray-700 rounded mt-12"></h2>
-        <h2 className="h-6 w-1/2 max-w-[12rem] bg-gray-300 dark:bg-gray-700 rounded mt-12"></h2>
+      <div className="animate-pulse w-full h-max flex items-center justify-center space-x-6 pt-10 px-4">
+        <h2 className="h-6 w-1/2 md:max-w-[16rem] bg-gray-300 dark:bg-gray-700 rounded"></h2>
+        <h2 className="h-6 w-1/2 md:max-w-[16rem] bg-gray-300 dark:bg-gray-700 rounded"></h2>
       </div>
     </div>
   );
