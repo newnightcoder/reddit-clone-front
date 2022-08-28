@@ -29,7 +29,7 @@ const Reply = ({ reply }: { reply: IReply }) => {
     if (isMounted) {
       setLikesNumber(likesCount);
     }
-  }, [likesCount]);
+  }, [likesCount, isMounted]);
 
   useEffect(() => {
     if (isMounted) {
@@ -45,7 +45,7 @@ const Reply = ({ reply }: { reply: IReply }) => {
         }
       });
     }
-  }, [replyId, likes, userId]);
+  }, [replyId, likes, userId, isMounted]);
 
   useEffect(() => {
     return () => {
@@ -75,7 +75,7 @@ const Reply = ({ reply }: { reply: IReply }) => {
     setTimeout(() => {
       setpostIsGone(true);
     }, 500);
-  }, [dispatch, replyId]);
+  }, [dispatch, replyId, fk_commentId]);
 
   return (
     <div

@@ -5,17 +5,18 @@ import { useError } from "../../utils/hooks";
 
 const Error = () => {
   const error = useError();
-  const { error: postError } = useSelector((state) => state.posts);
+  const { error: postError, editModalOpen } = useSelector((state) => state.posts);
   const ref = useRef<HTMLDivElement | null>(null);
   const { pathname } = useLocation();
   const introPages = pathname === "/" || pathname === "/signup" || pathname === "/login";
 
   useEffect(() => {
+    const refCopy = ref.current;
     if (postError === "sizeLimit" && ref.current) return ref.current.classList.add("disappear");
     return () => {
-      ref.current?.classList.remove("disappear");
+      refCopy?.classList.remove("disappear");
     };
-  }, [error]);
+  }, [postError]);
 
   return (
     <>
@@ -23,7 +24,7 @@ const Error = () => {
         <div
           ref={ref}
           className={`fixed ${
-            introPages ? "top-0" : "top-16"
+            introPages || editModalOpen ? "top-0" : "top-16"
           } mb-2 h-min inset-x-0 w-full py-4 px-2 bg-black dark:bg-white text-center font-bold text-white dark:text-black text-sm z-50 whitespace-pre`}
         >
           {error}

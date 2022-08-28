@@ -1,6 +1,6 @@
 import { createRef, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useLocation } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { BtnFollow, DeleteModal, Error, Followers, Layout, ProfileBanner, ProfileInfo, Skeleton, ToggleDiv } from "../components";
 import { IDataSet } from "../components/react-app-env";
 import { getUserPostsAction } from "../store/actions/posts.action";
@@ -25,7 +25,6 @@ const Profile = () => {
   const initialFollowersCount = userData?.followersCount;
   const [updatedFollowersCount, setUpdatedFollowersCount] = useState(initialFollowersCount);
   const [followersOpen, setFollowersOpen] = useState(false);
-  const [isFollowersClicked, setIsFollowersClicked] = useState(false);
   const toggleDeleteModal = useToggle(openModal, setOpenModal);
   const toggleFollowers = useToggle(followersOpen, setFollowersOpen);
   const [divFollowersHeight, setDivFollowersHeight] = useState(0);
@@ -35,7 +34,6 @@ const Profile = () => {
   const btnFollowRef = useRef<HTMLButtonElement>(null);
   const [btnFollowWidth, setBtnFollowWidth] = useState<number | null>(null);
   const ref = createRef<HTMLDivElement>();
-  const { pathname } = useLocation();
   const [isMounted, setIsMounted] = useState(false);
 
   const getLikedPostArray = useCallback(() => {
@@ -85,10 +83,6 @@ const Profile = () => {
   }, []);
 
   useEffect(() => {
-    console.log("mounting ProfilePage!!!");
-  }, []);
-
-  useEffect(() => {
     setTimeout(() => {
       if (followersOpen) toggleFollowers();
       if (!leftTabOpen) toggleTabs();
@@ -116,7 +110,7 @@ const Profile = () => {
 
   useEffect(() => {
     setDivFollowersHeight(ref.current?.getBoundingClientRect().height!);
-  }, [ref.current, leftTabOpen, !leftTabOpen]);
+  }, [ref, leftTabOpen]);
 
   useEffect(() => {
     return () => {
@@ -128,7 +122,7 @@ const Profile = () => {
     if (btnFollowRef.current) {
       setBtnFollowWidth(btnFollowRef.current.getBoundingClientRect().width);
     }
-  }, [btnFollowRef.current]);
+  }, [btnFollowRef]);
 
   return (
     <>
@@ -177,7 +171,6 @@ const Profile = () => {
                   <ProfileInfo
                     user={userData}
                     btnFollowWidth={btnFollowWidth}
-                    setIsFollowersClicked={setIsFollowersClicked}
                     toggleFollowers={toggleFollowers}
                     updatedFollowersCount={updatedFollowersCount!}
                   />

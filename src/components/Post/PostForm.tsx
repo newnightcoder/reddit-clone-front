@@ -1,5 +1,5 @@
 import { PaperAirplaneIcon } from "@heroicons/react/solid";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { Image, Link45deg, XLg } from "react-bootstrap-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
@@ -7,10 +7,12 @@ import { BeatLoader } from "react-spinners";
 import { giphyDark } from "../../assets";
 import {
   clearEditIdAction,
+  clearErrorPostAction,
   clearTempPostImgAction,
   clearTempPreviewAction,
   toggleEditModalAction,
 } from "../../store/actions/posts.action";
+import { clearErrorUserAction } from "../../store/actions/user.action";
 import { breakpoint } from "../../utils/breakpoints";
 import { fromCDN, history, isObjectEmpty } from "../../utils/helpers";
 import { useLanguage, useWindowSize } from "../../utils/hooks";
@@ -55,7 +57,6 @@ const PostForm = ({
   const userLanguage = useLanguage();
   const createPage = pathname === "/create";
   const commentPage = pathname.includes("comments");
-  const [titleInputValue, setTitleInputValue] = useState("");
 
   const handleCancelBtn = useCallback(() => {
     if (createPage) {
@@ -67,6 +68,8 @@ const PostForm = ({
       dispatch(clearTempPostImgAction());
       dispatch(clearTempPreviewAction());
       dispatch(clearEditIdAction());
+      dispatch(clearErrorUserAction());
+      dispatch(clearErrorPostAction());
       return dispatch(toggleEditModalAction());
     }
   }, [dispatch, createPage, editModalOpen]);
@@ -78,7 +81,7 @@ const PostForm = ({
     if (previewLoading) return setImgDom!(<PreviewLoader />);
     if (!isObjectEmpty(scrapedPost)) return setImgDom!(<LinkPreview linkPreview={scrapedPost} />);
     return setImgDom!(null);
-  }, [createPage, editId.type, tempPostImg, setImgDom, scrapedPost, previewLoading]);
+  }, [editId.type, tempPostImg, setImgDom, scrapedPost, previewLoading]);
 
   const handleBlur = useCallback(
     (e) => {
@@ -89,16 +92,12 @@ const PostForm = ({
         ? handleEditCommentText!(e)
         : handlePostInput!(e);
     },
-    [editId.type, handleEditText, handleEditCommentText, handlePostInput]
+    [error, editId.type, handleEditText, handleEditCommentText, handlePostInput]
   );
 
   useEffect(() => {
     handleImgPost();
-  }, [editId.type, tempPostImg, postToEdit, scrapedPost, previewLoading]);
-
-  useEffect(() => {
-    console.log("editText form", editText);
-  }, []);
+  }, [handleImgPost, editId.type, tempPostImg, postToEdit, scrapedPost, previewLoading]);
 
   return (
     <form

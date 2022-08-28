@@ -34,8 +34,8 @@ const PostSkeleton = ({ aside }: { aside: boolean }) => {
 
 const UserCardSkeleton = ({ mod }: { mod: boolean }) => {
   return (
-    <div className="w-[16rem] xl:w-[18rem] h-24 lg:flex flex-col items-center justify-start gap-2 animate-pulse px-3 py-2">
-      <div className="w-full flex gap-2 items-center justify-start hover:underline hover:font-bold">
+    <div className="w-[16rem] xl:w-[18rem] h-24 lg:flex flex-col items-center justify-start space-y-2 animate-pulse px-3 py-2">
+      <div className="w-full flex items-center justify-start space-x-2 hover:underline hover:font-bold">
         <div className="h-14 w-14 rounded-full flex items-center justify-center border-2 border-blue-400 p-1 hover:border-red-400 transition duration-300">
           <div className="h-11 w-11 rounded-full bg-gray-300"></div>
         </div>
@@ -53,7 +53,7 @@ const ProfileSkeleton = () => {
       className="w-full flex flex-col items-center justify-start rounded md:mt-8  bg-white dark:bg-gray-900 relative"
     >
       <div className="h-[17rem] w-full">
-        <div className="animate-pulse banner h-48 relative bg-gray-300 dark:bg-gray-700 w-full flex flex-col rounded-tl rounded-tr items-center justify-start gap-2 pb-24 md:pb-12">
+        <div className="animate-pulse banner h-48 relative bg-gray-300 dark:bg-gray-700 w-full flex flex-col rounded-tl rounded-tr items-center justify-start space-y-2 pb-24 md:pb-12">
           <div className="w-36 h-36 rounded-full bg-gray-200 dark:bg-gray-700 border-4 border-white dark:border-gray-900 absolute left-4 -bottom-20"></div>
         </div>
       </div>

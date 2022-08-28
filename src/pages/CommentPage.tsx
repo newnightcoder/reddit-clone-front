@@ -1,7 +1,7 @@
 import { ChatAltIcon, ChevronDoubleLeftIcon } from "@heroicons/react/solid";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useLocation } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { PulseLoader } from "react-spinners";
 import { Comment, CommentForm, Layout, Post } from "../components";
 import {
@@ -35,12 +35,10 @@ const CommentPage = () => {
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
   const error = useError();
-  const { pathname } = useLocation();
 
   // clear comments/replies on unmount
   useEffect(() => {
     window.scrollTo(0, 0);
-    console.log("mounting CommentPage!!!");
     return () => {
       dispatch(resetCommentsAction());
       dispatch(resetRepliesAction());
@@ -149,7 +147,7 @@ const CommentPage = () => {
                         <PulseLoader size={6} color={"#ffffff"} />
                       </div>
                     </span>
-                    <div className="h-20 w-full animate-pulse transition-color duration-500 bg-gray-200 dark:bg-black flex flex-col items-center justify-center gap-2 md:rounded-bl md:rounded-br"></div>
+                    <div className="h-20 w-full animate-pulse transition-color duration-500 bg-gray-200 dark:bg-black flex flex-col items-center justify-center space-y-2 md:rounded-bl md:rounded-br"></div>
                   </div>
                 ) : commentsToDisplay.length > 0 ? (
                   <div className="w-full h-max flex flex-col items-center justify-center mt-3 md:rounded">

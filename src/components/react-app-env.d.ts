@@ -33,10 +33,12 @@ interface MenuProps {
 interface SettingsOptionsProps {
   isSettingsOpen: boolean;
   isMenuOpen?: boolean;
+  langLabel: string[];
+  appearanceLabel: string[];
   langOptions: string[];
   modeOptions: string[];
   isActive?: string;
-  toggleOption?: (option: string) => void;
+  setIsActive: React.Dispatch<React.SetStateAction<string>>;
   setIsSettingsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -161,7 +163,6 @@ interface FollowersToggleProps {
   user: IUser;
   updatedFollowersCount: number;
   toggleFollowers: () => void;
-  setIsFollowersClicked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface navbarProps {
@@ -188,7 +189,6 @@ interface ProfileInfoProps {
   updatedFollowersCount: number;
   btnFollowWidth: number | null;
   toggleFollowers: () => void;
-  setIsFollowersClicked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface ProfileOptionsProps {

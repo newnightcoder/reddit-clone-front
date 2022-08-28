@@ -30,7 +30,6 @@ const StepUsername = () => {
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      console.log("working babe");
       dispatch(saveUserNameAction(userId!, userName));
     },
     [dispatch, userId, userName]

@@ -48,7 +48,17 @@ const useDelete = (props: DeleteModalProps) => {
       default:
         return;
     }
-  }, [origin, postId, origin, profile, postIdComment, userId, profileId]);
+  }, [
+    origin,
+    postId,
+    profile,
+    postIdComment,
+    userId,
+    profileId,
+    handleDeletePost,
+    handleDeleteProfileFromMenu,
+    handleDeleteProfile,
+  ]);
 
   useEffect(() => {
     toggleMessage();

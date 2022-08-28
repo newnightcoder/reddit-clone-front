@@ -14,7 +14,7 @@ const VisitorModal = () => {
     return () => {
       root.classList.remove("removeScroll");
     };
-  }, [isVisitor]);
+  }, [isVisitor, root.classList]);
 
   return (
     <div

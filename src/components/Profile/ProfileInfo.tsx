@@ -5,7 +5,7 @@ import { useLanguage } from "../../utils/hooks";
 import { ProfileInfoProps } from "../react-app-env";
 import FollowersToggle from "./FollowersToggle";
 
-const ProfileInfo = ({ user, setIsFollowersClicked, toggleFollowers, updatedFollowersCount }: ProfileInfoProps) => {
+const ProfileInfo = ({ user, toggleFollowers, updatedFollowersCount }: ProfileInfoProps) => {
   const {
     id,
     username,
@@ -38,12 +38,7 @@ const ProfileInfo = ({ user, setIsFollowersClicked, toggleFollowers, updatedFoll
             : null}
         </span>
       </div>
-      <FollowersToggle
-        user={user}
-        setIsFollowersClicked={setIsFollowersClicked}
-        toggleFollowers={toggleFollowers}
-        updatedFollowersCount={updatedFollowersCount!}
-      />
+      <FollowersToggle user={user} toggleFollowers={toggleFollowers} updatedFollowersCount={updatedFollowersCount!} />
     </div>
   );
 };

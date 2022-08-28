@@ -87,7 +87,7 @@ const useHandleLink = () => {
         default:
       }
     },
-    [isAuthenticated, linkToProfile]
+    [isAuthenticated, linkToProfile, handleVisitorModal]
   );
 
   return handleLink;

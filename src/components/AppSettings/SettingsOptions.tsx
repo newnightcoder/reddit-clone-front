@@ -1,5 +1,4 @@
 import { CheckIcon, ChevronLeftIcon } from "@heroicons/react/solid";
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { setLanguageAction } from "../../store/actions/user.action";
@@ -13,7 +12,8 @@ const SettingsOptions = ({
   isSettingsOpen,
   isActive,
   langOptions,
-  // toggleOption,
+  langLabel,
+  appearanceLabel,
   modeOptions,
 }: SettingsOptionsProps) => {
   const dispatch = useDispatch();
@@ -23,14 +23,12 @@ const SettingsOptions = ({
   const { lang, appearance, subtitleLang, subtitleMode } = userLanguage.options;
   const { width } = useWindowSize();
   const { pathname } = useLocation();
-  const landingPage = pathname === "/";
-  const loginPage = pathname === "/login";
-  const signupPage = pathname === "/signup";
+  const introPages = pathname === "/" || pathname === "/login" || pathname === "/signup";
 
   return (
     <div
       className={`${isSettingsOpen ? "flex" : "hidden"} ${
-        landingPage || signupPage || loginPage ? "top-0" : width < breakpoint.md ? "bottom-0" : "top-0"
+        introPages ? "top-0" : width < breakpoint.md ? "bottom-0" : "top-0"
       } z-40 w-52 px-2 pb-2 absolute left-0 flex-col items-start justify-start bg-white dark:bg-gray-700 rounded-lg shadow-xl `}
     >
       <button
@@ -39,26 +37,18 @@ const SettingsOptions = ({
       >
         <ChevronLeftIcon className="h-6" />
         <span className="capitalize">
-          {isActive === "langue" || isActive === "language" || isActive === "sprache"
-            ? lang
-            : (isActive === "appearance" || isActive === "apparence" || isActive === "erscheinungsbild") && appearance}
+          {langLabel.includes(isActive!) ? lang : appearanceLabel.includes(isActive!) ? appearance : "fail"}
         </span>
       </button>
 
-      <div
-        style={
-          isActive === "langue" || isActive === "language" || isActive === "sprache" ? { display: "block" } : { display: "none" }
-        }
-      >
+      <div className={`${langLabel.includes(isActive!) ? "block" : "hidden"}`}>
         <p className="w-full text-sm px-1 py-3 italic whitespace-normal">{subtitleLang}</p>
         <div className="h-min pt-4 pb-6 w-full flex flex-col items-start justify-start space-y-2">
           {langOptions.map((langOpt, i) => (
             <button
               key={i + 1}
               id={langOpt}
-              onClick={() => {
-                dispatch(setLanguageAction(langOpt.slice(0, 2)));
-              }}
+              onClick={() => dispatch(setLanguageAction(langOpt.slice(0, 2)))}
               className="w-full rounded flex items-center justify-between py-2 px-2 space-x-1 capitalize outline-none rounded transition duration-300 hover:bg-gray-100 dark:hover:text-black"
               style={
                 language === langOpt.slice(0, 2)
@@ -75,13 +65,7 @@ const SettingsOptions = ({
           ))}
         </div>
       </div>
-      <div
-        style={
-          isActive === "appearance" || isActive === "apparence" || isActive === "erscheinungsbild"
-            ? { display: "inline-block" }
-            : { display: "none" }
-        }
-      >
+      <div className={`${appearanceLabel.includes(isActive!) ? "inline-block" : "hidden"}`}>
         <p className="text-sm px-1 py-3 italic whitespace-normal">{subtitleMode}</p>
         <div className="h-min pt-4 pb-6 w-full flex flex-col items-start justify-start space-y-2">
           {modeOptions.map((mode, i) => (

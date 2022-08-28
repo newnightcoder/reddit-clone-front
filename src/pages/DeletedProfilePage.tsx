@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Div100vh from "react-div-100vh";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -9,10 +8,6 @@ const DeletedProfile = () => {
   const { isAuthenticated, language, darkMode, role } = useSelector((state) => state?.user);
   const isAdmin = role === "admin";
   const userLanguage = useLanguage();
-
-  useEffect(() => {
-    console.log("mounting DeletedProfilePage!!!");
-  }, []);
 
   return (
     <>

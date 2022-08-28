@@ -25,7 +25,7 @@ const StepImage = () => {
           {error}
         </span>
       )}
-      <div className="h-max w-full flex flex-col items-center gap-2">
+      <div className="h-max w-full flex flex-col items-center space-y-2">
         <div
           className="h-[10rem] w-[10rem] rounded-full border border-blue-400"
           style={{
@@ -35,7 +35,7 @@ const StepImage = () => {
         <ImgUploader profile={true} imgType={"pic"} />
       </div>
       <button className="underline font-bold" onClick={() => history.push("/feed")}>
-        <span className="flex items-center gap-1">
+        <span className="flex items-center space-x-1">
           {userLanguage.signup.stepImage.later}
           <ChevronDoubleRightIcon className="h-4 w-4 text-black" style={{ transform: "translateY(1px)" }} />
         </span>

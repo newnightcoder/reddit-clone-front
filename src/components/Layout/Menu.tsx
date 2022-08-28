@@ -34,10 +34,10 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
 
   return (
     <Div100vh
-      className="menu-container overflow-y-auto h-full lg:hidden flex flex-col items-center justify-start gap-2 fixed top-0 left-0 w-9/12 pt-5 pb-6 bg-gray-100 dark:bg-gray-700 dark:text-white  transition-transform duration-300"
+      className="menu-container overflow-y-auto h-full lg:hidden flex flex-col items-center justify-start space-y-2 fixed top-0 left-0 w-9/12 pt-5 pb-6 bg-gray-100 dark:bg-gray-700 dark:text-white  transition-transform duration-300"
       style={{ transform: isMenuOpen ? "translateX(0)" : "translateX(-100%)", zIndex: 1100 }}
     >
-      <div className="top-section h-max w-10/12 pb-2 flex flex-col items-center justify-center gap-2 border-b border-gray-300">
+      <div className="top-section h-max w-10/12 pb-2 flex flex-col items-center justify-center space-y-2 border-b border-gray-300">
         <div className="avatar-container h-max w-full flex items-center justify-center">
           <div
             className="w-40 h-40 rounded-full border border-gray-400"
@@ -52,7 +52,7 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
         </div>
         <div className="username-member h-max w-full flex flex-col items-center justify-start">
           <span className="text-xl font-bold capitalize w-full max-w-[85%] truncate">{username?.length !== 0 && username}</span>
-          <span className="block italic text-sm flex items-center justify-center gap-1">
+          <span className="block italic text-sm flex items-center justify-center space-x-1">
             <img src={logo_mobile_blue} className="h-6" alt="forum logo" />
             {isAuthenticated ? (
               <span>
@@ -65,7 +65,7 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
         </div>
       </div>
       <div className="main-section relative h-full w-max self-start flex flex-col items-start justify-start pt-5">
-        <ul className="h-max w-48 pl-2 flex flex-col items-start justify-center gap-3 text-sm text-gray-900 dark:text-gray-200">
+        <ul className="h-max w-48 pl-2 flex flex-col items-start justify-center space-y-3 text-sm text-gray-900 dark:text-gray-200">
           <li>
             <button
               className="flex items-center justify-center space-x-2 px-3 py-1 border-2 border-transparent transition-color duration-100 hover:border-blue-400 rounded-full"

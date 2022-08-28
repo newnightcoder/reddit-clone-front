@@ -45,7 +45,6 @@ const EditPostModal = () => {
   const toggleImgUploadModal = useToggle(imgUploadModalOpen, setImgUploadModalOpen);
   const toggleGifModal = useToggle(gifModalOpen, setGifModalOpen);
   const toggleLinkModal = useToggle(linkModalOpen, setLinkModalOpen);
-  const root = window.document.documentElement;
   const body = window.document.body;
   const editTitleRef = useRef<HTMLInputElement>(null);
   const editTextRef = useRef<HTMLSpanElement>(null);
@@ -60,19 +59,18 @@ const EditPostModal = () => {
       dispatch(clearErrorPostAction());
     }
     setEditTitle(editTitleRef?.current?.value!);
-  }, [error, dispatch, setEditTitle, editTitleRef.current]);
+  }, [error, dispatch, setEditTitle, editTitleRef]);
 
   const handleEditText = useCallback(
     (e) => {
       if (error) {
         dispatch(clearErrorPostAction());
       }
-      console.log(e.target.innerText);
       if (editTextRef.current) {
         editTextRef.current.innerText = e.target.innerText;
       }
     },
-    [dispatch, error, editTextRef?.current?.innerText]
+    [dispatch, error, editTextRef]
   );
 
   const handleEditCommentText = useCallback(
@@ -95,8 +93,6 @@ const EditPostModal = () => {
         isPreview,
         preview,
       };
-      console.log(editedPost);
-
       e.preventDefault();
       if (editTitle.length === 0) return dispatch(setErrorPostAction("emptyTitle"));
       if (error) return;
@@ -106,7 +102,7 @@ const EditPostModal = () => {
       dispatch(clearTempPostImgAction());
       dispatch(clearTempPreviewAction());
     },
-    [dispatch, error, postToEdit, editId, editTitle, editText, tempPostImg, isPreview, preview]
+    [dispatch, error, postToEdit, editTitle, tempPostImg, isPreview, preview, profilePage]
   );
 
   const handleEditCommentSubmit = useCallback(
@@ -129,7 +125,6 @@ const EditPostModal = () => {
         default:
           return;
       }
-      console.log(editText);
       dispatch(toggleEditModalAction());
     },
     [error, dispatch, editId.id, editId.type, editText]
@@ -171,7 +166,7 @@ const EditPostModal = () => {
       default:
         setEditText("");
     }
-  }, [editId.id, editId.type, editTextRef, comments, posts, setEditTitle, setEditText, postToEdit?.text, postToEdit?.title]);
+  }, [editId.id, editId.type, editTextRef, comments, setEditTitle, setEditText, postToEdit?.text, postToEdit?.title]);
 
   const dispatchEditImg = useCallback(() => {
     if (editId.type === "comment" || editId.type === "reply") return;
@@ -203,27 +198,26 @@ const EditPostModal = () => {
 
   useEffect(() => {
     setText();
-    console.log("setting text useEffect!");
-  }, [editId.id, editId.type, postToEdit?.text]);
+  }, [setText, editId.id, editId.type, postToEdit?.text]);
 
   useEffect(() => {
     dispatchEditImg();
-  }, [editId.id, postToEdit?.imgUrl, postToEdit?.isPreview]);
+  }, [dispatchEditImg, editId.id, postToEdit?.imgUrl, postToEdit?.isPreview]);
 
-  useEffect(() => {
-    if (editModalOpen) {
-      // root.classList.add("removeScroll");
-      // body.classList.add("removeScroll");
-      body.style.overflowY = "hidden";
-      body.style.paddingRight = "15px";
-    }
-    return () => {
-      // root.classList.remove("removeScroll");
-      // body.classList.remove("removeScroll");
-      body.style.overflowY = "scroll";
-      body.style.paddingRight = "0px";
-    };
-  }, [editModalOpen]);
+  // useEffect(() => {
+  //   if (editModalOpen) {
+  //     // root.classList.add("removeScroll");
+  //     // body.classList.add("removeScroll");
+  //     body.style.overflowY = "hidden";
+  //     body.style.paddingRight = "15px";
+  //   }
+  //   return () => {
+  //     // root.classList.remove("removeScroll");
+  //     // body.classList.remove("removeScroll");
+  //     body.style.overflowY = "scroll";
+  //     body.style.paddingRight = "0px";
+  //   };
+  // }, [editModalOpen, body.style]);
 
   useEffect(() => {
     if (!isObjectEmpty(preview)) return setIsPreview(true);

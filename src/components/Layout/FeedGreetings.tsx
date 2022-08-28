@@ -12,6 +12,7 @@ const FeedGreetings = () => {
   const dispatch = useDispatch();
   const ref = useRef<HTMLDivElement>(null);
   const { width } = useWindowSize();
+
   const animateGreeting = useCallback(() => {
     const addClass = () => {
       if (ref.current) return ref.current.classList.add("disappear");
@@ -21,7 +22,7 @@ const FeedGreetings = () => {
         resolve(addClass());
       }, 2500)
     );
-  }, [dispatch, ref.current]);
+  }, [ref]);
 
   useEffect(() => {
     const animate = () => {
@@ -31,8 +32,8 @@ const FeedGreetings = () => {
         }, 2500);
       });
     };
-    // animate();
-  }, []);
+    animate();
+  }, [animateGreeting, dispatch]);
 
   return (
     <div
@@ -50,7 +51,9 @@ const FeedGreetings = () => {
         <div className="w-max flex flex-col items-center justify-center">
           <span className="w-full flex items-center justify-center">
             <span className="">{userLanguage?.feed.greetingNewUserLine1}&nbsp;</span>
-            <span className="w-max max-w-[20ch] sm:w-full sm:max-w-[12rem] truncate">{username ? username : "Noname"}</span>
+            <span className="w-max max-w-[20ch] sm:w-full sm:max-w-[12rem] truncate capitalize">
+              {username ? username : "Noname"}!
+            </span>
           </span>
           <span className="inline-block">
             {width < breakpoint.sm ? userLanguage?.feed.greetingNewUserLine2_mob : userLanguage?.feed.greetingNewUserLine2}
@@ -63,7 +66,9 @@ const FeedGreetings = () => {
           } items-center justify-center`}
         >
           <span>{userLanguage?.feed.greetingUser}&nbsp;</span>
-          <span className="w-max max-w-[30ch] sm:w-full sm:max-w-[14rem] truncate">{username ? username : "Noname"}</span>
+          <span className="w-max max-w-[30ch] sm:w-full sm:max-w-[14rem] truncate capitalize">
+            {username ? username : "Noname"}!
+          </span>
         </span>
       )}
     </div>

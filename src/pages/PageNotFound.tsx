@@ -1,5 +1,5 @@
 import { HomeIcon } from "@heroicons/react/solid";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Div100vh from "react-div-100vh";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -14,10 +14,6 @@ const PageNotFound = () => {
   };
   const [msg, setMsg] = useState(text.lost);
   const { darkMode } = useSelector((state) => state.user);
-
-  useEffect(() => {
-    console.log("mounting 404Page!!!");
-  }, []);
 
   return (
     <Div100vh>

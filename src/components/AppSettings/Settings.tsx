@@ -10,13 +10,22 @@ import SettingsOptions from "./SettingsOptions";
 const Settings = (props: SettingsProps) => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isActive, setIsActive] = useState("");
-  const [optionTitle, setOptionTitle] = useState("");
+  const [langLabel, setLangLabel] = useState<string[]>([]);
+  const [appearanceLabel, setAppearanceLabel] = useState<string[]>([]);
   const [langOptions, setLangOptions] = useState<string[]>([]);
   const userLanguage = useLanguage();
   const { lang, appearance, help } = userLanguage.options;
-  const options = [lang, appearance, help];
   const { dark, light } = userLanguage.appearance;
+  const options = [lang, appearance, help];
   const modeOptions = [dark, light];
+
+  const getLangLabel = useCallback(() => {
+    const options = [];
+    for (const lang of Object.entries(language)) {
+      options.push(lang[1].options.lang);
+    }
+    setLangLabel(options);
+  }, [setLangLabel]);
 
   const getLangOptions = useCallback(() => {
     const options = [];
@@ -24,19 +33,28 @@ const Settings = (props: SettingsProps) => {
       options.push(lang[0]);
     }
     setLangOptions(options);
-  }, []);
+  }, [setLangOptions]);
+
+  const getAppearanceLabel = useCallback(() => {
+    const options = [];
+    for (const lang of Object.entries(language)) {
+      options.push(lang[1].options.appearance);
+    }
+    setAppearanceLabel(options);
+  }, [setAppearanceLabel]);
 
   useEffect(() => {
     getLangOptions();
-  }, []);
+    getLangLabel();
+    getAppearanceLabel();
+  }, [getLangOptions, getLangLabel, getAppearanceLabel]);
 
   const toggleOption = useCallback(
     (option: string) => {
       setIsSettingsOpen((prevState) => !prevState);
       setIsActive(option);
-      option !== null && setOptionTitle(option);
     },
-    [setIsSettingsOpen, setIsActive, setOptionTitle]
+    [setIsSettingsOpen, setIsActive]
   );
 
   return (
@@ -71,10 +89,12 @@ const Settings = (props: SettingsProps) => {
         <SettingsOptions
           isSettingsOpen={isSettingsOpen}
           isMenuOpen={props.isMenuOpen}
+          langLabel={langLabel}
+          appearanceLabel={appearanceLabel}
           langOptions={langOptions}
           modeOptions={modeOptions}
-          toggleOption={toggleOption}
           isActive={isActive}
+          setIsActive={setIsActive}
           setIsSettingsOpen={setIsSettingsOpen}
         />
       </>

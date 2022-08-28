@@ -12,10 +12,6 @@ const Homepage = () => {
     localStorage.clear();
   }, []);
 
-  useEffect(() => {
-    console.log("mounting HomePage!!!");
-  }, []);
-
   return (
     <Div100vh className="w-full relative flex flex-col items-center justify-start transition-colors duration-500 bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-100">
       <BtnSettings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />

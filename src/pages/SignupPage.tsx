@@ -26,10 +26,6 @@ const Signup = () => {
     dispatch(clearErrorPostAction());
   }, [dispatch]);
 
-  useEffect(() => {
-    console.log("mounting SignupPage!!!");
-  }, []);
-
   const handleNewEmail = useCallback(
     (e) => {
       const emailRegex =

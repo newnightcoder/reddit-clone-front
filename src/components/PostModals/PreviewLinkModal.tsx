@@ -17,7 +17,7 @@ const PreviewLinkModal = ({ linkModalOpen, toggleLinkModal }: { linkModalOpen: b
       toggleLinkModal();
       setTargetUrl("");
     },
-    [targetUrl]
+    [dispatch, toggleLinkModal, setTargetUrl, targetUrl]
   );
 
   return (

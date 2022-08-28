@@ -47,7 +47,7 @@ const SignupForm = ({
       onSubmit={handleNewUserSubmit}
       // autoComplete="disabled"
     >
-      <div className="flex flex-col items-center gap-4">
+      <div className="flex flex-col items-center space-y-4">
         <div className="w-64 flex flex-col items-start">
           <label htmlFor="email">{userLanguage.signup.email}</label>
           <input
@@ -59,7 +59,7 @@ const SignupForm = ({
             autoComplete="new-password"
           ></input>
         </div>
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center space-y-2">
           <div className="flex flex-col items-start">
             <label htmlFor="password">{userLanguage.login.pass}</label>
             <div className="w-64 h-max flex items-center justify-start relative">
@@ -80,7 +80,7 @@ const SignupForm = ({
               </button>
             </div>
           </div>
-          <div className="w-60 md:w-[20rem] md:translate-x-8 flex flex-col items-start md:flex-row md:flex-wrap md:items-center gap-1">
+          <div className="w-60 md:w-[20rem] md:translate-x-8 flex flex-col items-start md:flex-row md:flex-wrap md:items-center space-y-1 md:space-x-1">
             <div
               className="w-full md:w-max whitespace-nowrap flex items-start space-x-1 text-gray-400 pl-2 md:pl-1 pr-2 py-1 rounded-full"
               style={isUppercase ? checkStyle.success : checkStyle.off}

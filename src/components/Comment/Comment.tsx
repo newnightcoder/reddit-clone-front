@@ -13,7 +13,7 @@ import { useError, useLanguage, useToggle } from "../../utils/hooks";
 const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => {
   const { fk_userId_comment: authorId, picUrl, username, text, date, commentId, likesCount, replyCount, replies } = comment;
   const { likes } = useSelector((state) => state?.posts);
-  const { id: myId, role, error: serverError } = useSelector((state) => state?.user);
+  const { id: myId, role } = useSelector((state) => state?.user);
   const [like, setLike] = useState(false);
   const [likesNumber, setLikesNumber] = useState(likesCount);
   const [replyOpen, setReplyOpen] = useState(false);
@@ -83,7 +83,7 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
       e.preventDefault();
       if (replyText.length === 0) return dispatch(setErrorPostAction("emptyReply"));
       if (error) return;
-      if (e.target.parentElement.id == commentId) {
+      if (e.target.parentElement.id === commentId) {
         setcommentRefNumber(commentId!);
       }
       const date: string = createDate();
@@ -100,7 +100,7 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
       }
       setReplyText("");
     },
-    [commentId, commentRef, dispatch, replyText, serverError, myId]
+    [commentId, dispatch, replyText, myId, error]
   );
 
   const handleDeletePost = useCallback(() => {
@@ -148,7 +148,7 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
           </div>
           <div className="right-column h-full w-full flex flex-col items-center justify-center pl-2 pr-4">
             <div className="username-title-container h-12 w-full flex flex-col items-start justify-center">
-              <div className="username-date w-full flex items-center justify-between gap-2">
+              <div className="username-date w-full flex items-center justify-between space-x-2">
                 <div className="capitalize">
                   <span className="text-xs">@</span>
                   {username}
@@ -160,8 +160,8 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
         </div>
         <div className="text w-full text-left px-3 py-2 text-sm break-words whitespace-pre-line">{text}</div>
         <div className="bottom w-full flex items-center justify-end px-2 py-2">
-          <div className="icons-container w-max flex items-center justify-end gap-4 text-xs">
-            <button className="outline-none w-max flex items-center justify-center gap-2" onClick={toggleReply}>
+          <div className="icons-container w-max flex items-center justify-end space-x-4 text-xs">
+            <button className="outline-none w-max flex items-center justify-center space-x-2" onClick={toggleReply}>
               <ChatRight size={14} />
               <span className="capitalize">
                 {replyCount} {userLanguage.commentPage.comment.reply}
@@ -173,7 +173,7 @@ const Comment = ({ comment, postId }: { comment: IComment; postId: number }) => 
               </span>
               <span className="w-4 text-center">{likesNumber}</span>
             </button>
-            <button className="w-max flex items-center justify-center gap-1" onClick={toggleOptions}>
+            <button className="w-max flex items-center justify-center space-x-1" onClick={toggleOptions}>
               <ThreeDotsVertical />
             </button>
           </div>

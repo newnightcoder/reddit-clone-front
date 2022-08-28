@@ -40,14 +40,14 @@ const Post = ({ post, aside }: PostProps) => {
     dispatch(toCommentAction(postId!));
     const formattedTitle = title.replace(/[^a-zA-ZÀ-ÿ0-9\s-]/gi, "").replace(/\s|-/g, "_");
     history.push(`/comments/${formattedTitle}`);
-  }, [dispatch, postId, post.title]);
+  }, [dispatch, postId, title]);
 
   const handleLike = useCallback(
     (postId) => {
       setLike((prevState) => !prevState);
       dispatch(likePostAction("post", userId!, postId, like));
     },
-    [setLike, dispatch, userId, postId, like]
+    [setLike, dispatch, userId, like]
   );
 
   const setUserLikes = useCallback(() => {

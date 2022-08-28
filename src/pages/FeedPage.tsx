@@ -17,10 +17,6 @@ const Feed = () => {
     dispatch(getPostsAction());
   }, [dispatch]);
 
-  useEffect(() => {
-    console.log("mounting FeedPage!!!");
-  }, []);
-
   return (
     <Layout>
       <div className="feed-container h-full w-full md:px-4 lg:px-0 transition duration-300 flex flex-col items-center justify-start space-y-2 transition-color text-black dark:text-gray-100 duration-500 relative">

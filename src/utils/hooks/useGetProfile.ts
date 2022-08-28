@@ -27,7 +27,7 @@ const useGetProfile = (id: number) => {
         dispatch(setErrorPostAction("backend"));
       }
     },
-    [dispatch, setLoading, setUserData]
+    [dispatch, setLoading, setUserData, errorPost]
   );
 
   useEffect(() => {

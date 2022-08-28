@@ -37,7 +37,7 @@ const LinkPreview = ({ linkPreview, aside }: LinkPreviewProps) => {
 
   useEffect(() => {
     setImgUrl(initialImg);
-  }, [image, previewImg]);
+  }, [image, previewImg, initialImg]);
 
   const handleImgError = useCallback(() => {
     dispatch(clearErrorPostAction());

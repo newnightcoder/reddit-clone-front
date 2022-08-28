@@ -18,7 +18,7 @@ const ImgUploaderBtnModal = ({
   blobName,
 }: BtnModalProps) => {
   const { editId } = useSelector((state) => state.posts);
-  const { id: userId, picUrl, bannerUrl, isPreviewImg } = useSelector((state) => state.user);
+  const { id: userId, isPreviewImg } = useSelector((state) => state.user);
   const userLanguage = useLanguage();
   const { pathname } = useLocation();
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const ImgUploaderBtnModal = ({
     setTimeout(() => {
       history.push("/feed");
     }, 300);
-  }, [signupPage, setBlobName, setBlob, history]);
+  }, [signupPage, setBlobName, setBlob]);
 
   const backToOptions = useCallback(() => {
     if (!profilePage) return;
@@ -46,7 +46,7 @@ const ImgUploaderBtnModal = ({
     if (profilePage || signupPage) return;
     toggleBtnModal();
     toggleImgModal!()!;
-  }, [createPostPage, toggleBtnModal, toggleImgModal]);
+  }, [profilePage, signupPage, toggleBtnModal, toggleImgModal]);
 
   const handleSaveBtn = useCallback(() => {
     if (signupPage || profilePage) {
@@ -65,20 +65,7 @@ const ImgUploaderBtnModal = ({
       toggleBtnModal();
       toggleImgModal!();
     }
-  }, [
-    dispatch,
-    toggleBtnModal,
-    toggleImgModal,
-    userId,
-    imgType,
-    signupPage,
-    profilePage,
-    createPostPage,
-    editModal,
-    picUrl,
-    bannerUrl,
-    blobName,
-  ]);
+  }, [dispatch, toggleBtnModal, toggleImgModal, userId, imgType, signupPage, profilePage, createPostPage, editModal]);
 
   return (
     <div

@@ -16,6 +16,8 @@ const useError = () => {
       emptyTitle: "emptyTitle",
       emptyComment: "emptyComment",
       emptyReply: "emptyReply",
+      emptyUsername: "emptyUsername",
+      sameUsername: "sameUsername",
       backend: "backend",
       notFound: "404",
       password: "password",
@@ -44,6 +46,10 @@ const useError = () => {
           return setError(userLanguage.error.emptyComment);
         case errorType.emptyReply:
           return setError(userLanguage.error.emptyReply);
+        case errorType.emptyUsername:
+          return setError(userLanguage.error.emptyUsername);
+        case errorType.sameUsername:
+          return setError(userLanguage.error.sameUsername);
         case errorType.backend:
           return setError(userLanguage.error.backend);
         case errorType.notFound:

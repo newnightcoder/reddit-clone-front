@@ -13,7 +13,7 @@ const useLinkToProfile = () => {
         history.push(`/profile/${name}`);
       }, 100);
     },
-    [dispatch, history]
+    [dispatch]
   );
 
   return linkToProfile;

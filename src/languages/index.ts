@@ -1,34 +1,3 @@
-// A- VISITOR
-// --en
-// greetingVisitor: "Welcome to Forum - Take a look around!" = 38
-// greetingVisitor_mob: "Welcome to Forum\nTake a look around!" = 16 + 19 (35)
-// --fr
-// greetingVisitor: "Bienvenue sur Forum - Bonne visite!" = 35
-// greetingVisitor_mob: "Bienvenue sur Forum\nBonne visite!" = 19 + 13 (32)
-// --de
-// greetingVisitor: "Wilkommen auf Forum - Viel Spaß bei den Rundgang!" = 49
-// greetingVisitor: "Wilkommen auf Forum\nViel Spaß bei den Rundgang!" = 19 + 27 (46)
-
-// B- NEW USER
-// --en
-// greetingNewUserLine1: "Welcome to Forum" + username = 16 + ?
-// greetingNewUserLine2: "Share and discuss with the community." = 37
-// --fr
-// greetingNewUserLine1: "Bienvenue sur Forum" + username = 19 + ?
-// greetingNewUserLine2: "Echangez et discutez avec la communauté." = 40
-// --de
-// greetingNewUserLine1: "Wilkommen auf Forum" + username = 19 + ?
-// greetingNewUserLine2: "Teile und diskutiere mit der Community" = 39
-//
-
-// C- USER
-// --en
-// greetingUser: "Happy to see you again" + username = 22 + ?
-// --fr
-// greetingUser: "Content de vous revoir" + username = 22 + ?
-// --de
-//  greetingUser: "Schön dich wiederzusehen" + username = 24 + ?
-
 const language = {
   ////////////////
   //  ENGLISH  //
@@ -63,6 +32,8 @@ const language = {
       emptyTitle: "Your post has no title!\nPut a word or two...",
       emptyComment: "Your comment is empty...",
       emptyReply: "Your reply is empty...",
+      emptyUsername: "It's empty! Please enter your new username.",
+      sameUsername: "That's the same username.\nPlease enter your new username.",
       backend: "Oops! something went wrong...",
       notFound: "No user found with this email address",
       password: "Your password is incorrect",
@@ -334,6 +305,8 @@ const language = {
       emptyTitle: "Votre titre est vide!\nMettez un mot ou deux...",
       emptyComment: "Votre commentaire est vide!",
       emptyReply: "Votre réponse est vide!",
+      emptyUsername: "Le champ est vide! Entrez votre nouveau nom d'utilisateur.",
+      sameUsername: "C'est le même nom d'utilisateur.\nVeuillez entrer un nouveau nom.",
       backend: "Oups! petit problème de notre part, désolé...",
       notFound: "Aucun compte trouvé avec cet email",
       password: "Votre mot de passe est incorrect",
@@ -605,6 +578,8 @@ const language = {
       emptyTitle: "Der Beitrag hat keine Überschrift!\nSchreiben Sie ein paar Wörter...",
       emptyComment: "Ihr Kommentar ist doch leer...",
       emptyReply: "Ihre Antwort ist doch leer...",
+      emptyUsername: "Kein Benutzername! Gib bitte deinen neuen Benutzernamen ein.",
+      sameUsername: "Es ist der gleiche Benutzername.\n Gib bitte deinen neuen Benutzernamen ein.",
       backend:
         "Ach! Sieht aus wie etwas schiefgegangen ist, sorry...\nBitte aktualisieren Sie die Webseite oder melden Sie sich wieder an",
       notFound: "Kein Konto mit dieser Emailadresse gefunden",

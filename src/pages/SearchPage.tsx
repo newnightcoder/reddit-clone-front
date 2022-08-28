@@ -46,10 +46,6 @@ const SearchPage = () => {
     };
   }, [dispatch, pathname]);
 
-  useEffect(() => {
-    console.log("mounting SearchPage!!!");
-  }, []);
-
   return (
     <Layout>
       <div className="min-h-[calc(100vh-8rem)] md:min-h-[calc(100vh-7rem)] md:mt-8  w-full flex items-start justify-center  lg:border-r lg:border-l lg:border-[#ededed] dark:md:border-gray-900 transition duration-500 md:px-12 pb-4">

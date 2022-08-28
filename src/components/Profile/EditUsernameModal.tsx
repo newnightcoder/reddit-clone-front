@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearErrorUserAction, editUsernameAction, resetUsernameEditedAction } from "../../store/actions/user.action";
+import {
+  clearErrorUserAction,
+  editUsernameAction,
+  resetUsernameEditedAction,
+  setErrorUserAction,
+} from "../../store/actions/user.action";
 import { useError, useLanguage } from "../../utils/hooks";
 
 const EditUsernameModal = ({ toggleEditModal }: { toggleEditModal: () => void }) => {
@@ -15,15 +20,16 @@ const EditUsernameModal = ({ toggleEditModal }: { toggleEditModal: () => void })
       toggleEditModal();
       dispatch(resetUsernameEditedAction());
     }
-  }, [usernameEdited, dispatch]);
+  }, [usernameEdited, dispatch, toggleEditModal]);
 
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-      if (newUsername === "" || newUsername === username) return;
+      if (newUsername.length === 0) return dispatch(setErrorUserAction("emptyUsername"));
+      if (newUsername.toLowerCase() === username.toLowerCase()) return dispatch(setErrorUserAction("sameUsername"));
       dispatch(editUsernameAction(userId!, newUsername));
     },
-    [dispatch, userId, newUsername]
+    [dispatch, userId, newUsername, username]
   );
 
   const handleChange = useCallback(
@@ -45,6 +51,7 @@ const EditUsernameModal = ({ toggleEditModal }: { toggleEditModal: () => void })
         <label htmlFor="username" className="for">
           {userLanguage.editModal.newUsername}:
         </label>
+        {/* <Error /> */}
         {/* {error && (
           <span className="whitespace-pre w-full md:w-max h-max py-2 px-3 text-sm md:text-sm text-white transition duration-500 bg-black dark:bg-white dark:text-black text-center rounded">
             {error}

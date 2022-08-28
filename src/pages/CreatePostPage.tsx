@@ -40,12 +40,11 @@ const CreatePost = () => {
 
   useEffect(() => {
     window.scroll(0, 0);
-    console.log("mounting CreatePostPage!!!");
     dispatch(clearTempPostImgAction());
     dispatch(clearTempPreviewAction());
     dispatch(clearErrorPostAction());
     dispatch(clearErrorUserAction());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (!isObjectEmpty(preview)) return setIsPreview(true);
@@ -92,7 +91,21 @@ const CreatePost = () => {
       dispatch(clearTempPreviewAction());
       history.push("/feed");
     },
-    [dispatch, title, postText, id, username, picUrl, postImg, isPreview, preview]
+    [
+      dispatch,
+      title,
+      postText,
+      id,
+      username,
+      picUrl,
+      postImg,
+      isPreview,
+      preview,
+      creationDate,
+      error,
+      handleLink,
+      isAuthenticated,
+    ]
   );
 
   return (

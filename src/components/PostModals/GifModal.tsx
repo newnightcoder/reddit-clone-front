@@ -45,8 +45,8 @@ const GiphyPicker = (props: IGifModalProps) => {
   const userLanguage = useLanguage();
 
   useEffect(() => {
-    if (pickerDiv !== null) return setSize(pickerDiv.getBoundingClientRect());
-  }, [width]);
+    if (pickerDiv) return setSize(pickerDiv.getBoundingClientRect());
+  }, [width, pickerDiv]);
 
   return (
     <div

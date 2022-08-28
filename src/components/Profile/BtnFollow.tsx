@@ -7,9 +7,8 @@ import { BtnFollowProps } from "../react-app-env";
 const BtnFollow = ({ userId, profileId, user, countSetter, count, container, btnFollowRef }: BtnFollowProps) => {
   const {
     id,
-    followers,
     following,
-    currentProfileVisit: { followers: userFollowers, following: userFollowing },
+    currentProfileVisit: { followers: userFollowers },
   } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
@@ -41,7 +40,7 @@ const BtnFollow = ({ userId, profileId, user, countSetter, count, container, btn
     return () => {
       setIsMounted(false);
     };
-  }, [userFollowers]);
+  }, [container, userFollowers, following, id, userId]);
 
   const handleFollow = useCallback(() => {
     if (container === "profile") {
@@ -74,6 +73,7 @@ const BtnFollow = ({ userId, profileId, user, countSetter, count, container, btn
     toggleBtnFollowerCardTextFollow,
     id,
     profileId,
+    user,
     userId,
   ]);
 

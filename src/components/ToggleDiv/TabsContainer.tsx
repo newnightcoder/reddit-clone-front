@@ -1,12 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
 import { useLanguage } from "../../utils/hooks";
 import { TabsContainerProps } from "../react-app-env";
 
 const TabsContainer = ({ user, bool, setter, set1, set2, container }: TabsContainerProps) => {
   const { id, searchResults } = useSelector((state) => state.user);
-  const { pathname } = useLocation();
   const userLanguage = useLanguage();
   const [leftTabTitle, setLeftTabTitle] = useState<string>("");
   const [rightTabTitle, setRightTabTitle] = useState<string>("");
@@ -16,38 +14,35 @@ const TabsContainer = ({ user, bool, setter, set1, set2, container }: TabsContai
   const setTabTitles = useCallback(() => {
     switch (container) {
       case "profile":
-        {
-          user?.id === id
-            ? setLeftTabTitle(`${userLanguage.profile.posts} (${set1!.data!.length!})`)
-            : setLeftTabTitle(`${userLanguage.profile.userPosts} (${set1!.data!.length!})`);
+        user?.id === id
+          ? setLeftTabTitle(`${userLanguage.profile.posts} (${set1!.data!.length!})`)
+          : setLeftTabTitle(`${userLanguage.profile.userPosts} (${set1!.data!.length!})`);
 
-          setRightTabTitle(`Likes (${rightLength!})`);
-        }
+        setRightTabTitle(`Likes (${rightLength!})`);
+
         break;
       case "followerCard":
-        {
-          setLeftTabTitle(
-            user?.id === id
-              ? `${userLanguage.profile.followers} (${leftLength})`
-              : `${userLanguage.profile.userFollowers} (${leftLength})`
-          );
-          setRightTabTitle(
-            user?.id === id
-              ? `${userLanguage.profile.following} (${rightLength})`
-              : `${userLanguage.profile.userFollowing} (${rightLength})`
-          );
-        }
+        setLeftTabTitle(
+          user?.id === id
+            ? `${userLanguage.profile.followers} (${leftLength})`
+            : `${userLanguage.profile.userFollowers} (${leftLength})`
+        );
+        setRightTabTitle(
+          user?.id === id
+            ? `${userLanguage.profile.following} (${rightLength})`
+            : `${userLanguage.profile.userFollowing} (${rightLength})`
+        );
+
         break;
       case "search":
-        {
-          setLeftTabTitle(`${userLanguage.search.user} (${leftLength})`);
-          setRightTabTitle(`${userLanguage.search.post} (${rightLength})`);
-        }
+        setLeftTabTitle(`${userLanguage.search.user} (${leftLength})`);
+        setRightTabTitle(`${userLanguage.search.post} (${rightLength})`);
+
         break;
       default:
         return;
     }
-  }, [container, user?.id, id, set1, set2, setLeftTabTitle, setRightTabTitle, userLanguage, leftLength, rightLength]);
+  }, [container, user?.id, id, set1, setLeftTabTitle, setRightTabTitle, userLanguage, leftLength, rightLength]);
 
   useEffect(() => {
     setLeftLength(set1!.data!.length);
@@ -56,11 +51,11 @@ const TabsContainer = ({ user, bool, setter, set1, set2, container }: TabsContai
       setLeftLength(null);
       setRightLength(null);
     };
-  }, [user, searchResults.posts, searchResults.users, set1?.data?.length, set2?.data?.length]);
+  }, [user, searchResults.posts, searchResults.users, set1, set2, set1?.data?.length, set2?.data?.length]);
 
   useEffect(() => {
     setTabTitles();
-  }, [container, user, searchResults, set1, set2, leftLength, rightLength]);
+  }, [container, user, searchResults, set1, set2, leftLength, rightLength, setTabTitles]);
 
   return (
     <div className="w-full h-min px-4">

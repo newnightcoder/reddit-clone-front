@@ -266,9 +266,10 @@ export const postsReducer: Reducer<IPostState, Action> = (state = initialState, 
             default:
               return { ...state };
           }
+        default:
+          return { ...state };
       }
     }
-
     case actionTypes.EDIT_POST: {
       const { edit, origin, profile }: { edit: IPost | IComment | IReply; origin: string; profile: boolean } = action.payload;
       switch (origin) {

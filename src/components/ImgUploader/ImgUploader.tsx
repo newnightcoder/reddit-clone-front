@@ -12,7 +12,6 @@ const ImgUploader = (props: ImgUploaderProps) => {
   const [blobName, setBlobName] = useState<string>("");
   const form = useRef<HTMLFormElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  // const fileSelected = fileInputRef?.current?.files?.[0];
   const { id } = useSelector((state) => state.user);
   const { tempPostImg: imgUrl, editId, error } = useSelector((state) => state.posts);
   const { pathname } = useLocation();
@@ -28,19 +27,17 @@ const ImgUploader = (props: ImgUploaderProps) => {
 
   const checkFileSize = useCallback(
     (origin) => {
-      const KILO_OCTET = Math.pow(10, 3);
+      // const KILO_OCTET = Math.pow(10, 3);
       const MEGA_OCTET = Math.pow(10, 6);
       const MAX_SIZE = 5 * MEGA_OCTET;
       switch (origin) {
         case "post":
           const imgBlob = fileInputRef?.current?.files?.[0]!;
-          console.log(`${origin} - checkFileSize of:`, imgBlob);
           if (imgBlob.size > MAX_SIZE) {
             dispatch(setErrorPostAction("sizeLimit"));
             return false;
           } else return true;
         case "profile":
-          console.log(`${origin} - checkFileSize of:`, blob);
           if (blob!.size > MAX_SIZE) {
             dispatch(setErrorPostAction("sizeLimit"));
             return false;
@@ -49,21 +46,21 @@ const ImgUploader = (props: ImgUploaderProps) => {
           return false;
       }
     },
-    [dispatch, fileInputRef.current, blob]
+    [dispatch, fileInputRef, blob]
   );
 
   const resetUploaderPost = useCallback(() => {
     props.deletePostPreview!();
     fileInputRef.current!.value = "";
     props.toggleImgUploadModal!();
-  }, [props.deletePostPreview, props.toggleImgUploadModal, fileInputRef.current]);
+  }, [props.deletePostPreview, props.toggleImgUploadModal, fileInputRef]);
 
   const resetUploaderProfile = useCallback(() => {
     fileInputRef.current!.value = "";
     dispatch(toggleIsPreviewImgAction());
     setBlob(null);
     setBlobName("");
-  }, [fileInputRef.current, dispatch, setBlob, setBlobName, toggleBtnModal]);
+  }, [fileInputRef, dispatch, setBlob, setBlobName]);
 
   const handleImgSubmit = useCallback(
     (e, origin) => {
@@ -84,11 +81,10 @@ const ImgUploader = (props: ImgUploaderProps) => {
           return;
       }
     },
-    [checkFileSize, dispatch, resetUploaderPost, resetUploaderProfile, id, blob, fileInputRef.current, props.imgType]
+    [checkFileSize, dispatch, resetUploaderPost, resetUploaderProfile, id, blob, fileInputRef, props.imgType]
   );
 
   const handleChange = useCallback(() => {
-    console.log("file selected handleChange", fileInputRef?.current?.files?.[0]);
     setBlob(fileInputRef?.current?.files?.[0]!);
     setBlobName(fileInputRef?.current?.files?.[0]?.name!);
     if (!btnModalOpen) {
@@ -102,7 +98,7 @@ const ImgUploader = (props: ImgUploaderProps) => {
       e.preventDefault();
       form.current!.requestSubmit();
     },
-    [form.current]
+    [form]
   );
 
   useEffect(() => {

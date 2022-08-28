@@ -9,10 +9,9 @@ import { breakpoint } from "../../utils/breakpoints";
 import { fromCDN, history } from "../../utils/helpers";
 import { useHandleLink, useLanguage, useToggle, useWindowSize } from "../../utils/hooks";
 
-const NavBar = ({ toggleMenu, margin }: { toggleMenu: () => void; margin: number | null }) => {
+const NavBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
   const { width } = useWindowSize();
-  const { isAuthenticated, picUrl, username, id, darkMode, isVisitor } = useSelector((state) => state.user);
-  const { editModalOpen } = useSelector((state) => state.posts);
+  const { isAuthenticated, picUrl, username, id, darkMode } = useSelector((state) => state.user);
   const handleLink = useHandleLink();
   const userLanguage = useLanguage();
   const searchBarRef = useRef<HTMLFormElement | null>(null);
@@ -33,27 +32,23 @@ const NavBar = ({ toggleMenu, margin }: { toggleMenu: () => void; margin: number
   const searchPageMobile = searchPage && width < breakpoint.md;
 
   useEffect(() => {
-    console.log("margin navbar", margin);
-  }, [margin]);
-
-  useEffect(() => {
     if (searchBarRef.current) {
       setSearchBarRect(searchBarRef?.current?.getBoundingClientRect());
     }
-  }, [searchBarRef?.current]);
+  }, [searchBarRef]);
 
   useEffect(() => {
     if (searchFilterRef.current) {
       setSearchFilterRect(searchFilterRef?.current?.getBoundingClientRect());
     }
-  }, [searchFilterRef?.current, active]);
+  }, [searchFilterRef, active]);
 
   useEffect(() => {
     window.addEventListener("resize", () => {
       if (searchBarRef.current) setSearchBarRect(searchBarRef?.current?.getBoundingClientRect());
     });
     return () => window.removeEventListener("resize", () => setSearchBarRect(searchBarRef!.current!.getBoundingClientRect()));
-  }, [searchBarRef?.current]);
+  }, [searchBarRef]);
 
   const handleChange = useCallback(() => {
     setIsSearchText(true);
@@ -71,7 +66,7 @@ const NavBar = ({ toggleMenu, margin }: { toggleMenu: () => void; margin: number
       if (!searchPage) return history.push("/search");
       if (searchMenuOpen) return toggleSearchMenu();
     },
-    [searchRef, searchFilter, pathname, searchMenuOpen, toggleSearchMenu]
+    [searchRef, searchFilter, searchPage, searchMenuOpen, dispatch, toggleSearchMenu]
   );
 
   return (
@@ -266,7 +261,7 @@ const NavBar = ({ toggleMenu, margin }: { toggleMenu: () => void; margin: number
         <div className="hidden w-max md:flex items-center justify-evenly space-x-6 transition-color duration-500 text-black dark:text-gray-100">
           <button
             tabIndex={0}
-            className="hidden md:flex items-center justify-center gap-2 outline-none bg-transparent "
+            className="hidden md:flex items-center justify-center space-x-2 outline-none bg-transparent "
             onClick={() => handleLink("navbar-profile", id!, username)}
           >
             <div
@@ -292,7 +287,7 @@ const NavBar = ({ toggleMenu, margin }: { toggleMenu: () => void; margin: number
             {isAuthenticated ? (
               <button
                 tabIndex={0}
-                className="hidden w-24 xl:flex items-center justify-center gap-1 outline-none bg-transparent transform translate-x-8 hover:underline hover:font-bold"
+                className="hidden w-24 xl:flex items-center justify-center space-x-1 outline-none bg-transparent transform translate-x-8 hover:underline hover:font-bold"
                 onClick={() => history.push("/")}
               >
                 <span className="capitalize">{userLanguage.navbar.logout}</span> <Power size={18} className="font-bold" />

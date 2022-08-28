@@ -25,13 +25,13 @@ const Aside = () => {
     if (width >= breakpoint.lg && recentUsers.length === 0) {
       dispatch(getRecentUsersAction());
     }
-  }, [dispatch, width, breakpoint.lg]);
+  }, [dispatch, width, recentUsers.length]);
 
   useEffect(() => {
     if (width >= breakpoint.lg && mods.length === 0) {
       dispatch(getModsAction());
     }
-  }, [dispatch, width, breakpoint.lg]);
+  }, [dispatch, width, mods.length]);
 
   useEffect(() => {
     if (width >= breakpoint.lg) {
@@ -46,7 +46,7 @@ const Aside = () => {
       <div
         ref={asideContainerRef}
         style={{ top: feedPage ? `calc(100vh - ${asideContainerSize?.height}px - 15px)` : "6rem" }}
-        className="sticky pathname w-full h-max flex flex-col items-center justify-start mt-[6rem] gap-2"
+        className="sticky pathname w-full h-max flex flex-col items-center justify-start mt-[6rem] space-y-2"
       >
         {feedPage ? (
           <>
