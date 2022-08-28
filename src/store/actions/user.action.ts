@@ -119,8 +119,7 @@ export const saveUserPicAction =
 export const clearUserpicAction =
   (id: number, imgType: string) => async (dispatch: ThunkDispatch<IUserState, any, Action | basicAction>) => {
     try {
-      const { result, error, sessionExpired } = await deleteUserpic(id, imgType);
-      console.log(result);
+      const { error, sessionExpired } = await deleteUserpic(id, imgType);
       if (sessionExpired) return dispatch(sessionExpiredAction(sessionExpired));
       if (error) return dispatch(setErrorUserAction(error));
       dispatch({ type: actionTypes.CLEAR_USERPIC, payload: imgType });
@@ -166,10 +165,8 @@ export const getRecentUsersAction = () => async (dispatch: ThunkDispatch<IUserSt
     if (sessionExpired) return dispatch(sessionExpiredAction(sessionExpired));
     // ❌
     if (error) return dispatch(setErrorUserAction(error));
-    console.log("just got recent users");
     dispatch({ type: actionTypes.GET_USERS, payload: { recentUsers } });
   } catch (err) {
-    console.log("error catch", err);
     dispatch(setErrorUserAction("backend"));
   }
 };
@@ -180,7 +177,6 @@ export const getModsAction = () => async (dispatch: ThunkDispatch<IUserState, an
     if (sessionExpired) return dispatch(sessionExpiredAction(sessionExpired));
     // ❌
     if (error) return dispatch(setErrorUserAction(error));
-    console.log("just got mods");
     dispatch({ type: actionTypes.GET_MODS, payload: { mods } });
   } catch (err) {
     dispatch(setErrorUserAction("backend"));
@@ -242,7 +238,6 @@ export const setSearchQueryAction =
       dispatch({ type: actionTypes.SET_SEARCH_QUERY, payload: { query, filter } });
       dispatch({ type: actionTypes.GET_SEARCH_RESULTS, payload: results });
     } catch (error) {
-      console.log(error);
       dispatch(setErrorUserAction("backend"));
     }
   };
