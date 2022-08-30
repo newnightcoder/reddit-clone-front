@@ -18,9 +18,7 @@ const RecentUsers = () => {
       <div className="list w-full h-max flex flex-col items-center justify-center rounded-bl rounded-br  transition-color duration-500 border-b border-l border-r dark:border-gray-600 pb-12">
         <>
           {users.length === 0 || users === undefined ? (
-            <Skeleton element="user" number={pathname.includes("profile") ? 3 : 5} />
-          ) : pathname.includes("/profile") ? (
-            [...users]?.splice(0, 3).map((user) => <UserCard user={user} key={user.id} />)
+            <Skeleton element="user" number={5} />
           ) : (
             [...users]?.map((user) => <UserCard user={user} key={user.id} />)
           )}

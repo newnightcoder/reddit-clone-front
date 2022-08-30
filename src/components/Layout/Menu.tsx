@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { DeleteModal } from "..";
 import { logo_mobile_blue, picPlaceholder } from "../../assets";
 import { deleteUserAction } from "../../store/actions/user.action";
+import { fromCDN } from "../../utils/helpers";
 import { formatTimestamp } from "../../utils/helpers/formatTime";
 import { useHandleLink, useLanguage, useToggleSettings } from "../../utils/hooks";
 import Settings from "../AppSettings/Settings";
@@ -43,7 +44,7 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
             className="w-40 h-40 rounded-full border border-gray-400"
             style={
               picUrl !== null
-                ? { background: `url(${picUrl}) no-repeat center/cover` }
+                ? { background: `url(${fromCDN(picUrl)}) no-repeat center/cover` }
                 : {
                     background: `url(${picPlaceholder}) no-repeat center/cover`,
                   }

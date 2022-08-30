@@ -244,7 +244,9 @@ const NavBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
           <div
             className="rounded-full border border-gray-600 relative"
             style={{
-              background: picUrl ? `url(${picUrl}) no-repeat center/cover` : `url(${picPlaceholder}) no-repeat center/cover`,
+              background: picUrl
+                ? `url(${fromCDN(picUrl)}) no-repeat center/cover`
+                : `url(${picPlaceholder}) no-repeat center/cover`,
               height: isAuthenticated ? "2.5rem" : "2rem",
               width: isAuthenticated ? "2.5rem" : "2rem",
             }}

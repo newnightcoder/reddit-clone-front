@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { picPlaceholder } from "../../assets";
+import { fromCDN } from "../../utils/helpers";
 import useHandleLink from "../../utils/hooks/useHandleLink";
 import { FollowerCardProps } from "../react-app-env";
 import BtnFollow from "./BtnFollow";
@@ -16,7 +17,7 @@ const FollowerCard = ({ user, followersCount, followersCountSetter }: FollowerCa
       >
         <div
           className="h-12 w-12 rounded-full border"
-          style={{ background: `url(${picUrl ? picUrl : picPlaceholder}) no-repeat center/cover` }}
+          style={{ background: `url(${picUrl ? fromCDN(picUrl) : picPlaceholder}) no-repeat center/cover` }}
         ></div>
         <span className="w-[calc(100%-4rem)] capitalize text-sm px-0.5">
           <span className="text-xs">@</span>
