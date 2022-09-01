@@ -17,7 +17,7 @@ const GifModal = (props: IGifModalProps) => {
     <>
       {createPostPage || editPostModal ? (
         <div
-          style={{ opacity: props.gifModalOpen ? 1 : 0, zIndex: props.gifModalOpen ? 1001 : -1 }}
+          style={{ opacity: props.gifModalOpen ? 1 : 0, zIndex: props.gifModalOpen ? 1 : -1 }}
           className="md:rounded-md fixed md:absolute w-full h-full inset-0 m-auto flex flex-col items-center justify-center space-y-2 bg-black text-white transition-opacity duration-300"
         >
           <SearchContextManager
