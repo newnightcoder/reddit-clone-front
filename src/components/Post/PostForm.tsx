@@ -13,7 +13,6 @@ import {
   toggleEditModalAction,
 } from "../../store/actions/posts.action";
 import { clearErrorUserAction } from "../../store/actions/user.action";
-import { breakpoint } from "../../utils/breakpoints";
 import { fromCDN, history, isObjectEmpty } from "../../utils/helpers";
 import { useLanguage, useWindowSize } from "../../utils/hooks";
 import { FormProps } from "../react-app-env";
@@ -101,9 +100,7 @@ const PostForm = ({
 
   return (
     <form
-      className={`${
-        width < breakpoint.md && !commentPage ? "min-h-[calc(100vh-8rem)]" : "min-h-[max-content]"
-      }  h-full w-full flex flex-col items-center justify-start md:justify-center space-y-4 transition-color duration-500 bg-white dark:bg-gray-900 border-t border-b md:border dark:border-gray-700 md:rounded pt-4 pb-6 md:pt-6 md:pb-6 px-4`}
+      className="h-full min-h-[max-content] w-full flex flex-col items-center justify-start md:justify-center space-y-4 transition-color duration-500 bg-white dark:bg-gray-900 border-t border-b md:border dark:border-gray-700 md:rounded pt-4 pb-6 md:pt-6 md:pb-6 px-4"
       method="post"
       onSubmit={
         editId?.type === "post"

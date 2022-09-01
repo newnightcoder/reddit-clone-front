@@ -49,8 +49,8 @@ const FeedGreetings = () => {
         </span>
       ) : isNewUser ? (
         <div className="w-max flex flex-col items-center justify-center">
-          <span className="w-full flex items-center justify-center">
-            <span className="">{userLanguage?.feed.greetingNewUserLine1}&nbsp;</span>
+          <span className="w-max flex items-center justify-center">
+            <span className="w-max">{userLanguage?.feed.greetingNewUserLine1}&nbsp;</span>
             <span className="w-max max-w-[20ch] sm:w-full sm:max-w-[12rem] truncate capitalize">
               {username ? username : "Noname"}!
             </span>

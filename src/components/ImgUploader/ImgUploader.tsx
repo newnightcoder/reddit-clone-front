@@ -38,7 +38,7 @@ const ImgUploader = (props: ImgUploaderProps) => {
             return false;
           } else return true;
         case "profile":
-          if (blob!.size > MAX_SIZE) {
+          if (blob && blob.size > MAX_SIZE) {
             dispatch(setErrorPostAction("sizeLimit"));
             return false;
           } else return true;

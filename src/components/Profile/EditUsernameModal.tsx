@@ -51,12 +51,6 @@ const EditUsernameModal = ({ toggleEditModal }: { toggleEditModal: () => void })
         <label htmlFor="username" className="for">
           {userLanguage.editModal.newUsername}:
         </label>
-        {/* <Error /> */}
-        {/* {error && (
-          <span className="whitespace-pre w-full md:w-max h-max py-2 px-3 text-sm md:text-sm text-white transition duration-500 bg-black dark:bg-white dark:text-black text-center rounded">
-            {error}
-          </span>
-        )} */}
         <input
           type="text"
           id="username"
