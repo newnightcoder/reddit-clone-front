@@ -204,21 +204,6 @@ const EditPostModal = () => {
     dispatchEditImg();
   }, [dispatchEditImg, editId.id, postToEdit?.imgUrl, postToEdit?.isPreview]);
 
-  // useEffect(() => {
-  //   if (editModalOpen) {
-  //     // root.classList.add("removeScroll");
-  //     // body.classList.add("removeScroll");
-  //     body.style.overflowY = "hidden";
-  //     body.style.paddingRight = "15px";
-  //   }
-  //   return () => {
-  //     // root.classList.remove("removeScroll");
-  //     // body.classList.remove("removeScroll");
-  //     body.style.overflowY = "scroll";
-  //     body.style.paddingRight = "0px";
-  //   };
-  // }, [editModalOpen, body.style]);
-
   useEffect(() => {
     if (!isObjectEmpty(preview)) return setIsPreview(true);
   }, [preview]);

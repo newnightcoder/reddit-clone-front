@@ -4,13 +4,15 @@ import Div100vh from "react-div-100vh";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { kitten, notfound } from "../assets";
+import useLanguage from "../utils/hooks/useLanguage";
 
 const PageNotFound = () => {
   const [gif, setGif] = useState(notfound);
   const [position, setPosition] = useState("top-0");
+  const userLanguage = useLanguage();
   const text = {
-    lost: "The page you requested doesn't exist, sorry!",
-    home: "Come back home sweetie!",
+    lost: userLanguage.pageNotFound.gif1,
+    home: userLanguage.pageNotFound.gif2,
   };
   const [msg, setMsg] = useState(text.lost);
   const { darkMode } = useSelector((state) => state.user);
@@ -30,7 +32,7 @@ const PageNotFound = () => {
                   />
                 </svg>
               </div>
-              <span className="uppercase font-bold text-4xl whitespace-nowrap pt-1">Page Not Found!</span>
+              <span className="uppercase font-bold text-4xl whitespace-nowrap pt-1">{userLanguage.pageNotFound.msg}</span>
             </div>
           </div>
           <div style={{ background: `url("${gif}") no-repeat center/cover` }} className="relative rounded-lg w-[360px] h-[275px]">

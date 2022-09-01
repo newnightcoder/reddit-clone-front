@@ -15,8 +15,7 @@ const language = {
       light: "light",
     },
     homepage: {
-      introText:
-        "A brand new social media platform founded on the principles of free speech, independent thought and rejecting political censorship and “cancel culture.”",
+      introText: "A brand new social media platform founded on the principles of sharing is caring, positive energy and fun.",
       connectLbl: "member already",
       connectBtn: "login",
       registerLbl: "new on forum",
@@ -138,6 +137,8 @@ const language = {
         confidentiality: "Privacy Policy",
         moderation: "Mod Policy",
         rights: "All rights reserved",
+        about: "About",
+        terms: "Terms of use",
       },
     },
     feed: {
@@ -195,6 +196,7 @@ const language = {
       following: "I'm following",
       userFollowing: "Following",
       back: "Back to profile",
+      myProfile: "Go to my profile",
     },
     editModal: {
       newUsername: "Enter your new username",
@@ -270,6 +272,11 @@ const language = {
       modMsg: "The user's account has been successfully deleted.",
       backBtn: "Back to home",
     },
+    pageNotFound: {
+      msg: "Page not Found!",
+      gif1: "The page you requested doesn't exist, sorry!",
+      gif2: "Come back home sweetie!",
+    },
   },
 
   /////////////////
@@ -289,7 +296,7 @@ const language = {
     },
     homepage: {
       introText:
-        "Une toute nouvelle plate-forme de média sociaux basée sur les principes de la liberté d'expression, de la pensée indépendante, du rejet de la censure politique et de la “cancel culture”.",
+        "Le tout nouveau réseau social fondé sur les principes du partage des connaissances, de la bienveillance et du fun.",
       connectLbl: "déjà membre",
       connectBtn: "se connecter",
       registerLbl: "nouveau sur forum",
@@ -411,6 +418,8 @@ const language = {
         confidentiality: "Politique de confidentialité",
         moderation: "Politique de modération",
         rights: "Tous droits réservés",
+        about: "À propos",
+        terms: "CGU",
       },
     },
     feed: {
@@ -468,6 +477,7 @@ const language = {
       following: "Mes abonnements",
       userFollowing: "Abonnements",
       back: "Retout au profil",
+      myProfile: "Voir mon profil",
     },
     editModal: {
       newUsername: "Entrez votre nouveau pseudo",
@@ -543,6 +553,11 @@ const language = {
       modMsg: "Le compte de l'utilisateur a été supprimé de l'application avec succès.",
       backBtn: "Retour à la page accueil",
     },
+    pageNotFound: {
+      msg: "Page introuvable!",
+      gif1: "La page demandée n'existe pas, désolé!",
+      gif2: "Reviens petit chaton!",
+    },
   },
 
   ////////////////
@@ -562,7 +577,7 @@ const language = {
     },
     homepage: {
       introText:
-        "Eine brandneue Social-Media-Plattform, die auf den Grundsätzen der freien Meinungsäußerung, des unabhängigen Denkens und der Ablehnung von politischer Zensur sowie “Löschkultur” beruht.",
+        "Eine brandneue Social-Media-Plattform, die auf den Grundsätzen des “Teilen ist Kümmern“, der positiven Energie und Spass beruht.",
       connectLbl: "Schon ein Mitglied",
       connectBtn: "sich anmelden",
       registerLbl: "neu auf forum",
@@ -593,6 +608,7 @@ const language = {
       authToken: "Oops! Ihre Authentifizierung ist fehlgeschlagen.\nBitte melden Sie sich wieder an.",
       timeout: "Sorry, die Verbindungszeit zum Server ist zu lange...\nBitte aktualisieren Sie die Webseite",
       sizeLimit: "Dieses Bild ist zu gross! Max Grösse is 2MB.\nBitte wählen Sie ein leichteres Bild aus.",
+      pageNotFound: "Seite nicht gefunden!",
     },
     login: {
       greeting: "Schön dich wieder zu sehen!",
@@ -686,6 +702,8 @@ const language = {
         confidentiality: "Datenschutz",
         moderation: "Moderationsrichtslinien",
         rights: "Alle Rechte vorbehalten",
+        about: "Über",
+        terms: "AGB",
       },
     },
     feed: {
@@ -743,6 +761,7 @@ const language = {
       following: "Folge ich",
       userFollowing: "Folge ich",
       back: "Zurück zum Profil",
+      myProfile: "Zu meinem Profil",
     },
     editModal: {
       newUsername: "Gib dein neuen Benutzername ein",
@@ -817,6 +836,11 @@ const language = {
       hope: "Wir hoffen dich bald bei ",
       modMsg: "Der Benutzer wurde vom Forum erfolgreich gelöscht.",
       backBtn: "Zurück",
+    },
+    pageNotFound: {
+      msg: "Seite nicht gefunden!",
+      gif1: "Die von Ihnen angefragte Seite existiert nicht, sorry!",
+      gif2: "Komm zurück Schatzi!",
     },
   },
 };

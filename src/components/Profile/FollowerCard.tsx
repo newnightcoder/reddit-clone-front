@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { picPlaceholder } from "../../assets";
 import { fromCDN } from "../../utils/helpers";
+import { useLanguage } from "../../utils/hooks";
 import useHandleLink from "../../utils/hooks/useHandleLink";
 import { FollowerCardProps } from "../react-app-env";
 import BtnFollow from "./BtnFollow";
@@ -9,6 +10,7 @@ const FollowerCard = ({ user, followersCount, followersCountSetter }: FollowerCa
   const { userId, username, picUrl } = user;
   const { id: myId, username: myName } = useSelector((state) => state.user);
   const handleLink = useHandleLink();
+  const userLanguage = useLanguage();
   return (
     <div className="w-full max-w-[600px] py-4 px-4 flex items-center justify-between space-x-1 border-b transition-color duration-500 border-gray-200 dark:border-gray-700 bg-white hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800 text-sm text-gray-800 dark:text-gray-200">
       <button
@@ -37,7 +39,7 @@ const FollowerCard = ({ user, followersCount, followersCountSetter }: FollowerCa
           <button
             className={`flex items-center justify-center space-x-1 text-md bg-blue-500 text-white text-sm px-4 py-1 rounded-full hover:drop-shadow whitespace-nowrap`}
           >
-            Go to my profile
+            {userLanguage.profile.myProfile}
           </button>
         )}
       </div>
