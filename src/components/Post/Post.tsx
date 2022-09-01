@@ -61,12 +61,6 @@ const Post = ({ post, aside }: PostProps) => {
   useEffect(() => {
     setUserLikes();
   }, []);
-  useEffect(() => {
-    if (isFromS3Bucket) {
-      const arr = imgUrl?.split("/");
-      console.log(arr?.splice(arr.length - 1, 1).join());
-    }
-  }, []);
 
   return (
     <div
