@@ -8,7 +8,7 @@ const ImgUploadModal = (props: ImgUploaderProps) => {
 
   return (
     <div
-      style={{ opacity: props.imgUploadModalOpen ? 1 : 0, zIndex: props.imgUploadModalOpen ? 1 : -1 }}
+      style={{ opacity: props.imgUploadModalOpen ? 1 : 0, zIndex: props.imgUploadModalOpen ? 1200 : -1 }}
       className="md:rounded-md fixed md:absolute w-full h-full md:w-[95%] md:h-[95%] inset-0 m-auto flex flex-col items-center justify-center space-y-4 bg-black text-white transition-opacity duration-300"
     >
       <span className="md:text-sm">{userLanguage.imgUploadModal.label}</span>
