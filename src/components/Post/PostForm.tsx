@@ -14,7 +14,7 @@ import {
 } from "../../store/actions/posts.action";
 import { clearErrorUserAction } from "../../store/actions/user.action";
 import { fromCDN, history, isObjectEmpty } from "../../utils/helpers";
-import { useLanguage, useWindowSize } from "../../utils/hooks";
+import { useLanguage } from "../../utils/hooks";
 import { FormProps } from "../react-app-env";
 import LinkPreview from "./LinkPreview";
 
@@ -51,11 +51,10 @@ const PostForm = ({
 }: FormProps) => {
   const { tempPostImg, scrapedPost, previewLoading, editId, editModalOpen, error } = useSelector((state) => state.posts);
   const { pathname } = useLocation();
-  const { width } = useWindowSize();
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
   const createPage = pathname === "/create";
-  const commentPage = pathname.includes("comments");
+  const isFromS3bucket = tempPostImg.includes("forum-s3-bucket");
 
   const handleCancelBtn = useCallback(() => {
     if (createPage) {
@@ -75,7 +74,14 @@ const PostForm = ({
 
   const handleImgPost = useCallback(() => {
     if (editId.type === "comment" || editId.type === "reply") return setImgDom!(null);
-    const postImg = <img id="postImg" src={fromCDN(tempPostImg)} alt="" className="h-max rounded max-h-[500px]" />;
+    const postImg = (
+      <img
+        id="postImg"
+        src={isFromS3bucket ? fromCDN(tempPostImg) : tempPostImg}
+        alt="illustration"
+        className="h-max rounded max-h-[500px]"
+      />
+    );
     if (tempPostImg?.length > 0) return setImgDom!(postImg);
     if (previewLoading) return setImgDom!(<PreviewLoader />);
     if (!isObjectEmpty(scrapedPost)) return setImgDom!(<LinkPreview linkPreview={scrapedPost} />);
