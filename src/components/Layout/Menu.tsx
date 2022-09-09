@@ -36,16 +36,15 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
 
   return (
     <div
-      className="border-2 border-red-500 menu-container fixed top-0 left-0 w-9/12 pt-5 pb-6 px-5 overflow-y-auto md:hidden grid grid-rows-menu place-items-center grid-cols-1 bg-gray-100 dark:bg-gray-700 dark:text-white  transition-transform duration-300"
+      className="menu-container fixed z-[2000] top-0 left-0 w-9/12 pt-5 pb-6 px-5 overflow-y-auto md:hidden grid grid-rows-menu place-items-center grid-cols-1 bg-gray-100 dark:bg-gray-700 dark:text-white  transition-transform duration-300"
       style={{
-        height: `calc(${responsiveHeight}px - 4rem)`,
+        height: `${responsiveHeight}px`,
         transform: isMenuOpen ? "translateX(0)" : "translateX(-100%)",
-        zIndex: 1100,
       }}
     >
       {/* row 1 */}
-      <div className="border-2 border-yellow-500 top-section h-max w-full pb-2 flex flex-col items-center justify-center space-y-2 border-b border-gray-300">
-        <div className="border border-black avatar-container h-max w-full flex items-center justify-center">
+      <div className="top-section h-max w-full pb-2 flex flex-col items-center justify-center space-y-2 border-b border-gray-300">
+        <div className="avatar-container h-max w-full flex items-center justify-center">
           <div
             className="w-40 h-40 rounded-full border border-gray-400"
             style={
@@ -57,11 +56,9 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
             }
           ></div>
         </div>
-        <div className=" border border-black  username-member h-max w-full flex flex-col items-start justify-start px-2">
-          <span className="border border-black text-xl font-bold capitalize w-full truncate">
-            {username?.length !== 0 && username}
-          </span>
-          <div className="border border-black w-full italic  text-sm flex items-center justify-start space-x-1">
+        <div className="username-member h-max w-full flex flex-col items-start justify-start px-2">
+          <span className="text-xl font-bold capitalize w-full truncate">{username?.length !== 0 && username}</span>
+          <div className="w-full italic  text-sm flex items-center justify-start space-x-1">
             <img src={logo_mobile_blue} className="h-6" alt="forum logo" />
             {isAuthenticated ? (
               <span>
@@ -75,7 +72,7 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
       </div>
 
       {/* row 2  */}
-      <div className="border-2 border-pink-500  main-section relative h-max w-full self-start flex flex-col items-start justify-start py-5">
+      <div className="main-section relative h-max w-full self-start flex flex-col items-start justify-start py-5">
         <ul className="h-max w-48 pl-2 flex flex-col items-start justify-center space-y-3 text-sm text-gray-900 dark:text-gray-200">
           <li>
             <button
