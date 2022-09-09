@@ -50,9 +50,9 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
             className="w-40 h-40 rounded-full border border-gray-400"
             style={
               picUrl !== null
-                ? { background: `url("${fromCDN(picUrl)}") no-repeat center/cover` }
+                ? { background: `url(${fromCDN(picUrl)}) no-repeat center/cover` }
                 : {
-                    background: `url("${picPlaceholder}") no-repeat center/cover`,
+                    background: `url(${picPlaceholder}) no-repeat center/cover`,
                   }
             }
           ></div>
