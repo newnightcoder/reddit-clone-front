@@ -83,7 +83,7 @@ const Signup = () => {
 
   return (
     <Div100vh
-      className="w-full relative flex flex-col items-center justify-start pb-3 md:pb-0 pt-16 md:pt-0 transition duration-500 text-gray-900 dark:text-gray-200"
+      className="w-full relative flex flex-col items-center justify-start pb-3 md:pb-0 pt-16 md:pt-0 transition duration-500 text-gray-900 dark:text-gray-200 bg-gray-200 dark:bg-black"
       style={toNextStep}
     >
       <BtnSettings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />

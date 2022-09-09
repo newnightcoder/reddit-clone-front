@@ -11,7 +11,7 @@ const StepImage = () => {
   const error = useError();
 
   return (
-    <div className="h-full w-full bg-gray-200 flex flex-col items-center justify-evenly absolute top-0 left-0 translate-x-full px-4 overflow-hidden">
+    <div className="h-full w-full bg-gray-200 dark:bg-black flex flex-col items-center justify-evenly absolute top-0 left-0 translate-x-full px-4 overflow-hidden">
       <header className="h-1/4 flex flex-col items-center justify-center">
         <h1 className="text-center font-bold text-lg uppercase">
           {userLanguage.signup.stepImage.lastStep}
