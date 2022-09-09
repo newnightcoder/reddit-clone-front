@@ -93,10 +93,20 @@ const ImgUploader = (props: ImgUploaderProps) => {
     fileInputRef.current!.value! = "";
   }, [setBlob, setBlobName, fileInputRef, btnModalOpen, toggleBtnModal]);
 
+  useEffect(() => {
+    if (forPost) {
+      form.current!.addEventListener("submit", (e) => {
+        if (fileInputRef?.current?.files) {
+          return handleImgSubmit(e, "post");
+        }
+      });
+    }
+  }, [form, forPost, handleImgSubmit]);
+
   const handleChangePost = useCallback(
     (e) => {
       e.preventDefault();
-      form.current!.requestSubmit();
+      form.current!.dispatchEvent(new Event("submit"));
     },
     [form]
   );
