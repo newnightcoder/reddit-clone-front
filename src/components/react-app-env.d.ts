@@ -137,6 +137,7 @@ interface DeleteModalProps {
   origin: string;
   postIdComment?: number | null;
   profile?: boolean;
+  profilePage?: boolean;
   toggleDeleteModal: () => void;
   toggleMenu?: () => void;
   handleDeleteProfileFromMenu?: (id: number) => void;
@@ -180,7 +181,6 @@ interface ProfileBannerProps {
   user: IUser;
   loading: boolean;
   updatedFollowersCount: number;
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
   setUpdatedFollowersCount: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
@@ -196,7 +196,7 @@ interface ProfileOptionsProps {
   profileId: number;
   toggleProfileOptions: () => void;
   toggleEditModal: () => void;
-  setOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface UserCardProps {

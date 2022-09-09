@@ -36,14 +36,13 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
 
   return (
     <div
-      className="menu-container fixed z-[2000] top-0 left-0 w-9/12 pt-5 pb-6 px-5 overflow-y-auto md:hidden grid grid-rows-menu place-items-center grid-cols-1 bg-gray-100 dark:bg-gray-700 dark:text-white  transition-transform duration-300"
-      style={{
-        height: `${responsiveHeight}px`,
-        transform: isMenuOpen ? "translateX(0)" : "translateX(-100%)",
-      }}
+      style={{ height: `${responsiveHeight}px` }}
+      className={`menu-container fixed z-[2000] ${
+        isMenuOpen ? "translate-x-0" : "-translate-x-full"
+      } top-0 left-0 w-9/12 py-6 px-5 overflow-y-auto md:hidden grid grid-rows-menu place-items-center grid-cols-1 bg-gray-100 dark:bg-gray-900 dark:text-white  transition-transform duration-300`}
     >
       {/* row 1 */}
-      <div className="top-section h-max w-full pb-2 flex flex-col items-center justify-center space-y-2 border-b border-gray-300">
+      <div className="top-section h-max w-full pb-5 flex flex-col items-center justify-center space-y-4 border-b border-gray-300">
         <div className="avatar-container h-max w-full flex items-center justify-center">
           <div
             className="w-40 h-40 rounded-full border border-gray-400"
@@ -56,7 +55,7 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
             }
           ></div>
         </div>
-        <div className="username-member h-max w-full flex flex-col items-start justify-start px-2">
+        <div className="username-member h-max w-full flex flex-col items-start justify-start space-y-1.5 px-6">
           <span className="text-xl font-bold capitalize w-full truncate">{username?.length !== 0 && username}</span>
           <div className="w-full italic  text-sm flex items-center justify-start space-x-1">
             <img src={logo_mobile_blue} className="h-6" alt="forum logo" />
@@ -72,11 +71,11 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
       </div>
 
       {/* row 2  */}
-      <div className="main-section relative h-max w-full self-start flex flex-col items-start justify-start py-5">
-        <ul className="h-max w-48 pl-2 flex flex-col items-start justify-center space-y-3 text-sm text-gray-900 dark:text-gray-200">
+      <div className="main-section relative h-full w-full flex flex-col items-start justify-center py-5">
+        <ul className="h-full max-h-[400px] w-max pl-2 flex flex-col items-start justify-evenly space-y-3 text-sm text-gray-900 dark:text-gray-200">
           <li>
             <button
-              className="flex items-center justify-center space-x-2 px-3 py-1 border-2 border-transparent transition-color duration-100 hover:border-blue-400 rounded-full"
+              className="flex items-center justify-center space-x-2 pl-3 pr-5 py-1.5 border-2 border-transparent transition-color duration-100 hover:border-blue-400 rounded-full"
               onClick={() => {
                 handleLink("profile", id!, username);
                 isAuthenticated && toggleMenu();
@@ -88,7 +87,7 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
           </li>
           <li>
             <button
-              className="flex items-center justify-center space-x-2 px-3 py-1 border-2 border-transparent transition-color duration-100 hover:border-blue-400 rounded-full"
+              className="flex items-center justify-center space-x-2 pl-3 pr-5 py-1.5 border-2 border-transparent transition-color duration-100 hover:border-blue-400 rounded-full"
               onClick={() => {
                 history.push("/create");
                 toggleMenu();
@@ -100,7 +99,7 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
           </li>
           <li>
             <button
-              className={`flex items-center justify-center space-x-2 px-3 py-1 border-2 transition-color duration-100 active:border-blue-400 rounded-full ${
+              className={`flex items-center justify-center space-x-2 pl-3 pr-5 py-1.5 border-2 transition-color duration-100 hover:border-blue-400 active:border-blue-400 rounded-full ${
                 settingsOpen ? "border-blue-400" : "border-transparent"
               }`}
               onClick={toggleSettings}
@@ -114,7 +113,7 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
           </li>
           <li>
             <button
-              className="flex items-center justify-center space-x-2 px-3 py-1 border-2 border-transparent transition-color duration-100 hover:border-blue-400 rounded-full"
+              className="flex items-center justify-center space-x-2 pl-3 pr-5 py-1.5 border-2 border-transparent transition-color duration-100 hover:border-blue-400 rounded-full"
               onClick={() => (isAuthenticated ? setOpenModal(true) : handleLink("delete"))}
             >
               <TrashIcon className="h-6 text-gray-500 dark:text-gray-200" />
@@ -123,7 +122,7 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
           </li>
           <li>
             <Link
-              className="flex items-center justify-center space-x-2 px-3 py-1 border-2 border-transparent transition-color duration-100 hover:border-blue-400 rounded-full"
+              className="flex items-center justify-center space-x-2 pl-3 pr-5 py-1.5 border-2 border-transparent transition-color duration-100 hover:border-blue-400 rounded-full"
               to="/"
             >
               <Power size={25} className="text-gray-500 dark:text-gray-200" />
@@ -136,15 +135,16 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
       </div>
 
       {/* row 3  */}
-      <div className="h-12 w-max px-8 w-max border border-white flex items-center justify-center space-x-1 border border-green-500 text-green-500 text-sm rounded-full">
+      <div className="h-max w-max px-8 py-1.5 w-max border border-white flex items-center justify-center space-x-1 border border-green-500 text-green-500 text-sm rounded-full">
         <span className="w-3 h-3 rounded-full bg-green-500 "></span> <span>{userLanguage.menu.status}</span>
       </div>
       {openModal && (
         <DeleteModal
           toggleDeleteModal={toggleDeleteModal}
-          handleDeleteProfile={handleDeleteProfileFromMenu}
+          handleDeleteProfileFromMenu={handleDeleteProfileFromMenu}
           origin={"menu"}
           toggleMenu={toggleMenu}
+          profilePage={true}
         />
       )}
     </div>

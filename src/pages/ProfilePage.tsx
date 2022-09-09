@@ -1,13 +1,12 @@
 import { createRef, useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { BtnFollow, DeleteModal, Error, Followers, Layout, ProfileBanner, ProfileInfo, Skeleton, ToggleDiv } from "../components";
+import { BtnFollow, Error, Followers, Layout, ProfileBanner, ProfileInfo, Skeleton, ToggleDiv } from "../components";
 import { IDataSet } from "../components/react-app-env";
 import { getUserPostsAction } from "../store/actions/posts.action";
-import { deleteUserAction, getFollowersAction } from "../store/actions/user.action";
+import { getFollowersAction } from "../store/actions/user.action";
 import { IPost } from "../store/types";
 import { datasetTypes } from "../utils/dataForToggleDiv";
-import { history } from "../utils/helpers";
 import { useGetProfile, useToggle, useToggleTabs } from "../utils/hooks";
 
 const Profile = () => {
@@ -18,14 +17,12 @@ const Profile = () => {
     currentProfileVisit: { id: profileId },
   } = useSelector((state) => state.user);
   const { posts, likes, userPosts } = useSelector((state) => state.posts);
-  const [openModal, setOpenModal] = useState(false);
   const [likedPosts, setLikedPosts] = useState<IPost[]>([]);
   const dispatch = useDispatch();
   const { userData, loading } = useGetProfile(profileId!);
   const initialFollowersCount = userData?.followersCount;
   const [updatedFollowersCount, setUpdatedFollowersCount] = useState(initialFollowersCount);
   const [followersOpen, setFollowersOpen] = useState(false);
-  const toggleDeleteModal = useToggle(openModal, setOpenModal);
   const toggleFollowers = useToggle(followersOpen, setFollowersOpen);
   const [divFollowersHeight, setDivFollowersHeight] = useState(0);
   const { toggleTabs, leftTabOpen } = useToggleTabs();
@@ -53,19 +50,6 @@ const Profile = () => {
     }
     return setLikedPosts(likedPostArr);
   }, [likes, posts, setLikedPosts, profileId]);
-
-  const handleDeleteProfile = useCallback(
-    (profileId) => {
-      if (profileId === id) {
-        dispatch(deleteUserAction(id!));
-        history.push("/fin");
-      } else if (profileId === userData?.id) {
-        dispatch(deleteUserAction(userData?.id!));
-        history.push("/fin");
-      }
-    },
-    [dispatch, id, userData]
-  );
 
   const setDataSets = useCallback(() => {
     setDataset1({
@@ -155,7 +139,6 @@ const Profile = () => {
                     loading={loading}
                     setUpdatedFollowersCount={setUpdatedFollowersCount}
                     updatedFollowersCount={updatedFollowersCount!}
-                    setOpenModal={setOpenModal}
                   />
                   {profileId !== id && !loading && (
                     <BtnFollow
@@ -175,13 +158,6 @@ const Profile = () => {
                     updatedFollowersCount={updatedFollowersCount!}
                   />
 
-                  {openModal && (
-                    <DeleteModal
-                      toggleDeleteModal={toggleDeleteModal}
-                      handleDeleteProfile={handleDeleteProfile}
-                      origin={role === "admin" && userData?.id !== id ? "profile-admin" : "profile"}
-                    />
-                  )}
                   <ToggleDiv
                     bool={leftTabOpen}
                     setter={toggleTabs}
@@ -191,17 +167,17 @@ const Profile = () => {
                     followersCount={updatedFollowersCount!}
                     container={"profile"}
                   />
+                  <Followers
+                    setter={toggleTabs}
+                    followersCountSetter={setUpdatedFollowersCount}
+                    toggleFollowers={toggleFollowers}
+                    followersOpen={followersOpen}
+                    username={userData.username}
+                    userId={userData.id}
+                    bool={leftTabOpen}
+                    ref={ref}
+                  />
                 </div>
-                <Followers
-                  setter={toggleTabs}
-                  followersCountSetter={setUpdatedFollowersCount}
-                  toggleFollowers={toggleFollowers}
-                  followersOpen={followersOpen}
-                  username={userData.username}
-                  userId={userData.id}
-                  bool={leftTabOpen}
-                  ref={ref}
-                />
               </div>
             )}
           </div>

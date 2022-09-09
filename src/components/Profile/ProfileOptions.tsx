@@ -3,7 +3,7 @@ import { useLanguage } from "../../utils/hooks";
 import ImgUploader from "../ImgUploader/ImgUploader";
 import { ProfileOptionsProps } from "../react-app-env";
 
-const ProfileOptions = ({ toggleProfileOptions, toggleEditModal, isOpen, setOpenModal }: ProfileOptionsProps) => {
+const ProfileOptions = ({ toggleProfileOptions, toggleEditModal, isOpen, setOpenDeleteModal }: ProfileOptionsProps) => {
   const userLanguage = useLanguage();
 
   return (
@@ -26,7 +26,7 @@ const ProfileOptions = ({ toggleProfileOptions, toggleEditModal, isOpen, setOpen
         </button>
         <button
           className="w-full py-2 flex items-center justify-center text-white text-xs rounded-full shadow-xl cursor-pointer bg-blue-400 transition-all duration-300 hover:bg-red-500 hover:shadow-none"
-          onClick={() => setOpenModal(true)}
+          onClick={() => setOpenDeleteModal(true)}
         >
           {userLanguage.profile.deleteBtn}{" "}
         </button>

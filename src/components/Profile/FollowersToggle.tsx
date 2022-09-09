@@ -13,7 +13,7 @@ const FollowersToggle = ({ toggleFollowers, user, updatedFollowersCount }: Follo
   const userLanguage = useLanguage();
 
   return (
-    <div className="w-full flex items-center justify-start space-x-2 text-sm pl-6">
+    <div className="w-full flex items-center justify-start space-x-2 text-sm pl-1">
       <button className="outline-none" onClick={toggleFollowers}>
         <span className="font-bold font-sans">{profileId === id ? followingCount : user?.followingCount}</span>
         <span> {userLanguage.profile.userFollowing}</span>

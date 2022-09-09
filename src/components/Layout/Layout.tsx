@@ -52,7 +52,7 @@ const Layout = ({ children }: { children: JSX.Element }) => {
           className={`h-full w-full md:w-max 2xl:w-[3/4] md:px-16 xl:px-12 grid grid-cols-1 md:grid-cols-layout_lg md:gap-x-12 justify-items-center transition-color duration-500 dark:border-gray-800 relative`}
         >
           <NavBarDesktop toggleSettings={toggleSettings} toggleMenu={toggleMenu} settingsOpen={settingsOpen} />
-          <div className={`${createPostPage || editPostPage ? "md:min-w-[500px]" : ""} w-full`}>{children}</div>
+          <div className={`${createPostPage || editPostPage ? "md:min-w-[500px]" : ""} w-full min-w-[320px]`}>{children}</div>
           <Aside />
         </div>
       </div>

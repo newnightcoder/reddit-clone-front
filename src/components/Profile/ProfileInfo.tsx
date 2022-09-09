@@ -16,8 +16,8 @@ const ProfileInfo = ({ user, toggleFollowers, updatedFollowersCount }: ProfileIn
   const userLanguage = useLanguage();
 
   return (
-    <div className="username-member relative h-24 w-full flex flex-col items-start justify-start mb-4">
-      <span className="h-max w-[100%] py-1 pl-6 pr-4 text-left text-xl font-bold capitalize truncate">
+    <div className="username-member relative h-24 w-full flex flex-col items-start justify-start mb-4 pl-6">
+      <span className="h-max w-full py-1 pr-4 text-left text-xl font-bold capitalize truncate">
         {id === profileId && username
           ? username
           : id === profileId && !username
@@ -27,7 +27,7 @@ const ProfileInfo = ({ user, toggleFollowers, updatedFollowersCount }: ProfileIn
           : "Noname"}
       </span>
 
-      <div className="italic text-xs md:text-sm flex items-center justify-center transform py-1 pl-6">
+      <div className="w-full italic text-xs md:text-sm flex items-center justify-start transform py-1">
         <img src={logo_mobile_blue} className="h-5 -translate-y-1 " alt="forum logo" />
         <span>{userLanguage.menu.member}&nbsp;</span>
         <span>

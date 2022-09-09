@@ -1,13 +1,15 @@
 import { TrashIcon } from "@heroicons/react/solid";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { EditUsernameModal, ProfileOptions } from "..";
 import { bannerPlaceholder, picPlaceholder } from "../../assets";
-import { fromCDN } from "../../utils/helpers";
+import { deleteUserAction } from "../../store/actions/user.action";
+import { fromCDN, history } from "../../utils/helpers";
 import { useLanguage, useToggle } from "../../utils/hooks";
+import DeleteModal from "../Modals/DeleteModal";
 import { ProfileBannerProps } from "../react-app-env";
 
-const ProfileBanner = ({ user, loading, setOpenModal }: ProfileBannerProps) => {
+const ProfileBanner = ({ user, loading }: ProfileBannerProps) => {
   const {
     id,
     picUrl,
@@ -16,13 +18,29 @@ const ProfileBanner = ({ user, loading, setOpenModal }: ProfileBannerProps) => {
     role,
   } = useSelector((state) => state.user);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openProfileOptions, setOpenProfileOptions] = useState(false);
   const toggleEditModal = useToggle(openEditModal, setOpenEditModal);
+  const toggleDeleteModal = useToggle(openDeleteModal, setOpenDeleteModal);
   const toggleProfileOptions = useToggle(openProfileOptions, setOpenProfileOptions);
   const userLanguage = useLanguage();
+  const dispatch = useDispatch();
+
+  const handleDeleteProfile = useCallback(
+    (userId) => {
+      if (userId === id) {
+        dispatch(deleteUserAction(id!));
+        history.push("/fin");
+      } else if (userId === user?.id) {
+        dispatch(deleteUserAction(user?.id!));
+        history.push("/fin");
+      }
+    },
+    [dispatch, id, user?.id]
+  );
 
   return (
-    <div className="h-[17rem] w-full">
+    <div className="h-[17rem] w-full relative">
       <div
         style={{
           background: `${
@@ -60,7 +78,7 @@ const ProfileBanner = ({ user, loading, setOpenModal }: ProfileBannerProps) => {
           {role === "admin" && user?.id !== id && !loading && (
             <button
               className="flex items-center justify-center space-x-1 text-md bg-black text-white text-sm  pl-2 pr-3 py-1 rounded-full hover:drop-shadow"
-              onClick={() => setOpenModal(true)}
+              onClick={() => setOpenDeleteModal(true)}
             >
               <TrashIcon className="h-6 text-white" />
               <span>{userLanguage.profile.modDeleteBtn}</span>
@@ -69,13 +87,21 @@ const ProfileBanner = ({ user, loading, setOpenModal }: ProfileBannerProps) => {
         </div>
         <ProfileOptions
           isOpen={openProfileOptions}
-          setOpenModal={setOpenModal}
+          setOpenDeleteModal={setOpenDeleteModal}
           toggleEditModal={toggleEditModal}
           toggleProfileOptions={toggleProfileOptions}
           profileId={profileId!}
         />
         {openEditModal && <EditUsernameModal toggleEditModal={toggleEditModal} />}
       </div>
+      {openDeleteModal && (
+        <DeleteModal
+          toggleDeleteModal={toggleDeleteModal}
+          handleDeleteProfile={handleDeleteProfile}
+          origin={role === "admin" && user?.id !== id ? "profile-admin" : "profile"}
+          profilePage={true}
+        />
+      )}
     </div>
   );
 };

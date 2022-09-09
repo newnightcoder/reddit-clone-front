@@ -29,7 +29,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen, toggleMenu }: navbarProps
     >
       <div
         style={{ width: "100%", maxWidth: width < breakpoint.md ? "550px" : "", top: width > breakpoint.md ? "6rem" : "" }}
-        className=" md:sticky  md:mt-24 flex h-min md:flex-col items-center justify-evenly md:justify-center md:space-y-4 py-2 md:py-0  md:pb-4 whitespace-nowrap md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent"
+        className=" md:sticky  md:mt-24 flex h-max md:h-min md:flex-col items-center justify-evenly md:justify-center md:space-y-4 py-2 md:py-0  md:pb-4 whitespace-nowrap md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent"
       >
         <NavLink
           activeStyle={{
