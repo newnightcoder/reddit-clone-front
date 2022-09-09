@@ -83,13 +83,13 @@ const Signup = () => {
 
   return (
     <Div100vh
-      className="w-full h-full relative flex flex-col items-center justify-start pb-3 md:pb-0 pt-16 md:pt-0 transition duration-500 text-gray-900 dark:text-gray-200"
+      className="w-full relative flex flex-col items-center justify-start pb-3 md:pb-0 pt-16 md:pt-0 transition duration-500 text-gray-900 dark:text-gray-200"
       style={toNextStep}
     >
       <BtnSettings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
       <Error />
       <div className="page-container h-full w-full grid grid-rows-login justify-items-center md:grid-rows-none md:grid-cols-login">
-        <div className="header-form self-center h-max w-full md:w-max justify-self-center grid grid-rows-main gap-6 lg:translate-x-20">
+        <div className="header-form self-center h-max w-full md:w-max justify-self-center grid grid-rows-main gap-6 lg:translate-x-20 pb-3">
           <LoginHeader />
           <SignupForm
             isEmail={isEmail}

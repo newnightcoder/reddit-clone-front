@@ -58,11 +58,11 @@ const Login = () => {
   }, [dispatch]);
 
   return (
-    <Div100vh className="w-full relative flex flex-col items-center justify-start pt-16 md:pt-0 pb-3 md:pb-0 transition-colors duration-500 md:bg-gray-100 md:dark:bg-gray-600 text-gray-900 dark:text-gray-200">
+    <Div100vh className="w-full relative flex flex-col items-center justify-start pt-16 md:pt-0 pb-3 md:pb-0 transition-colors duration-500 bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-200">
       <BtnSettings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
       <Error />
-      <div className="page-container h-full w-full grid grid-rows-login justify-items-center md:grid-rows-none md:grid-cols-login">
-        <div className="header-form-container h-full w-full flex items-center justify-center bg-gray-200 dark:bg-black">
+      <div className="page-container h-full w-full grid grid-rows-login grid-cols-1 justify-items-center md:grid-rows-none md:grid-cols-login">
+        <div className="header-form-container h-full w-full flex items-center justify-center">
           <div className="header-form self-center h-max w-full md:w-max justify-self-center grid grid-rows-main lg:translate-x-20">
             <LoginHeader />
             <form

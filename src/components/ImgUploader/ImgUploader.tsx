@@ -145,7 +145,7 @@ const ImgUploader = (props: ImgUploaderProps) => {
       <input
         className="text-white p-2 rounded hidden bg-blue-400"
         type="file"
-        accept="image/x-png,image/jpeg,image/jpg, image/gif"
+        accept="image/x-png, image/jpeg, image/jpg, image/gif"
         id={props.imgType}
         name="image"
         ref={fileInputRef}

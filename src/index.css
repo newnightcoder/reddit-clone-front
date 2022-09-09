@@ -6,6 +6,11 @@
 body {
   font-family: "Helvetica", sans-serif;
   overflow-y: scroll;
+  background-color: #fff;
+}
+
+body.dark {
+  background-color: #000;
 }
 
 .removeScroll {

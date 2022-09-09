@@ -25,7 +25,7 @@ module.exports = {
         login: "65% 35%",
       },
       gridTemplateRows: {
-        homepage: "1fr 5rem",
+        homepage: "1fr max-content",
         login: "minmax(max-content, 1fr) min-content",
         main: "max-content minmax(max-content, 350px)",
         menu: "max-content 1fr max-content",
