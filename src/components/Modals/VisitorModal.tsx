@@ -21,7 +21,7 @@ const VisitorModal = () => {
       style={{
         visibility: isVisitor ? "visible" : "hidden",
         opacity: isVisitor ? "1" : "0",
-        zIndex: isVisitor ? 1200 : -1,
+        zIndex: isVisitor ? 2000 : -1,
         backgroundColor: isVisitor ? "rgba(0,0,0,.8)" : "",
       }}
       className="h-screen w-screen fixed inset-0 transition-opacity duration-300 flex items-center justify-center text-white"

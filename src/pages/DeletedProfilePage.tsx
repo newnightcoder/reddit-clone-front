@@ -26,7 +26,7 @@ const DeletedProfile = () => {
                   <div className="leading-8">
                     <span>{userLanguage.deletePage.hope}</span>
                     <svg
-                      className="h-7 w-max inline transition duration-300 transform translate-y-[-0.39rem] translate-x-[0.1rem]"
+                      className="h-7 w-[70px] inline transition duration-300 transform translate-y-[-0.39rem] translate-x-[0.1rem]"
                       width="332"
                       height="127"
                       viewBox="0 0 332 127"

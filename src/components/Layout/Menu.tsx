@@ -1,7 +1,7 @@
 import { CogIcon, PencilIcon, TrashIcon, UserIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 import { Power } from "react-bootstrap-icons";
-import Div100vh from "react-div-100vh";
+import { use100vh } from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
@@ -22,6 +22,7 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
   const { settingsOpen, toggleSettings } = useToggleSettings();
   const userLanguage = useLanguage();
   const dispatch = useDispatch();
+  const responsiveHeight = use100vh();
 
   const toggleDeleteModal = () => {
     setOpenModal((openModal) => !openModal);
@@ -34,26 +35,33 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
   };
 
   return (
-    <Div100vh
-      className="menu-container overflow-y-auto h-full lg:hidden flex flex-col items-center justify-start space-y-2 fixed top-0 left-0 w-9/12 pt-5 pb-6 bg-gray-100 dark:bg-gray-700 dark:text-white  transition-transform duration-300"
-      style={{ transform: isMenuOpen ? "translateX(0)" : "translateX(-100%)", zIndex: 1100 }}
+    <div
+      className="border-2 border-red-500 menu-container fixed top-0 left-0 w-9/12 pt-5 pb-6 px-5 overflow-y-auto md:hidden grid grid-rows-menu place-items-center grid-cols-1 bg-gray-100 dark:bg-gray-700 dark:text-white  transition-transform duration-300"
+      style={{
+        height: `calc(${responsiveHeight}px - 4rem)`,
+        transform: isMenuOpen ? "translateX(0)" : "translateX(-100%)",
+        zIndex: 1100,
+      }}
     >
-      <div className="top-section h-max w-10/12 pb-2 flex flex-col items-center justify-center space-y-2 border-b border-gray-300">
-        <div className="avatar-container h-max w-full flex items-center justify-center">
+      {/* row 1 */}
+      <div className="border-2 border-yellow-500 top-section h-max w-full pb-2 flex flex-col items-center justify-center space-y-2 border-b border-gray-300">
+        <div className="border border-black avatar-container h-max w-full flex items-center justify-center">
           <div
             className="w-40 h-40 rounded-full border border-gray-400"
             style={
               picUrl !== null
-                ? { background: `url(${fromCDN(picUrl)}) no-repeat center/cover` }
+                ? { background: `url("${fromCDN(picUrl)}") no-repeat center/cover` }
                 : {
-                    background: `url(${picPlaceholder}) no-repeat center/cover`,
+                    background: `url("${picPlaceholder}") no-repeat center/cover`,
                   }
             }
           ></div>
         </div>
-        <div className="username-member h-max w-full flex flex-col items-center justify-start">
-          <span className="text-xl font-bold capitalize w-full max-w-[85%] truncate">{username?.length !== 0 && username}</span>
-          <span className="block italic text-sm flex items-center justify-center space-x-1">
+        <div className=" border border-black  username-member h-max w-full flex flex-col items-start justify-start px-2">
+          <span className="border border-black text-xl font-bold capitalize w-full truncate">
+            {username?.length !== 0 && username}
+          </span>
+          <div className="border border-black w-full italic  text-sm flex items-center justify-start space-x-1">
             <img src={logo_mobile_blue} className="h-6" alt="forum logo" />
             {isAuthenticated ? (
               <span>
@@ -62,10 +70,12 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
             ) : (
               <span>{userLanguage.menu.visitor}</span>
             )}
-          </span>
+          </div>
         </div>
       </div>
-      <div className="main-section relative h-full w-max self-start flex flex-col items-start justify-start pt-5">
+
+      {/* row 2  */}
+      <div className="border-2 border-pink-500  main-section relative h-max w-full self-start flex flex-col items-start justify-start py-5">
         <ul className="h-max w-48 pl-2 flex flex-col items-start justify-center space-y-3 text-sm text-gray-900 dark:text-gray-200">
           <li>
             <button
@@ -127,10 +137,9 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
           </li>
         </ul>
       </div>
-      <div
-        style={{ minWidth: "50%" }}
-        className="h-12 w-max flex items-center justify-center space-x-1 border border-green-500 text-green-500 text-sm rounded-full"
-      >
+
+      {/* row 3  */}
+      <div className="h-12 w-max px-8 w-max border border-white flex items-center justify-center space-x-1 border border-green-500 text-green-500 text-sm rounded-full">
         <span className="w-3 h-3 rounded-full bg-green-500 "></span> <span>{userLanguage.menu.status}</span>
       </div>
       {openModal && (
@@ -141,7 +150,7 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
           toggleMenu={toggleMenu}
         />
       )}
-    </Div100vh>
+    </div>
   );
 };
 
