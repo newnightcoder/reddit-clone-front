@@ -45,7 +45,6 @@ const SignupForm = ({
       method="post"
       className="h-full w-full flex flex-col items-center justify-center space-y-2"
       onSubmit={handleNewUserSubmit}
-      // autoComplete="disabled"
     >
       <div className="flex flex-col items-center space-y-4">
         <div className="w-64 flex flex-col items-start">
@@ -61,7 +60,7 @@ const SignupForm = ({
         </div>
         <div className="flex flex-col items-center space-y-2">
           <div className="flex flex-col items-start">
-            <label htmlFor="password">{userLanguage.login.pass}</label>
+            <label htmlFor="password">{userLanguage.signup.pass}</label>
             <div className="w-64 h-max flex items-center justify-start relative">
               <input
                 className="w-full rounded py-1 pl-1 pr-10 border border-transparent bg-gray-100 dark:bg-gray-500 text-gray-900 dark:text-gray-100 outline-none focus:bg-white dark:focus:bg-gray-600"

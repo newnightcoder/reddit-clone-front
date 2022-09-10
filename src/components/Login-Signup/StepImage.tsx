@@ -1,31 +1,29 @@
 import { ChevronDoubleRightIcon } from "@heroicons/react/solid";
 import { useSelector } from "react-redux";
-import { logo, picPlaceholder } from "../../assets";
+import { picPlaceholder } from "../../assets";
+import { BtnSettings, Error, ImgUploader, LoginHeader, Settings } from "../../components";
 import { history } from "../../utils/helpers";
-import { useError, useLanguage } from "../../utils/hooks";
-import ImgUploader from "../ImgUploader/ImgUploader";
+import { useError, useLanguage, useToggleSettings } from "../../utils/hooks";
 
 const StepImage = () => {
-  const { picUrl } = useSelector((state) => state.user);
+  const { picUrl, usernameAdded } = useSelector((state) => state.user);
   const userLanguage = useLanguage();
   const error = useError();
+  const { settingsOpen, toggleSettings } = useToggleSettings();
+
+  // const toNextStep = usernameAdded ? { transform: "translateX(-100%)" } : { transform: "translateX(0%)" };
 
   return (
-    <div className="h-full w-full bg-gray-200 dark:bg-black flex flex-col items-center justify-evenly absolute top-0 left-0 translate-x-full px-4 overflow-hidden">
-      <header className="h-1/4 flex flex-col items-center justify-center">
-        <h1 className="text-center font-bold text-lg uppercase">
-          {userLanguage.signup.stepImage.lastStep}
-          <br />
-          {userLanguage.signup.stepImage.join}{" "}
-        </h1>
-        <img src={logo} alt="" />
-      </header>
-      {error && (
-        <span className="whitespace-pre w-full md:w-max h-max py-2 px-3 text-sm md:text-sm text-white transition duration-500 bg-black dark:bg-white dark:text-black text-center rounded">
-          {error}
-        </span>
-      )}
-      <div className="h-max w-full flex flex-col items-center space-y-2">
+    <div
+      className={`${
+        usernameAdded ? "visible" : "invisible"
+      } h-full w-screen bg-gray-200 dark:bg-black grid grid-rows-[max-content,1fr,max-content] grid-cols-1 relative transition-transform duration-300 px-4 pt-16 overflow-hidden`}
+    >
+      <Error />
+      <BtnSettings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
+      <Settings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
+      <LoginHeader />
+      <div className="h-full w-full flex flex-col items-center justify-center space-y-2 py-4">
         <div
           className="h-[10rem] w-[10rem] rounded-full border border-blue-400"
           style={{
@@ -34,10 +32,13 @@ const StepImage = () => {
         ></div>
         <ImgUploader profile={true} imgType={"pic"} />
       </div>
-      <button className="underline font-bold" onClick={() => history.push("/feed")}>
+      <button
+        className="underline font-bold text-black dark:text-white transition-colors duration-300 mx-auto py-4"
+        onClick={() => history.push("/feed")}
+      >
         <span className="flex items-center space-x-1">
           {userLanguage.signup.stepImage.later}
-          <ChevronDoubleRightIcon className="h-4 w-4 text-black" style={{ transform: "translateY(1px)" }} />
+          <ChevronDoubleRightIcon className="h-4 w-4 " style={{ transform: "translateY(1px)" }} />
         </span>
       </button>
     </div>

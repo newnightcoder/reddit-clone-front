@@ -6,13 +6,13 @@ import "../../index.css";
 import { deletePostAction } from "../../store/actions/posts.action";
 import { likePostAction, toCommentAction } from "../../store/actions/user.action";
 import { fromCDN, history } from "../../utils/helpers";
-import { useToggle } from "../../utils/hooks";
+import { useHandleLink, useToggle } from "../../utils/hooks";
 import { PostProps } from "../react-app-env";
 
 const Post = ({ post, aside }: PostProps) => {
   const { title, id: postId, text, imgUrl, engagement, author, isPreview, preview } = post;
   const { likes: allLikes, lastPostAdded } = useSelector((state) => state.posts);
-  const { id: userId, role } = useSelector((state) => state.user);
+  const { id: userId, role, isAuthenticated } = useSelector((state) => state.user);
   const [like, setLike] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [optionsOpen, setOptionsOpen] = useState(false);
@@ -26,6 +26,8 @@ const Post = ({ post, aside }: PostProps) => {
   const profile = profilePage ? true : false;
   const toggleOptions = useToggle(optionsOpen, setOptionsOpen);
   const toggleDeleteModal = useToggle(openDeleteModal, setOpenDeleteModal);
+  const handleLink = useHandleLink();
+
   const isFromS3Bucket = imgUrl?.includes("forum-s3-bucket");
 
   const handleDeletePost = useCallback(
@@ -64,13 +66,22 @@ const Post = ({ post, aside }: PostProps) => {
 
   return (
     <div
+      onClick={
+        aside
+          ? () => {
+              isAuthenticated ? toCommentPage() : handleLink("comment");
+            }
+          : undefined
+      }
       id="postContainer"
       ref={postContainerRef}
       className={`post-container ${postId === lastPostAdded ? "animate-post" : ""} ${
         isDeleted ? "scale-0" : ""
       }  h-max w-full relative md:rounded-md flex-col items-center justify-center text-gray-900 dark:text-gray-300 border-t border-b dark:border-black md:border ${
         profilePage ? "md:border-gray-400 dark:md:border-gray-600" : "md:border-gray-100 dark:md:border-gray-700"
-      } md:hover:border-gray-900 dark:md:hover:border-gray-400 transition duration-500 bg-white dark:bg-gray-900 pt-2`}
+      } ${
+        aside ? "hover:cursor-pointer" : ""
+      } md:hover:border-gray-900 dark:md:hover:border-gray-400 transition duration-500 bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 pt-2`}
     >
       {(openDeleteModal && userId === author.id) || (openDeleteModal && role === "admin") ? (
         <DeleteModal
@@ -84,7 +95,13 @@ const Post = ({ post, aside }: PostProps) => {
       ) : null}
       <PostHeader post={post} aside={aside!} />
       {text && (
-        <div className="w-full text-left px-4 pt-2 transition duration-500 text-sm break-words whitespace-pre-line">{text}</div>
+        <div
+          className={`w-full text-left px-4 pt-2 transition duration-500 text-sm  ${
+            aside ? "truncate" : "break-words  whitespace-pre-line"
+          }`}
+        >
+          {text}
+        </div>
       )}
 
       {isPreview ? (

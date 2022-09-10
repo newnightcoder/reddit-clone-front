@@ -34,9 +34,7 @@ const PostHeader = ({ post, aside }: { post: IPost; aside: boolean }) => {
         <div className="username-title-container h-max w-full flex flex-col items-start justify-center">
           <div className="username-date w-full flex items-center justify-between">
             <button
-              className={` ${
-                aside ? "w-full pr-2" : "w-[80%] pr-10"
-              } outline-none capitalize hover:cursor-pointer hover:underline`}
+              className={`pr-2 w-max truncate outline-none capitalize hover:cursor-pointer hover:underline`}
               onClick={() =>
                 handleLink(
                   "post-profile",
@@ -52,7 +50,9 @@ const PostHeader = ({ post, aside }: { post: IPost; aside: boolean }) => {
             </button>
             {!aside && <div className="w-min text-xs italic whitespace-nowrap">{formatTimestamp(date, "post", language)}</div>}
           </div>
-          <div className="title text-lg font-bold h-max w-full pl-1 break-words leading-5">{title}</div>
+          <div className={`title text-lg font-bold h-max w-full ${aside ? "truncate" : ""} pl-1 break-words leading-5`}>
+            {title}
+          </div>
         </div>
       </div>
     </div>

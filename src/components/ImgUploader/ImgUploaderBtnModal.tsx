@@ -70,8 +70,8 @@ const ImgUploaderBtnModal = ({
   return (
     <div
       className={`${btnModalOpen ? "flex z-[100]" : "hidden -z-10"}  ${
-        signupPage ? "w-[12rem] bg-gray-200 dark:bg-gray-700 px-4" : " w-full px-2 bg-black"
-      } absolute inset-0 mx-auto h-full flex-col items-center justify-center  space-y-2 pb-2`}
+        signupPage ? "w-[12rem] px-4 bg-gray-200" : "w-full px-2 bg-gray-100"
+      } absolute inset-0 mx-auto h-full flex-col items-center justify-center space-y-2 pb-2  dark:bg-black`}
     >
       <button
         type="button"
@@ -83,13 +83,14 @@ const ImgUploaderBtnModal = ({
       <span
         className={`${
           signupPage
-            ? "w-full text-sm text-black dark:text-white"
+            ? "w-full md:text-sm"
             : profileOptions
             ? "h-8 w-[19ch] self-start pl-2 truncate text-xs text-white"
-            : imgType === "post"
-            ? "border w-2/3 text-center text-xs truncate"
-            : "text-xs text-white"
-        } italic text-center`}
+            : // : imgType === "post"
+              // ? "border w-2/3 text-center text-xs truncate"
+              // : "text-xs text-white"
+              ""
+        } text-black dark:text-white italic text-center`}
       >
         {blobName}
       </span>
@@ -130,7 +131,7 @@ const ImgUploaderBtnModal = ({
       </div>
       <button
         type="button"
-        disabled={!isPreviewImg}
+        disabled={!isPreviewImg ? true : false}
         className={`disabled:opacity-50 block ${
           profileOptions ? "w-full text-xs" : "w-48 text-sm"
         }  text-white font-bold py-2 px-4 rounded-full shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}

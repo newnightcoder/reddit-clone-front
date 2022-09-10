@@ -23,7 +23,7 @@ const SettingsOptions = ({
   const { lang, appearance, subtitleLang, subtitleMode } = userLanguage.options;
   const { width } = useWindowSize();
   const { pathname } = useLocation();
-  const introPages = pathname === "/" || pathname === "/login" || pathname === "/signup";
+  const introPages = pathname === "/" || pathname === "/login" || pathname === "/signup" || pathname === "/fin";
 
   return (
     <div

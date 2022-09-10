@@ -18,6 +18,7 @@ module.exports = {
       screens: {
         "2xs": "480px",
         "3xs": "362px",
+        safarixl: "1265px",
       },
       gridTemplateColumns: {
         layout_lg: "min-content minmax(240px, 700px) min-content",

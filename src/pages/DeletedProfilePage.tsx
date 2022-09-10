@@ -1,23 +1,26 @@
-import Div100vh from "react-div-100vh";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { BtnSettings, Settings } from "../components";
 import { history } from "../utils/helpers";
-import { useLanguage } from "../utils/hooks";
+import { useLanguage, useToggleSettings } from "../utils/hooks";
 
 const DeletedProfile = () => {
   const { isAuthenticated, language, darkMode, role } = useSelector((state) => state?.user);
   const isAdmin = role === "admin";
   const userLanguage = useLanguage();
+  const { settingsOpen, toggleSettings } = useToggleSettings();
 
   return (
     <>
       {!isAuthenticated ? (
         <Redirect to="/" />
       ) : (
-        <Div100vh className="page-container relative bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-100 flex flex-col items-center justify-between space-y-5 pt-16">
-          <div className="h-max w-full md:w-max flex items-center justify-center text-center text-black py-2 px-2">
+        <div className="page-container min-h-screen relative bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-100 grid grid-cols-1 grid-rows-[max-content,max-content,1fr]">
+          <BtnSettings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
+          <Settings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
+          <div className="h-full w-full flex items-center justify-center text-center py-2 px-2">
             {!isAdmin ? (
-              <div className="h-full w-full flex flex-col items-center justify-center space-y-6">
+              <div className="h-full w-full flex flex-col items-center justify-center space-y-4 pt-8 pb-2">
                 <span>
                   {userLanguage.deletePage.confirmation} <br />
                   {userLanguage.deletePage.missYou}
@@ -56,19 +59,21 @@ const DeletedProfile = () => {
                 <div className="h-[calc(100vw-4rem)] w-[calc(100vw-4rem)] md:h-96 md:w-96 transition duration-300 bg-byebye bg-center bg-cover bg-no-repeat rounded-full border-2 border-gray-100 dark:bg-gray-700"></div>
               </div>
             ) : (
-              <>{userLanguage.deletePage.modMsg}</>
+              <div className="h-full w-full flex flex-col items-center justify-center py-2">{userLanguage.deletePage.modMsg}</div>
             )}
           </div>
-          <button
-            className="rounded-full w-max px-6 py-2 bg-blue-400  transition duration-100 shadow-lg hover:shadow-none hover:cursor-pointer text-white"
-            onClick={() => history.push(!isAdmin ? "/" : "/feed")}
-          >
-            {userLanguage.deletePage.backBtn}
-          </button>
-          <span className="flex items-center justify-center text-xs text-gray-500 dark:text-gray-400 capitalize pb-2">
-            &copy;2022 FORUM, Inc.
-          </span>
-        </Div100vh>
+          <div className="h-max flex items-center justify-center py-2">
+            <button
+              className="rounded-full w-max px-6 py-2 bg-blue-400  transition duration-100 shadow-lg hover:shadow-none hover:cursor-pointer text-white"
+              onClick={() => history.push(!isAdmin ? "/" : "/feed")}
+            >
+              {userLanguage.deletePage.backBtn}
+            </button>
+          </div>
+          <div className="h-full flex items-end justify-center text-xs text-gray-500 dark:text-gray-400 capitalize py-2">
+            <span>&copy;2022 FORUM, Inc.</span>
+          </div>
+        </div>
       )}
     </>
   );

@@ -26,13 +26,21 @@ const Login = () => {
     /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
   const isEmail = emailRegex.test(email);
 
-  const handleEmail = useCallback((e) => {
-    setEmail(e.target.value);
-  }, []);
+  const handleEmail = useCallback(
+    (e) => {
+      if (error) dispatch(clearErrorUserAction());
+      setEmail(e.target.value);
+    },
+    [error, setEmail]
+  );
 
-  const handlePass = useCallback((e) => {
-    setPassword(e.target.value);
-  }, []);
+  const handlePass = useCallback(
+    (e) => {
+      if (error) dispatch(clearErrorUserAction());
+      setPassword(e.target.value);
+    },
+    [setPassword, error]
+  );
 
   const handleUserSubmit = useCallback(
     (e) => {
@@ -40,8 +48,9 @@ const Login = () => {
       setIsLoading(true);
       dispatch(logUserAction(email, password));
     },
-    [email, password, dispatch]
+    [email, password]
   );
+
   const pushToFeed = useCallback(() => {
     setTimeout(() => {
       history.push("/feed");
@@ -56,6 +65,10 @@ const Login = () => {
     dispatch(clearErrorUserAction());
     dispatch(clearErrorPostAction());
   }, [dispatch]);
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, [error]);
 
   return (
     <Div100vh className="w-full relative flex flex-col items-center justify-start pt-16 md:pt-0 pb-3 md:pb-0 transition-colors duration-500 bg-gray-200 dark:bg-black text-gray-900 dark:text-gray-200">
@@ -101,7 +114,7 @@ const Login = () => {
                 className="w-[15.5rem] text-white bg-blue-400 p-2 rounded-full transform translate-y-2 md:translate-y-8 disabled:opacity-50 shadow-xl transition-all duration-300 hover:bg-blue-500 hover:shadow-none uppercase"
                 disabled={!isEmail || password.length < 8 ? true : false}
               >
-                {!isLoading || error ? <span>{userLanguage.login.enter}</span> : <SyncLoader size={8} color={"#ffffff"} />}
+                {error || !isLoading ? <span>{userLanguage.login.enter}</span> : <SyncLoader size={8} color={"#ffffff"} />}
               </button>
             </form>
           </div>

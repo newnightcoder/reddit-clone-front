@@ -133,14 +133,14 @@ const ImgUploader = (props: ImgUploaderProps) => {
       }}
       ref={form}
     >
-      {signupPage && <span>{userLanguage.imgUploader.chooseBtn}</span>}
+      {signupPage && <span className="text-900 dark:text-gray-100">{userLanguage.imgUploader.chooseBtn}</span>}
       {/* LABEL */}
       <label
         style={{
           width: signupPage || props.imgType === "post" ? "12rem" : "100%",
           padding: profilePage ? ".5rem 1rem" : ".5rem",
         }}
-        className="block text-center text-white text-xs rounded-full shadow-xl cursor-pointer bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
+        className="block text-center text-900 dark:text-gray-100 text-xs rounded-full shadow-xl cursor-pointer bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none"
         htmlFor={props.imgType}
       >
         <span className="whitespace-nowrap">
@@ -165,7 +165,7 @@ const ImgUploader = (props: ImgUploaderProps) => {
         ? null
         : blobName || imgUrl
         ? blobName
-        : !imgUrl && <span className="italic text-xs">{userLanguage.imgUploader.noPic}</span>}
+        : !imgUrl && <span className="italic text-xs text-900 dark:text-gray-100">{userLanguage.imgUploader.noPic}</span>}
       <ImgUploaderBtnModal
         btnModalOpen={btnModalOpen}
         setBlobName={setBlobName}

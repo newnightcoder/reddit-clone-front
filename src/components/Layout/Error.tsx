@@ -23,9 +23,9 @@ const Error = () => {
       {error && (
         <div
           ref={ref}
-          className={`fixed ${
+          className={`absolute ${
             introPages || editModalOpen ? "top-0" : "top-16"
-          } mb-2 h-min inset-x-0 w-full py-4 px-2 bg-black dark:bg-white text-center font-bold text-white dark:text-black text-sm z-50 whitespace-pre`}
+          } mb-2 h-min inset-x-0 w-full py-4 px-2 bg-red-500 text-center text-base font-bold text-white dark:text-black text-sm z-50 whitespace-pre`}
         >
           {error}
         </div>
