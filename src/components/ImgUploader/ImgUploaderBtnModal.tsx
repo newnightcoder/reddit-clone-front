@@ -81,16 +81,9 @@ const ImgUploaderBtnModal = ({
         <XIcon className="h-5 text-black dark:text-white" />
       </button>
       <span
-        className={`${
-          signupPage
-            ? "w-full md:text-sm"
-            : profileOptions
-            ? "h-8 w-[19ch] self-start pl-2 truncate text-xs text-white"
-            : // : imgType === "post"
-              // ? "border w-2/3 text-center text-xs truncate"
-              // : "text-xs text-white"
-              ""
-        } text-black dark:text-white italic text-center`}
+        className={`w-full truncate ${
+          profilePage ? "h-8 text-xs pl-2" : ""
+        } text-xs text-black dark:text-white italic text-center pr-6`}
       >
         {blobName}
       </span>
@@ -140,7 +133,7 @@ const ImgUploaderBtnModal = ({
         <span className="flex items-center justify-center">
           <span>{createPostPage || editModal ? "ok" : userLanguage.imgUploader.save}</span>
           <ChevronDoubleRightIcon
-            className={`${profilePage ? "h-3 translate-y-[-1rem]" : "h-4 -translate-y-px"} w-4 font-bold`}
+            className={`${profilePage ? "h-3 translate-y-[-0.025rem]" : "h-4 -translate-y-px"} w-4 font-bold`}
           />
         </span>
       </button>

@@ -168,7 +168,7 @@ const ImgUploader = (props: ImgUploaderProps) => {
       <span className="italic text-xs text-900 dark:text-gray-100 pt-1">
         {profilePage || createPostPage || editModal
           ? null
-          : blobName || imgUrl
+          : (blobName || imgUrl) && !btnModalOpen
           ? blobName
           : !imgUrl && !btnModalOpen && userLanguage.imgUploader.noPic}
       </span>
