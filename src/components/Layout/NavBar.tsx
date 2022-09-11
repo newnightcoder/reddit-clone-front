@@ -130,8 +130,8 @@ const NavBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
               onClick={toggleSearchMenu}
               style={{ paddingLeft: searchFilterRect ? `calc(${searchFilterRect.width}px + 0.3rem)` : "0.75rem" }}
               className="h-full w-full rounded-l-full outline-none  pr-8 text-black dark:text-gray-100 dark:placeholder-gray-200 
-              dark:bg-gray-600 text-sm lg:text-md transition-all duration-300 border border-t border-b border-l  border-gray-400 
-              dark:border-gray-700 group-hover:border-gray-400 dark:group-hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400"
+              dark:bg-gray-600 text-sm lg:text-md transition-all duration-300 border-t border-b border-l border-gray-300 
+              dark:border-gray-600 group-hover:border-gray-400 dark:group-hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400"
               type="search"
               placeholder={
                 searchPageMobile && searchFilter
@@ -170,7 +170,7 @@ const NavBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
           <button
             type="submit"
             className={`w-10 h-10 outline-none rounded-r-full bg-black dark:bg-gray-700 flex items-center justify-center transition-colors duration-300 border-t border-b border-r group-hover:border-gray-400 dark:group-hover:border-gray-400 ${
-              isSearchFocus ? "border-gray-400" : "border-transparent "
+              isSearchFocus ? "border-gray-400" : "border-gray-300 dark:border-gray-600 "
             }`}
           >
             <SearchIcon className="h-5 w-5 text-white pointer-events-none" />
