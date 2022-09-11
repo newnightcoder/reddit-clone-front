@@ -56,7 +56,7 @@ const SearchPage = () => {
         >
           <span
             className={`${
-              isResults ? "h-20 uppercase flex items-center justify-center" : "italic text-sm pt-4"
+              isResults ? "h-20 uppercase flex items-center justify-center" : "italic md:text-sm pt-4"
             } leading-1 whitespace-pre text-center text-gray-500`}
           >
             {titleSearch}
