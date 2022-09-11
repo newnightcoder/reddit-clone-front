@@ -39,25 +39,24 @@ const PageNotFound = () => {
           <div style={{ background: `url("${gif}") no-repeat center/cover` }} className="relative rounded-lg w-[360px] h-[275px]">
             <span className={`w-full absolute inset-x-0 ${position} inline-block italic text-white text-center`}>{msg}</span>
           </div>
-
-          <div className="w-full h-max flex items-center justify-center">
-            <Link
-              className="w-max bg-gray-100 shadow-md hover:shadow-none transition duration-100 rounded-full px-5 pb-1 pt-[0.6rem] flex items-center justify-center space-x-0.5 translate-y-4"
-              to="/"
-              onMouseOver={() => {
-                setGif(kitten);
-                setMsg(text.home);
-                setPosition("bottom-0");
-              }}
-              onMouseOut={() => {
-                setGif(notfound);
-                setMsg(text.lost);
-                setPosition("top-0");
-              }}
-            >
+          <Link
+            className="w-auto bg-gray-100 shadow-md hover:shadow-none transition duration-100 rounded-full px-5 pb-1 pt-[0.6rem] translate-y-4"
+            to="/"
+            onMouseOver={() => {
+              setGif(kitten);
+              setMsg(text.home);
+              setPosition("bottom-0");
+            }}
+            onMouseOut={() => {
+              setGif(notfound);
+              setMsg(text.lost);
+              setPosition("top-0");
+            }}
+          >
+            <div className="w-max flex items-center justify-center space-x-0.5 ">
               <HomeIcon className="h-5 text-black -translate-y-0.5" />
               <svg
-                className="h-[1.5rem] w-max inline transition duration-300 translate-y-[-0.29rem] translate-x-[0.1rem]"
+                className="h-[1.5rem] w-[4.5rem] inline transition duration-300 translate-y-[-0.29rem] translate-x-[0.1rem]"
                 width="332"
                 height="127"
                 viewBox="0 0 332 127"
@@ -81,8 +80,8 @@ const PageNotFound = () => {
                   </clipPath>
                 </defs>
               </svg>
-            </Link>
-          </div>
+            </div>
+          </Link>
         </div>
       </div>
     </div>
