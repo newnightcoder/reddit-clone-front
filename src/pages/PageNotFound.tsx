@@ -1,6 +1,5 @@
 import { HomeIcon } from "@heroicons/react/solid";
 import { useState } from "react";
-import Div100vh from "react-div-100vh";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { kitten, notfound } from "../assets";
@@ -18,7 +17,7 @@ const PageNotFound = () => {
   const { darkMode } = useSelector((state) => state.user);
 
   return (
-    <Div100vh className={darkMode ? "bg-black" : "bg-gray-200"}>
+    <div className={`${darkMode ? "bg-black" : "bg-gray-200"} min-h-screen h-full flex items-center justify-center`}>
       <div className="w-full h-full flex flex-col items-center justify-center">
         <div className="w-max h-max flex flex-col items-center justify-center space-y-4">
           <div className="h-44 text-gray-900 flex items-center justify-center">
@@ -84,7 +83,7 @@ const PageNotFound = () => {
           </Link>
         </div>
       </div>
-    </Div100vh>
+    </div>
   );
 };
 
