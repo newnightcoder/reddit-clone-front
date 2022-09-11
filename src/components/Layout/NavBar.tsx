@@ -125,13 +125,14 @@ const NavBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
           action="post"
           onSubmit={(e) => handleSearchSubmit(e)}
         >
-          <div className="input-wrapper relative h-10 w-full rounded-l-full">
+          <div className="input-wrapper relative h-10 w-full rounded-l-full border border-black">
             <input
               onClick={toggleSearchMenu}
               style={{ paddingLeft: searchFilterRect ? `calc(${searchFilterRect.width}px + 0.3rem)` : "0.75rem" }}
               className="h-full w-full rounded-l-full outline-none  pr-8 text-black dark:text-gray-100 dark:placeholder-gray-200 
-              dark:bg-gray-600 text-sm lg:text-md transition-all duration-300 border-t border-b border-l border-gray-200 
-              dark:border-gray-700 group-hover:border-gray-400 dark:group-hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400"
+              dark:bg-gray-600 text-sm lg:text-md transition-all duration-300  border-gray-200 border
+              dark:border-green-700 group-hover:border-gray-400 dark:group-hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400"
+              // border-t border-b border-l
               type="search"
               placeholder={
                 searchPageMobile && searchFilter

@@ -167,17 +167,17 @@ const Profile = () => {
                     followersCount={updatedFollowersCount!}
                     container={"profile"}
                   />
-                  <Followers
-                    setter={toggleTabs}
-                    followersCountSetter={setUpdatedFollowersCount}
-                    toggleFollowers={toggleFollowers}
-                    followersOpen={followersOpen}
-                    username={userData.username}
-                    userId={userData.id}
-                    bool={leftTabOpen}
-                    ref={ref}
-                  />
                 </div>
+                <Followers
+                  setter={toggleTabs}
+                  followersCountSetter={setUpdatedFollowersCount}
+                  toggleFollowers={toggleFollowers}
+                  followersOpen={followersOpen}
+                  username={userData.username}
+                  userId={userData.id}
+                  bool={leftTabOpen}
+                  ref={ref}
+                />
               </div>
             )}
           </div>
