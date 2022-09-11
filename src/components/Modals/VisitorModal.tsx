@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleVisitorModalAction } from "../../store/actions/user.action";
 
@@ -7,14 +6,14 @@ const VisitorModal = () => {
   const dispatch = useDispatch();
   const root = window.document.documentElement;
 
-  useEffect(() => {
-    if (isVisitor) {
-      root.classList.add("removeScroll");
-    }
-    return () => {
-      root.classList.remove("removeScroll");
-    };
-  }, [isVisitor, root.classList]);
+  // useEffect(() => {
+  //   if (isVisitor) {
+  //     root.classList.add("removeScroll");
+  //   }
+  //   return () => {
+  //     root.classList.remove("removeScroll");
+  //   };
+  // }, [isVisitor, root.classList]);
 
   return (
     <div

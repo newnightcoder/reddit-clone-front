@@ -93,11 +93,15 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .disappear {
-  animation: 500ms cubic-bezier(0.18, 0.89, 0.32, 1.28) 2000ms forwards disappear;
+  transform: translateY(-200%);
 }
 
-@keyframes disappear {
-  100% {
-    transform: translateY(-200%);
+/* animation: disappear 500ms cubic-bezier(0.18, 0.89, 0.32, 1.28) 2500ms forwards; */
+/* @keyframes disappear {
+  0% {
+    transform: translate(0%, 0%);
   }
-}
+  100% {
+    transform: translate(0%, -200%);
+  }
+} */
