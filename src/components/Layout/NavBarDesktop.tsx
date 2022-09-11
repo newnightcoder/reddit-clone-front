@@ -25,7 +25,7 @@ const NavBarDesktop = ({ toggleSettings, settingsOpen, toggleMenu }: navbarProps
         width: width >= breakpoint.xl ? "14rem" : width > breakpoint.md ? "min-content" : width < breakpoint.md ? "100%" : "",
         marginTop: width > breakpoint.md ? "" : "4rem",
       }}
-      className="navbar-mobile fixed bottom-0 md:relative h-16 md:h-full w-full md:w-min flex items-start justify-center z-[1500] border-t transition duration-500 dark:border-gray-700 md:dark:border-none md:justify-start md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent shadow-safarixl md:shadow-none"
+      className="navbar-mobile  z-[1500] fixed bottom-0 md:relative h-16 md:h-full w-full md:w-min flex items-start justify-center md:justify-start  border-t  md:border-none dark:border-gray-700 transition duration-500 md:rounded-lg bg-white dark:bg-gray-900 md:bg-transparent md:dark:bg-transparent shadow-xl md:shadow-none"
     >
       <div
         style={{ width: "100%", maxWidth: width < breakpoint.md ? "550px" : "", top: width > breakpoint.md ? "6rem" : "" }}

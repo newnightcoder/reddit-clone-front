@@ -125,14 +125,13 @@ const NavBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
           action="post"
           onSubmit={(e) => handleSearchSubmit(e)}
         >
-          <div className="input-wrapper relative h-10 w-full rounded-l-full border border-black">
+          <div className="input-wrapper relative h-10 w-full rounded-l-full">
             <input
               onClick={toggleSearchMenu}
               style={{ paddingLeft: searchFilterRect ? `calc(${searchFilterRect.width}px + 0.3rem)` : "0.75rem" }}
               className="h-full w-full rounded-l-full outline-none  pr-8 text-black dark:text-gray-100 dark:placeholder-gray-200 
-              dark:bg-gray-600 text-sm lg:text-md transition-all duration-300  border-gray-200 border
-              dark:border-green-700 group-hover:border-gray-400 dark:group-hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400"
-              // border-t border-b border-l
+              dark:bg-gray-600 text-sm lg:text-md transition-all duration-300 border border-t border-b border-l  border-gray-400 
+              dark:border-gray-700 group-hover:border-gray-400 dark:group-hover:border-gray-400 focus:border-gray-400 dark:focus:border-gray-400"
               type="search"
               placeholder={
                 searchPageMobile && searchFilter
@@ -227,11 +226,17 @@ const NavBar = ({ toggleMenu }: { toggleMenu: () => void }) => {
                 }}
                 type="button"
                 className={`${
-                  searchPageMobile ? "absolute top-1 right-0" : "relative"
-                } w-max py-1 px-3 text-center self-end text-xs text-gray-200 underline hover:text-white font-bold uppercase hover:bg-blue-400 rounded-full transition-all duration-300 hover:shadow-none`}
+                  searchPageMobile ? "absolute top-1 right-1" : "relative"
+                } h-max w-max hover:bg-gray-700 rounded-full transition-colors duration-300`}
               >
-                <span className={`${searchPageMobile ? "hidden" : "inline-block"}`}>{userLanguage.search.cancel}</span>
-                <XIcon className={`${searchPageMobile ? "inline-block" : "hidden"} h-4 text-white`} />
+                <span
+                  className={`py-1 ${
+                    searchPageMobile ? "px-1" : "px-3"
+                  } flex items-center justify-center text-xs text-gray-200 underline hover:text-white font-bold uppercase`}
+                >
+                  <span className={`${searchPageMobile ? "hidden" : "inline-block"}`}>{userLanguage.search.cancel}</span>
+                  <XIcon className={`${searchPageMobile ? "inline-block" : "hidden"} h-4 text-white`} />
+                </span>
               </button>
             </div>
           </div>

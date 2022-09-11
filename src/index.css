@@ -6,9 +6,6 @@
 body {
   font-family: "Helvetica", sans-serif;
   overflow-y: scroll;
-  /* background-color: #fff; */
-  /* border: 2px solid red; */
-  /* height: 100%; */
 }
 
 body.dark {
@@ -20,6 +17,8 @@ body.dark {
   /* padding-right: 15px; */
 }
 
+/* to cancel safari proprietary styling of safari (no custom css applied)
+thank you SOF! */
 input[type="search"] {
   -moz-appearance: none; /* older firefox */
   -webkit-appearance: none; /* safari, chrome, edge and ie mobile */
