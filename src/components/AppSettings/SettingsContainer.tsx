@@ -23,7 +23,7 @@ const SettingsContainer = (props: SettingsProps) => {
     : "";
 
   const leftStyle = introScreens
-    ? ""
+    ? "left-auto"
     : props.isMenuOpen
     ? "left-0"
     : width < breakpoint.sm
@@ -36,7 +36,8 @@ const SettingsContainer = (props: SettingsProps) => {
     ? "left-[14.5rem]"
     : "";
 
-  const rightStyle = introScreens ? "right-4" : "";
+  const rightStyle = introScreens ? "right-6" : "";
+
   return (
     <div
       className={`${props.settingsOpen ? "block" : "hidden"} w-52 h-max ${

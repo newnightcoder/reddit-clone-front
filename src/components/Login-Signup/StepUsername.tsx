@@ -13,12 +13,6 @@ const StepUsername = () => {
   const error = useError();
   const { settingsOpen, toggleSettings } = useToggleSettings();
 
-  // const toNextStep = userCreated ? { transform: "translateX(-100%)" } : { transform: "translateX(0%)" };
-
-  // useEffect(() => {
-  //   dispatch({ type: actionTypes.USERNAME_FAIL });
-  // }, [dispatch]);
-
   const handleInput = useCallback(
     (e) => {
       if (error) dispatch(clearErrorUserAction());
@@ -43,19 +37,17 @@ const StepUsername = () => {
     <div
       className={`${
         userCreated ? "visible" : usernameAdded ? "invisible" : "invisible"
-      } w-screen h-full min-h-screen overflow-hidden border-2 border-green-500 bg-gray-200 dark:bg-black grid grid-rows-[1fr,1fr] grid-cols-1 transition-transform duration-300 relative`}
-      // style={toNextStep}
+      } w-screen h-full min-h-screen overflow-hidden bg-gray-200 dark:bg-black grid grid-rows-[1fr,1fr] grid-cols-1 transition-transform duration-300 relative`}
     >
       <Error />
       <BtnSettings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
       <Settings settingsOpen={settingsOpen} toggleSettings={toggleSettings} />
       <LoginHeader />
-      <div className="h-full border border-red-500">
-        {/* <p className="font-bold text-center">{userLanguage.signup.stepUsername.choose}</p> */}
+      <div className="h-full">
         <form className="flex flex-col items-center justify-center space-y-1" method="post" onSubmit={handleSubmit}>
           <label htmlFor="username"></label>
           <input
-            className="w-48 rounded p-1 border border-blue-300 text-gray-900 transition-color duration-300 hover:border-blue-400 outline-none"
+            className="w-48 rounded p-1 text-gray-900 transition-color duration-300 hover:border-blue-400 outline-none"
             type="text"
             id="username"
             onChange={handleInput}

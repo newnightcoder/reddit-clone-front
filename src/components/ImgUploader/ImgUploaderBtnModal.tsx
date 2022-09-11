@@ -105,7 +105,7 @@ const ImgUploaderBtnModal = ({
           type="submit"
           className={`block ${
             profileOptions ? "w-full text-xs" : "w-48 text-sm"
-          } py-2 px-4 rounded-full shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
+          } font-bold uppercase py-2 px-4 rounded-full shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
         >
           {userLanguage.imgUploader.preview}
         </button>
@@ -134,13 +134,13 @@ const ImgUploaderBtnModal = ({
         disabled={!isPreviewImg ? true : false}
         className={`disabled:opacity-50 block ${
           profileOptions ? "w-full text-xs" : "w-48 text-sm"
-        }  text-white font-bold py-2 px-4 rounded-full shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
+        }  text-white font-bold uppercase py-2 px-4 rounded-full shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
         onClick={handleSaveBtn}
       >
         <span className="flex items-center justify-center">
           <span>{createPostPage || editModal ? "ok" : userLanguage.imgUploader.save}</span>
           <ChevronDoubleRightIcon
-            className={`${profilePage ? "h-3 translate-y-[0.05rem]" : "h-4 translate-y-px"} w-4 font-bold`}
+            className={`${profilePage ? "h-3 translate-y-[-1rem]" : "h-4 -translate-y-px"} w-4 font-bold`}
           />
         </span>
       </button>

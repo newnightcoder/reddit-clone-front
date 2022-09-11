@@ -64,12 +64,11 @@ const language = {
       already: "I already have an account!",
       alreadyBtn: "Log in",
       stepUsername: {
-        choose: "Choose your username:",
+        choose: "Choose your username",
         ok: "ok",
       },
       stepImage: {
-        lastStep: "Last step before",
-        join: "joining the community",
+        lastStep: "Last step before\njoining the community!",
         later: "Later, not now!",
       },
     },
@@ -345,12 +344,11 @@ const language = {
       already: "J'ai déjà un compte!",
       alreadyBtn: "Se connecter",
       stepUsername: {
-        choose: "Choisissez votre pseudo:",
+        choose: "Choisissez votre pseudo",
         ok: "valider",
       },
       stepImage: {
-        lastStep: "dernière étape avant de",
-        join: "rejoindre la communauté",
+        lastStep: "dernière étape avant de\nrejoindre la communauté!",
         later: "Plus tard, pas maintenant!",
       },
     },
@@ -494,7 +492,7 @@ const language = {
       yes: "oui",
     },
     imgUploader: {
-      chooseBtn: "Choisissez votre image de profil",
+      chooseBtn: "Choisir une photo de profil",
       changePicBtn: "Modifier l'image de profil",
       changeBannerBtn: "Modifier la bannière",
       browse: "Parcourir",
@@ -633,8 +631,7 @@ const language = {
         ok: "ok",
       },
       stepImage: {
-        lastStep: "letzter Schritt",
-        join: "vor dem Beitritt",
+        lastStep: "letzter Schritt\nvor dem Beitritt!",
         later: "Später, nicht jetzt!",
       },
     },
@@ -778,7 +775,7 @@ const language = {
       yes: "ja",
     },
     imgUploader: {
-      chooseBtn: "Profilbild ",
+      chooseBtn: "Profilbild einrichten",
       changePicBtn: "Profilbild ändern",
       changeBannerBtn: "Bannerbild ändern",
       browse: "Durchsuchen",
