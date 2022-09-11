@@ -10,7 +10,7 @@ const DeleteModal = (props: DeleteModalProps) => {
   return (
     <div
       className={`w-full h-full z-[1100] flex flex-col items-center justify-center space-y-4 md:rounded  absolute inset-0 bg-gray-900 dark:bg-black ${
-        profilePage ? "opacity-100" : "opacity-90"
+        profilePage ? "opacity-100 dark:bg-gray-700" : "opacity-90"
       } text-white text-sm px-5 md:px-24`}
     >
       <span

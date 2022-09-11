@@ -39,7 +39,7 @@ const Menu = ({ isMenuOpen, toggleMenu }: MenuProps) => {
       style={{ height: `${responsiveHeight}px` }}
       className={`menu-container fixed z-[2000] ${
         isMenuOpen ? "translate-x-0" : "-translate-x-full"
-      } top-0 left-0 w-9/12 py-6 px-5 overflow-y-auto md:hidden grid grid-rows-menu place-items-center grid-cols-1 bg-gray-100 dark:bg-black dark:text-white  transition-transform duration-300`}
+      } top-0 left-0 w-9/12 py-6 px-5 overflow-y-auto md:hidden grid grid-rows-menu place-items-center grid-cols-1 bg-gray-100 dark:bg-black dark:text-white border-r border-gray-200 dark:border-gray-800 transition-transform duration-300`}
     >
       {/* row 1 */}
       <div className="top-section h-max w-full pb-5 flex flex-col items-center justify-center space-y-4 border-b border-gray-300">

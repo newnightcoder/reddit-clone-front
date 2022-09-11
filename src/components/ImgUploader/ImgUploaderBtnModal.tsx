@@ -81,8 +81,8 @@ const ImgUploaderBtnModal = ({
         <XIcon className="h-5 text-black dark:text-white" />
       </button>
       <span
-        className={`h-8 w-full truncate ${
-          profilePage ? " text-xs pl-2" : ""
+        className={`w-full truncate ${
+          profilePage ? "h-8 text-xs pl-2" : "h-max py-2"
         } text-xs text-black dark:text-white italic text-center pr-6`}
       >
         {blobName}
