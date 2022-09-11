@@ -15,7 +15,7 @@ import { history } from "./utils/helpers";
 
 const App = () => {
   return (
-    <div className="h-full w-full md:min-w-[320px] relative transition-color duration-500">
+    <div className="h-full w-full md:min-w-[320px] relative transition-color duration-500 bg-gray-200 dark:bg-black">
       <Router history={history}>
         <Switch>
           <Route path="/" exact component={HomePage} />
