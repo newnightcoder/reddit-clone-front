@@ -19,8 +19,8 @@ const PageNotFound = () => {
   return (
     <div className={`${darkMode ? "bg-black" : "bg-gray-200"} min-h-screen h-full flex items-center justify-center`}>
       <div className="w-full h-full flex flex-col items-center justify-center">
-        <div className="w-max h-max flex flex-col items-center justify-center space-y-4">
-          <div className="h-44 text-gray-900 flex items-center justify-center">
+        <div className="w-max h-max flex flex-col items-center justify-center space-y-8 py-4">
+          <div className="h-max text-gray-900 flex items-center justify-center">
             <div className="w-max flex flex-col items-center justify-center divide-y-2 divide-solid divide-white">
               <div className="w-full flex items-center justify-center space-x-1">
                 <span className={`text-6xl md:text-8xl ${darkMode ? "text-white" : ""}`}>404</span>
@@ -31,7 +31,7 @@ const PageNotFound = () => {
                   />
                 </svg>
               </div>
-              <span className={`uppercase font-bold text-4xl whitespace-nowrap pt-1 ${darkMode ? "text-white" : ""}`}>
+              <span className={`uppercase font-bold text-2xl md:text-4xl whitespace-nowrap pt-1 ${darkMode ? "text-white" : ""}`}>
                 {userLanguage.pageNotFound.msg}
               </span>
             </div>
@@ -40,7 +40,7 @@ const PageNotFound = () => {
             <span className={`w-full absolute inset-x-0 ${position} inline-block italic text-white text-center`}>{msg}</span>
           </div>
           <Link
-            className="w-auto bg-gray-100 shadow-md hover:shadow-none transition duration-100 rounded-full px-5 pb-1 pt-[0.6rem] translate-y-4"
+            className="w-auto bg-gray-100 shadow-md hover:shadow-none transition duration-100 rounded-full px-5 pb-1 pt-[0.6rem]"
             to="/"
             onMouseOver={() => {
               setGif(kitten);
