@@ -50,8 +50,9 @@ const StepUsername = () => {
             className="w-48 rounded p-1 text-gray-900 transition-color duration-300 hover:border-blue-400 outline-none"
             type="text"
             id="username"
+            name="usrname"
+            autoComplete="new-password"
             onChange={handleInput}
-            autoComplete="false"
           />
           <button
             className="w-48 p-2 rounded-full transform translate-y-2 disabled:opacity-50 shadow-xl bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none uppercase"

@@ -134,7 +134,7 @@ const ImgUploader = (props: ImgUploaderProps) => {
       ref={form}
     >
       {signupPage && !btnModalOpen && (
-        <span className="text-900 dark:text-gray-100 uppercase py-1">{userLanguage.imgUploader.chooseBtn}</span>
+        <span className="text-gray-900 dark:text-gray-100 uppercase py-1">{userLanguage.imgUploader.chooseBtn}</span>
       )}
       {/* LABEL */}
       <label
@@ -142,7 +142,7 @@ const ImgUploader = (props: ImgUploaderProps) => {
           width: signupPage || props.imgType === "post" ? "12rem" : "100%",
           padding: profilePage ? ".5rem 1rem" : ".25rem",
         }}
-        className={`block text-center text-900 dark:text-gray-100 ${
+        className={`block text-center ${profilePage ? "text-gray-100" : "text-gray-900 dark:text-gray-100"} ${
           signupPage ? "text-md" : "text-xs"
         } rounded-full shadow-xl cursor-pointer bg-blue-400 transition-all duration-300 hover:bg-blue-500 hover:shadow-none`}
         htmlFor={props.imgType}
@@ -165,7 +165,7 @@ const ImgUploader = (props: ImgUploaderProps) => {
         ref={fileInputRef}
         onChange={forPost ? handleChangePost : handleChange}
       />
-      <span className="italic text-xs text-900 dark:text-gray-100 pt-1">
+      <span className="italic text-xs text-gray-900 dark:text-gray-100 pt-1">
         {profilePage || createPostPage || editModal
           ? null
           : (blobName || imgUrl) && !btnModalOpen
