@@ -137,7 +137,6 @@ const EditPostModal = () => {
         setEditTitle(postToEdit.title);
         if (editTextRef.current) {
           editTextRef.current.innerText = postToEdit?.text || ""; // to keep linebreaks/innerText
-          // setEditText(editTextRef.current.innerText);
         }
         break;
       case "comment":
@@ -145,7 +144,6 @@ const EditPostModal = () => {
         let text = comment.text;
         if (editTextRef.current) {
           editTextRef.current.innerText = text;
-          // setEditText(text);
         }
         break;
       case "reply": {
@@ -159,7 +157,6 @@ const EditPostModal = () => {
         let text = reply!.text;
         if (editTextRef.current) {
           editTextRef.current.innerText = text;
-          // setEditText(text);
         }
         break;
       }
@@ -212,7 +209,7 @@ const EditPostModal = () => {
     <div
       className={`transition duration-300 ${
         editModalOpen
-          ? "min-h-screen h-max overflow-y-auto fixed inset-0 opacity-100 z-[1000] flex bg-black/60 items-start justify-center"
+          ? "min-h-screen h-max overflow-y-auto fixed inset-0 opacity-100 z-[2000] flex bg-black/60 items-start justify-center pt-16"
           : "opacity-0 z-[-1] hidden"
       }`}
     >
