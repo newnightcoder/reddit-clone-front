@@ -147,7 +147,7 @@ const language = {
       greetingNewUserLine2: "Share and discuss with the community!",
       greetingNewUserLine2_mob: "Share with the community.",
       greetingUser: "Happy to see you again",
-      loadingWait: "Wait! The app is the warming up!",
+      loadingWait: "Wait! The app is warming up!",
       loadingReady: "Ready to go!",
       refreshBtn: "refresh",
       backTopBtn: "Back to top",

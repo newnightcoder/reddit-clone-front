@@ -6,10 +6,6 @@ import { ExpiredProps } from "../react-app-env";
 const SessionExpiredModal = ({ isExpired, close }: ExpiredProps) => {
   const userLanguage = useLanguage();
 
-  // useEffect(() => {
-  //   document.body.style.overflowY = "hidden";
-  // }, []);
-
   return (
     <div
       className="w-full h-full flex flex-col items-center justify-center space-y-4 fixed top-0 left-0 z-50 bg-gray-900 transition-opacity duration-300 opacity-0 text-white overflow-y-hidden"
