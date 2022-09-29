@@ -4,11 +4,13 @@ import Div100vh from "react-div-100vh";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
+import { loginImg } from "../assets";
 import { BtnSettings, Error, LoginHeader, Settings } from "../components";
 import { clearErrorPostAction } from "../store/actions/posts.action";
 import { clearErrorUserAction, logUserAction } from "../store/actions/user.action";
+import { breakpoint } from "../utils/breakpoints";
 import { history } from "../utils/helpers";
-import { useError, useLanguage, useToggleSettings } from "../utils/hooks";
+import { useError, useLanguage, useToggleSettings, useWindowSize } from "../utils/hooks";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,6 +22,8 @@ const Login = () => {
   const userLanguage = useLanguage();
   const { settingsOpen, toggleSettings } = useToggleSettings();
   const error = useError();
+  const { width } = useWindowSize();
+  const cloudinaryCdnPrefix_static = "https://my-cloud-cdn.mo.cloudinary.net/forum-static";
 
   /* eslint no-control-regex: 0 */
   const emailRegex =
@@ -119,7 +123,10 @@ const Login = () => {
             </form>
           </div>
         </div>
-        <div className="bottom-section relative h-min w-4/5 md:h-full md:w-full md:bg-login bg-no-repeat bg-center bg-cover flex items-center md:items-start justify-center border-t md:border-none border-black dark:border-white py-2 md:py-0">
+        <div
+          style={{ backgroundImage: width > breakpoint.md ? `url("${cloudinaryCdnPrefix_static}${loginImg}")` : "" }}
+          className="bottom-section relative h-min w-4/5 md:h-full md:w-full bg-no-repeat bg-center bg-cover flex items-center md:items-start justify-center border-t md:border-none border-black dark:border-white py-2 md:py-0"
+        >
           <div className="h-full w-full md:h-[max-content] md:absolute md:top-[39%] flex flex-col items-center justify-center space-x-2 md:px-16">
             <span className="whitespace-nowrap text-gray-900 dark:text-white md:text-white transition-colors duration-500 hover:text-blue-500">
               {userLanguage.login.first}?

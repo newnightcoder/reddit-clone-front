@@ -1,10 +1,10 @@
-const cdnDeliveryAddress = "https://forum-network.mo.cloudinary.net";
+const cloudinaryCdn = "https://my-cloud-cdn.mo.cloudinary.net/forum";
 const fromCDN = (imgUrl: string) => {
   let path;
   if (imgUrl.includes("forum-s3-bucket")) {
     path = imgUrl.split("/").pop();
   }
-  return `${cdnDeliveryAddress}/${path}`;
+  return `${cloudinaryCdn}/${path}`;
 };
 
 export default fromCDN;

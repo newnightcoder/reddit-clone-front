@@ -8,8 +8,6 @@ const LoginHeader = () => {
   const { pathname } = useLocation();
   const loginPage = pathname === "/login";
   const signupPage = pathname === "/signup";
-  const stepUsername = pathname === "/signup";
-  const stepImage = pathname === "/signup";
 
   return (
     <header className="text-center uppercase flex flex-col items-center justify-center space-y-2 transition-colors duration-500 text-gray-900 dark:text-gray-200">

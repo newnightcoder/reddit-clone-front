@@ -6,5 +6,6 @@ export { default as logo_mobile_blue } from "./feather-blue.svg";
 export { default as logo } from "./forum-logo.svg";
 export { default as giphyDark } from "./gif-circle-dark.png";
 export { default as heroImg } from "./hero.png";
+export { default as loginImg } from "./hero_2.png";
 export { default as kitten } from "./kitten.gif";
 export { default as picPlaceholder } from "./pic_placeholder.svg";

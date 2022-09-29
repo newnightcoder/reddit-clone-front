@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { loginImg } from "../assets";
 import { BtnSettings, Error, LoginHeader, Settings, SignupForm, StepImage, StepUsername } from "../components";
 import { clearErrorPostAction } from "../store/actions/posts.action";
 import { clearErrorUserAction, createUserAction } from "../store/actions/user.action";
+import { breakpoint } from "../utils/breakpoints";
 import { date } from "../utils/helpers/formatTime";
-import { useError, useLanguage, useToggleSettings } from "../utils/hooks";
-
+import { useError, useLanguage, useToggleSettings, useWindowSize } from "../utils/hooks";
 const Signup = () => {
   const { userCreated, usernameAdded } = useSelector((state) => state.user);
   const [newUserEmail, setNewUserEmail] = useState("");
@@ -18,8 +19,10 @@ const Signup = () => {
   const [isLong, setIsLong] = useState(false);
   const dispatch = useDispatch();
   const userLanguage = useLanguage();
+  const { width } = useWindowSize();
   const { settingsOpen, toggleSettings } = useToggleSettings();
   const error = useError();
+  const cloudinaryCdnPrefix_static = "https://my-cloud-cdn.mo.cloudinary.net/forum-static";
 
   useEffect(() => {
     dispatch(clearErrorUserAction());
@@ -110,7 +113,10 @@ const Signup = () => {
                 handleNewUserSubmit={handleNewUserSubmit}
               />
             </div>
-            <div className="bottom-section relative h-min w-4/5 md:h-full md:w-full md:bg-login bg-no-repeat bg-center bg-cover flex items-center md:items-start justify-center border-t md:border-none border-black dark:border-white py-2 md:py-20">
+            <div
+              style={{ backgroundImage: width > breakpoint.md ? `url("${cloudinaryCdnPrefix_static}${loginImg}")` : "" }}
+              className="bottom-section relative h-min w-4/5 md:h-full md:w-full  bg-no-repeat bg-center bg-cover flex items-center md:items-start justify-center border-t md:border-none border-black dark:border-white py-2 md:py-20"
+            >
               <div className="h-full w-full md:h-[max-content] md:absolute md:top-[39%] flex flex-col items-center justify-center space-x-2 md:px-16">
                 <span className="whitespace-nowrap text-gray-900 dark:text-white md:text-white transition-colors duration-500">
                   {userLanguage.signup.already}
