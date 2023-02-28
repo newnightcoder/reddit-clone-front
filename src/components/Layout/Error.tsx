@@ -18,6 +18,10 @@ const Error = () => {
     };
   }, [postError]);
 
+  useEffect(() => {
+    console.log(error);
+  }, [error]);
+
   return (
     <>
       {error && (
@@ -25,7 +29,7 @@ const Error = () => {
           ref={ref}
           className={`fixed ${
             introPages || editModalOpen ? "top-0" : "top-16"
-          } mb-2 h-min inset-x-0 w-full py-4 px-2 bg-red-500 text-center text-base font-bold text-white text-sm z-50 whitespace-pre`}
+          } mb-2 h-min w-screen inset-x-0 py-4 px-2 bg-red-500 text-center text-base font-bold text-white text-sm z-50 `}
         >
           {error}
         </div>
