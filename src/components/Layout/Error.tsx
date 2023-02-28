@@ -18,10 +18,6 @@ const Error = () => {
     };
   }, [postError]);
 
-  useEffect(() => {
-    console.log(error);
-  }, [error]);
-
   return (
     <>
       {error && (
