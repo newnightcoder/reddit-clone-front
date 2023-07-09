@@ -38,8 +38,7 @@ const Feed = () => {
   useEffect(() => {
     const check = () => {
       if (start && Date.now() - start >= 5000) {
-        console.log("settimeout snice beginning", Date.now() - start);
-
+        // console.log("settimeout since beginning", Date.now() - start);
         return setFiveSec(true);
       } else setFiveSec(false);
     };
