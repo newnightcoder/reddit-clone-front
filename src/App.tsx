@@ -14,8 +14,6 @@ import {
 import { history } from "./utils/helpers";
 
 const App = () => {
-  console.log("env", process.env.NODE_ENV);
-
   return (
     <div className="h-full w-full md:min-w-[320px] relative transition-color duration-500 bg-gray-200 dark:bg-black">
       <Router history={history}>
