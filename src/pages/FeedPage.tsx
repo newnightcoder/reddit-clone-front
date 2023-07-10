@@ -38,15 +38,15 @@ const Feed = () => {
   useEffect(() => {
     const check = () => {
       if (start && Date.now() - start >= 5000) {
-        // console.log("settimeout since beginning", Date.now() - start);
+        console.log("settimeout since beginning", Date.now() - start);
         return setFiveSec(true);
       } else setFiveSec(false);
     };
-    setTimeout(() => {
+    const timerID = setTimeout(() => {
       check();
     }, 5000);
 
-    return () => clearTimeout();
+    return () => clearTimeout(timerID);
   }, [start, loadingTime]);
 
   // useEffect(() => {
