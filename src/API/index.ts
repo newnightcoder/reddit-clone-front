@@ -7,8 +7,8 @@
 // const RENDER_ENDPOINT_POSTS = "https://forum-backend-42cf.onrender.com/api/post";
 
 //RAILWAY: 🤞🏾 let's try!
-const RAILWAY_ENDPOINT_USER = "reddit-clone-back-production.up.railway.app/api/user";
-const RAILWAY_ENDPOINT_POSTS = "reddit-clone-back-production.up.railway.app/api/post";
+const RAILWAY_ENDPOINT_USER = "https://reddit-clone-back-production.up.railway.app/api/user";
+const RAILWAY_ENDPOINT_POSTS = "https://reddit-clone-back-production.up.railway.app/api/post";
 
 const API_USER_DEV = new URL("http://localhost:3001/api/user");
 const API_USER_PROD = new URL(RAILWAY_ENDPOINT_USER);
